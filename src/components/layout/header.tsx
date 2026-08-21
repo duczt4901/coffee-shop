@@ -216,7 +216,6 @@ export function NavBar(): React.ReactElement {
                     isHome && isAtTop && started ? "opacity-100 delay-500" : "opacity-0 delay-0"
                 )}
             >
-                <span className="h-8 w-px bg-current" />
                 <span className="h-2 w-2 rotate-45 border-b border-r border-current" />
             </div>
         </nav>
