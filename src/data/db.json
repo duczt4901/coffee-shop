@@ -1,0 +1,34 @@
+{
+    "site": {
+        "name": "Coffee Shop",
+        "shortName": "Coffee",
+        "url": "https://coffee-shop.example",
+        "language": "vi",
+        "locale": "vi_VN",
+        "title": "Coffee Shop",
+        "description": "Website chính thức của Coffee Shop.",
+        "keywords": ["coffee shop", "cà phê", "coffee"],
+        "themeColor": "#111111"
+    },
+    "header": {
+        "ariaLabel": "COFFEE",
+        "href": "/",
+        "headerItems": [
+            {
+                "ariaLabel": "Về chúng tôi",
+                "href": "/ve-chung-toi/"
+            },
+            {
+                "ariaLabel": "Câu chuyện",
+                "href": "/cau-chuyen/"
+            },
+            {
+                "ariaLabel": "Sản phẩm",
+                "href": "/san-pham/"
+            }
+        ]
+    },
+    "footer": {
+        "copyright": "Coffee Shop"
+    }
+}

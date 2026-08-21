@@ -1,0 +1,7 @@
+export const MODEL_UID = "20de10e33c8a406fb6c232c9711b6849";
+
+export const SWITCH = 0.5;
+export const STICKY_HEIGHT = 260;
+export const VIEW_HEIGHT = 100;
+export const SCROLL_DISTANCE = STICKY_HEIGHT - VIEW_HEIGHT;
+export const FRONT_STICKY_TOP = VIEW_HEIGHT - SWITCH * SCROLL_DISTANCE;
