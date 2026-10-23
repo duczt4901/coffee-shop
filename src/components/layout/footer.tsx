@@ -28,8 +28,8 @@ export function Footer() {
 
             {/* Main logo / text image */}
             <Copy start="top 20%">
-                <span className="uppercase tracking-[0.08em] font-cormorant text-[37.5em] leading-[70svh] pointer-events-none">
-                    Logo
+                <span className="uppercase tracking-[0.08em] font-cormorant text-[22em] leading-[52svh] pointer-events-none">
+                    la vuon
                 </span>
             </Copy>
 

@@ -71,7 +71,7 @@ export function ProcessGallerySection(): ReactElement {
                         <div className="flex flex-1 flex-col items-center justify-center gap-10">
                             <div className="relative aspect-square w-[min(70vw,320px)] overflow-hidden">
                                 <Image
-                                    src="/sections/img_1.png"
+                                    src="/sections/coffee3.jpeg"
                                     alt=""
                                     fill
                                     className="object-cover object-center"

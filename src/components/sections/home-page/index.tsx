@@ -4,9 +4,19 @@ import Image from "next/image";
 
 export function HomePageVideo(): React.ReactElement {
     return (
-        <video autoPlay muted loop playsInline preload="metadata" aria-hidden="true" className="home-page-video h-full w-full object-cover will-change-transform">
-            <source src="/images/landingpage-hero.mp4" type="video/mp4" />
-        </video>
+        <div className="h-full w-full overflow-hidden bg-black">
+            <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                aria-hidden="true"
+                className="home-page-video h-full w-full scale-[1.02] object-cover blur-[2px] brightness-[0.55] will-change-transform"
+            >
+                <source src="/images/lamdong/video-3.mp4" type="video/mp4" />
+            </video>
+        </div>
     );
 }
 

@@ -11,16 +11,16 @@ gsap.registerPlugin(ScrollTrigger);
 
 const stories = [
     {
-        title: "Từ HẠT",
+        title: "Từ VƯỜN",
         image: "/images/lamdong/img_2.png",
     },
     {
-        title: "và PHƠI SẤY",
-        image: "/images/lamdong/img.png",
+        title: "và THU HÁI",
+        image: "/images/coffee2.webp",
     },
     {
-        title: "đến ĐÓNG GÓI",
-        image: "/images/lamdong/img_1.png",
+        title: "đến PHƠI SẤY",
+        image: "/images/coffee1.jpg",
     },
 ];
 
