@@ -1,0 +1,55 @@
+{
+  "sourceSHA256": "4c8cb4d02ec043899b42b2cd75c49784112d20878139aca6304fc1e34b90cf62",
+  "meshes": [
+    {
+      "mesh": "Resting_Bean_1",
+      "instances": 14,
+      "beforeVertices": 670,
+      "afterVertices": 239,
+      "beforeTriangles": 1042,
+      "afterTriangles": 300,
+      "meshoptAttributeError": 0.011123405769467354
+    },
+    {
+      "mesh": "Resting_Bean_3",
+      "instances": 14,
+      "beforeVertices": 667,
+      "afterVertices": 210,
+      "beforeTriangles": 1112,
+      "afterTriangles": 300,
+      "meshoptAttributeError": 0.00991231668740511
+    },
+    {
+      "mesh": "Resting_Bean_4",
+      "instances": 14,
+      "beforeVertices": 676,
+      "afterVertices": 221,
+      "beforeTriangles": 1112,
+      "afterTriangles": 300,
+      "meshoptAttributeError": 0.009914758615195751
+    },
+    {
+      "mesh": "Resting_Bean_2",
+      "instances": 2,
+      "beforeVertices": 2475,
+      "afterVertices": 217,
+      "beforeTriangles": 4454,
+      "afterTriangles": 300,
+      "meshoptAttributeError": 0.011279536411166191
+    }
+  ],
+  "targetTrianglesPerMesh": 300,
+  "inputBytes": 5180044,
+  "outputBytes": 5025904,
+  "outputSHA256": "f892c1180949d88ac19dd0c36077fbfa4a164503dc99ef356e357b85337076b3",
+  "beforeRenderedBeanTriangles": 54632,
+  "afterRenderedBeanTriangles": 13200,
+  "materialsAndImagesUnchanged": true,
+  "otherBagsAndPropsUnchanged": true,
+  "additionalDrawCalls": 0,
+  "previousRuntimeSHA256": "eda367d2b77ccb12f4cf0a33e64057ed3721ef21a4bdc980eca726b0d31450a3",
+  "previousRuntimeBytes": 5046580,
+  "previousRuntimeBeanTriangles": 22104,
+  "currentBeanTriangles": 13200,
+  "guideUsedToAvoidCumulativeSimplification": true
+}

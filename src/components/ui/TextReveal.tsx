@@ -43,7 +43,9 @@ export default function Copy({
 
             splitRef.current = [];
 
-            const elements: Element[] = container.hasAttribute("data-copy-wrapper")
+            const textTargets = Array.from(container.querySelectorAll("[data-copy-text]"));
+            // Split text leaves without replacing interactive wrappers on cleanup.
+            const elements: Element[] = textTargets.length ? textTargets : container.hasAttribute("data-copy-wrapper")
                 ? Array.from(container.children)
                 : [container];
 

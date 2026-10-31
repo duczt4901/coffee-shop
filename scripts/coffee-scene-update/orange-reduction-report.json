@@ -1,0 +1,71 @@
+{
+  "reduction": {
+    "sourceSHA256": "ab83b0e750c5ee83dfa55ddb10ee2b39636ad03e4287967b07f7b0361c3b2d34",
+    "mesh": "Bag_1kg_Orange",
+    "beforeVertices": 18435,
+    "beforeTriangles": 36602,
+    "primitives": [
+      {
+        "material": "Bag_1kg_Orange_Approved_Label",
+        "beforeTriangles": 6179,
+        "afterTriangles": 2059,
+        "achievedRelativeError": 0.0002970055502373725
+      },
+      {
+        "material": "White_flexible_laminate",
+        "beforeTriangles": 27349,
+        "afterTriangles": 9115,
+        "achievedRelativeError": 0.0005437592044472694
+      },
+      {
+        "material": "Compressed_heat_seal",
+        "beforeTriangles": 3074,
+        "afterTriangles": 1024,
+        "achievedRelativeError": 0.0002654229465406388
+      }
+    ],
+    "targetRatio": 0.3333333333333333,
+    "method": "Existing meshoptimizer; preserve material/seam borders, imported normals and UV attributes; compact kept vertices.",
+    "afterTriangles": 12198,
+    "afterVertices": 6144,
+    "retainedTriangleRatio": 0.3332604775695317,
+    "inputBytes": 6949460,
+    "outputBytes": 6208608,
+    "outputSHA256": "ec11425c10df48c5adcd048d61867442bea442424c4f0f7d8daed25e958aba4b",
+    "materialsAndImagesUnchanged": true,
+    "otherBagsAndPropsUnchanged": true,
+    "additionalDrawCalls": 0
+  },
+  "validation": {
+    "otherMeshesByteIdentical": true,
+    "imagesAndMaterialsUnchanged": true,
+    "transformsUnchanged": true,
+    "before": {
+      "vertices": 18435,
+      "triangles": 36602,
+      "minimumAngleBelow5DegreesPercent": 8.617,
+      "minimumAngleBelow1DegreePercent": 0.243,
+      "degenerateTriangles": 0,
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0
+    },
+    "after": {
+      "vertices": 6144,
+      "triangles": 12198,
+      "minimumAngleBelow5DegreesPercent": 16.978,
+      "minimumAngleBelow1DegreePercent": 3.115,
+      "degenerateTriangles": 0,
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0
+    },
+    "keptVertexPositionsNormalsAndUVsExact": true
+  },
+  "backup": "C:\\Users\\Nguyen Viet Duc\\.codex\\visualizations\\2026\\10\\26\\01a176c9-97dd-7fa0-997b-851ca5e89174\\orange-third\\before.glb",
+  "annotation": "Viewer-only projected SVG ellipses; no added wrinkles and no markers baked into GLB.",
+  "regions": {
+    "1": "Shoulders below zipper: short oblique folds with soft termination.",
+    "2": "Body-to-side-gusset transitions: subtle interrupted vertical relief.",
+    "3": "Lower corners: short diagonal tension folds; preserve standing base."
+  },
+  "threeJsViewer": "Before/after clay, wireframe and original-material views loaded without console errors."
+}

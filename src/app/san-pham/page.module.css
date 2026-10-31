@@ -1,0 +1,329 @@
+.page {
+    --collection-gutter: clamp(1rem, 2.85vw, 4rem);
+    background: var(--background);
+    color: var(--foreground);
+}
+
+.intro {
+    padding: clamp(8.75rem, 11.8vw, 10.5rem) var(--collection-gutter) 3rem;
+    text-align: center;
+}
+
+.intro h1 {
+    margin: 0;
+    font-size: clamp(2.75rem, 4.25vw, 4.5rem);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.055em;
+}
+
+.intro p {
+    margin: 4rem 0 0;
+    font-size: clamp(1rem, 1.8vw, 1.5rem);
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: -0.035em;
+}
+
+.collection {
+    padding: 0 var(--collection-gutter) clamp(4rem, 7vw, 7.5rem);
+    scroll-margin-top: 6rem;
+}
+
+.productGrid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 3rem 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.productCard {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.productCard:focus-visible,
+.button:focus-visible,
+.textLink:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 5px;
+}
+
+.journeyRail:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 5px;
+}
+
+.productImage {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: #ede8dd;
+}
+
+.packshot {
+    object-fit: contain;
+    padding: 8%;
+    transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.productCard:hover .packshot {
+    transform: scale(1.035);
+}
+
+.sizeLabel,
+.badge {
+    position: absolute;
+    left: 1rem;
+    padding: 0.15rem 0.35rem;
+    background: var(--background);
+    font-size: 0.65rem;
+    line-height: 1.3;
+    font-weight: 500;
+}
+
+.sizeLabel {
+    bottom: 1rem;
+}
+.badge {
+    top: 1rem;
+}
+
+.productInfo {
+    padding-top: 1.5rem;
+}
+
+.productInfo h2 {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.45;
+    letter-spacing: -0.035em;
+    text-underline-offset: 0.2em;
+}
+
+.productCard:hover h2 {
+    text-decoration: underline;
+}
+
+.productInfo p {
+    margin: 0.25rem 0 0;
+    color: rgb(37 31 24 / 60%);
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+
+.diptych {
+    display: grid;
+    grid-template-columns: 48% 32%;
+    justify-content: space-between;
+    align-items: start;
+    padding-block: clamp(4rem, 8vw, 9rem) clamp(5rem, 10vw, 12rem);
+    overflow: hidden;
+    background: #414056;
+}
+
+.largePhoto,
+.smallPhoto,
+.journeyImage,
+.featureImage {
+    position: relative;
+    overflow: hidden;
+}
+
+.largePhoto {
+    aspect-ratio: 2 / 3;
+}
+.smallPhoto {
+    aspect-ratio: 4 / 5;
+    margin-top: 25vw;
+}
+.photo {
+    object-fit: cover;
+}
+
+.journey {
+    overflow: hidden;
+    padding: clamp(4rem, 6vw, 6rem) var(--collection-gutter);
+    background: #35423b;
+    color: var(--background);
+}
+
+.journey > h2 {
+    margin: 0 0 2rem;
+    font-size: clamp(1.25rem, 1.8vw, 1.75rem);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+}
+
+.journeyRail {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    scrollbar-width: none;
+}
+
+.journeyRail::-webkit-scrollbar {
+    display: none;
+}
+
+.journeyRail figure {
+    margin: 0;
+}
+.journeyImage {
+    aspect-ratio: 4 / 3;
+}
+.journeyRail figcaption {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+}
+
+.textLink {
+    display: table;
+    margin: 4rem auto 0;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    text-underline-offset: 0.3em;
+    text-decoration: underline;
+}
+
+.feature {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding-block: clamp(4rem, 6vw, 6rem);
+}
+
+.featureImage {
+    aspect-ratio: 4 / 5;
+}
+
+.featureCopy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: 3rem clamp(1.5rem, 2.85vw, 4rem);
+}
+
+.featureCopy h2 {
+    margin: 0;
+    font-size: clamp(1.75rem, 2.2vw, 2.5rem);
+    line-height: 1.2;
+    font-weight: 400;
+    letter-spacing: -0.045em;
+}
+
+.featureCopy ul {
+    display: grid;
+    gap: 0.5rem;
+    margin: 2rem 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.featureCopy li {
+    position: relative;
+    padding-left: 1.25rem;
+}
+.featureCopy li::before {
+    content: "";
+    position: absolute;
+    top: 0.4em;
+    left: 0;
+    border-top: 0.55rem solid currentColor;
+    border-left: 0.55rem solid transparent;
+}
+
+.button {
+    display: inline-block;
+    border: 1px solid currentColor;
+    padding: 0.9rem 1.75rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    text-align: center;
+    transition:
+        color 200ms,
+        background-color 200ms;
+}
+
+.button:hover {
+    background: var(--foreground);
+    color: var(--background);
+}
+
+@media (max-width: 63.999rem) {
+    .productGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 47.999rem) {
+    .intro {
+        padding-top: 8rem;
+        padding-bottom: 2.5rem;
+    }
+    .intro p {
+        margin-top: 2rem;
+    }
+    .productGrid {
+        gap: 2rem 0.75rem;
+    }
+    .productInfo {
+        padding-top: 1rem;
+    }
+    .sizeLabel,
+    .badge {
+        left: 0.5rem;
+        font-size: 0.6rem;
+    }
+    .sizeLabel {
+        bottom: 0.5rem;
+    }
+    .badge {
+        top: 0.5rem;
+    }
+    .diptych {
+        grid-template-columns: 72% 28%;
+        row-gap: 2rem;
+    }
+    .smallPhoto {
+        grid-column: 1 / -1;
+        width: 56%;
+        margin: -10vw 0 0 auto;
+    }
+    .journeyRail {
+        grid-template-columns: none;
+        grid-auto-flow: column;
+        grid-auto-columns: 76vw;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 1rem;
+    }
+    .journeyRail > li {
+        scroll-snap-align: start;
+    }
+    .feature {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .featureImage {
+        aspect-ratio: 1;
+    }
+    .featureCopy {
+        padding: 2.5rem var(--collection-gutter) 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .packshot,
+    .button {
+        transition: none;
+    }
+}

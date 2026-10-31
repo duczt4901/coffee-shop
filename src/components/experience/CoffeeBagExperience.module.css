@@ -1,0 +1,221 @@
+.experience {
+    --copy-gap: 2.5rem;
+    --copy-boundary: 100px;
+    --opening-copy-size: clamp(4rem, 7.5vw, 8rem);
+    --opening-line-height: 1.05;
+    --headline-anchor: 50svh;
+    --closing-copy-size: clamp(2.25rem, 6vw, 6rem);
+    --blend-height: clamp(3rem, 10.5svh, 7.5rem);
+    --model-fade-height: clamp(8rem, 24svh, 18rem);
+    --copy-overlap: clamp(5rem, 39svh, 25rem);
+    position: relative;
+    z-index: 10;
+    isolation: isolate;
+    background: var(--background);
+}
+
+.scene {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: var(--copy-gap);
+}
+
+.firstSlot,
+.secondSlot,
+.modelFrame {
+    inline-size: 100%;
+    min-inline-size: 0;
+}
+
+.firstSlot {
+    min-block-size: 1.64em;
+}
+
+.secondSlot {
+    block-size: 1em;
+}
+
+.modelFrame {
+    position: relative;
+    z-index: 1;
+}
+
+.canvas {
+    inline-size: 100%;
+    min-inline-size: 0;
+    block-size: 100svh;
+}
+
+.animated .canvas {
+    mask-image: linear-gradient(to bottom, #000 calc(100% - var(--copy-overlap) - var(--blend-height) - var(--model-fade-height)), transparent calc(100% - var(--copy-overlap) - var(--blend-height)));
+}
+
+.displayCopy {
+    margin: 0;
+    color: var(--foreground);
+    font-size: var(--opening-copy-size);
+    font-weight: 400;
+    line-height: var(--opening-line-height);
+    letter-spacing: -0.045em;
+    text-align: center;
+}
+
+.line {
+    display: block;
+}
+
+.animated .copyTrack {
+    /* The section is the containing block for each full-height sticky track. */
+    position: absolute;
+    inset: var(--copy-boundary) 0;
+    pointer-events: none;
+}
+
+.animated .screenLayer {
+    position: sticky;
+    /* Include the accent clearance in the box that must stay inside the section. */
+    padding-block: 0.3em;
+    visibility: hidden;
+}
+
+.animated.sceneActive .screenLayer {
+    visibility: visible;
+}
+
+.firstLayer {
+    z-index: 0;
+}
+
+.secondLayer {
+    z-index: 2;
+}
+
+.animated .screenLayer .displayReveal {
+    inline-size: max-content;
+}
+
+.animated .firstLayer .screenLayer {
+    top: calc(var(--headline-anchor) - (var(--opening-line-height) + 0.3) * 1em);
+}
+
+.animated .secondLayer {
+    /* Stop above the measured paragraph block when reaching the section's bottom. */
+    bottom: calc(var(--copy-height, 0px) + var(--copy-boundary));
+}
+
+.animated .secondLayer .screenLayer {
+    top: calc(var(--headline-anchor) + var(--opening-copy-size) * var(--opening-line-height) + 10svh - 0.3em);
+}
+
+.copySurface {
+    position: relative;
+    z-index: 3;
+    inline-size: 100%;
+    padding-block-start: var(--copy-gap);
+}
+
+.animated .copySurface {
+    /* Blend over the canvas tail without changing the WebGL scene or its sizing. */
+    margin-block-start: calc(-1 * (var(--closing-copy-size) + var(--copy-gap) + var(--blend-height) + var(--copy-overlap)));
+    padding-block-start: var(--blend-height);
+    background: var(--background);
+}
+
+.secondText {
+    margin: 0;
+    color: var(--foreground);
+    font-size: clamp(2.25rem, 6vw, 6rem);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.045em;
+    text-align: center;
+}
+
+.copy {
+    inline-size: min(calc(100% - var(--page-gutter) * 2), 28.125rem);
+    min-inline-size: 0;
+    text-align: center;
+    margin-inline: auto;
+}
+
+.productsLink {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-block-size: 3rem;
+    margin-block-start: clamp(2rem, 5svh, 3.5rem);
+    padding: 0.9rem 2.5rem;
+    background: var(--white);
+    color: var(--foreground);
+    box-shadow: 0 0.75rem 3rem rgb(37 31 24 / 8%);
+    font-size: clamp(0.875rem, 1vw, 1rem);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition:
+        background-color 0.2s,
+        color 0.2s;
+}
+
+.productsLink:hover {
+    background: var(--foreground);
+    color: var(--background);
+}
+
+.productsLink:focus-visible {
+    outline: 2px solid var(--foreground);
+    outline-offset: 4px;
+}
+
+.displayReveal {
+    display: flex;
+    flex-direction: column;
+    max-inline-size: calc(100% - var(--page-gutter) * 2);
+    margin-inline: auto;
+}
+
+.revealLine {
+    overflow: clip;
+    /* Let Vietnamese accents clear the mask without changing line spacing. */
+    padding: 0.3em 0.08em;
+    margin: -0.3em -0.08em;
+}
+
+.revealWord {
+    vertical-align: bottom;
+    /* The extra em clears both the padded mask and accented glyphs. */
+    transform: translateY(calc(100% + 1em));
+    transition: transform 0.3s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+    transition-delay: calc(var(--word-index) * 80ms);
+}
+
+.copyVisible .revealWord {
+    transform: translateY(0);
+    transition-duration: 1.4s;
+    transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+    transition-delay: calc(var(--word-index) * 80ms + 100ms);
+}
+
+.copyAbove .revealWord {
+    transform: translateY(calc(-100% - 1em));
+}
+
+@media (max-width: 63.999rem) {
+    .experience {
+        --opening-copy-size: clamp(2.75rem, 14vw, 4rem);
+        --closing-copy-size: clamp(2.25rem, 11vw, 3.25rem);
+    }
+
+    .secondText {
+        font-size: clamp(2.25rem, 11vw, 3.25rem);
+    }
+}
+
+@media (max-width: 47.999rem), (max-aspect-ratio: 1/1) {
+    .experience {
+        --headline-anchor: 35svh;
+        --blend-height: clamp(2.25rem, 6svh, 4.5rem);
+        --model-fade-height: clamp(5rem, 16svh, 10rem);
+        --copy-overlap: clamp(2rem, 8svh, 4rem);
+    }
+}

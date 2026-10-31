@@ -11,12 +11,6 @@ const MINIMUM_VISIBLE_MS = 1050;
 gsap.registerPlugin(CustomEase);
 CustomEase.create("hop", "0.9, 0, 0.1, 1");
 
-declare global {
-    interface Window {
-        __sketchfabReady?: boolean;
-    }
-}
-
 export function LandingReveal() {
     const rootRef = useRef<HTMLDivElement>(null);
     const blockRef = useRef<Array<HTMLDivElement | null>>([]);
@@ -32,9 +26,7 @@ export function LandingReveal() {
         document.documentElement.style.overflow = "hidden";
 
         const ctx = gsap.context(() => {
-            const blocks = blockRef.current.filter(
-                (block): block is HTMLDivElement => block !== null
-            );
+            const blocks = blockRef.current.filter((block): block is HTMLDivElement => block !== null);
             const backdrop = document.querySelector<HTMLElement>(".home-page-video");
 
             gsap.set(blocks, {
@@ -42,7 +34,7 @@ export function LandingReveal() {
                 transformOrigin: "right center",
             });
 
-            // Timeline chưa chạy cho tới khi Sketchfab ready
+            // Wait for the first rendered duck frame so the reveal never opens on an empty canvas.
             const tl = gsap.timeline({
                 paused: true,
 
@@ -63,19 +55,27 @@ export function LandingReveal() {
             tl.addLabel("experience-start");
             tl.call(start);
 
-            tl.to(blocks, {
-                scaleX: 0,
-                duration: 0.8,
-                stagger: 0.075,
-                ease: "hop",
-            }, "experience-start");
+            tl.to(
+                blocks,
+                {
+                    scaleX: 0,
+                    duration: 0.8,
+                    stagger: 0.075,
+                    ease: "hop",
+                },
+                "experience-start",
+            );
 
             if (backdrop) {
-                tl.to(backdrop, {
-                    scale: 1.1,
-                    duration: 0.8,
-                    ease: "power2.out",
-                }, "experience-start+=0.3");
+                tl.to(
+                    backdrop,
+                    {
+                        scale: 1.1,
+                        duration: 0.8,
+                        ease: "power2.out",
+                    },
+                    "experience-start+=0.3",
+                );
             }
 
             let revealed = false;
@@ -89,37 +89,26 @@ export function LandingReveal() {
                     clearTimeout(fallbackTimer);
                 }
 
-                const remaining = Math.max(
-                    0,
-                    MINIMUM_VISIBLE_MS - (performance.now() - mountedAt),
-                );
+                const remaining = Math.max(0, MINIMUM_VISIBLE_MS - (performance.now() - mountedAt));
 
                 revealTimer = setTimeout(() => {
                     tl.play();
                 }, remaining);
             };
 
-            // Sketchfab có thể đã load xong trước khi LandingReveal mount
-            if (window.__sketchfabReady) {
+            if (window.__duckModelReady) {
                 reveal();
             } else {
-                window.addEventListener(
-                    "sketchfab:ready",
-                    reveal,
-                    { once: true }
-                );
+                window.addEventListener("duck-model:ready", reveal, { once: true });
 
-                // Không để loading overlay kẹt vĩnh viễn nếu Sketchfab lỗi
+                // Never trap the page if WebGL or the model cannot load.
                 fallbackTimer = setTimeout(() => {
                     reveal();
                 }, 5000);
             }
 
             return () => {
-                window.removeEventListener(
-                    "sketchfab:ready",
-                    reveal
-                );
+                window.removeEventListener("duck-model:ready", reveal);
 
                 if (fallbackTimer) {
                     clearTimeout(fallbackTimer);
@@ -140,12 +129,7 @@ export function LandingReveal() {
     }, [start]);
 
     return (
-        <div
-            ref={rootRef}
-            className="fixed inset-0 z-10"
-            role="status"
-            aria-label="Đang tải trải nghiệm 3D"
-        >
+        <div ref={rootRef} className="fixed inset-0 z-10" role="status" aria-label="Đang tải mô hình con vịt">
             <div className="absolute inset-0 flex flex-col">
                 {Array.from({ length: ROWS }).map((_, index) => (
                     <div
@@ -156,11 +140,7 @@ export function LandingReveal() {
                         className="relative flex flex-1 items-center justify-center bg-foreground"
                     >
                         {index === ROWS - 1 && (
-                            <span
-                                ref={spinnerRef}
-                                aria-hidden="true"
-                                className="h-8 w-8 animate-spin rounded-full border-2 border-background/30 border-t-background motion-reduce:animate-none"
-                            />
+                            <span ref={spinnerRef} aria-hidden="true" className="h-8 w-8 animate-spin rounded-full border-2 border-background/30 border-t-background motion-reduce:animate-none" />
                         )}
                     </div>
                 ))}

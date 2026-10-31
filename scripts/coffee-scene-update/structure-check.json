@@ -1,0 +1,41 @@
+{
+  "orangeGeometryIdentical": true,
+  "independentPouchGeometries": true,
+  "yawDegrees": [
+    -16,
+    12,
+    4
+  ],
+  "labelDesignAndResolutionRetained": [
+    {
+      "index": 1,
+      "sizeUnchanged": true,
+      "channelRMSError": [
+        0.4827252169030981,
+        0.4339561071456563,
+        0.9074398328884073
+      ]
+    },
+    {
+      "index": 3,
+      "sizeUnchanged": true,
+      "channelRMSError": [
+        0.8347618839916104,
+        0.431297523738606,
+        0.5954923775513417
+      ]
+    },
+    {
+      "index": 4,
+      "sizeUnchanged": true,
+      "channelRMSError": [
+        0.48386519678093537,
+        0.43301478126950815,
+        0.5992824445424407
+      ]
+    }
+  ],
+  "closedPouchSurfaces": true,
+  "embeddedTexturesOnly": true,
+  "noAdditionalRuntimeExtensions": true
+}

@@ -1,0 +1,34 @@
+<!doctype html><html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Robusta — Product Studio</title>
+<style>body{margin:0;font:13px Arial;color:#34342f;background:#efede7}canvas{display:block}header{position:fixed;top:25px;left:30px;pointer-events:none}header small{font-size:10px;letter-spacing:2px}h1{font-size:21px;font-weight:500;margin:8px 0}header p{font-size:12px;color:#77776e}nav{position:fixed;left:30px;bottom:24px;display:flex;flex-wrap:wrap;gap:7px}button,a{font:inherit;background:#fff9;border:1px solid #cfcabe;border-radius:5px;padding:10px 13px;text-decoration:none;color:inherit;cursor:pointer}#status{position:fixed;bottom:29px;right:30px;font-size:11px;color:#797970}body.capture header,body.capture nav,body.capture #status{display:none}</style>
+<script type="importmap">{"imports":{"three":"./product-viewer/three.module.js","three/addons/":"./product-viewer/addons/"}}</script></head><body>
+<header><small>ROBUSTA / PRODUCT FAMILY</small><h1>1kg + 500g + 500g</h1><p>Kéo để xoay · Cuộn để phóng to</p></header>
+<nav><button data-view="hero">Góc chính</button><button data-view="front">Mặt trước</button><button data-view="top">Từ trên</button><button data-view="back">Mặt sau</button><button id="wire">Lưới</button><a href="./robusta-product-scene.glb" download>Tải GLB</a></nav><div id="status">Đang tải model…</div>
+<script type="module">
+import * as THREE from 'three';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import {configureStudioScene} from './product-viewer/studio.mjs';
+const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(1);document.body.prepend(renderer.domElement);
+const params=new URLSearchParams(location.search);let scene,sourceData;
+const loaded=await new GLTFLoader().loadAsync('./robusta-product-scene.glb');scene=new THREE.Scene();scene.add(loaded.scene);
+const environment=configureStudioScene(scene,renderer);
+const camera=new THREE.PerspectiveCamera(34,innerWidth/innerHeight,.005,30),controls=new OrbitControls(camera,renderer.domElement);
+controls.enableDamping=false;controls.target.set(0,.25,.025);controls.minDistance=.22;controls.maxDistance=4;controls.maxPolarAngle=Math.PI*.87;
+const views={hero:[.56,.68,1.35],front:[0,.275,1.28],back:[0,.29,-1.28],left:[-1.28,.29,0],right:[1.28,.29,0],top:[0,1.40,.08],close:[.34,.38,.70],beans:[.42,.35,.53]};
+window.setView=name=>{controls.target.set(0,.25,.025);if(name==='top')controls.target.set(0,0,.035);if(name==='beans')controls.target.set(.14,.025,.18);camera.position.set(...views[name]);controls.update();renderer.render(scene,camera);};
+window.setOrbit=angle=>{controls.target.set(0,.25,.025);camera.position.set(Math.sin(angle)*1.55,.60,Math.cos(angle)*1.55);controls.update();renderer.render(scene,camera);};
+let wire=false;window.setWireframe=value=>{scene.getObjectByName('Product_Display').traverse(o=>{if(o.isMesh)for(const m of Array.isArray(o.material)?o.material:[o.material])m.wireframe=value;});renderer.render(scene,camera);};
+window.setView('hero');for(const button of document.querySelectorAll('[data-view]'))button.onclick=()=>window.setView(button.dataset.view);document.getElementById('wire').onclick=()=>window.setWireframe(wire=!wire);
+window.assetStats=()=>{
+ const root=scene.getObjectByName('Product_Display'),bags=scene.getObjectByName('Coffee_Bags'),bounds=new THREE.Box3().setFromObject(root),uniqueGeometry=new Map();
+ let renderedTriangles=0,meshCount=0,instances=0,drawCalls=0;
+ root.traverse(o=>{if(o.isMesh){meshCount++;uniqueGeometry.set(o.geometry.uuid,o.geometry);const count=o.isInstancedMesh?o.count:1;renderedTriangles+=(o.geometry.index?.count||o.geometry.attributes.position.count)/3*count;if(o.isInstancedMesh)instances+=o.count;drawCalls+=Array.isArray(o.material)?o.material.length:1;}});
+ return {meshes:meshCount,uniqueGeometries:uniqueGeometry.size,beanInstances:instances,renderedTriangles,estimatedProductDrawCalls:drawCalls,bounds:{min:bounds.min.toArray(),max:bounds.max.toArray()},
+   bags:bags.children.map(b=>{const box=new THREE.Box3().setFromObject(b);return{name:b.name,metadata:b.userData,position:b.position.toArray(),size:box.getSize(new THREE.Vector3()).toArray()};}),
+   cup:scene.getObjectByName('Cup_Provided_FBX').userData,loadedFromGLB:!params.has('build')};
+};
+document.getElementById('status').textContent='3 túi · Ly và hạt FBX gốc · GLB / Three.js';
+addEventListener('resize',()=>{renderer.setSize(innerWidth,innerHeight);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();});
+renderer.setAnimationLoop(()=>{controls.update();renderer.render(scene,camera);});window.previewReady=true;
+</script></body></html>

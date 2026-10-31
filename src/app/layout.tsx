@@ -10,6 +10,7 @@ import TransitionProvider from "@/providers/TransitionProvider";
 import { cormorantUpright, lexend } from "@/styles/font";
 import ReactLenis from "lenis/react";
 import { ExperienceRuntime } from "@/components/experience/ExperienceRuntime";
+import { PageScrollbar } from "@/components/layout/PageScrollbar";
 
 export const metadata: Metadata = {
     metadataBase: new URL(database.site.url),
@@ -57,6 +58,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
                             <Footer />
                         </TransitionProvider>
                     </ExperienceRuntime>
+                    <PageScrollbar />
                 </ReactLenis>
             </body>
         </html>

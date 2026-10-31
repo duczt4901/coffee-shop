@@ -1,0 +1,29 @@
+{
+  "sourceSHA256": "f654cdf689115f833a28ee50602547e65d7f94b4c50cc90e87dc6d0918a0a218",
+  "outputSHA256": "ebad1da771e4649351584c7ab179f633685ff6c3b5352ca79978f958c7614687",
+  "movedVertices": 2975,
+  "maximumDisplacement": 0.16206525266170502,
+  "meanDisplacement": 0.008695319294929504,
+  "quadFaces": 6096,
+  "vertices": 6098,
+  "triangles": 12192,
+  "uvAndIndicesUnchanged": true,
+  "before": {
+    "vertices": 6098,
+    "triangles": 12192,
+    "minimumAngleBelow5DegreesPercent": 10.179,
+    "minimumAngleBelow1DegreePercent": 0.525,
+    "degenerateTriangles": 0,
+    "boundaryEdges": 0,
+    "nonManifoldEdges": 0
+  },
+  "after": {
+    "vertices": 6098,
+    "triangles": 12192,
+    "minimumAngleBelow5DegreesPercent": 10.285,
+    "minimumAngleBelow1DegreePercent": 0.525,
+    "degenerateTriangles": 0,
+    "boundaryEdges": 0,
+    "nonManifoldEdges": 0
+  }
+}

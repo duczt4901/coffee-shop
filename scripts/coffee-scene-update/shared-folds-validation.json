@@ -1,0 +1,20 @@
+{
+  "serializedGLBReload": true,
+  "allAccessorsFinite": true,
+  "allBeanInstanceDataByteIdentical": true,
+  "allImageBytesIdentical": true,
+  "eslint": "passed",
+  "typescript": "passed",
+  "lightingBefore": {
+    "key": 3.8,
+    "fill": 1.7590275999999998,
+    "hemisphere": 2
+  },
+  "lightingAfter": {
+    "key": 4.2,
+    "fill": 0.85,
+    "hemisphere": 0.95
+  },
+  "bagTrianglesBefore": 49405,
+  "bagTrianglesAfter": 36576
+}

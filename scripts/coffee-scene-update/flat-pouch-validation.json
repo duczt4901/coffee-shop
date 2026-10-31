@@ -1,0 +1,25 @@
+{
+  "serializedGLBVerified": true,
+  "newTriangleCrossings": 0,
+  "originalTriangleCrossings": 0,
+  "allEmbeddedImagesByteIdentical": true,
+  "unitNormals": true,
+  "geometry": {
+    "vertices": 6098,
+    "triangles": 12192,
+    "minimumAngleBelow5DegreesPercent": 22.367,
+    "minimumAngleBelow1DegreePercent": 6.972,
+    "degenerateTriangles": 0,
+    "boundaryEdges": 0,
+    "nonManifoldEdges": 0
+  },
+  "browserRenderViews": [
+    "front",
+    "angle",
+    "back",
+    "side",
+    "scene"
+  ],
+  "browserErrors": [],
+  "SHA256": "d7cc2116674dbe4b05f65fc069d1fceafbe904b09b41e69204f90b759c895267"
+}

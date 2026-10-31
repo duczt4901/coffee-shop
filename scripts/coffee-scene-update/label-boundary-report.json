@@ -1,0 +1,33 @@
+{
+  "sourceBytes": 6890300,
+  "outputBytes": 6956832,
+  "meshes": [
+    {
+      "mesh": "Bag_1kg_Orange",
+      "newVertices": 513,
+      "labelTriangles": 6179,
+      "bodyTriangles": 27549,
+      "surfaceAreaPreserved": true
+    },
+    {
+      "mesh": "Bag_500g_Blue",
+      "newVertices": 347,
+      "labelTriangles": 2445,
+      "bodyTriangles": 14627,
+      "surfaceAreaPreserved": true
+    },
+    {
+      "mesh": "Bag_500g_Green",
+      "newVertices": 362,
+      "labelTriangles": 2436,
+      "bodyTriangles": 14666,
+      "surfaceAreaPreserved": true
+    }
+  ],
+  "labelTextureSHA256": {
+    "Bag_1kg_Orange_Approved_Label": "c6ba9811a9b7df8e4878b628df03ce385f44d992e1960d4ac1588fa2bf4b5cde",
+    "Bag_500g_Blue_Approved_Label": "ffd0fa23da5fa2d1c7b17d28b5ce1189a2447f582a8daf0910112d2e40483903",
+    "Bag_500g_Green_Approved_Label": "12da15c28359dbfc9c61147d969a61a339dde05e54b0b90a8995ff8b36edd4b1"
+  },
+  "labelMaterialsUnchanged": true
+}

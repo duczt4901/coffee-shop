@@ -1,0 +1,13 @@
+coffee filter Vietnam - phin pha cafe
+Author: minchou19 (https://sketchfab.com/minchou19)
+Source: https://sketchfab.com/3d-models/coffee-filter-vietnam-phin-pha-cafe-2ffb3a7af0b04618844352f629c31202
+License declared by the supplied GLB: Creative Commons Attribution 4.0 International (CC BY 4.0)
+https://creativecommons.org/licenses/by/4.0/
+
+Adaptations in phin-vietnam-web.glb and robusta-product-scene.glb:
+Geometry welded and simplified; normals rebuilt with creases; unused UVs removed;
+exploded arrangement and internal filter press removed; assembled phin with its
+original glass selected and scaled into the product scene.
+Runtime studio reflections are added separately.
+
+The original author is not affiliated with or endorsing this adaptation.

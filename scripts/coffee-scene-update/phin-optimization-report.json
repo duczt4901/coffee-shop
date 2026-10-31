@@ -1,0 +1,58 @@
+{
+  "sourceSHA256": "7aa98828ae3667dc5d0b379846c74359a88f3e7705d0c4ae0a8815f327ffc494",
+  "outputSHA256": "8213dd6defb99091b7889a3ab3f55f534776544f385ce0235d1c77396c9dbb6f",
+  "inputBytes": 58952604,
+  "outputBytes": 129136,
+  "inputTriangles": 1007728,
+  "retainedAssemblyTriangles": 334682,
+  "outputTriangles": 5144,
+  "uniqueComponents": [
+    {
+      "name": "Cylinder_0",
+      "sourceChunks": 4,
+      "beforeTriangles": 165794,
+      "afterFillingPerforations": 1196,
+      "afterTriangles": 1196,
+      "weldedVertices": 600,
+      "afterVertices": 950,
+      "meshoptAttributeError": 0
+    },
+    {
+      "name": "Cylinder.001_1",
+      "sourceChunks": 1,
+      "beforeTriangles": 1176,
+      "afterFillingPerforations": 1176,
+      "afterTriangles": 1176,
+      "weldedVertices": 590,
+      "afterVertices": 931,
+      "meshoptAttributeError": 0
+    },
+    {
+      "name": "Cylinder.002_2",
+      "sourceChunks": 4,
+      "beforeTriangles": 166436,
+      "afterFillingPerforations": 1496,
+      "afterTriangles": 1496,
+      "weldedVertices": 750,
+      "afterVertices": 1300,
+      "meshoptAttributeError": 0
+    },
+    {
+      "name": "ly_3",
+      "sourceChunks": 1,
+      "beforeTriangles": 1276,
+      "afterFillingPerforations": 1276,
+      "afterTriangles": 1276,
+      "weldedVertices": 640,
+      "afterVertices": 704,
+      "meshoptAttributeError": 0
+    }
+  ],
+  "originalMaterialsAndAttributionPreserved": true,
+  "assembledSetOnly": true,
+  "internalFilterPressRemoved": true,
+  "perforatedBasesReplacedWithSolidFaces": true,
+  "noRuntimeDecoderRequired": true,
+  "removedOnlyUnusedUVs": true,
+  "normalsRecomputedWith35DegreeCreases": true
+}

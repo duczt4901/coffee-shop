@@ -1,0 +1,25 @@
+{
+  "sourceBytes": 4022272,
+  "outputBytes": 5874984,
+  "labelChecks": [
+    {
+      "image": 1,
+      "unchangedPixels": 1285886,
+      "sha256": "e1c5212da8015b15c5cb363a3cce0e6ac372a2fdabac149e5291328ace7f2bdd"
+    },
+    {
+      "image": 3,
+      "unchangedPixels": 1285886,
+      "sha256": "b1b68f7161b43a1cf21c3233103223520c84e1311040bfdd18886542c5c756a1"
+    },
+    {
+      "image": 4,
+      "unchangedPixels": 1285886,
+      "sha256": "55b43601e4a8113f07b07a7f78cdb4fb171c2249dc5a40f7617c2e1275b59a59"
+    }
+  ],
+  "geometryAndUVsUnchanged": true,
+  "propsAndLightsUnchanged": true,
+  "printedLabelPBRUnchanged": true,
+  "bodyColorSRGB": "#e8e7e4"
+}

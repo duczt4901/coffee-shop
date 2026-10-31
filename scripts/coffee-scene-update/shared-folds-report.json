@@ -1,0 +1,148 @@
+{
+  "sourceSHA256": "ebad1da771e4649351584c7ab179f633685ff6c3b5352ca79978f958c7614687",
+  "outputSHA256": "4c8cb4d02ec043899b42b2cd75c49784112d20878139aca6304fc1e34b90cf62",
+  "inputBytes": 6207108,
+  "outputBytes": 5180044,
+  "before": {
+    "Bag_1kg_Orange": {
+      "vertices": 6098,
+      "triangles": 12192,
+      "labelMaterial": 0,
+      "labelUVArea": 0.30625200231778615,
+      "labelUVBounds": [
+        [
+          0.0689999982714653,
+          0.0
+        ],
+        [
+          0.4309999942779541,
+          0.8460000157356262
+        ]
+      ],
+      "localY": [
+        0.0,
+        3.554460048675537
+      ],
+      "placementY": 0.0,
+      "height": 0.34
+    },
+    "Bag_500g_Blue": {
+      "vertices": 9317,
+      "triangles": 18595,
+      "labelMaterial": 3,
+      "labelUVArea": 0.3062525460506387,
+      "labelUVBounds": [
+        [
+          0.0689999982714653,
+          0.0
+        ],
+        [
+          0.4309999942779541,
+          0.8460000157356262
+        ]
+      ],
+      "localY": [
+        0.0,
+        3.554460048675537
+      ],
+      "placementY": 0.19,
+      "height": 0.282
+    },
+    "Bag_500g_Green": {
+      "vertices": 9331,
+      "triangles": 18618,
+      "labelMaterial": 4,
+      "labelUVArea": 0.3062552790189027,
+      "labelUVBounds": [
+        [
+          0.0689999982714653,
+          0.0
+        ],
+        [
+          0.4309999942779541,
+          0.8460000157356262
+        ]
+      ],
+      "localY": [
+        0.0,
+        3.554460048675537
+      ],
+      "placementY": 0.0,
+      "height": 0.282
+    }
+  },
+  "after": {
+    "Bag_1kg_Orange": {
+      "vertices": 6098,
+      "triangles": 12192,
+      "labelMaterial": 0,
+      "labelUVArea": 0.30625200231778615,
+      "labelUVBounds": [
+        [
+          0.0689999982714653,
+          0.0
+        ],
+        [
+          0.4309999942779541,
+          0.8460000157356262
+        ]
+      ],
+      "localY": [
+        0.0,
+        3.554460048675537
+      ],
+      "placementY": 0.0,
+      "height": 0.34
+    },
+    "Bag_500g_Blue": {
+      "vertices": 6098,
+      "triangles": 12192,
+      "labelMaterial": 3,
+      "labelUVArea": 0.30625200231778615,
+      "labelUVBounds": [
+        [
+          0.0689999982714653,
+          0.0
+        ],
+        [
+          0.4309999942779541,
+          0.8460000157356262
+        ]
+      ],
+      "localY": [
+        0.0,
+        3.554460048675537
+      ],
+      "placementY": 0.19,
+      "height": 0.282
+    },
+    "Bag_500g_Green": {
+      "vertices": 6098,
+      "triangles": 12192,
+      "labelMaterial": 4,
+      "labelUVArea": 0.30625200231778615,
+      "labelUVBounds": [
+        [
+          0.0689999982714653,
+          0.0
+        ],
+        [
+          0.4309999942779541,
+          0.8460000157356262
+        ]
+      ],
+      "localY": [
+        0.0,
+        3.554460048675537
+      ],
+      "placementY": 0.0,
+      "height": 0.282
+    }
+  },
+  "sharedGeometry": true,
+  "materialsAndImagesPreserved": true,
+  "placementsAndHeightsPreserved": true,
+  "nonBagAndOrangeGeometryByteIdentical": true,
+  "removedUnusedAccessors": 12,
+  "removedUnusedBufferViews": 12
+}

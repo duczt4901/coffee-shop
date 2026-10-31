@@ -7,7 +7,7 @@ import { createMetadata } from "@/lib/metadata";
 import { EssenceSection } from "@/components/sections/home-page/EssenceSection";
 import { ProcessGallerySection } from "@/components/sections/home-page/ProcessGallerySection";
 import { HomePageVideo, ProductSection } from "@/components/sections/home-page";
-import { LandingReveal } from "@/providers/LandingReveal";
+// import { LandingReveal } from "@/providers/LandingReveal";
 
 export const metadata: Metadata = createMetadata({
     path: "/",
@@ -16,11 +16,9 @@ export const metadata: Metadata = createMetadata({
 export default function HomePage(): ReactElement {
     return (
         <>
-            <LandingReveal />
+            {/* <LandingReveal /> */}
             <ImmersivePage backdrop={<HomePageVideo />}>
-                <section className="relative z-10 w-full bg-background text-foreground">
-                    <CoffeeBagExperience />
-                </section>
+                <CoffeeBagExperience />
                 <EssenceSection />
                 <ProcessGallerySection />
                 <section className="bg-background text-foreground">

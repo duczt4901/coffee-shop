@@ -1,0 +1,29 @@
+{
+  "outputBytes": 4959692,
+  "outputSHA256": "1517d83a0b4dfd2df7f86780da61d1f91ac640210b0687ce6abe69d7b9421063",
+  "phinHeightMetres": 0.135,
+  "phinBounds": {
+    "min": [
+      -0.2432343484752053,
+      0,
+      0.05312948734453163
+    ],
+    "max": [
+      -0.13882803151084244,
+      0.135,
+      0.14994214140483894
+    ]
+  },
+  "assembledOnly": true,
+  "originalCupInactive": true,
+  "originalPhinGlassRestored": true,
+  "internalFilterPressRemoved": true,
+  "existingGeometryMaterialsAndPlacementsBytePreserved": true,
+  "framingBoundsPreserved": true,
+  "phinAttribution": {
+    "author": "minchou19 (https://sketchfab.com/minchou19)",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "source": "https://sketchfab.com/3d-models/coffee-filter-vietnam-phin-pha-cafe-2ffb3a7af0b04618844352f629c31202",
+    "title": "coffee filter Vietnam - phin pha cafe"
+  }
+}

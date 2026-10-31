@@ -1,0 +1,114 @@
+[
+  {
+    "version": "after",
+    "bytes": 5874984,
+    "meshes": 20,
+    "uniqueGeometries": 16,
+    "beanInstances": 44,
+    "renderedTriangles": 134310,
+    "estimatedProductDrawCalls": 20,
+    "bounds": {
+      "min": [
+        -0.3005227520512739,
+        -0.001306913249616501,
+        -0.16500000220537187
+      ],
+      "max": [
+        0.3104105902268912,
+        0.5583959573069742,
+        0.26277989456104894
+      ]
+    },
+    "bags": [
+      {
+        "name": "Bag_1kg_Orange",
+        "metadata": {
+          "name": "Bag_1kg_Orange",
+          "role": "coffee_pouch",
+          "capacityGrams": 1000,
+          "accent": "#ff4b15",
+          "source": "robusta-lam-ha-pouch.glb",
+          "approvedMeshAndFoldsPreserved": true,
+          "sideGussets": "Approved depth, previously reduced by one third",
+          "placementYawDegrees": -16
+        },
+        "position": [
+          0.162,
+          0,
+          -0.02
+        ],
+        "size": [
+          0.20364470754756986,
+          0.34,
+          0.14449308184614515
+        ],
+        "yawDegrees": -16
+      },
+      {
+        "name": "Bag_500g_Blue",
+        "metadata": {
+          "name": "Bag_500g_Blue",
+          "role": "coffee_pouch",
+          "capacityGrams": 500,
+          "accent": "#2475be",
+          "source": "robusta-lam-ha-pouch.glb",
+          "approvedMeshAndFoldsPreserved": false,
+          "sideGussets": "Approved depth, previously reduced by one third",
+          "wrinkleSeed": 7193,
+          "wrinkleVariation": "Independent coherent corner/shoulder crease field; original UVs and label design retained",
+          "placementYawDegrees": 12
+        },
+        "position": [
+          -0.126,
+          0.19,
+          -0.075
+        ],
+        "size": [
+          0.1839964580591985,
+          0.282,
+          0.12237115942978596
+        ],
+        "yawDegrees": 11.999999999999998
+      },
+      {
+        "name": "Bag_500g_Green",
+        "metadata": {
+          "name": "Bag_500g_Green",
+          "role": "coffee_pouch",
+          "capacityGrams": 500,
+          "accent": "#488e5a",
+          "source": "robusta-lam-ha-pouch.glb",
+          "approvedMeshAndFoldsPreserved": false,
+          "sideGussets": "Approved depth, previously reduced by one third",
+          "wrinkleSeed": 2861,
+          "wrinkleVariation": "Independent coherent corner/shoulder crease field; original UVs and label design retained",
+          "placementYawDegrees": 4
+        },
+        "position": [
+          -0.026,
+          0,
+          0.095
+        ],
+        "size": [
+          0.17492609595107994,
+          0.282,
+          0.10018368711268387
+        ],
+        "yawDegrees": 3.9999999999999996
+      }
+    ],
+    "cup": {
+      "name": "Cup_Provided_FBX",
+      "role": "cup",
+      "source": "coffee+cup.FBX",
+      "geometryPreserved": true,
+      "excludedSourceNodes": [
+        "Plate",
+        "Spoon"
+      ],
+      "note": "Handle faces rear to stay close to the reference silhouette"
+    },
+    "loadedFromGLB": true,
+    "errors": []
+  }
+]

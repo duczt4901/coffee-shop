@@ -4,7 +4,6 @@ import { useRef, type ReactElement } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useLenis } from "lenis/react";
 import { useExperienceRuntime } from "@/components/experience/ExperienceRuntime";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -26,15 +25,9 @@ const stories = [
 
 const edgeHold = 0.08;
 
-export function CoffeeStoryHorizontal({
-    introScrollViewports,
-}: {
-    introScrollViewports: number;
-}): ReactElement {
+export function CoffeeStoryHorizontal(): ReactElement {
     const sectionRef = useRef<HTMLDivElement>(null);
     const { started } = useExperienceRuntime();
-
-    useLenis(() => ScrollTrigger.update());
 
     useGSAP(
         () => {
@@ -44,23 +37,17 @@ export function CoffeeStoryHorizontal({
             const section = photo?.closest<HTMLElement>(".lam-dong-zoom");
             const slides = photo?.querySelector<HTMLElement>(".coffee-slider__slides");
             const slider = photo?.querySelector<HTMLElement>(".coffee-slider__viewport");
+            const storyStart = section?.querySelector<HTMLElement>(".lam-dong-zoom__story-start");
 
-            if (!photo || !section || !slides || !slider) return;
+            if (!photo || !section || !slides || !slider || !storyStart) return;
 
             const slideItems = gsap.utils.toArray<HTMLElement>(".coffee-slider__slide", slides);
             const images = gsap.utils.toArray<HTMLImageElement>(".coffee-slider__image", slides);
             const title = photo.querySelector<HTMLElement>(".coffee-slider__title");
-            const titleItems = gsap.utils.toArray<HTMLElement>(
-                ".coffee-slider__title-item",
-                photo,
-            );
+            const titleTrack = title?.querySelector<HTMLElement>("h2");
+            const titleItems = gsap.utils.toArray<HTMLElement>(".coffee-slider__title-item", photo);
 
-            if (
-                !title ||
-                slideItems.length !== stories.length ||
-                images.length !== slideItems.length ||
-                titleItems.length !== slideItems.length
-            ) return;
+            if (!title || !titleTrack || slideItems.length !== stories.length || images.length !== slideItems.length || titleItems.length !== slideItems.length) return;
 
             const motion = gsap.matchMedia();
 
@@ -68,6 +55,7 @@ export function CoffeeStoryHorizontal({
                 gsap.set(images, { x: 0, scale: 1.2 });
                 gsap.set(title, { autoAlpha: 0 });
                 gsap.set(titleItems, { opacity: 0.28 });
+                titleTrack.style.setProperty("--active", "0");
 
                 slideItems.forEach((slide, index) => {
                     gsap.set(slide, {
@@ -76,11 +64,16 @@ export function CoffeeStoryHorizontal({
                     });
                 });
 
+                let slideWidth = slider.clientWidth;
+                const setSlideX = slideItems.map((slide) => gsap.quickSetter(slide, "xPercent"));
+                const setImageX = images.map((image) => gsap.quickSetter(image, "x", "px"));
+
                 let currentVisibleIndex = -1;
 
                 const showTitle = (activeIndex: number): void => {
                     if (currentVisibleIndex === activeIndex) return;
                     currentVisibleIndex = activeIndex;
+                    titleTrack.style.setProperty("--active", String(activeIndex));
 
                     titleItems.forEach((item, index) => {
                         gsap.to(item, {
@@ -96,12 +89,15 @@ export function CoffeeStoryHorizontal({
 
                 const trigger = ScrollTrigger.create({
                     trigger: section,
-                    start: () => `top+=${window.innerHeight * introScrollViewports} top`,
+                    start: () => `top+=${storyStart.offsetTop} top`,
                     end: "bottom bottom",
-                    scrub: 1,
                     invalidateOnRefresh: true,
+                    onRefreshInit: () => {
+                        slideWidth = slider.clientWidth;
+                    },
                     onEnter: () => {
                         showTitle(0);
+                        title.classList.add("is-visible");
                         gsap.to(title, {
                             autoAlpha: 1,
                             duration: 0.35,
@@ -109,6 +105,7 @@ export function CoffeeStoryHorizontal({
                         });
                     },
                     onLeaveBack: () => {
+                        title.classList.remove("is-visible");
                         gsap.to(title, {
                             autoAlpha: 0,
                             duration: 0.2,
@@ -116,23 +113,12 @@ export function CoffeeStoryHorizontal({
                         });
                     },
                     onUpdate: ({ progress }) => {
-                        const slideWidth = slider.offsetWidth;
-                        const horizontalProgress = gsap.utils.clamp(
-                            0,
-                            1,
-                            (progress - edgeHold) / (1 - edgeHold * 2),
-                        );
+                        const horizontalProgress = gsap.utils.clamp(0, 1, (progress - edgeHold) / (1 - edgeHold * 2));
                         const totalProgress = horizontalProgress * (slideItems.length - 1);
-                        const currentSlide = Math.min(
-                            slideItems.length - 2,
-                            Math.floor(totalProgress),
-                        );
-                        const sliderProgress =
-                            horizontalProgress === 1
-                                ? 1
-                                : totalProgress - currentSlide;
+                        const currentSlide = Math.min(slideItems.length - 2, Math.floor(totalProgress));
+                        const sliderProgress = horizontalProgress === 1 ? 1 : totalProgress - currentSlide;
 
-                        slideItems.forEach((slide, index) => {
+                        setSlideX.forEach((setX, index) => {
                             let xPercent = 100;
 
                             if (index <= currentSlide) {
@@ -141,22 +127,16 @@ export function CoffeeStoryHorizontal({
                                 xPercent = (1 - sliderProgress) * 100;
                             }
 
-                            gsap.set(slide, { xPercent });
+                            setX(xPercent);
                         });
 
-                        images.forEach((image, index) => {
+                        setImageX.forEach((setX, index) => {
                             if (index === currentSlide) {
-                                gsap.set(image, {
-                                    x: -sliderProgress * slideWidth * 0.05,
-                                    scale: 1.2,
-                                });
+                                setX(-sliderProgress * slideWidth * 0.05);
                             } else if (index === currentSlide + 1) {
-                                gsap.set(image, {
-                                    x: (sliderProgress - 1) * slideWidth * 0.85,
-                                    scale: 1.2,
-                                });
+                                setX((sliderProgress - 1) * slideWidth * 0.85);
                             } else {
-                                gsap.set(image, { x: 0, scale: 1.2 });
+                                setX(0);
                             }
                         });
 
@@ -165,6 +145,7 @@ export function CoffeeStoryHorizontal({
                 });
 
                 return () => {
+                    title.classList.remove("is-visible");
                     trigger.kill();
                 };
             });
@@ -175,31 +156,16 @@ export function CoffeeStoryHorizontal({
     );
 
     return (
-        <div
-            ref={sectionRef}
-            className="lam-dong-zoom__photo coffee-slider"
-            role="group"
-            aria-label="Câu chuyện cà phê Lâm Đồng"
-        >
+        <div ref={sectionRef} className="lam-dong-zoom__photo coffee-slider" role="group" aria-label="Câu chuyện cà phê Lâm Đồng">
             <div className="coffee-slider__sticky">
                 <div className="coffee-slider__viewport">
                     <div className="coffee-slider__slides">
                         {stories.map((story) => (
-                            <article
-                                className="coffee-slider__slide"
-                                key={story.title}
-                            >
+                            <article className="coffee-slider__slide" key={story.title}>
                                 <div className="coffee-slider__media">
-                                    <img
-                                        className="coffee-slider__image"
-                                        src={story.image}
-                                        alt={`${story.title} cà phê Lâm Đồng`}
-                                    />
+                                    <img className="coffee-slider__image" src={story.image} alt={`${story.title} cà phê Lâm Đồng`} />
 
-                                    <span
-                                        className="coffee-slider__overlay"
-                                        aria-hidden="true"
-                                    />
+                                    <span className="coffee-slider__overlay" aria-hidden="true" />
                                 </div>
                             </article>
                         ))}
@@ -209,8 +175,10 @@ export function CoffeeStoryHorizontal({
                         <h2>
                             {stories.map((story, index) => (
                                 <span className="coffee-slider__title-item" key={story.title}>
-                                    {story.title}
-                                    {index < stories.length - 1 ? ", " : "."}
+                                    <span className="coffee-slider__title-text">
+                                        {story.title}
+                                        {index < stories.length - 1 ? "," : "."}
+                                    </span>
                                 </span>
                             ))}
                         </h2>

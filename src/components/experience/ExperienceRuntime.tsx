@@ -22,7 +22,8 @@ const ExperienceRuntimeContext = createContext<ExperienceRuntimeValue>({
 
 export function ExperienceRuntime({ children }: { children: ReactNode }) {
     const pathname = usePathname();
-    const [homeStarted, setHomeStarted] = useState(false);
+    // Restore false when re-enabling the homepage's LandingReveal loader.
+    const [homeStarted, setHomeStarted] = useState(true);
     const started = pathname !== "/" || homeStarted;
     const start = useCallback(() => setHomeStarted(true), []);
 

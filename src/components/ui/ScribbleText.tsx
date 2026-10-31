@@ -152,7 +152,7 @@ function Item({
                     "text-center text-sm font-medium uppercase tracking-wide"
                 )}
             >
-                {text}
+                <span data-copy-text>{text}</span>
             </Link>
 
             <svg

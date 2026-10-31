@@ -1,0 +1,64 @@
+{
+  "sourceSHA256": "4c8cb4d02ec043899b42b2cd75c49784112d20878139aca6304fc1e34b90cf62",
+  "meshes": [
+    {
+      "mesh": "Resting_Bean_1",
+      "instances": 14,
+      "beforeVertices": 670,
+      "afterVertices": 363,
+      "beforeTriangles": 1042,
+      "afterTriangles": 506,
+      "meshoptAttributeError": 0.0059907990507781506
+    },
+    {
+      "mesh": "Resting_Bean_3",
+      "instances": 14,
+      "beforeVertices": 667,
+      "afterVertices": 331,
+      "beforeTriangles": 1112,
+      "afterTriangles": 500,
+      "meshoptAttributeError": 0.005839284975081682
+    },
+    {
+      "mesh": "Resting_Bean_4",
+      "instances": 14,
+      "beforeVertices": 676,
+      "afterVertices": 338,
+      "beforeTriangles": 1112,
+      "afterTriangles": 500,
+      "meshoptAttributeError": 0.0059962039813399315
+    },
+    {
+      "mesh": "Resting_Bean_2",
+      "instances": 2,
+      "beforeVertices": 2475,
+      "afterVertices": 348,
+      "beforeTriangles": 4454,
+      "afterTriangles": 510,
+      "meshoptAttributeError": 0.0059860930778086185
+    }
+  ],
+  "targetTrianglesPerMesh": 500,
+  "inputBytes": 5180044,
+  "outputBytes": 5046580,
+  "outputSHA256": "eda367d2b77ccb12f4cf0a33e64057ed3721ef21a4bdc980eca726b0d31450a3",
+  "beforeRenderedBeanTriangles": 54632,
+  "afterRenderedBeanTriangles": 22104,
+  "materialsAndImagesUnchanged": true,
+  "otherBagsAndPropsUnchanged": true,
+  "additionalDrawCalls": 0,
+  "geometryBefore": {
+    "sceneTriangles": 99208,
+    "uniqueBeanVertices": 4488,
+    "beanGeometryBytes": 189936
+  },
+  "geometryAfter": {
+    "sceneTriangles": 66680,
+    "uniqueBeanVertices": 1380,
+    "beanGeometryBytes": 56256
+  },
+  "textureBytesUnchanged": 838498,
+  "beanInstances": 44,
+  "drawCallGroupsUnchanged": 8,
+  "limitations": "Geometry workload reduced; textures, shading cost and draw-call count retained. No hardware GPU/FPS benchmark."
+}

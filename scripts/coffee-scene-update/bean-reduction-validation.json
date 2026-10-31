@@ -1,0 +1,114 @@
+{
+  "nodesMaterialsImagesAndTransformsUnchanged": true,
+  "allOtherGeometryAndInstanceDataExact": true,
+  "meshes": [
+    {
+      "mesh": "Resting_Bean_1",
+      "before": {
+        "vertices": 670,
+        "triangles": 1042,
+        "minimumAngleBelow5DegreesPercent": 2.783,
+        "minimumAngleBelow1DegreePercent": 0.0,
+        "degenerateTriangles": 0,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0
+      },
+      "after": {
+        "vertices": 363,
+        "triangles": 506,
+        "minimumAngleBelow5DegreesPercent": 2.372,
+        "minimumAngleBelow1DegreePercent": 0.0,
+        "degenerateTriangles": 0,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0
+      },
+      "boundsExact": true,
+      "retainedUVsAndNormalsExact": true,
+      "strictCrossingPairsAfter": 0
+    },
+    {
+      "mesh": "Resting_Bean_3",
+      "before": {
+        "vertices": 667,
+        "triangles": 1112,
+        "minimumAngleBelow5DegreesPercent": 1.619,
+        "minimumAngleBelow1DegreePercent": 0.0,
+        "degenerateTriangles": 0,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0
+      },
+      "after": {
+        "vertices": 331,
+        "triangles": 500,
+        "minimumAngleBelow5DegreesPercent": 1.0,
+        "minimumAngleBelow1DegreePercent": 0.0,
+        "degenerateTriangles": 0,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0
+      },
+      "boundsExact": true,
+      "retainedUVsAndNormalsExact": true,
+      "strictCrossingPairsAfter": 0
+    },
+    {
+      "mesh": "Resting_Bean_4",
+      "before": {
+        "vertices": 676,
+        "triangles": 1112,
+        "minimumAngleBelow5DegreesPercent": 1.169,
+        "minimumAngleBelow1DegreePercent": 0.0,
+        "degenerateTriangles": 0,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0
+      },
+      "after": {
+        "vertices": 338,
+        "triangles": 500,
+        "minimumAngleBelow5DegreesPercent": 1.8,
+        "minimumAngleBelow1DegreePercent": 0.0,
+        "degenerateTriangles": 0,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0
+      },
+      "boundsExact": true,
+      "retainedUVsAndNormalsExact": true,
+      "strictCrossingPairsAfter": 0
+    },
+    {
+      "mesh": "Resting_Bean_2",
+      "before": {
+        "vertices": 2475,
+        "triangles": 4454,
+        "minimumAngleBelow5DegreesPercent": 1.078,
+        "minimumAngleBelow1DegreePercent": 0.045,
+        "degenerateTriangles": 0,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0
+      },
+      "after": {
+        "vertices": 348,
+        "triangles": 510,
+        "minimumAngleBelow5DegreesPercent": 1.176,
+        "minimumAngleBelow1DegreePercent": 0.196,
+        "degenerateTriangles": 0,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0
+      },
+      "boundsExact": true,
+      "retainedUVsAndNormalsExact": true,
+      "strictCrossingPairsAfter": 0
+    }
+  ],
+  "visualChecks": {
+    "allFourGrooveCloseupsInspected": true,
+    "homepageBeforeAfterInspected": true,
+    "sameScrollY": 1549,
+    "sameViewport": [
+      1920,
+      911
+    ],
+    "sameCanvasTop": -324.09375,
+    "sameCanvasHeight": 1657,
+    "hardwareFPSBenchmark": false
+  }
+}

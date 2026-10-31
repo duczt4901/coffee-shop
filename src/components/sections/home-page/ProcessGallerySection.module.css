@@ -1,0 +1,71 @@
+.gallery {
+    --gallery-gap: 0.625rem;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--gallery-gap);
+}
+
+.feature {
+    position: relative;
+    align-self: start;
+    block-size: 68svh;
+    overflow: hidden;
+}
+
+.details {
+    display: grid;
+    min-inline-size: 0;
+    gap: var(--gallery-gap);
+}
+
+.imagePair {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--gallery-gap);
+}
+
+.image {
+    position: relative;
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+}
+
+.narrative {
+    min-inline-size: 0;
+}
+
+.copy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.25rem;
+    /* The editorial pause is a minimum; longer copy expands in normal flow. */
+    min-block-size: 92svh;
+    padding-block: 10svh;
+}
+
+.sample {
+    position: relative;
+    inline-size: min(70vw, 20rem);
+    max-inline-size: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+}
+
+@media (min-width: 48rem) {
+    .gallery {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .feature {
+        position: sticky;
+        top: var(--gallery-gap);
+        /* One viewport minus equal top and bottom image gutters. */
+        block-size: calc(100svh - 2 * var(--gallery-gap));
+    }
+
+    .copy {
+        min-block-size: 120svh;
+    }
+}

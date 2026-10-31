@@ -1,0 +1,14 @@
+{
+  "phinMeshes": 4,
+  "phinTriangles": 5144,
+  "ceramicCupInactive": true,
+  "originalPhinGlassRestored": true,
+  "internalFilterPressAbsent": true,
+  "glassRestsOnFloor": true,
+  "explodedSetAbsent": true,
+  "threeBagsRetained": true,
+  "reflectionOnlyOnPhin": true,
+  "environmentDisposed": true,
+  "postprocessingRenderPassed": true,
+  "errors": []
+}

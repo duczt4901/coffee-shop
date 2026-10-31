@@ -1,0 +1,54 @@
+{
+  "serializedGLBVerified": true,
+  "allGeometryUVNormalsAndInstanceDataByteIdentical": true,
+  "allLabelBaseColorBytesIdentical": true,
+  "onlyChangedImage": 21,
+  "geometryAndTextureCountsUnchanged": true,
+  "homepageBeforeAfterInspected": true,
+  "sameViewport": [
+    1920,
+    911
+  ],
+  "sameScrollY": 1820,
+  "sameCanvasHeight": 1657,
+  "lighting": {
+    "key": 2.1,
+    "keyColor": "#ffffff",
+    "keyPosition": [
+      -0.45,
+      0.7,
+      0.85
+    ],
+    "fill": 1.25,
+    "fillColor": "#ffffff",
+    "fillPosition": [
+      0.6,
+      0.6,
+      0.9
+    ],
+    "hemisphere": 1.15,
+    "hemisphereSky": "#ffffff",
+    "hemisphereGround": "#d8d3ca"
+  },
+  "ao": {
+    "samples": 16,
+    "resolutionScale": 0.5,
+    "opacity": 0.3,
+    "radiusFactor": 0.06,
+    "maxDistance": 0.006
+  },
+  "shadows": {
+    "mapSize": 2048,
+    "cached": true,
+    "type": "PCFShadowMap",
+    "radius": 6,
+    "normalBiasFactor": 0.003,
+    "floorOpacity": 0.24,
+    "floatingBeanCastShadow": false
+  },
+  "noAdditionalLightsMapsOrRenderPasses": true,
+  "noHDRorEnvironmentMap": true,
+  "typescript": "passed",
+  "targetedESLint": "passed",
+  "hardwareFPSBenchmark": false
+}

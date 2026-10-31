@@ -1,0 +1,48 @@
+{
+  "sourceSHA256": "f892c1180949d88ac19dd0c36077fbfa4a164503dc99ef356e357b85337076b3",
+  "outputSHA256": "d71e7716fa8610d406058557f90f4e68c04f84c482db51d157d8ad83b7b36e3a",
+  "inputBytes": 5025904,
+  "outputBytes": 4829040,
+  "bodyMeanRGBBefore": [
+    238.82,
+    237.01,
+    233.84
+  ],
+  "bodyMeanRGBAfter": [
+    243.21,
+    243.18,
+    242.42
+  ],
+  "bodyColorContrastScale": 0.45,
+  "bodyColorEncoding": "JPEG quality 94, no chroma subsampling",
+  "bodyNormalStrength": 0.1,
+  "bodyRoughnessFactor": 0.7,
+  "labelNormalStrength": 0.12,
+  "editedMaterials": [
+    "Bag_1kg_Orange_Approved_Label",
+    "White_flexible_laminate",
+    "Compressed_heat_seal",
+    "Bag_500g_Blue_Approved_Label",
+    "Bag_500g_Green_Approved_Label"
+  ],
+  "labelArtwork": [
+    {
+      "material": "Bag_1kg_Orange_Approved_Label",
+      "baseColorSHA256": "c6ba9811a9b7df8e4878b628df03ce385f44d992e1960d4ac1588fa2bf4b5cde",
+      "bytesUnchanged": true
+    },
+    {
+      "material": "Bag_500g_Blue_Approved_Label",
+      "baseColorSHA256": "ffd0fa23da5fa2d1c7b17d28b5ce1189a2447f582a8daf0910112d2e40483903",
+      "bytesUnchanged": true
+    },
+    {
+      "material": "Bag_500g_Green_Approved_Label",
+      "baseColorSHA256": "12da15c28359dbfc9c61147d969a61a339dde05e54b0b90a8995ff8b36edd4b1",
+      "bytesUnchanged": true
+    }
+  ],
+  "allGeometryUVNormalsAndInstancesByteIdentical": true,
+  "allOtherImagesByteIdentical": true,
+  "geometryTransformsAndTextureCountsUnchanged": true
+}

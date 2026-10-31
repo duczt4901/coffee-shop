@@ -1,0 +1,34 @@
+[
+  {
+    "part": "Cylinder_0",
+    "vertices": 600,
+    "faces": 1196,
+    "boundaryEdges": 0,
+    "nonManifoldEdges": 0,
+    "euler": 2
+  },
+  {
+    "part": "Cylinder.001_1",
+    "vertices": 590,
+    "faces": 1176,
+    "boundaryEdges": 0,
+    "nonManifoldEdges": 0,
+    "euler": 2
+  },
+  {
+    "part": "Cylinder.002_2",
+    "vertices": 750,
+    "faces": 1496,
+    "boundaryEdges": 0,
+    "nonManifoldEdges": 0,
+    "euler": 2
+  },
+  {
+    "part": "ly_3",
+    "vertices": 640,
+    "faces": 1276,
+    "boundaryEdges": 0,
+    "nonManifoldEdges": 0,
+    "euler": 2
+  }
+]

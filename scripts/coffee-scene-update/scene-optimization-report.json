@@ -1,0 +1,169 @@
+{
+  "sourceBytes": 9761356,
+  "geometries": [
+    {
+      "name": "Bag_1kg_Orange",
+      "material": 0,
+      "beforeTriangles": 12288,
+      "triangles": 12288,
+      "relativeError": 0
+    },
+    {
+      "name": "Bag_1kg_Orange",
+      "material": 1,
+      "beforeTriangles": 20480,
+      "triangles": 20480,
+      "relativeError": 0
+    },
+    {
+      "name": "Bag_1kg_Orange",
+      "material": 2,
+      "beforeTriangles": 3072,
+      "triangles": 3072,
+      "relativeError": 0
+    },
+    {
+      "name": "Bag_500g_Blue",
+      "material": 3,
+      "beforeTriangles": 12288,
+      "triangles": 6144,
+      "relativeError": 0.0002655650896485895
+    },
+    {
+      "name": "Bag_500g_Blue",
+      "material": 1,
+      "beforeTriangles": 20480,
+      "triangles": 10240,
+      "relativeError": 0.0002147665072698146
+    },
+    {
+      "name": "Bag_500g_Blue",
+      "material": 2,
+      "beforeTriangles": 3072,
+      "triangles": 1536,
+      "relativeError": 0.00016941240755841136
+    },
+    {
+      "name": "Bag_500g_Green",
+      "material": 4,
+      "beforeTriangles": 12288,
+      "triangles": 6144,
+      "relativeError": 0.00026582341524772346
+    },
+    {
+      "name": "Bag_500g_Green",
+      "material": 1,
+      "beforeTriangles": 20480,
+      "triangles": 10240,
+      "relativeError": 0.00021139219461474568
+    },
+    {
+      "name": "Bag_500g_Green",
+      "material": 2,
+      "beforeTriangles": 3072,
+      "triangles": 1536,
+      "relativeError": 0.00016973851597867906
+    },
+    {
+      "name": "Podium_Left_Rear",
+      "material": 5,
+      "beforeTriangles": 300,
+      "triangles": 300,
+      "relativeError": 0
+    },
+    {
+      "name": "Cup_Original_Geometry",
+      "material": 6,
+      "beforeTriangles": 8820,
+      "triangles": 5452,
+      "relativeError": 0.0007921102805994451
+    },
+    {
+      "name": "Coffee_Original_Geometry",
+      "material": 7,
+      "beforeTriangles": 3420,
+      "triangles": 2246,
+      "relativeError": 0.000783751776907593
+    },
+    {
+      "name": "Resting_Bean_1",
+      "material": 8,
+      "beforeTriangles": 5568,
+      "triangles": 1042,
+      "relativeError": 0.002997118281200528
+    },
+    {
+      "name": "Resting_Bean_3",
+      "material": 9,
+      "beforeTriangles": 7424,
+      "triangles": 1112,
+      "relativeError": 0.002668100642040372
+    },
+    {
+      "name": "Resting_Bean_4",
+      "material": 10,
+      "beforeTriangles": 7424,
+      "triangles": 1112,
+      "relativeError": 0.00275777792558074
+    },
+    {
+      "name": "Resting_Bean_2",
+      "material": 11,
+      "beforeTriangles": 29696,
+      "triangles": 4454,
+      "relativeError": 0.000711670785676688
+    },
+    {
+      "name": "Studio_Floor",
+      "material": 12,
+      "beforeTriangles": 2,
+      "triangles": 2,
+      "relativeError": 0
+    }
+  ],
+  "variations": [
+    {
+      "name": "Bag_500g_Blue",
+      "seed": 7193,
+      "maxDepthChangeMetres": 0.004381915759291382
+    },
+    {
+      "name": "Bag_500g_Green",
+      "seed": 2861,
+      "maxDepthChangeMetres": 0.004730764352929069
+    }
+  ],
+  "layout": [
+    {
+      "name": "Bag_1kg_Orange",
+      "yawDegrees": -16,
+      "position": [
+        0.162,
+        0,
+        -0.02
+      ]
+    },
+    {
+      "name": "Bag_500g_Blue",
+      "yawDegrees": 12,
+      "position": [
+        -0.126,
+        0.19,
+        -0.075
+      ]
+    },
+    {
+      "name": "Bag_500g_Green",
+      "yawDegrees": 4,
+      "position": [
+        -0.026,
+        0,
+        0.095
+      ]
+    }
+  ],
+  "bytes": 4022272,
+  "textureBytesBefore": 7415420,
+  "textureBytes": 2011916,
+  "noNewRuntimeDecoder": true
+}

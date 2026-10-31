@@ -1,0 +1,98 @@
+{
+  "sourceSHA256": "d61b027e8e68de81e6aaf0d9407a6f45e3839af0c723a435541291242888e432",
+  "outputSHA256": "250857c5ce5a50c05477027830423ff97f22b7024cd4e25c2551840a5be01dc0",
+  "imagesByteIdentical": true,
+  "materialsByteEquivalent": true,
+  "sceneAndTransformsUnchanged": true,
+  "meshes": [
+    {
+      "mesh": "Bag_1kg_Orange",
+      "before": {
+        "vertices": 6098,
+        "triangles": 12192,
+        "minimumAngleBelow5DegreesPercent": 11.204,
+        "minimumAngleBelow1DegreePercent": 0.525,
+        "degenerateTriangles": 0,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0
+      },
+      "after": {
+        "vertices": 6098,
+        "triangles": 12192,
+        "minimumAngleBelow5DegreesPercent": 10.712,
+        "minimumAngleBelow1DegreePercent": 0.525,
+        "degenerateTriangles": 0,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0
+      },
+      "uvByteIdentical": true,
+      "materialUVCoverageUnchanged": true,
+      "normalsChanged": 1496,
+      "crossingPairsInEditedRegionBefore": 0,
+      "crossingPairsInEditedRegionAfter": 0,
+      "newCrossingFacePairs": [],
+      "testedCandidatePairsBefore": 8643,
+      "testedCandidatePairsAfter": 10084
+    },
+    {
+      "mesh": "Bag_500g_Blue",
+      "before": {
+        "vertices": 6098,
+        "triangles": 12192,
+        "minimumAngleBelow5DegreesPercent": 11.204,
+        "minimumAngleBelow1DegreePercent": 0.525,
+        "degenerateTriangles": 0,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0
+      },
+      "after": {
+        "vertices": 6098,
+        "triangles": 12192,
+        "minimumAngleBelow5DegreesPercent": 10.712,
+        "minimumAngleBelow1DegreePercent": 0.525,
+        "degenerateTriangles": 0,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0
+      },
+      "uvByteIdentical": true,
+      "materialUVCoverageUnchanged": true,
+      "normalsChanged": 1496,
+      "crossingPairsInEditedRegionBefore": 0,
+      "crossingPairsInEditedRegionAfter": 0,
+      "newCrossingFacePairs": [],
+      "testedCandidatePairsBefore": 8643,
+      "testedCandidatePairsAfter": 10084
+    },
+    {
+      "mesh": "Bag_500g_Green",
+      "before": {
+        "vertices": 6098,
+        "triangles": 12192,
+        "minimumAngleBelow5DegreesPercent": 11.204,
+        "minimumAngleBelow1DegreePercent": 0.525,
+        "degenerateTriangles": 0,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0
+      },
+      "after": {
+        "vertices": 6098,
+        "triangles": 12192,
+        "minimumAngleBelow5DegreesPercent": 10.712,
+        "minimumAngleBelow1DegreePercent": 0.525,
+        "degenerateTriangles": 0,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0
+      },
+      "uvByteIdentical": true,
+      "materialUVCoverageUnchanged": true,
+      "normalsChanged": 1496,
+      "crossingPairsInEditedRegionBefore": 0,
+      "crossingPairsInEditedRegionAfter": 0,
+      "newCrossingFacePairs": [],
+      "testedCandidatePairsBefore": 8643,
+      "testedCandidatePairsAfter": 10084
+    }
+  ],
+  "allNonBagGeometryByteIdentical": true,
+  "crossingCheckLimit": "Non-coplanar strict-interior triangle crossings near edited geometry; coincident seams checked separately by welded edge counts."
+}

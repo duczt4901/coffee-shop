@@ -1,0 +1,23 @@
+{
+  "imagesByteIdentical": true,
+  "materialsUnchanged": true,
+  "otherMeshesByteIdentical": true,
+  "nodeTransformsUnchanged": true,
+  "quadAndGLBPositionsIdentical": true,
+  "labelUVRectangleCoverage": 0.30625200231778615,
+  "quadValence": {
+    "3": 8,
+    "4": 6090
+  },
+  "selfIntersectionCandidatesTested": 7849,
+  "strictNonCoplanarCrossingPairs": [],
+  "after": {
+    "vertices": 6098,
+    "triangles": 12192,
+    "minimumAngleBelow5DegreesPercent": 10.228,
+    "minimumAngleBelow1DegreePercent": 0.525,
+    "degenerateTriangles": 0,
+    "boundaryEdges": 0,
+    "nonManifoldEdges": 0
+  }
+}

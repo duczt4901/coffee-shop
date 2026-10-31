@@ -1,0 +1,224 @@
+{
+  "date": "2026-10-27",
+  "runtimeAsset": "public\\images\\3d\\robusta-product-scene.glb",
+  "backup": "C:\\Users\\Nguyen Viet Duc\\.codex\\visualizations\\2026\\10\\26\\01a176c9-97dd-7fa0-997b-851ca5e89174\\geometry-refinement\\before.glb",
+  "visualComparisonsDirectory": "C:\\Users\\Nguyen Viet Duc\\.codex\\visualizations\\2026\\10\\26\\01a176c9-97dd-7fa0-997b-851ca5e89174\\geometry-refinement",
+  "refinement": {
+    "source": "C:\\Users\\Nguyen Viet Duc\\.codex\\visualizations\\2026\\10\\26\\01a176c9-97dd-7fa0-997b-851ca5e89174\\geometry-refinement\\before.glb",
+    "sourceSHA256": "8c4b3b837cdb9c47b3c5bd60cd931a4baf482ea53af349f3801d1969e4910fd7",
+    "meshes": [
+      {
+        "name": "Bag_1kg_Orange",
+        "before": {
+          "vertices": 18435,
+          "triangles": 36800,
+          "minimumAngleBelow5DegreesPercent": 8.616,
+          "minimumAngleBelow1DegreePercent": 0.24,
+          "degenerateTriangles": 204,
+          "boundaryEdges": 18,
+          "nonManifoldEdges": 0
+        },
+        "after": {
+          "vertices": 18435,
+          "triangles": 36602,
+          "minimumAngleBelow5DegreesPercent": 8.617,
+          "minimumAngleBelow1DegreePercent": 0.243,
+          "degenerateTriangles": 0,
+          "boundaryEdges": 0,
+          "nonManifoldEdges": 0
+        },
+        "verticesMoved": 4761,
+        "maxDisplacementLocalUnits": 0.014999985694885254,
+        "diagonalsRotatedOnBody": 4,
+        "trianglesAddedForPrintJunctions": 6,
+        "collapsedBodyTrianglesRemoved": 204,
+        "labelSurfaceAreaRelativeChangeMax": 0.0341065544580641,
+        "labelSurfaceAreaRelativeChangeP99": 0.023269591320689904,
+        "uvBytesUnchanged": true,
+        "materialAssignmentsPreserved": true,
+        "labelHeightAndWidthCoordinatesUnchanged": true,
+        "boundsUnchanged": true
+      },
+      {
+        "name": "Bag_500g_Blue",
+        "before": {
+          "vertices": 9317,
+          "triangles": 18608,
+          "minimumAngleBelow5DegreesPercent": 13.33,
+          "minimumAngleBelow1DegreePercent": 2.668,
+          "degenerateTriangles": 19,
+          "boundaryEdges": 18,
+          "nonManifoldEdges": 0
+        },
+        "after": {
+          "vertices": 9317,
+          "triangles": 18595,
+          "minimumAngleBelow5DegreesPercent": 13.321,
+          "minimumAngleBelow1DegreePercent": 2.678,
+          "degenerateTriangles": 0,
+          "boundaryEdges": 0,
+          "nonManifoldEdges": 0
+        },
+        "verticesMoved": 3249,
+        "maxDisplacementLocalUnits": 0.029999971389770508,
+        "diagonalsRotatedOnBody": 44,
+        "trianglesAddedForPrintJunctions": 6,
+        "collapsedBodyTrianglesRemoved": 19,
+        "labelSurfaceAreaRelativeChangeMax": 0.03480846144876826,
+        "labelSurfaceAreaRelativeChangeP99": 0.028322562025258142,
+        "uvBytesUnchanged": true,
+        "materialAssignmentsPreserved": true,
+        "labelHeightAndWidthCoordinatesUnchanged": true,
+        "boundsUnchanged": true
+      },
+      {
+        "name": "Bag_500g_Green",
+        "before": {
+          "vertices": 9331,
+          "triangles": 18638,
+          "minimumAngleBelow5DegreesPercent": 13.76,
+          "minimumAngleBelow1DegreePercent": 2.799,
+          "degenerateTriangles": 26,
+          "boundaryEdges": 18,
+          "nonManifoldEdges": 0
+        },
+        "after": {
+          "vertices": 9331,
+          "triangles": 18618,
+          "minimumAngleBelow5DegreesPercent": 13.739,
+          "minimumAngleBelow1DegreePercent": 2.809,
+          "degenerateTriangles": 0,
+          "boundaryEdges": 0,
+          "nonManifoldEdges": 0
+        },
+        "verticesMoved": 3339,
+        "maxDisplacementLocalUnits": 0.029999971389770508,
+        "diagonalsRotatedOnBody": 55,
+        "trianglesAddedForPrintJunctions": 6,
+        "collapsedBodyTrianglesRemoved": 26,
+        "labelSurfaceAreaRelativeChangeMax": 0.03496479594924262,
+        "labelSurfaceAreaRelativeChangeP99": 0.02946131794945621,
+        "uvBytesUnchanged": true,
+        "materialAssignmentsPreserved": true,
+        "labelHeightAndWidthCoordinatesUnchanged": true,
+        "boundsUnchanged": true
+      }
+    ],
+    "outputBytes": 6949460,
+    "inputBytes": 6952268,
+    "materialsUnchanged": true,
+    "embeddedImagesUnchanged": true,
+    "nodeTransformsUnchanged": true,
+    "additionalMeshes": 0,
+    "additionalDrawCalls": 0,
+    "trianglesAdded": 18,
+    "trianglesRemoved": 249
+  },
+  "validation": {
+    "sourceSHA256": "8c4b3b837cdb9c47b3c5bd60cd931a4baf482ea53af349f3801d1969e4910fd7",
+    "outputSHA256": "ab83b0e750c5ee83dfa55ddb10ee2b39636ad03e4287967b07f7b0361c3b2d34",
+    "imagesByteIdentical": true,
+    "materialsByteEquivalent": true,
+    "sceneAndTransformsUnchanged": true,
+    "meshes": [
+      {
+        "mesh": "Bag_1kg_Orange",
+        "before": {
+          "vertices": 18435,
+          "triangles": 36800,
+          "minimumAngleBelow5DegreesPercent": 8.616,
+          "minimumAngleBelow1DegreePercent": 0.24,
+          "degenerateTriangles": 204,
+          "boundaryEdges": 18,
+          "nonManifoldEdges": 0
+        },
+        "after": {
+          "vertices": 18435,
+          "triangles": 36602,
+          "minimumAngleBelow5DegreesPercent": 8.617,
+          "minimumAngleBelow1DegreePercent": 0.243,
+          "degenerateTriangles": 0,
+          "boundaryEdges": 0,
+          "nonManifoldEdges": 0
+        },
+        "uvByteIdentical": true,
+        "materialUVCoverageUnchanged": true,
+        "normalsChanged": 5801,
+        "crossingPairsInEditedRegionBefore": 0,
+        "crossingPairsInEditedRegionAfter": 0,
+        "newCrossingFacePairs": [],
+        "testedCandidatePairsBefore": 10940,
+        "testedCandidatePairsAfter": 11222
+      },
+      {
+        "mesh": "Bag_500g_Blue",
+        "before": {
+          "vertices": 9317,
+          "triangles": 18608,
+          "minimumAngleBelow5DegreesPercent": 13.33,
+          "minimumAngleBelow1DegreePercent": 2.668,
+          "degenerateTriangles": 19,
+          "boundaryEdges": 18,
+          "nonManifoldEdges": 0
+        },
+        "after": {
+          "vertices": 9317,
+          "triangles": 18595,
+          "minimumAngleBelow5DegreesPercent": 13.321,
+          "minimumAngleBelow1DegreePercent": 2.678,
+          "degenerateTriangles": 0,
+          "boundaryEdges": 0,
+          "nonManifoldEdges": 0
+        },
+        "uvByteIdentical": true,
+        "materialUVCoverageUnchanged": true,
+        "normalsChanged": 4085,
+        "crossingPairsInEditedRegionBefore": 0,
+        "crossingPairsInEditedRegionAfter": 0,
+        "newCrossingFacePairs": [],
+        "testedCandidatePairsBefore": 7525,
+        "testedCandidatePairsAfter": 7547
+      },
+      {
+        "mesh": "Bag_500g_Green",
+        "before": {
+          "vertices": 9331,
+          "triangles": 18638,
+          "minimumAngleBelow5DegreesPercent": 13.76,
+          "minimumAngleBelow1DegreePercent": 2.799,
+          "degenerateTriangles": 26,
+          "boundaryEdges": 18,
+          "nonManifoldEdges": 0
+        },
+        "after": {
+          "vertices": 9331,
+          "triangles": 18618,
+          "minimumAngleBelow5DegreesPercent": 13.739,
+          "minimumAngleBelow1DegreePercent": 2.809,
+          "degenerateTriangles": 0,
+          "boundaryEdges": 0,
+          "nonManifoldEdges": 0
+        },
+        "uvByteIdentical": true,
+        "materialUVCoverageUnchanged": true,
+        "normalsChanged": 4194,
+        "crossingPairsInEditedRegionBefore": 0,
+        "crossingPairsInEditedRegionAfter": 0,
+        "newCrossingFacePairs": [],
+        "testedCandidatePairsBefore": 8025,
+        "testedCandidatePairsAfter": 8203
+      }
+    ],
+    "allNonBagGeometryByteIdentical": true,
+    "crossingCheckLimit": "Non-coplanar strict-interior triangle crossings near edited geometry; coincident seams checked separately by welded edge counts."
+  },
+  "homepageValidation": {
+    "desktop": "GLTF loaded and rendered in existing homepage; no browser console errors.",
+    "mobileViewport": "390x844; full product group rendered; no browser console errors.",
+    "screenshots": [
+      "homepage-desktop-after.png",
+      "homepage-mobile-after.png"
+    ],
+    "performance": "No FPS/GPU benchmark; render configuration unchanged."
+  }
+}

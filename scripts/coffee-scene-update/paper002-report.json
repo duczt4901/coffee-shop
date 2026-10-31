@@ -1,0 +1,75 @@
+{
+  "surface": "ambientCG Paper002",
+  "sourceBytes": 5874984,
+  "outputBytes": 6890300,
+  "sourceMeanRGB": [
+    195.4,
+    185.4,
+    179.27
+  ],
+  "adjustedMeanRGB": [
+    211.32,
+    203.82,
+    199.22
+  ],
+  "colorLiftSRGB": 18,
+  "desaturation": 0.25,
+  "normalScale": 0.18,
+  "sourceMaps": {
+    "Color": {
+      "filename": "Paper002_1K-JPG_Color.jpg",
+      "sha256": "15e45b65948f054d9c783dee72067b0a8029975de1b22984a2c3c084a4c6d460"
+    },
+    "NormalGL": {
+      "filename": "Paper002_1K-JPG_NormalGL.jpg",
+      "sha256": "7d9f6f37210275cba3f72945a4d362a7fffe7465f43889b3ca725bf5dbf7954f"
+    },
+    "Roughness": {
+      "filename": "Paper002_1K-JPG_Roughness.jpg",
+      "sha256": "c54403673811acb9bfa2bb98a358b3258cf28eb1b3d2801b5d64eb2659f3e74f"
+    }
+  },
+  "labelChecks": [
+    {
+      "material": "Bag_1kg_Orange_Approved_Label",
+      "materialUnchanged": true,
+      "textureSHA256": "c6ba9811a9b7df8e4878b628df03ce385f44d992e1960d4ac1588fa2bf4b5cde",
+      "textureBytesUnchanged": true
+    },
+    {
+      "material": "Bag_500g_Blue_Approved_Label",
+      "materialUnchanged": true,
+      "textureSHA256": "ffd0fa23da5fa2d1c7b17d28b5ce1189a2447f582a8daf0910112d2e40483903",
+      "textureBytesUnchanged": true
+    },
+    {
+      "material": "Bag_500g_Green_Approved_Label",
+      "materialUnchanged": true,
+      "textureSHA256": "12da15c28359dbfc9c61147d969a61a339dde05e54b0b90a8995ff8b36edd4b1",
+      "textureBytesUnchanged": true
+    }
+  ],
+  "materialSeparation": [
+    {
+      "mesh": "Bag_1kg_Orange",
+      "labelTriangles": 5980,
+      "frontBodyTriangles": 6308,
+      "triangleCountUnchanged": true
+    },
+    {
+      "mesh": "Bag_500g_Blue",
+      "labelTriangles": 2272,
+      "frontBodyTriangles": 3872,
+      "triangleCountUnchanged": true
+    },
+    {
+      "mesh": "Bag_500g_Green",
+      "labelTriangles": 2260,
+      "frontBodyTriangles": 3884,
+      "triangleCountUnchanged": true
+    }
+  ],
+  "verticesNormalsUVsUnchanged": true,
+  "sceneAndPropsUnchanged": true,
+  "sealMaterialUnchanged": true
+}
