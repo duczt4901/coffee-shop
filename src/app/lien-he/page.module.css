@@ -60,21 +60,10 @@
 
 .emailGroup li {
     position: relative;
-    padding-left: 1.75rem;
-}
-
-.emailGroup li::before {
-    content: "";
-    position: absolute;
-    top: 0.4em;
-    left: 0.25rem;
-    border-top: 0.6rem solid currentColor;
-    border-left: 0.6rem solid transparent;
 }
 
 .emailGroup a {
     overflow-wrap: anywhere;
-    text-decoration: underline;
     text-underline-offset: 0.15em;
 }
 
@@ -103,10 +92,5 @@
 
     .emailGroup li {
         margin-top: 0.5rem;
-        padding-left: 1.25rem;
-    }
-
-    .emailGroup li::before {
-        left: 0;
     }
 }

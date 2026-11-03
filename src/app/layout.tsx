@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
-import { Footer } from "@/components/layout/footer";
-import { NavBar } from "@/components/layout/header";
+import { SiteFooter } from "@/components/layout/SiteFooter";
+import { SiteHeader } from "@/components/layout/SiteHeader";
 import { JsonLd } from "@/components/seo/json-ld";
 import { database } from "@/lib/database";
 import { createMetadata } from "@/lib/metadata";
@@ -53,9 +53,9 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
                 >
                     <ExperienceRuntime>
                         <TransitionProvider>
-                            <NavBar />
+                            <SiteHeader />
                             <main id="main-content">{children}</main>
-                            <Footer />
+                            <SiteFooter />
                         </TransitionProvider>
                     </ExperienceRuntime>
                     <PageScrollbar />

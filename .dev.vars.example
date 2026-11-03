@@ -1,0 +1,6 @@
+# Copy to .dev.vars for local development. Never commit real API keys.
+RESEND_API_KEY=
+# Use an address on your verified Resend sending domain.
+ORDER_EMAIL_FROM=
+# Optional: leave unset to confirm delivery fees by phone below 500,000 VND.
+# SHIPPING_FEE_VND=30000

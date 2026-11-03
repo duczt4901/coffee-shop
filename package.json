@@ -8,10 +8,15 @@
     },
     "scripts": {
         "dev": "next dev",
+        "dev:api": "wrangler dev --port 8787 --compatibility-date 2026-08-06 --assets public",
+        "db:migrate:local": "wrangler d1 migrations apply coffee-shop-orders --local",
+        "db:migrate:remote": "wrangler d1 migrations apply coffee-shop-orders --remote",
         "build": "next build",
         "preview": "pnpm build && wrangler dev",
         "deploy": "pnpm build && wrangler deploy",
         "typecheck": "tsc --noEmit",
+        "test:commerce": "node scripts/test-commerce.cjs",
+        "test:styles": "node scripts/check-style-references.mjs",
         "lint": "eslint .",
         "format": "prettier --write .",
         "format:check": "prettier --check ."

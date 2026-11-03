@@ -1,0 +1,338 @@
+{
+  "date": "2026-11-02",
+  "format": "webp",
+  "aspectRatio": "proportional resize; height rounded to nearest pixel",
+  "alpha": "resized alpha pixels verified identical",
+  "totals": {
+    "activeOriginalBytes": 88203590,
+    "activeOptimizedBytes": 6122384,
+    "savedPercent": 93.06
+  },
+  "images": [
+    {
+      "original": "/images/coffee/coffee-harvest-bucket.png",
+      "optimized": "/images/coffee/coffee-harvest-bucket.webp",
+      "archive": "assets/archive/images/coffee/coffee-harvest-bucket.png",
+      "originalDimensions": [
+        1920,
+        2885
+      ],
+      "dimensions": [
+        1152,
+        1731
+      ],
+      "quality": 80,
+      "alphaQuality": 100,
+      "hasAlpha": false,
+      "originalBytes": 13609622,
+      "optimizedBytes": 324588,
+      "originalSha256": "d6f215b644f132eb8e822685b8224b5112eb68e0569df75b5e1831936e8a19c2"
+    },
+    {
+      "original": "/images/coffee/coffee-drying-raking.png",
+      "optimized": "/images/coffee/coffee-drying-raking.webp",
+      "archive": "assets/archive/images/coffee/coffee-drying-raking.png",
+      "originalDimensions": [
+        1920,
+        2400
+      ],
+      "dimensions": [
+        1200,
+        1500
+      ],
+      "quality": 80,
+      "alphaQuality": 100,
+      "hasAlpha": false,
+      "originalBytes": 12936374,
+      "optimizedBytes": 889614,
+      "originalSha256": "3fa6649c4569d37e74064a1666ee1f6788e3ee2b6182e9614eb7e1c0791708ac"
+    },
+    {
+      "original": "/images/coffee/raised-coffee-drying-beds.png",
+      "optimized": "/images/coffee/raised-coffee-drying-beds.webp",
+      "archive": "assets/archive/images/coffee/raised-coffee-drying-beds.png",
+      "originalDimensions": [
+        1920,
+        2400
+      ],
+      "dimensions": [
+        1200,
+        1500
+      ],
+      "quality": 80,
+      "alphaQuality": 100,
+      "hasAlpha": false,
+      "originalBytes": 11287460,
+      "optimizedBytes": 486992,
+      "originalSha256": "14b1cbb70582342878e260734d49d3f8015cf5b1ce2af6815cf0d573d1b64148"
+    },
+    {
+      "original": "/images/coffee/coffee-parchment-drying.png",
+      "optimized": "/images/coffee/coffee-parchment-drying.webp",
+      "archive": "assets/archive/images/coffee/coffee-parchment-drying.png",
+      "originalDimensions": [
+        1920,
+        2400
+      ],
+      "dimensions": [
+        1600,
+        2000
+      ],
+      "quality": 80,
+      "alphaQuality": 100,
+      "hasAlpha": false,
+      "originalBytes": 9945968,
+      "optimizedBytes": 398994,
+      "originalSha256": "3cfcf2bdf804e0c4c35929a6a5c1dde9ff252ba077fcf30b4b3c2469a62bdb68"
+    },
+    {
+      "original": "/images/coffee/coffee-beans-winnowing.png",
+      "optimized": "/images/coffee/coffee-beans-winnowing.webp",
+      "archive": "assets/archive/images/coffee/coffee-beans-winnowing.png",
+      "originalDimensions": [
+        1920,
+        2400
+      ],
+      "dimensions": [
+        1200,
+        1500
+      ],
+      "quality": 80,
+      "alphaQuality": 100,
+      "hasAlpha": false,
+      "originalBytes": 9318710,
+      "optimizedBytes": 301852,
+      "originalSha256": "8b6f4b5e732d2e51696f0d757c388b271080b5b9bde79f75c0c935baf9dbff9a"
+    },
+    {
+      "original": "/images/coffee/lam-dong-coffee-farm.png",
+      "optimized": "/images/coffee/lam-dong-coffee-farm.webp",
+      "archive": "assets/archive/images/coffee/lam-dong-coffee-farm.png",
+      "originalDimensions": [
+        2400,
+        1600
+      ],
+      "dimensions": [
+        1920,
+        1280
+      ],
+      "quality": 80,
+      "alphaQuality": 100,
+      "hasAlpha": false,
+      "originalBytes": 7826450,
+      "optimizedBytes": 525062,
+      "originalSha256": "9f242bc2b4d768451470ceaca7f785818badd075eedac599cbf6e444edd3eff9"
+    },
+    {
+      "original": "/images/coffee/lam-dong-coffee-farm-panorama.png",
+      "optimized": "/images/coffee/lam-dong-coffee-farm-panorama.webp",
+      "archive": "assets/archive/images/coffee/lam-dong-coffee-farm-panorama.png",
+      "originalDimensions": [
+        2400,
+        1350
+      ],
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "quality": 92,
+      "alphaQuality": 100,
+      "hasAlpha": false,
+      "originalBytes": 6496456,
+      "optimizedBytes": 826712,
+      "originalSha256": "2332ef46f4f8967b555b6abf10df557cfc44a4e410d15474ae3f880ba3777ea4",
+      "note": "Slider image capped at 1920px width; height calculated proportionally and rounded to nearest pixel; quality 92."
+    },
+    {
+      "original": "/images/coffee/coffee-drying-beds-aerial.png",
+      "optimized": "/images/coffee/coffee-drying-beds-aerial.webp",
+      "archive": "assets/archive/images/coffee/coffee-drying-beds-aerial.png",
+      "originalDimensions": [
+        1920,
+        1080
+      ],
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "quality": 80,
+      "alphaQuality": 100,
+      "hasAlpha": false,
+      "originalBytes": 4980841,
+      "optimizedBytes": 633784,
+      "originalSha256": "902101494e0e6e40889b8708afb12c537c0cf450449a16c0bfbaafd677d12f27"
+    },
+    {
+      "original": "/images/coffee/coffee-drinks-assortment.png",
+      "optimized": "/images/coffee/coffee-drinks-assortment.webp",
+      "archive": "assets/archive/images/coffee/coffee-drinks-assortment.png",
+      "originalDimensions": [
+        1534,
+        1227
+      ],
+      "dimensions": [
+        1534,
+        1227
+      ],
+      "quality": 80,
+      "alphaQuality": 100,
+      "hasAlpha": false,
+      "originalBytes": 2443229,
+      "optimizedBytes": 111116,
+      "originalSha256": "2863821def0cbf65147ce5238716102aa48642190c953909ae8a73a44d5ee703"
+    },
+    {
+      "original": "/images/coffee/coffee-processing-stages.jpeg",
+      "optimized": "/images/coffee/coffee-processing-stages.webp",
+      "archive": "assets/archive/images/coffee/coffee-processing-stages.jpeg",
+      "originalDimensions": [
+        2048,
+        1538
+      ],
+      "dimensions": [
+        1024,
+        769
+      ],
+      "quality": 80,
+      "alphaQuality": 100,
+      "hasAlpha": false,
+      "originalBytes": 1936250,
+      "optimizedBytes": 270198,
+      "originalSha256": "9f6242e0da58a832fdf72869637155af1fe9e4081451c93f58c73632d6f6a567"
+    },
+    {
+      "original": "/images/coffee/ripe-coffee-cherries.png",
+      "optimized": "/images/coffee/ripe-coffee-cherries.webp",
+      "archive": "assets/archive/images/coffee/ripe-coffee-cherries.png",
+      "originalDimensions": [
+        1024,
+        576
+      ],
+      "dimensions": [
+        1024,
+        576
+      ],
+      "quality": 80,
+      "alphaQuality": 100,
+      "hasAlpha": false,
+      "originalBytes": 1375754,
+      "optimizedBytes": 65216,
+      "originalSha256": "a5b4d8fbbded304333cefaac65bfc0bc059a35dbc9f8f784dc8a3695a779d2bf"
+    },
+    {
+      "original": "/images/coffee/coffee-roast-levels.png",
+      "optimized": "/images/coffee/coffee-roast-levels.webp",
+      "archive": "assets/archive/images/coffee/coffee-roast-levels.png",
+      "originalDimensions": [
+        556,
+        556
+      ],
+      "dimensions": [
+        556,
+        556
+      ],
+      "quality": 80,
+      "alphaQuality": 100,
+      "hasAlpha": false,
+      "originalBytes": 866257,
+      "optimizedBytes": 62642,
+      "originalSha256": "edad0c5486a4fef8b46579ee0462a3a6990b7a4472a9e491dc216a804313f627"
+    },
+    {
+      "original": "/images/coffee/sun-dried-coffee-cherries.jpg",
+      "optimized": "/images/coffee/sun-dried-coffee-cherries.webp",
+      "archive": "assets/archive/images/coffee/sun-dried-coffee-cherries.jpg",
+      "originalDimensions": [
+        2592,
+        1310
+      ],
+      "dimensions": [
+        1920,
+        970
+      ],
+      "quality": 92,
+      "alphaQuality": 100,
+      "hasAlpha": false,
+      "originalBytes": 779139,
+      "optimizedBytes": 451428,
+      "originalSha256": "0f0ab4f35a79eec88046dc01ff00a0ac6f562b1f034c26b1b91cdc3d3613433a",
+      "note": "Slider image capped at 1920px width; height calculated proportionally and rounded to nearest pixel; quality 92."
+    },
+    {
+      "original": "/images/products/trung-toan-robusta-200g.png",
+      "optimized": "/images/products/trung-toan-robusta-200g.webp",
+      "archive": "assets/archive/images/products/trung-toan-robusta-200g.png",
+      "originalDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "quality": 88,
+      "alphaQuality": 100,
+      "hasAlpha": true,
+      "originalBytes": 907847,
+      "optimizedBytes": 78906,
+      "originalSha256": "dee4a4ae5f76c125b6564aacb6c6fcc16f2bb3a8cace1a5ca5977916894d6d74"
+    },
+    {
+      "original": "/images/products/trung-toan-arabica-200g.png",
+      "optimized": "/images/products/trung-toan-arabica-200g.webp",
+      "archive": "assets/archive/images/products/trung-toan-arabica-200g.png",
+      "originalDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "quality": 88,
+      "alphaQuality": 100,
+      "hasAlpha": true,
+      "originalBytes": 966216,
+      "optimizedBytes": 75142,
+      "originalSha256": "7e5f4aff6a4dfd2918c20bcb40932ed736e51b7de32b1a8526fce88599d2ee70"
+    },
+    {
+      "original": "/images/products/trung-toan-robusta-500g.png",
+      "optimized": "/images/products/trung-toan-robusta-500g.webp",
+      "archive": "assets/archive/images/products/trung-toan-robusta-500g.png",
+      "originalDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "quality": 88,
+      "alphaQuality": 100,
+      "hasAlpha": true,
+      "originalBytes": 1006340,
+      "optimizedBytes": 68650,
+      "originalSha256": "c5ce68f1e509958892c2fc6996d3482ffb2c0ca6fb39cf7e4c209095c651802b"
+    },
+    {
+      "original": "/images/products/trung-toan-robusta-1000g.png",
+      "optimized": "/images/products/trung-toan-robusta-1000g.webp",
+      "archive": "assets/archive/images/products/trung-toan-robusta-1000g.png",
+      "originalDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "quality": 88,
+      "alphaQuality": 100,
+      "hasAlpha": true,
+      "originalBytes": 1041157,
+      "optimizedBytes": 71968,
+      "originalSha256": "2cb2025168b60d8c0eddeae858a40a727287cb18dbb8b57bcf032ce11a4af2aa"
+    }
+  ]
+}

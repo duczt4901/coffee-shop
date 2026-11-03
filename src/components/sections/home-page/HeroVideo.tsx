@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-export function HomePageVideo(): React.ReactElement {
+export function HeroVideo(): React.ReactElement {
     const videoRef = useRef<HTMLVideoElement>(null);
 
     useEffect(() => {
@@ -37,8 +37,8 @@ export function HomePageVideo(): React.ReactElement {
 
     return (
         <div className="h-full w-full overflow-hidden bg-black">
-            <video ref={videoRef} muted loop playsInline preload="metadata" aria-hidden="true" className="home-page-video h-full w-full scale-[1.02] object-cover blur-[2px] brightness-[0.55]">
-                <source src="/images/lamdong/video-3.mp4" type="video/mp4" />
+            <video ref={videoRef} data-hero-video muted loop playsInline preload="metadata" aria-hidden="true" className="h-full w-full scale-[1.02] object-cover blur-[2px] brightness-[0.55]">
+                <source src="/videos/coffee/coffee-cherry-sorting-hero.mp4" type="video/mp4" />
             </video>
         </div>
     );

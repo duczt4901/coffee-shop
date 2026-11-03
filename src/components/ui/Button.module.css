@@ -1,0 +1,61 @@
+.button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    width: fit-content;
+    max-width: 100%;
+    min-height: 3.25rem;
+    min-width: 0;
+    padding: 0.9rem 2.5rem;
+    border: 0;
+    background: var(--white);
+    color: var(--foreground);
+    box-shadow: 0 0.75rem 3rem rgb(37 31 24 / 8%);
+    font-family: var(--font-lexend), Arial, sans-serif;
+    font-size: clamp(0.875rem, 1vw, 1rem);
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        background-color 0.2s,
+        color 0.2s;
+}
+.fullWidth {
+    width: 100%;
+}
+.button em {
+    font-style: normal;
+}
+.button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+.button:focus-visible {
+    outline: 1px solid currentColor;
+    outline-offset: 5px;
+}
+.button:focus-visible [data-reveal-word] {
+    transform: none !important;
+}
+@media (hover: hover) {
+    .button:hover:not(:disabled) {
+        background: var(--foreground);
+        color: var(--background);
+    }
+}
+@media (max-width: 47.999rem) {
+    .button {
+        padding-inline: 1.25rem;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .button {
+        transition: none;
+    }
+}

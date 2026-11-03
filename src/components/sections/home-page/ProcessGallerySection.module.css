@@ -9,7 +9,7 @@
 .feature {
     position: relative;
     align-self: start;
-    block-size: 68svh;
+    aspect-ratio: 4 / 5;
     overflow: hidden;
 }
 
@@ -40,9 +40,7 @@
     flex-direction: column;
     align-items: center;
     gap: 2.25rem;
-    /* The editorial pause is a minimum; longer copy expands in normal flow. */
-    min-block-size: 92svh;
-    padding-block: 10svh;
+    padding-block: var(--section-space);
 }
 
 .sample {
@@ -57,15 +55,14 @@
     .gallery {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+}
 
+@media (min-width: 48rem) {
     .feature {
         position: sticky;
         top: var(--gallery-gap);
+        aspect-ratio: auto;
         /* One viewport minus equal top and bottom image gutters. */
         block-size: calc(100svh - 2 * var(--gallery-gap));
-    }
-
-    .copy {
-        min-block-size: 120svh;
     }
 }

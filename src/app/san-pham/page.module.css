@@ -46,7 +46,6 @@
 }
 
 .productCard:focus-visible,
-.button:focus-visible,
 .textLink:focus-visible {
     outline: 2px solid currentColor;
     outline-offset: 5px;
@@ -152,7 +151,7 @@
     color: var(--background);
 }
 
-.journey > h2 {
+.journey h2 {
     margin: 0 0 2rem;
     font-size: clamp(1.25rem, 1.8vw, 1.75rem);
     font-weight: 400;
@@ -185,12 +184,12 @@
 }
 
 .textLink {
-    display: table;
+    width: fit-content;
+    max-width: 100%;
     margin: 4rem auto 0;
     font-size: 0.75rem;
     text-transform: uppercase;
     text-underline-offset: 0.3em;
-    text-decoration: underline;
 }
 
 .feature {
@@ -240,23 +239,6 @@
     left: 0;
     border-top: 0.55rem solid currentColor;
     border-left: 0.55rem solid transparent;
-}
-
-.button {
-    display: inline-block;
-    border: 1px solid currentColor;
-    padding: 0.9rem 1.75rem;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    text-align: center;
-    transition:
-        color 200ms,
-        background-color 200ms;
-}
-
-.button:hover {
-    background: var(--foreground);
-    color: var(--background);
 }
 
 @media (max-width: 63.999rem) {
@@ -322,8 +304,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .packshot,
-    .button {
+    .packshot {
         transition: none;
     }
 }

@@ -27,7 +27,7 @@ export function LandingReveal() {
 
         const ctx = gsap.context(() => {
             const blocks = blockRef.current.filter((block): block is HTMLDivElement => block !== null);
-            const backdrop = document.querySelector<HTMLElement>(".home-page-video");
+            const backdrop = document.querySelector<HTMLElement>("[data-hero-video]");
 
             gsap.set(blocks, {
                 scaleX: 1,

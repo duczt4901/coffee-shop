@@ -9,7 +9,7 @@ import { useExperienceRuntime } from "@/components/experience/ExperienceRuntime"
 
 gsap.registerPlugin(SplitText, ScrollTrigger);
 
-type CopyProps = {
+type TextRevealProps = {
     children: React.ReactNode;
     delay?: number;
     start?: string;
@@ -22,14 +22,7 @@ type SplitTextInstance = ReturnType<typeof SplitText.create> & {
     words: HTMLElement[];
 };
 
-export default function Copy({
-                                 children,
-                                 delay = 0,
-                                 start = "top 70%",
-                                 resetStart = "top 90%",
-                                 outOnScroll = false,
-                                 outStart = "bottom top",
-}: CopyProps): React.ReactElement {
+export default function TextReveal({ children, delay = 0, start = "top 70%", resetStart = "top 90%", outOnScroll = false, outStart = "bottom top" }: TextRevealProps): React.ReactElement {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const splitRef = useRef<SplitTextInstance[]>([]);
     const { started } = useExperienceRuntime();
@@ -45,14 +38,11 @@ export default function Copy({
 
             const textTargets = Array.from(container.querySelectorAll("[data-copy-text]"));
             // Split text leaves without replacing interactive wrappers on cleanup.
-            const elements: Element[] = textTargets.length ? textTargets : container.hasAttribute("data-copy-wrapper")
-                ? Array.from(container.children)
-                : [container];
+            const elements: Element[] = textTargets.length ? textTargets : container.hasAttribute("data-copy-wrapper") ? Array.from(container.children) : [container];
 
             elements.forEach((element) => {
                 const split = SplitText.create(element, {
                     type: "words",
-                    wordsClass: "word++",
                 }) as SplitTextInstance;
 
                 splitRef.current.push(split);
@@ -87,7 +77,7 @@ export default function Copy({
                         ease: "power2.out",
                         delay,
                         overwrite: true,
-                    }
+                    },
                 );
             };
 
@@ -120,11 +110,11 @@ export default function Copy({
 
             const outTrigger = outOnScroll
                 ? ScrollTrigger.create({
-                    trigger: container,
-                    start: outStart,
-                    onEnter: animateOut,
-                    onLeaveBack: animateIn,
-                })
+                      trigger: container,
+                      start: outStart,
+                      onEnter: animateOut,
+                      onLeaveBack: animateIn,
+                  })
                 : null;
 
             requestAnimationFrame(() => {
@@ -147,16 +137,13 @@ export default function Copy({
         {
             scope: containerRef,
             dependencies: [delay, start, resetStart, outOnScroll, outStart, started],
-        }
+        },
     );
 
     const childArray = React.Children.toArray(children);
 
     if (childArray.length === 1 && React.isValidElement(childArray[0])) {
-        return React.cloneElement(
-            childArray[0] as React.ReactElement<{ ref?: React.Ref<HTMLElement> }>,
-            { ref: containerRef }
-        );
+        return React.cloneElement(childArray[0] as React.ReactElement<{ ref?: React.Ref<HTMLElement> }>, { ref: containerRef });
     }
 
     return (

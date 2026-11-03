@@ -5,6 +5,7 @@ export type Product = {
     tagline: string;
     sizeLabel: string;
     price: string;
+    priceVnd: number;
     image: string;
     accent: string;
     origin: string;
@@ -24,7 +25,8 @@ export const products: Product[] = [
         tagline: "Đậm, tròn vị với hậu vị chocolate và hạt rang.",
         sizeLabel: "200 g",
         price: "119.000 vnđ",
-        image: "/images/product/coffee1.png",
+        priceVnd: 119000,
+        image: "/images/products/trung-toan-robusta-200g.webp",
         accent: "#c85b3c",
         origin: "Lâm Đồng, Việt Nam",
         process: "Natural",
@@ -40,7 +42,8 @@ export const products: Product[] = [
         tagline: "Thanh, ngọt và thơm với sắc trái cây chín.",
         sizeLabel: "200 g",
         price: "119.000 vnđ",
-        image: "/images/product/coffee2.png",
+        priceVnd: 119000,
+        image: "/images/products/trung-toan-arabica-200g.webp",
         accent: "#187a70",
         origin: "Cầu Đất, Lâm Đồng",
         process: "Washed",
@@ -56,7 +59,8 @@ export const products: Product[] = [
         tagline: "Gói lớn cho nhịp pha đều đặn mỗi ngày.",
         sizeLabel: "500 g",
         price: "219.000 vnđ",
-        image: "/images/product/coffee3.png",
+        priceVnd: 219000,
+        image: "/images/products/trung-toan-robusta-500g.webp",
         accent: "#6bbbd4",
         origin: "Di Linh, Lâm Đồng",
         process: "Honey",
@@ -73,7 +77,8 @@ export const products: Product[] = [
         tagline: "Vị cà phê nguyên bản trong gói lớn tiết kiệm.",
         sizeLabel: "1000 g",
         price: "389.000 vnđ",
-        image: "/images/product/coffee4.png",
+        priceVnd: 389000,
+        image: "/images/products/trung-toan-robusta-1000g.webp",
         accent: "#d5a633",
         origin: "Đắk Nông, Việt Nam",
         process: "Natural",

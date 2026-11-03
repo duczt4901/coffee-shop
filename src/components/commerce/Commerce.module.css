@@ -1,0 +1,323 @@
+.page {
+    padding: clamp(7.5rem, 12vw, 11rem) var(--page-gutter) 6rem;
+}
+.container {
+    width: min(100%, 82rem);
+    margin-inline: auto;
+}
+.steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+.steps a {
+    color: inherit;
+    text-decoration: none;
+    opacity: 0.5;
+}
+.steps [aria-current="step"] {
+    opacity: 1;
+}
+.heading {
+    margin-bottom: 3rem;
+    font-family: var(--font-cormorant-upright), Georgia, serif;
+    font-size: clamp(3.5rem, 7vw, 7rem);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.04em;
+}
+.layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(19rem, 1fr);
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: start;
+}
+.items {
+    min-width: 0;
+    border-top: 1px solid var(--line);
+}
+.item {
+    display: grid;
+    grid-template-columns: 7.5rem minmax(0, 1fr) auto;
+    gap: 1.5rem;
+    align-items: center;
+    padding-block: 1.75rem;
+    border-bottom: 1px solid var(--line);
+}
+.itemImage {
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem;
+    background: #eae5db;
+}
+.itemImage img {
+    width: 100%;
+    height: 8rem;
+    object-fit: contain;
+}
+.itemTitle {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    color: inherit;
+    font-size: 1rem;
+    line-height: 1.5;
+    text-decoration: none;
+}
+.muted {
+    color: rgb(37 31 24 / 65%);
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+.itemActions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin-top: 1rem;
+}
+.remove,
+.textLink {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font-size: 0.8rem;
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+    cursor: pointer;
+}
+.itemPrice {
+    align-self: start;
+    padding-top: 0.5rem;
+    white-space: nowrap;
+    font-size: 0.95rem;
+}
+.quantity {
+    display: inline-flex;
+    align-items: stretch;
+    height: 2.8rem;
+    border: 1px solid rgb(37 31 24 / 35%);
+    background: transparent;
+}
+.quantity button {
+    width: 2.5rem;
+    background: transparent;
+    border: 0;
+    color: inherit;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+.quantity button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+.quantity input {
+    appearance: textfield;
+    width: 2.75rem;
+    min-width: 0;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: inherit;
+    text-align: center;
+    font: inherit;
+    font-size: 0.875rem;
+}
+.quantity input::-webkit-inner-spin-button,
+.quantity input::-webkit-outer-spin-button {
+    appearance: none;
+    margin: 0;
+}
+.summary {
+    position: sticky;
+    top: 6rem;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    background: #eae5db;
+}
+.summary h2,
+.sectionTitle {
+    margin-bottom: 1.5rem;
+    font-family: var(--font-cormorant-upright), Georgia, serif;
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1.15;
+}
+.summaryRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1.5rem;
+    padding-block: 1rem;
+    border-bottom: 1px solid rgb(37 31 24 / 15%);
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+.summaryRow dd {
+    text-align: right;
+}
+.total {
+    margin-block: 0.5rem 1.5rem;
+    font-size: 1.1rem;
+}
+.summaryNote {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    line-height: 1.7;
+    color: rgb(37 31 24 / 70%);
+}
+.continue {
+    display: inline-block;
+    margin-top: 1.5rem;
+}
+.empty {
+    max-width: 40rem;
+    padding-block: 2rem 4rem;
+}
+.empty p {
+    margin-bottom: 2rem;
+    line-height: 1.8;
+}
+.form {
+    min-width: 0;
+}
+.fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem 1.25rem;
+}
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    min-width: 0;
+    font-size: 0.8rem;
+    line-height: 1.6;
+}
+.wide {
+    grid-column: 1 / -1;
+}
+.field input,
+.field textarea {
+    width: 100%;
+    min-height: 3.4rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid rgb(37 31 24 / 35%);
+    border-radius: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: 0.95rem;
+}
+.field textarea {
+    min-height: 7rem;
+    resize: vertical;
+}
+.field input:focus-visible,
+.field textarea:focus-visible,
+.quantity :focus-visible {
+    outline: 1px solid var(--foreground);
+    outline-offset: 3px;
+}
+.payment {
+    margin-top: 2.5rem;
+    padding-block: 1.5rem;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+.payment h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+.payment h3::before {
+    content: "";
+    width: 0.65rem;
+    height: 0.65rem;
+    border: 1px solid var(--foreground);
+    border-radius: 50%;
+    background: var(--foreground);
+    box-shadow: inset 0 0 0 2px var(--background);
+}
+.error {
+    margin-block: 1rem;
+    padding: 1rem;
+    border: 1px solid #9a3829;
+    color: #9a3829;
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+.receipt {
+    max-width: 48rem;
+    padding: 2rem;
+    border: 1px solid var(--line);
+}
+.receipt p {
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+}
+.receipt strong {
+    font-weight: 500;
+}
+.receiptId {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+.cartLink {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 3rem;
+    height: 3rem;
+    color: inherit;
+    pointer-events: auto;
+}
+.badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: grid;
+    place-items: center;
+    min-width: 1.1rem;
+    height: 1.1rem;
+    padding-inline: 0.2rem;
+    background: var(--foreground);
+    color: var(--background);
+    border-radius: 50%;
+    font-size: 0.6rem;
+}
+@media (max-width: 47.999rem) {
+    .layout {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 2.5rem;
+    }
+    .summary {
+        position: static;
+    }
+    .item {
+        grid-template-columns: 5.5rem minmax(0, 1fr);
+        gap: 1rem;
+    }
+    .itemImage img {
+        height: 6rem;
+    }
+    .itemPrice {
+        grid-column: 2;
+        padding-top: 0;
+    }
+    .fields {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .heading {
+        margin-bottom: 2rem;
+    }
+}

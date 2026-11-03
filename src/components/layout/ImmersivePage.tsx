@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import styles from "./ImmersivePage.module.css";
 
 type ImmersivePageProps = {
     backdrop: ReactNode;
@@ -10,10 +11,10 @@ type ImmersivePageProps = {
 
 export function ImmersivePage({ backdrop, heroContent, children, overlay = true, className = "" }: ImmersivePageProps): React.ReactElement {
     return (
-        <div className="relative isolate min-h-dvh overflow-x-clip">
+        <div className="relative isolate overflow-x-clip">
             <section data-hero className="relative min-h-svh overflow-hidden">
                 <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-neutral-950">
-                    <div className={`page-backdrop-parallax absolute inset-x-0 -inset-y-[16svh] ${className}`}>{backdrop}</div>
+                    <div className={`${styles.backdropParallax} absolute inset-x-0 -inset-y-[16svh] ${className}`}>{backdrop}</div>
 
                     {overlay && (
                         <>

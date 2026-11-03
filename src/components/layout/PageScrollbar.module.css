@@ -1,0 +1,23 @@
+.track {
+    position: fixed;
+    inset: 0 0 0 auto;
+    z-index: 102;
+    width: 11px;
+    background: rgb(37 31 24 / 12%);
+    touch-action: none;
+    user-select: none;
+}
+
+.track:focus-visible {
+    outline: 1px solid var(--foreground);
+    outline-offset: -1px;
+}
+
+.thumb {
+    position: absolute;
+    inset: 0 2px auto;
+    height: 32px;
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--background) 48%, #000);
+    will-change: transform;
+}

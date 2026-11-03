@@ -1,13 +1,6 @@
 "use client";
 
-import {
-    createContext,
-    useCallback,
-    useContext,
-    useMemo,
-    useState,
-    type ReactNode,
-} from "react";
+import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 
 type ExperienceRuntimeValue = {
@@ -27,13 +20,12 @@ export function ExperienceRuntime({ children }: { children: ReactNode }) {
     const started = pathname !== "/" || homeStarted;
     const start = useCallback(() => setHomeStarted(true), []);
 
-    const value = useMemo(
-        () => ({ started, start }),
-        [start, started],
-    );
+    const value = useMemo(() => ({ started, start }), [start, started]);
 
     return (
         <ExperienceRuntimeContext.Provider value={value}>
+            {/* Shared geometry reference stays stable while mobile browser chrome moves. */}
+            <div data-scroll-viewport aria-hidden="true" className="pointer-events-none invisible fixed top-0 left-0 h-svh w-0" />
             {children}
         </ExperienceRuntimeContext.Provider>
     );

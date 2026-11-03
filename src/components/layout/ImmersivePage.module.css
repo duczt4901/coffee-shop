@@ -1,0 +1,36 @@
+.backdropParallax {
+    animation-name: backdrop-parallax;
+    animation-duration: 1ms;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+
+    animation-timeline: scroll(root block);
+
+    animation-range: 0 100svh;
+
+    will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .backdropParallax {
+        animation: none;
+        transform: none;
+    }
+}
+
+@media (max-width: 47.999rem), (max-height: 37.999rem) {
+    .backdropParallax {
+        animation: none;
+        will-change: auto;
+    }
+}
+
+@keyframes backdrop-parallax {
+    from {
+        transform: translate3d(0, 0, 0);
+    }
+
+    to {
+        transform: translate3d(0, 16svh, 0);
+    }
+}

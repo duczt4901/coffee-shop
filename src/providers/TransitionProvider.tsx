@@ -1,19 +1,20 @@
-"use client"
+"use client";
 
 import gsap from "gsap";
 import { CustomEase } from "gsap/CustomEase";
 import { TransitionRouter } from "next-transition-router";
 import { ReactNode, useLayoutEffect, useRef } from "react";
 import { SplitText } from "gsap/SplitText";
+import styles from "./TransitionProvider.module.css";
 
 const ROWS = 4;
 
 gsap.registerPlugin(CustomEase, SplitText);
 CustomEase.create("hop", "0.9, 0, 0.1, 1");
 
-export default function TransitionProvider({ children } : { children: ReactNode }) {
-    const gridRef = useRef(null);
-    const blockRef = useRef<Array<HTMLDivElement | null>>([]);
+export default function TransitionProvider({ children }: { children: ReactNode }) {
+    const overlayRef = useRef(null);
+    const panelRefs = useRef<Array<HTMLDivElement | null>>([]);
     const headingRef = useRef<HTMLHeadingElement | null>(null);
     const wordsRef = useRef<Element[]>([]);
     const splitRef = useRef<SplitText | null>(null);
@@ -27,35 +28,34 @@ export default function TransitionProvider({ children } : { children: ReactNode 
     };
 
     useLayoutEffect(() => {
-        if(!headingRef.current) return;
+        if (!headingRef.current) return;
 
         splitRef.current = new SplitText(headingRef.current, {
             type: "words",
-            wordsClass: "word",
-            mask: "words"
-        })
+            wordsClass: styles.word,
+            mask: "words",
+        });
 
         wordsRef.current = splitRef.current.words;
-        gsap.set(wordsRef.current, { y: "100%"});
+        gsap.set(wordsRef.current, { y: "100%" });
 
         return () => {
             splitRef.current?.revert();
         };
-    },[])
+    }, []);
 
-    const animateIn = ( onComplete: () => void ): gsap.core.Timeline =>
-    {
+    const animateIn = (onComplete: () => void): gsap.core.Timeline => {
         showTransitionHeading();
         const tl = gsap.timeline({ onComplete });
 
-        tl.set(blockRef.current, {
+        tl.set(panelRefs.current, {
             transformOrigin: "left center",
             scaleX: 0,
         });
 
         tl.set(wordsRef.current, { y: "100%" });
 
-        tl.to(blockRef.current, {
+        tl.to(panelRefs.current, {
             scaleX: 1,
             duration: 0.7,
             ease: "hop",
@@ -76,8 +76,7 @@ export default function TransitionProvider({ children } : { children: ReactNode 
         return tl;
     };
 
-    const animateOut = ( onComplete: () => void ): gsap.core.Timeline =>
-    {
+    const animateOut = (onComplete: () => void): gsap.core.Timeline => {
         showTransitionHeading();
         const tl = gsap.timeline({
             onComplete: () => {
@@ -86,7 +85,7 @@ export default function TransitionProvider({ children } : { children: ReactNode 
             },
         });
 
-        tl.set(blockRef.current, {
+        tl.set(panelRefs.current, {
             transformOrigin: "right center",
             scaleX: 1,
         });
@@ -101,7 +100,7 @@ export default function TransitionProvider({ children } : { children: ReactNode 
         });
 
         tl.to(
-            blockRef.current,
+            panelRefs.current,
             {
                 scaleX: 0,
                 duration: 0.5,
@@ -126,20 +125,20 @@ export default function TransitionProvider({ children } : { children: ReactNode 
                 return () => tl.kill();
             }}
         >
-            <div ref={gridRef} className="transition-grid">
+            <div ref={overlayRef} data-route-transition className={styles.overlay}>
                 {Array.from({ length: ROWS }).map((_, i) => (
                     <div
                         key={i}
-                        className="transition-block"
+                        className={styles.panel}
                         ref={(element) => {
-                            blockRef.current[i] = element;
+                            panelRefs.current[i] = element;
                         }}
                     />
                 ))}
             </div>
 
-            <div className="transition-text">
-                <h1 ref={headingRef} className="sr-only" aria-hidden="true">
+            <div className={styles.headingOverlay}>
+                <h1 ref={headingRef} className={`${styles.heading} sr-only`} aria-hidden="true">
                     TRUNG TOAN COFFEE SHOP
                 </h1>
             </div>

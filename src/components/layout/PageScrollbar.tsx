@@ -2,6 +2,7 @@
 
 import { useLayoutEffect, useRef, type KeyboardEvent, type PointerEvent } from "react";
 import { useLenis } from "lenis/react";
+import styles from "./PageScrollbar.module.css";
 
 export function PageScrollbar() {
     const trackRef = useRef<HTMLDivElement>(null);
@@ -80,7 +81,7 @@ export function PageScrollbar() {
     return (
         <div
             ref={trackRef}
-            className="page-scrollbar"
+            className={styles.track}
             role="scrollbar"
             aria-label="Cuộn trang"
             aria-controls="main-content"
@@ -97,7 +98,7 @@ export function PageScrollbar() {
                 if (event.currentTarget.hasPointerCapture(event.pointerId)) moveThumb(event.clientY);
             }}
         >
-            <div ref={thumbRef} className="page-scrollbar__thumb" />
+            <div ref={thumbRef} className={styles.thumb} />
         </div>
     );
 }

@@ -1,0 +1,19 @@
+.page {
+    position: relative;
+    width: 100%;
+    min-height: 100svh;
+    padding-block: var(--section-space-large);
+    background-color: var(--background);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: url("/images/coffee/coffee-drinks-assortment.webp") center / cover no-repeat;
+}
+
+.page h1 {
+    font-size: clamp(5rem, 15vw, 20rem);
+    line-height: 1;
+    letter-spacing: -5%;
+}

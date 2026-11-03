@@ -1,0 +1,3 @@
+.revealBoundary:has(:focus-visible) > footer {
+    transform: none !important;
+}

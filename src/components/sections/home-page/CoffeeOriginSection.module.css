@@ -1,0 +1,109 @@
+.section {
+    --intro-scroll-length: 160svh;
+    --story-scroll-length: 350svh;
+
+    position: relative;
+    /* The sticky stage and its scroll distances share a stable viewport. */
+    height: calc(100svh + var(--intro-scroll-length) + var(--story-scroll-length));
+    background: var(--background);
+}
+
+.storyStart {
+    position: absolute;
+    top: var(--intro-scroll-length);
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+}
+
+.stickyViewport {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+}
+
+.introCopy {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--section-space-large) 1.25rem 0;
+    color: #171411;
+}
+
+.mapMask {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    overflow: hidden;
+    contain: layout paint;
+    isolation: isolate;
+    pointer-events: none;
+}
+
+.map {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.edgeFade {
+    position: absolute;
+    inset-inline: 0;
+    z-index: 1;
+    height: clamp(5rem, 12vw, 13rem);
+    pointer-events: none;
+}
+
+.topFade {
+    top: 0;
+    background: linear-gradient(to bottom, var(--background), transparent);
+}
+
+.bottomFade {
+    bottom: 0;
+    background: linear-gradient(to top, var(--background), transparent);
+}
+
+.provinceFill {
+    fill: color-mix(in srgb, var(--background) 48%, #000);
+}
+
+.locationLabel {
+    position: absolute;
+    top: 61%;
+    left: 50%;
+    z-index: 3;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    color: #fff;
+    font-size: clamp(0.875rem, 1.4vw, 1.625rem);
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+@media (max-width: 63.999rem) {
+    .section {
+        --intro-scroll-length: 180svh;
+        --story-scroll-length: 300svh;
+    }
+
+    .introCopy {
+        padding: var(--section-space-large) 0.75rem 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .section {
+        height: 100svh;
+    }
+
+    .introCopy,
+    .mapMask,
+    .locationLabel {
+        display: none;
+    }
+}

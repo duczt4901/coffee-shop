@@ -13,7 +13,7 @@
     clip-path: inset(20%);
 }
 
-.animated .layer {
+.inView .layer {
     will-change: transform;
 }
 

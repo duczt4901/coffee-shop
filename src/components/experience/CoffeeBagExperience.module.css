@@ -1,135 +1,121 @@
 .experience {
-    --copy-gap: 2.5rem;
-    --copy-boundary: 100px;
-    --opening-copy-size: clamp(4rem, 7.5vw, 8rem);
-    --opening-line-height: 1.05;
-    --headline-anchor: 50svh;
-    --closing-copy-size: clamp(2.25rem, 6vw, 6rem);
-    --blend-height: clamp(3rem, 10.5svh, 7.5rem);
-    --model-fade-height: clamp(8rem, 24svh, 18rem);
-    --copy-overlap: clamp(5rem, 39svh, 25rem);
+    --opening-copy-size: clamp(4.5rem, 8.5vw, 9.5rem);
+    --closing-copy-size: clamp(2.75rem, 7.5vw, 7.5rem);
+    --opening-sticky-top: calc(50svh - var(--opening-copy-size) * 1.35);
+    --copy-overlap: clamp(4rem, 10vw, 12rem);
+    --closing-copy-gap: clamp(1rem, 2vw, 2rem);
     position: relative;
     z-index: 10;
     isolation: isolate;
     background: var(--background);
+    margin-block-end: var(--section-space);
 }
 
-.scene {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    justify-items: center;
-    gap: var(--copy-gap);
-}
-
-.firstSlot,
-.secondSlot,
-.modelFrame {
-    inline-size: 100%;
-    min-inline-size: 0;
-}
-
-.firstSlot {
-    min-block-size: 1.64em;
-}
-
-.secondSlot {
-    block-size: 1em;
-}
-
-.modelFrame {
+.scene,
+.stage {
     position: relative;
-    z-index: 1;
-}
-
-.canvas {
     inline-size: 100%;
     min-inline-size: 0;
-    block-size: 100svh;
 }
 
-.animated .canvas {
-    mask-image: linear-gradient(to bottom, #000 calc(100% - var(--copy-overlap) - var(--blend-height) - var(--model-fade-height)), transparent calc(100% - var(--copy-overlap) - var(--blend-height)));
-}
-
-.displayCopy {
-    margin: 0;
-    color: var(--foreground);
-    font-size: var(--opening-copy-size);
-    font-weight: 400;
-    line-height: var(--opening-line-height);
-    letter-spacing: -0.045em;
-    text-align: center;
-}
-
-.line {
-    display: block;
-}
-
-.animated .copyTrack {
-    /* The section is the containing block for each full-height sticky track. */
-    position: absolute;
-    inset: var(--copy-boundary) 0;
+.stage {
+    overflow: clip;
     pointer-events: none;
 }
 
-.animated .screenLayer {
-    position: sticky;
-    /* Include the accent clearance in the box that must stay inside the section. */
-    padding-block: 0.3em;
-    visibility: hidden;
+.canvas {
+    box-sizing: content-box;
+    position: relative;
+    z-index: 1;
+    inline-size: 100%;
+    min-inline-size: 0;
+    min-height: 100vh;
 }
 
-.animated.sceneActive .screenLayer {
-    visibility: visible;
+.renderFrame {
+    position: relative;
+    inline-size: 100%;
+    block-size: 100%;
 }
 
-.firstLayer {
+.openingTrack,
+.closingTrack {
+    position: absolute;
+    inset: 0;
+}
+
+.openingTrack {
+    padding-block-start: clamp(4rem, 10vw, 10rem);
     z-index: 0;
 }
 
-.secondLayer {
+.closingTrack {
+    inset-block-start: 65%;
+    /* Stop sticky text above the content overlap and its fade. */
+    padding-block-end: calc(var(--copy-overlap) * 4 / 3 + var(--closing-copy-gap));
     z-index: 2;
 }
 
-.animated .screenLayer .displayReveal {
+.displayReveal {
+    position: absolute;
+    inset-inline: 0;
+    display: flex;
+    flex-direction: column;
     inline-size: max-content;
+    max-inline-size: calc(100% - var(--page-gutter) * 2);
+    margin: 0 auto;
+    padding-block: 0.3em;
+    color: var(--foreground);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.045em;
+    text-align: center;
+    text-transform: uppercase;
 }
 
-.animated .firstLayer .screenLayer {
-    top: calc(var(--headline-anchor) - (var(--opening-line-height) + 0.3) * 1em);
+.openingCopy {
+    font-size: var(--opening-copy-size);
+    inset-block-start: 50%;
+    transform: translateY(-50%);
+    z-index: 0;
 }
 
-.animated .secondLayer {
-    /* Stop above the measured paragraph block when reaching the section's bottom. */
-    bottom: calc(var(--copy-height, 0px) + var(--copy-boundary));
+.animated .openingCopy {
+    position: sticky;
+    /* Half of two 1.05em lines plus their accent clearance. */
+    inset-block-start: var(--opening-sticky-top);
+    transform: none;
 }
 
-.animated .secondLayer .screenLayer {
-    top: calc(var(--headline-anchor) + var(--opening-copy-size) * var(--opening-line-height) + 10svh - 0.3em);
+.closingCopy {
+    --copy-enter-delay: 150ms;
+    font-size: var(--closing-copy-size);
+    /* Keep the last phrase above the content's fade and opaque overlap. */
+    inset-block-end: calc(var(--copy-overlap) * 2 + 0.3em);
+    z-index: 2;
+}
+
+.animated .closingCopy {
+    position: sticky;
+    inset-block-start: calc(var(--opening-sticky-top) + 8rem);
+    inset-block-end: auto;
 }
 
 .copySurface {
     position: relative;
     z-index: 3;
-    inline-size: 100%;
-    padding-block-start: var(--copy-gap);
-}
-
-.animated .copySurface {
-    /* Blend over the canvas tail without changing the WebGL scene or its sizing. */
-    margin-block-start: calc(-1 * (var(--closing-copy-size) + var(--copy-gap) + var(--blend-height) + var(--copy-overlap)));
-    padding-block-start: var(--blend-height);
+    margin-block-start: calc(-1 * var(--copy-overlap));
     background: var(--background);
 }
 
-.secondText {
-    margin: 0;
-    color: var(--foreground);
-    font-size: clamp(2.25rem, 6vw, 6rem);
-    font-weight: 400;
-    line-height: 1;
-    letter-spacing: -0.045em;
-    text-align: center;
+.copySurface::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 100%;
+    block-size: calc(var(--copy-overlap) / 3);
+    background: linear-gradient(to bottom, transparent, var(--background));
+    pointer-events: none;
 }
 
 .copy {
@@ -139,51 +125,15 @@
     margin-inline: auto;
 }
 
-.productsLink {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-block-size: 3rem;
-    margin-block-start: clamp(2rem, 5svh, 3.5rem);
-    padding: 0.9rem 2.5rem;
-    background: var(--white);
-    color: var(--foreground);
-    box-shadow: 0 0.75rem 3rem rgb(37 31 24 / 8%);
-    font-size: clamp(0.875rem, 1vw, 1rem);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    transition:
-        background-color 0.2s,
-        color 0.2s;
-}
-
-.productsLink:hover {
-    background: var(--foreground);
-    color: var(--background);
-}
-
-.productsLink:focus-visible {
-    outline: 2px solid var(--foreground);
-    outline-offset: 4px;
-}
-
-.displayReveal {
-    display: flex;
-    flex-direction: column;
-    max-inline-size: calc(100% - var(--page-gutter) * 2);
-    margin-inline: auto;
-}
-
 .revealLine {
     overflow: clip;
-    /* Let Vietnamese accents clear the mask without changing line spacing. */
+    /* Clear Vietnamese accents without increasing the distance between lines. */
     padding: 0.3em 0.08em;
     margin: -0.3em -0.08em;
 }
 
-.revealWord {
+.animated .revealWord {
     vertical-align: bottom;
-    /* The extra em clears both the padded mask and accented glyphs. */
     transform: translateY(calc(100% + 1em));
     transition: transform 0.3s cubic-bezier(0.55, 0.085, 0.68, 0.53);
     transition-delay: calc(var(--word-index) * 80ms);
@@ -193,7 +143,7 @@
     transform: translateY(0);
     transition-duration: 1.4s;
     transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
-    transition-delay: calc(var(--word-index) * 80ms + 100ms);
+    transition-delay: calc(var(--word-index) * 80ms + var(--copy-enter-delay, 100ms));
 }
 
 .copyAbove .revealWord {
@@ -202,20 +152,13 @@
 
 @media (max-width: 63.999rem) {
     .experience {
-        --opening-copy-size: clamp(2.75rem, 14vw, 4rem);
-        --closing-copy-size: clamp(2.25rem, 11vw, 3.25rem);
-    }
-
-    .secondText {
-        font-size: clamp(2.25rem, 11vw, 3.25rem);
+        --opening-copy-size: clamp(3rem, 15vw, 4.5rem);
+        --closing-copy-size: clamp(2.5rem, 12vw, 3.75rem);
     }
 }
 
 @media (max-width: 47.999rem), (max-aspect-ratio: 1/1) {
     .experience {
-        --headline-anchor: 35svh;
-        --blend-height: clamp(2.25rem, 6svh, 4.5rem);
-        --model-fade-height: clamp(5rem, 16svh, 10rem);
-        --copy-overlap: clamp(2rem, 8svh, 4rem);
+        --opening-sticky-top: calc(35svh - var(--opening-copy-size) * 1.35);
     }
 }

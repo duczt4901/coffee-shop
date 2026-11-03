@@ -1,8 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useImperativeHandle, useRef, type Ref } from "react";
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
@@ -10,21 +8,9 @@ import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { SSAOPass } from "three/addons/postprocessing/SSAOPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 import { createCoffeeStudio, createPhinEnvironment } from "./createCoffeeStudio";
+import { createCoffeeRenderLoop } from "./coffee-render-loop";
+import { CAMERA_FOV, getCoffeeCameraDistance, getCoffeeProductCorners, measureCoffeeLayout, setOrbitDirection, type CoffeeLayout } from "./coffee-camera";
 import styles from "../CoffeeBagExperience.module.css";
-
-gsap.registerPlugin(ScrollTrigger);
-
-const CAMERA_FOV = 5.505189;
-const CAMERA_START_ELEVATION = 30;
-const CAMERA_END_ELEVATION = -15;
-const CAMERA_START_AZIMUTH = 20;
-const CAMERA_END_AZIMUTH = -20;
-
-function setOrbitDirection(direction: THREE.Vector3, progress: number) {
-    const elevation = THREE.MathUtils.degToRad(THREE.MathUtils.lerp(CAMERA_START_ELEVATION, CAMERA_END_ELEVATION, progress));
-    const azimuth = THREE.MathUtils.degToRad(THREE.MathUtils.lerp(CAMERA_START_AZIMUTH, CAMERA_END_AZIMUTH, progress));
-    return direction.setFromSphericalCoords(1, Math.PI / 2 - elevation, azimuth);
-}
 
 declare global {
     interface Window {
@@ -32,12 +18,25 @@ declare global {
     }
 }
 
-export function LocalCoffeeModel() {
+export type CoffeeModelHandle = { setProgress: (progress: number) => void };
+
+export function LocalCoffeeModel({ ref, onLayout }: { ref: Ref<CoffeeModelHandle>; onLayout?: () => void }) {
+    const containerRef = useRef<HTMLDivElement>(null);
     const mountRef = useRef<HTMLDivElement>(null);
+    const progressRef = useRef(0.5);
+    const renderProgressRef = useRef<((progress: number) => void) | null>(null);
+
+    useImperativeHandle(ref, () => ({
+        setProgress(progress) {
+            progressRef.current = THREE.MathUtils.clamp(progress, 0, 1);
+            renderProgressRef.current?.(progressRef.current);
+        },
+    }), []);
 
     useEffect(() => {
         const mount = mountRef.current;
-        if (!mount) return;
+        const container = containerRef.current;
+        if (!mount || !container) return;
 
         let readySignaled = false;
         window.__duckModelReady = false;
@@ -71,7 +70,7 @@ export function LocalCoffeeModel() {
         renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = THREE.PCFShadowMap;
         renderer.shadowMap.autoUpdate = false;
-        renderer.domElement.className = "h-full w-full";
+        renderer.domElement.className = "absolute inset-0 block h-full w-full";
         renderer.domElement.setAttribute("aria-hidden", "true");
         mount.appendChild(renderer.domElement);
 
@@ -94,78 +93,62 @@ export function LocalCoffeeModel() {
 
         let model: THREE.Object3D | null = null;
         let modelRadius = 1;
-        let productBounds = new THREE.Box3(new THREE.Vector3(-1, -1, -1), new THREE.Vector3(1, 1, 1));
         let studio: THREE.Group | null = null;
         let phinEnvironment: THREE.WebGLRenderTarget | null = null;
         let disposed = false;
-        let scrollProgress = 0;
-        let cameraDistance = 1;
+        let scrollProgress = progressRef.current;
+        let layout: CoffeeLayout | null = null;
+        let productCorners: THREE.Vector3[] = [];
         let framedWidth = 0;
-        let framedViewportHeight = 0;
+        let framedMinimumHeight = 0;
         let resizeFrame = 0;
         const cameraTarget = new THREE.Vector3();
+        const cameraDirection = new THREE.Vector3();
 
         const renderView = () => {
-            if (disposed) return;
-            setOrbitDirection(camera.position, scrollProgress).multiplyScalar(cameraDistance).add(cameraTarget);
+            if (disposed || !layout) return;
+            const cameraDistance = getCoffeeCameraDistance(layout.distances, scrollProgress);
+            setOrbitDirection(cameraDirection, scrollProgress);
+            camera.position.copy(cameraDirection).multiplyScalar(cameraDistance).add(cameraTarget);
             camera.lookAt(cameraTarget);
             composer.render();
             if (model) signalReady();
         };
+        const renderLoop = createCoffeeRenderLoop(renderView);
+
+        let intersectsViewport = false;
+        const updateActivity = () => renderLoop.setActive(intersectsViewport && !document.hidden);
+        const visibilityObserver = new IntersectionObserver(([entry]) => {
+            intersectsViewport = entry.isIntersecting && entry.intersectionRect.width > 0 && entry.intersectionRect.height > 0;
+            updateActivity();
+        });
+        // Observe the drawing frame, excluding the canvas container's empty top padding.
+        visibilityObserver.observe(mount);
+        document.addEventListener("visibilitychange", updateActivity);
 
         const resize = () => {
             if (disposed || !model) return;
-            const width = Math.max(mount.clientWidth, 1);
-            const viewportHeight = Math.max(window.innerHeight, 1);
-            if (width === framedWidth && viewportHeight === framedViewportHeight) return;
+            const width = Math.max(container.clientWidth, 1);
+            const minimumHeight = Math.ceil(parseFloat(getComputedStyle(container).minHeight));
+            if (width === framedWidth && minimumHeight === framedMinimumHeight) return;
+            layout = measureCoffeeLayout(productCorners, width, minimumHeight);
             framedWidth = width;
-            framedViewportHeight = viewportHeight;
-            const referenceAspect = width / viewportHeight;
-            const tangent = Math.tan(THREE.MathUtils.degToRad(CAMERA_FOV / 2));
-            const target = new THREE.Vector3(0, -modelRadius * 0.1, 0);
-            const corners: THREE.Vector3[] = [];
-            let distance = 0;
-            for (const x of [productBounds.min.x, productBounds.max.x]) {
-                for (const y of [productBounds.min.y, productBounds.max.y]) {
-                    for (const z of [productBounds.min.z, productBounds.max.z]) {
-                        const corner = new THREE.Vector3(x, y, z).sub(target);
-                        corners.push(corner);
-                        distance = Math.max(distance, Math.abs(corner.x) / (tangent * referenceAspect) + corner.z, Math.abs(corner.y) / tangent + corner.z);
-                    }
-                }
-            }
-            distance *= 2 / 3;
-            // Include the middle of the two-axis path when fitting the canvas.
-            const views = Array.from({ length: 9 }, (_, index) => {
-                const direction = setOrbitDirection(new THREE.Vector3(), index / 8);
-                const right = new THREE.Vector3(direction.z, 0, -direction.x).normalize();
-                const up = new THREE.Vector3().crossVectors(direction, right);
-                return { direction, right, up };
-            });
-            for (const { direction, right } of views) {
-                for (const corner of corners) {
-                    distance = Math.max(distance, Math.abs(corner.dot(right)) / (tangent * referenceAspect * 0.95) + corner.dot(direction));
-                }
-            }
-            let verticalExtent = 0;
-            for (const { direction, up } of views) {
-                for (const corner of corners) {
-                    verticalExtent = Math.max(verticalExtent, Math.abs(corner.dot(up)) / (tangent * (distance - corner.dot(direction))));
-                }
-            }
-            const height = Math.max(1, Math.ceil((viewportHeight * verticalExtent) / 0.95));
-            const heightChanged = mount.style.blockSize !== `${height}px`;
-            mount.style.blockSize = `${height}px`;
-            renderer.setSize(width, height, false);
-            composer.setSize(width, height);
-            // Keep the projected size independent of the canvas height needed to contain it.
-            camera.fov = THREE.MathUtils.radToDeg(2 * Math.atan((tangent * height) / viewportHeight));
-            camera.aspect = width / height;
-            cameraDistance = distance;
-            cameraTarget.copy(target);
-            camera.near = Math.max(0.01, distance - modelRadius * 2);
-            camera.far = distance + modelRadius * 40;
-            camera.updateProjectionMatrix();
+            framedMinimumHeight = minimumHeight;
+            const heightChanged = container.style.blockSize !== `${layout.height}px`;
+            container.style.blockSize = `${layout.height}px`;
+            container.style.paddingBlockStart = `${layout.height / 2}px`;
+            // Spend pixels on the projected model rather than the empty part of
+            // a canvas expanded by its CSS minimum height.
+            container.dataset.renderPixelBudget = String(width * layout.projectedHeight);
+            const renderScale = Math.min(1, Math.sqrt(layout.projectedHeight / layout.height));
+            const renderWidth = Math.max(1, Math.floor(width * renderScale));
+            const renderHeight = Math.max(1, Math.floor(layout.height * renderScale));
+            renderer.setSize(renderWidth, renderHeight, false);
+            composer.setSize(renderWidth, renderHeight);
+            camera.near = Math.max(0.01, Math.min(...layout.distances) - modelRadius * 2);
+            camera.far = Math.max(...layout.distances) + modelRadius * 40;
+            // The projection offset is fixed until the next layout change.
+            camera.setViewOffset(width, layout.height, 0, layout.offsetY, width, layout.height);
             ambientOcclusion.ssaoMaterial.uniforms.cameraNear.value = camera.near;
             ambientOcclusion.ssaoMaterial.uniforms.cameraFar.value = camera.far;
             ambientOcclusion.kernelRadius = modelRadius * 0.06;
@@ -175,23 +158,18 @@ export function LocalCoffeeModel() {
             const aoSize = renderer.getDrawingBufferSize(new THREE.Vector2());
             ambientOcclusion.setSize(Math.round(aoSize.x * 0.5), Math.round(aoSize.y * 0.5));
             renderer.shadowMap.needsUpdate = true;
-            renderView();
-            if (heightChanged) ScrollTrigger.refresh();
+            // Prepare the loader's first frame once; subsequent changes use the demand loop.
+            if (!readySignaled) renderView();
+            else renderLoop.invalidate();
+            if (heightChanged) onLayout?.();
         };
 
-        const syncScrollView = ({ progress }: ScrollTrigger) => {
+        const syncScrollView = (progress: number) => {
             if (scrollProgress === progress) return;
             scrollProgress = progress;
-            if (model) renderView();
+            if (layout) renderLoop.invalidate();
         };
-        const scrollTrigger = ScrollTrigger.create({
-            trigger: mount,
-            start: "top bottom",
-            end: "bottom top",
-            onUpdate: syncScrollView,
-            onRefresh: syncScrollView,
-        });
-        scrollProgress = scrollTrigger.progress;
+        renderProgressRef.current = syncScrollView;
 
         const requestResize = () => {
             if (resizeFrame) return;
@@ -201,7 +179,7 @@ export function LocalCoffeeModel() {
             });
         };
         const resizeObserver = new ResizeObserver(requestResize);
-        resizeObserver.observe(mount);
+        resizeObserver.observe(container);
         window.addEventListener("resize", requestResize);
 
         new GLTFLoader().load(
@@ -264,7 +242,7 @@ export function LocalCoffeeModel() {
                 }
                 const center = bounds.getCenter(new THREE.Vector3());
                 model.position.sub(center);
-                productBounds = bounds.clone().translate(center.negate());
+                productCorners = getCoffeeProductCorners(products);
                 modelRadius = Math.max(bounds.getBoundingSphere(new THREE.Sphere()).radius, 0.01);
                 scene.add(model);
                 studio = createCoffeeStudio(modelRadius);
@@ -282,7 +260,13 @@ export function LocalCoffeeModel() {
 
         return () => {
             disposed = true;
-            scrollTrigger.kill();
+            renderProgressRef.current = null;
+            renderLoop.dispose();
+            visibilityObserver.disconnect();
+            document.removeEventListener("visibilitychange", updateActivity);
+            delete container.dataset.renderPixelBudget;
+            container.style.removeProperty("block-size");
+            container.style.removeProperty("padding-block-start");
             resizeObserver.disconnect();
             window.removeEventListener("resize", requestResize);
             cancelAnimationFrame(resizeFrame);
@@ -311,7 +295,11 @@ export function LocalCoffeeModel() {
             renderer.dispose();
             renderer.domElement.remove();
         };
-    }, []);
+    }, [onLayout]);
 
-    return <div ref={mountRef} className={styles.canvas} role="img" aria-label="Mô hình 3D" />;
+    return (
+        <div ref={containerRef} data-coffee-canvas className={styles.canvas} role="img" aria-label="Mô hình 3D">
+            <div ref={mountRef} data-coffee-frame className={styles.renderFrame} />
+        </div>
+    );
 }

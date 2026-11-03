@@ -1,0 +1,257 @@
+.page {
+    padding-top: 6rem;
+    background: var(--background);
+    color: var(--foreground);
+}
+
+.container {
+    width: min(87.2%, 100rem);
+    margin-inline: auto;
+}
+
+.hero {
+    padding-block: 1.25rem 4rem;
+}
+.hero p {
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+}
+.hero h1 {
+    max-width: 60rem;
+    font-size: clamp(2.25rem, 4.2vw, 4.5rem);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.055em;
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: minmax(9rem, 15.3%) minmax(0, 57.7%);
+    align-items: start;
+    gap: 1.2rem;
+}
+
+.categoryNav {
+    position: sticky;
+    top: 7rem;
+    display: grid;
+    gap: 0.35rem;
+}
+.categoryNav button {
+    min-height: 2.9rem;
+    padding: 0.8rem;
+    border-left: 1px solid transparent;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    text-align: left;
+    cursor: pointer;
+}
+.categoryNav button[aria-current] {
+    border-color: currentColor;
+    background: rgb(37 31 24 / 4%);
+}
+.categoryNav button:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+}
+.mobileNav {
+    display: none;
+}
+.groups {
+    min-width: 0;
+}
+.group {
+    scroll-margin-top: 8.75rem;
+}
+.group + .group {
+    margin-top: 2rem;
+}
+.group h2 {
+    margin-bottom: 1.25rem;
+    font-size: clamp(1.4rem, 2.1vw, 2rem);
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: -0.04em;
+}
+.item {
+    position: relative;
+}
+.border {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.4;
+}
+.question {
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: -0.035em;
+}
+.question button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    width: 100%;
+    min-height: 3.7rem;
+    padding-block: 1rem;
+    text-align: left;
+    cursor: pointer;
+}
+.questionText {
+    min-width: 0;
+}
+.question button:hover .questionText,
+.question button:focus-visible .questionText {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+}
+.plus {
+    position: relative;
+    flex: 0 0 0.75rem;
+    width: 0.75rem;
+    height: 0.75rem;
+    margin-right: 0.25rem;
+}
+.plus::before,
+.plus::after {
+    content: "";
+    position: absolute;
+    top: calc(50% - 1px);
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: currentColor;
+}
+.plus::after {
+    transform: rotate(90deg);
+    transition: transform 0.35s ease;
+}
+.plus.open::after {
+    transform: rotate(0);
+}
+.answer {
+    display: grid;
+    grid-template-rows: 0fr;
+    visibility: hidden;
+    opacity: 0;
+    transition:
+        grid-template-rows 0.45s ease,
+        opacity 0.35s ease,
+        visibility 0.45s;
+}
+.answer.expanded {
+    grid-template-rows: 1fr;
+    visibility: visible;
+    opacity: 1;
+}
+.answer > div {
+    min-height: 0;
+    overflow: hidden;
+}
+.answer p {
+    padding: 0 2rem 1.5rem 0;
+    font-size: 0.875rem;
+    line-height: 1.75;
+}
+.contact {
+    max-width: 48rem;
+    margin: 7rem 0 0 auto;
+    padding-bottom: 7rem;
+}
+.contact p {
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+}
+.contact h2 {
+    margin-bottom: 2.5rem;
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.05em;
+}
+.page button:focus-visible {
+    outline: 1px solid currentColor;
+    outline-offset: 4px;
+}
+.page button:focus-visible [data-reveal-word] {
+    transform: none !important;
+}
+
+@media (max-width: 63.999rem) {
+    .layout {
+        grid-template-columns: minmax(9rem, 24%) minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 47.999rem) {
+    .page {
+        padding-top: 4.5rem;
+    }
+    .container {
+        width: calc(100% - 2 * var(--page-gutter));
+    }
+    .mobileNav {
+        position: sticky;
+        top: 4.5rem;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        min-height: 3.5rem;
+        padding: 0.75rem var(--page-gutter);
+        background: #ede8dd;
+        font-size: 0.8rem;
+    }
+    .mobileNav label {
+        flex: 0 0 auto;
+    }
+    .mobileNav select {
+        flex: 1;
+        min-width: 0;
+        padding-right: 0.5rem;
+        background: transparent;
+    }
+    .hero {
+        padding-block: 2.75rem 3rem;
+    }
+    .hero p {
+        margin-bottom: 1.25rem;
+    }
+    .hero h1 {
+        max-width: 18rem;
+        line-height: 1.2;
+    }
+    .layout {
+        display: block;
+    }
+    .categoryNav {
+        display: none;
+    }
+    .group + .group {
+        margin-top: 2.5rem;
+    }
+    .group h2 {
+        margin-bottom: 1.5rem;
+    }
+    .question button {
+        min-height: 4.6rem;
+    }
+    .answer p {
+        padding-right: 1rem;
+    }
+    .contact {
+        margin-top: 5rem;
+        padding-bottom: 5rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .answer,
+    .plus::after {
+        transition: none;
+    }
+}

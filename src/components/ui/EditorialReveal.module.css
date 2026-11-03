@@ -1,0 +1,58 @@
+.scope {
+    display: contents;
+}
+
+.line,
+.mask {
+    display: block;
+    line-height: inherit;
+}
+
+.word {
+    display: inline-block;
+    line-height: inherit;
+    vertical-align: baseline;
+}
+
+.label {
+    min-width: 0;
+}
+
+.borderLink {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    min-height: 3rem;
+    padding-block: 0.9rem;
+    color: inherit;
+    text-decoration: none;
+}
+
+.border {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.35;
+}
+
+.arrow {
+    flex: 0 0 auto;
+}
+
+.borderLink:hover .label,
+.borderLink:focus-visible .label {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+}
+
+.borderLink:focus-visible {
+    outline: 1px solid currentColor;
+    outline-offset: 5px;
+}
+
+.borderLink:focus-visible [data-reveal-word] {
+    transform: none !important;
+}

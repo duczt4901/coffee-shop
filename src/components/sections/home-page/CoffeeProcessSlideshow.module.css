@@ -1,0 +1,150 @@
+.slideshow {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #b4aea7;
+}
+
+.frame {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.viewport {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.slideTrack {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.slide {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.media {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 38%, rgb(8 13 9 / 58%));
+    pointer-events: none;
+}
+
+.title {
+    position: absolute;
+    right: 1.5rem;
+    bottom: 2.8125rem;
+    left: 1.5rem;
+    z-index: 2;
+    text-align: center;
+    opacity: 1;
+    overflow: hidden;
+}
+
+.titleTrack {
+    --active: 0;
+    --offset: 30%;
+
+    position: relative;
+    left: 50%;
+    display: flex;
+    width: max-content;
+    gap: 1em;
+    margin: 0;
+    font-family: var(--font-cormorant-upright), Georgia, serif;
+    font-size: clamp(1rem, 4vw, 5rem);
+    font-weight: 600;
+    line-height: 0.9;
+    letter-spacing: -0.045em;
+    white-space: nowrap;
+    transform: translateX(calc(-50% + var(--offset) - var(--active) * var(--offset)));
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.titleItem {
+    display: block;
+    overflow: hidden;
+    color: #fff;
+    opacity: 0.28;
+}
+
+.titleText {
+    display: block;
+    transform: translateY(100%);
+    transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.titleItem:nth-child(2) .titleText {
+    transition-delay: 0.1s;
+}
+
+.titleItem:nth-child(3) .titleText {
+    transition-delay: 0.2s;
+}
+
+.title[data-title-visible] .titleText {
+    transform: translateY(0);
+}
+
+@media (max-width: 767px) {
+    .title {
+        right: 1.25rem;
+        bottom: 2.8125rem;
+        left: 1.25rem;
+    }
+
+    .titleTrack {
+        gap: 0.3em;
+        font-size: clamp(1.25rem, 5.6vw, 2rem);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .slideshow {
+        visibility: visible;
+        opacity: 1;
+        transform: none !important;
+    }
+
+    .slide {
+        display: none;
+        width: 100%;
+        height: 100%;
+    }
+
+    .slide:first-child {
+        display: block;
+    }
+
+    .titleItem:first-child {
+        opacity: 1;
+    }
+
+    .titleText {
+        transform: none;
+        transition: none;
+    }
+}

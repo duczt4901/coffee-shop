@@ -3,8 +3,8 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const sourcePath = join(root, "public/images/south-vietnam-context.svg");
-const outputPath = join(root, "public/images/south-vietnam-knockout.svg");
+const sourcePath = join(root, "public/images/maps/south-vietnam-context.svg");
+const outputPath = join(root, "public/images/maps/south-vietnam-knockout.svg");
 const source = await readFile(sourcePath, "utf8");
 const sourceBody = source.slice(
     source.indexOf("<style>"),
