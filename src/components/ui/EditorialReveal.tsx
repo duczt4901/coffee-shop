@@ -10,6 +10,7 @@ import { useGSAP } from "@gsap/react";
 import { useExperienceRuntime } from "@/components/experience/ExperienceRuntime";
 import styles from "./EditorialReveal.module.css";
 import { Button } from "./Button";
+import { LinkMarker } from "./LinkMarker";
 
 gsap.registerPlugin(SplitText, ScrollTrigger);
 
@@ -18,7 +19,7 @@ const REVEALS = {
     lines: { from: { yPercent: 140 }, to: { yPercent: 0 }, duration: 1 },
     block: { from: { autoAlpha: 0, y: 16 }, to: { autoAlpha: 1, y: 0 }, duration: 0.8 },
     border: { from: { scaleX: 0, transformOrigin: "left" }, to: { scaleX: 1 }, duration: 1.2 },
-    arrow: { from: { scale: 0, rotation: 20, transformOrigin: "left top" }, to: { scale: 1, rotation: 0 }, duration: 1 },
+    marker: { from: { scale: 0, rotation: 20, transformOrigin: "left top" }, to: { scale: 1, rotation: 0 }, duration: 1 },
 };
 
 export function EditorialReveal({ children, start = "top 85%" }: { children: ReactNode; start?: string }) {
@@ -154,8 +155,8 @@ export function RevealLink({
                     {children}
                 </span>
                 {bordered && (
-                    <span aria-hidden="true" data-reveal="arrow" data-reveal-at={delay} className={styles.arrow}>
-                        ↗
+                    <span aria-hidden="true" data-reveal="marker" data-reveal-at={delay} className={styles.marker}>
+                        <LinkMarker />
                     </span>
                 )}
             </Link>

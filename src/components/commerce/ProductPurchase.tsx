@@ -8,6 +8,7 @@ import { products, type Product } from "@/data/products";
 import { formatPrice } from "@/lib/commerce";
 import { EditorialReveal } from "@/components/ui/EditorialReveal";
 import { Button } from "@/components/ui/Button";
+import { LinkMarker } from "@/components/ui/LinkMarker";
 import { Dropdown } from "@/components/ui/Dropdown";
 import { Quantity } from "./Quantity";
 import { useCart } from "./useCart";
@@ -81,7 +82,7 @@ export function ProductPurchase({ product }: { product: Product }) {
                                     <>
                                         Đã thêm vào giỏ.{" "}
                                         <Link href="/gio-hang/" className="underline underline-offset-4">
-                                            Xem giỏ hàng ↗
+                                            Xem giỏ hàng <LinkMarker />
                                         </Link>
                                     </>
                                 )}

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState, type SubmitEvent } from "react";
 import { Button } from "@/components/ui/Button";
+import { LinkMarker } from "@/components/ui/LinkMarker";
 import { formatPrice, FREE_SHIPPING_THRESHOLD } from "@/lib/commerce";
 import { useCart } from "./useCart";
 import styles from "./Commerce.module.css";
@@ -186,7 +187,9 @@ export function CheckoutPage() {
                                 </p>
                             )}
                             <Button type="submit" fullWidth disabled={sending}>
-                                {sending ? "Đang gửi đơn…" : "Đặt hàng COD ↗"}
+                                {sending ? "Đang gửi đơn…" : (
+                                    <>Đặt hàng COD <LinkMarker /></>
+                                )}
                             </Button>
                             <p className={styles.summaryNote}>
                                 {shipping === null

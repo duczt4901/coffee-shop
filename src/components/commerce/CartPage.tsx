@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+import { LinkMarker } from "@/components/ui/LinkMarker";
 import { formatPrice, FREE_SHIPPING_THRESHOLD } from "@/lib/commerce";
 import { Quantity } from "./Quantity";
 import { useCart } from "./useCart";
@@ -66,7 +67,7 @@ export function CartPage() {
                                 ))}
                             </ul>
                             <Link href="/san-pham/" className={`${styles.textLink} ${styles.continue}`}>
-                                ← Tiếp tục mua sắm
+                                Tiếp tục mua sắm <LinkMarker />
                             </Link>
                         </div>
                         <aside className={styles.summary} aria-label="Tổng giỏ hàng">
@@ -86,7 +87,7 @@ export function CartPage() {
                                 </div>
                             </dl>
                             <Button href="/thanh-toan/" fullWidth>
-                                Tiến hành thanh toán ↗
+                                Tiến hành thanh toán <LinkMarker />
                             </Button>
                             <p className={styles.summaryNote}>
                                 {cart.subtotal >= FREE_SHIPPING_THRESHOLD
