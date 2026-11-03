@@ -10,12 +10,12 @@
     "not_found_handling": "404-page",
     "html_handling": "force-trailing-slash"
   },
-  "d1_databases": [{
-    "binding": "DB",
-    "database_name": "coffee-shop-orders",
-    "database_id": "00000000-0000-0000-0000-000000000000",
-    "migrations_dir": "migrations"
-  }],
+//  "d1_databases": [{
+//    "binding": "DB",
+//    "database_name": "coffee-shop-orders",
+//    "database_id": "00000000-0000-0000-0000-000000000000",
+//    "migrations_dir": "migrations"
+//  }],
   "vars": { "ORDER_NOTIFICATION_TO": "ngvd4901@gmail.com" },
   "triggers": { "crons": ["*/5 * * * *"] }
 }
