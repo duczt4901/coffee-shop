@@ -4,7 +4,6 @@ export type Product = {
     category: string;
     tagline: string;
     sizeLabel: string;
-    price: string;
     priceVnd: number;
     image: string;
     accent: string;
@@ -24,7 +23,6 @@ export const products: Product[] = [
         category: "Robusta",
         tagline: "Đậm, tròn vị với hậu vị chocolate và hạt rang.",
         sizeLabel: "200 g",
-        price: "119.000 vnđ",
         priceVnd: 119000,
         image: "/images/products/trung-toan-robusta-200g.webp",
         accent: "#c85b3c",
@@ -41,7 +39,6 @@ export const products: Product[] = [
         category: "Arabica",
         tagline: "Thanh, ngọt và thơm với sắc trái cây chín.",
         sizeLabel: "200 g",
-        price: "119.000 vnđ",
         priceVnd: 119000,
         image: "/images/products/trung-toan-arabica-200g.webp",
         accent: "#187a70",
@@ -58,7 +55,6 @@ export const products: Product[] = [
         category: "Robusta",
         tagline: "Gói lớn cho nhịp pha đều đặn mỗi ngày.",
         sizeLabel: "500 g",
-        price: "219.000 vnđ",
         priceVnd: 219000,
         image: "/images/products/trung-toan-robusta-500g.webp",
         accent: "#6bbbd4",
@@ -76,7 +72,6 @@ export const products: Product[] = [
         category: "Robusta",
         tagline: "Vị cà phê nguyên bản trong gói lớn tiết kiệm.",
         sizeLabel: "1000 g",
-        price: "389.000 vnđ",
         priceVnd: 389000,
         image: "/images/products/trung-toan-robusta-1000g.webp",
         accent: "#d5a633",

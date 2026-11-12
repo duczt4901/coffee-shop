@@ -21,6 +21,7 @@
 .stage {
     overflow: clip;
     pointer-events: none;
+    container-type: inline-size;
 }
 
 .canvas {
@@ -30,12 +31,29 @@
     inline-size: 100%;
     min-inline-size: 0;
     min-height: 100vh;
+    block-size: max(100vh, var(--coffee-geometry-height));
+    padding-block-start: calc(max(100vh, var(--coffee-geometry-height)) / 2);
 }
 
 .renderFrame {
     position: relative;
     inline-size: 100%;
     block-size: 100%;
+    filter: saturate(1.35);
+}
+
+.modelFallback {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    inline-size: min(70%, 40rem);
+    block-size: 90%;
+    object-fit: contain;
+}
+
+.canvas:not([data-coffee-state="ready"]) .renderFrame > canvas,
+.canvas[data-coffee-state="ready"] .modelFallback {
+    visibility: hidden;
 }
 
 .openingTrack,
@@ -126,10 +144,16 @@
 }
 
 .revealLine {
+    display: inline-block;
+    vertical-align: bottom;
     overflow: clip;
     /* Clear Vietnamese accents without increasing the distance between lines. */
     padding: 0.3em 0.08em;
     margin: -0.3em -0.08em;
+}
+
+.revealWord {
+    display: inline-block;
 }
 
 .animated .revealWord {

@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useLenis } from "lenis/react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { EditorialReveal, RevealLink } from "@/components/ui/EditorialReveal";
 import { Dropdown } from "@/components/ui/Dropdown";
+import { useEnhancedDisclosure } from "@/components/ui/useEnhancedDisclosure";
 import styles from "./page.module.css";
 
 const categories = [
@@ -103,43 +103,53 @@ const categories = [
 ];
 
 function FaqItem({ question, answer, id }: { question: string; answer: string; id: string }) {
-    const [open, setOpen] = useState(false);
+    const { detailsRef, panelRef, enhanced, open, nativeOpen, setOpen } = useEnhancedDisclosure();
+    const expanded = !enhanced || open;
+
     return (
         <EditorialReveal>
-            <div className={styles.item}>
-                <span aria-hidden="true" data-reveal="border" data-reveal-at="0" data-reveal-border className={styles.border} />
-                <h6 className={styles.question}>
-                    <button id={`${id}-question`} type="button" aria-expanded={open} aria-controls={`${id}-answer`} onClick={() => setOpen(!open)}>
-                        <span data-reveal="block" data-reveal-at="0.15" className={styles.questionText}>
+            <details ref={detailsRef} className={`${styles.item} ${enhanced ? styles.enhanced : ""}`} open={nativeOpen || undefined}>
+                <summary
+                    id={`${id}-question`}
+                    className={styles.question}
+                    aria-expanded={enhanced ? open : undefined}
+                    aria-controls={`${id}-answer`}
+                    onClick={(event) => {
+                        if (!enhanced) return;
+                        event.preventDefault();
+                        setOpen(!open);
+                    }}
+                >
+                    <h6 className={styles.questionRow}>
+                        <span aria-hidden="true" data-reveal="border" data-reveal-border className={styles.border} />
+                        <span data-reveal="block" className={styles.questionText}>
                             {question}
                         </span>
                         <span aria-hidden="true" className={`${styles.plus} ${open ? styles.open : ""}`} />
-                    </button>
-                </h6>
+                    </h6>
+                </summary>
                 <div
+                    ref={panelRef}
                     id={`${id}-answer`}
                     role="region"
                     aria-labelledby={`${id}-question`}
-                    aria-hidden={!open}
-                    inert={!open}
-                    className={`${styles.answer} ${open ? styles.expanded : ""}`}
-                    onTransitionEnd={(event) => {
-                        if (event.target === event.currentTarget && event.propertyName === "grid-template-rows") ScrollTrigger.refresh();
-                    }}
+                    aria-hidden={enhanced ? !open : undefined}
+                    inert={!expanded}
+                    className={`${styles.answer} ${expanded ? "" : styles.collapsed}`}
                 >
                     <div>
                         <p>{answer}</p>
                     </div>
                 </div>
-            </div>
+            </details>
         </EditorialReveal>
     );
 }
 
 export function FaqContent() {
+    const lenis = useLenis();
     const rootRef = useRef<HTMLElement>(null);
     const [active, setActive] = useState(categories[0].id);
-    const lenis = useLenis();
 
     useEffect(() => {
         let frame = 0;
@@ -169,7 +179,7 @@ export function FaqContent() {
         const target = document.getElementById(id);
         if (!target) return;
         const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        if (lenis) lenis.scrollTo(target, { immediate: reduced, duration: 1 });
+        if (lenis) lenis.scrollTo(target, { immediate: reduced });
         else target.scrollIntoView({ behavior: reduced ? "instant" : "smooth", block: "start" });
         setActive(id);
     };
@@ -178,13 +188,13 @@ export function FaqContent() {
         <article ref={rootRef} className={styles.page}>
             <div className={styles.mobileNav}>
                 <label htmlFor="faq-category">Chủ đề:</label>
-                <Dropdown id="faq-category" label="Chủ đề câu hỏi" value={active} onChange={goTo} options={categories.map(({ id, title }) => ({ value: id, label: title }))} />
+                <Dropdown id="faq-category" label="Chủ đề câu hỏi" value={active} onChange={goTo} options={categories.map(({ id, title }) => ({ value: id, label: title, href: `#${id}` }))} />
             </div>
             <div className={styles.container}>
                 <EditorialReveal>
                     <header className={styles.hero}>
                         <p data-reveal="lines">FAQs</p>
-                        <h1 data-reveal="words" data-reveal-at="0.15">
+                        <h1 data-reveal="words">
                             Câu hỏi thường gặp
                         </h1>
                     </header>
@@ -192,9 +202,12 @@ export function FaqContent() {
                 <div className={styles.layout}>
                     <nav aria-label="Chủ đề câu hỏi" className={styles.categoryNav}>
                         {categories.map(({ id, title }) => (
-                            <button key={id} type="button" aria-current={active === id ? "location" : undefined} onClick={() => goTo(id)}>
+                            <a key={id} href={`#${id}`} aria-current={active === id ? "location" : undefined} onClick={(event) => {
+                                event.preventDefault();
+                                goTo(id);
+                            }}>
                                 {title}
-                            </button>
+                            </a>
                         ))}
                     </nav>
                     <div className={styles.groups}>

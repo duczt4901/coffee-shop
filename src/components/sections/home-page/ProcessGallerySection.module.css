@@ -63,6 +63,7 @@
         top: var(--gallery-gap);
         aspect-ratio: auto;
         /* One viewport minus equal top and bottom image gutters. */
+        block-size: calc(100vh - 2 * var(--gallery-gap));
         block-size: calc(100svh - 2 * var(--gallery-gap));
     }
 }

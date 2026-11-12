@@ -2,10 +2,22 @@
     display: contents;
 }
 
-.line,
+.scope [data-reveal-pending] {
+    opacity: 0;
+}
+
 .mask {
-    display: block;
+    display: inline-block;
     line-height: inherit;
+    vertical-align: bottom;
+    overflow: clip;
+    /* Italic overhangs and Vietnamese accents extend outside the line box. */
+    padding: 0.3em 0.25em;
+    margin: -0.3em -0.25em;
+}
+
+.finished {
+    overflow: visible;
 }
 
 .word {
@@ -36,15 +48,42 @@
     height: 1px;
     background: currentColor;
     opacity: 0.35;
+    transition: opacity 0.2s ease;
 }
 
 .marker {
     flex: 0 0 auto;
 }
 
-.borderLink:hover .label,
-.borderLink:focus-visible .label {
+.divider {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    background: currentColor;
+    pointer-events: none;
+}
+
+.divider[data-edge="bottom"] {
+    top: auto;
+    bottom: 0;
+}
+
+.marker > svg {
+    transition: transform 0.2s ease;
+}
+
+.borderLink:is(:hover, :focus-visible) .border {
+    opacity: 1;
+}
+
+.borderLink:is(:hover, :focus-visible) .marker > svg {
+    transform: translateX(3px);
+}
+
+.borderLink:is(:hover, :focus-visible) .label,
+.borderLink:is(:hover, :focus-visible) .word {
     text-decoration: underline;
+    text-decoration-thickness: 1px;
     text-underline-offset: 0.2em;
 }
 
@@ -55,4 +94,15 @@
 
 .borderLink:focus-visible [data-reveal-word] {
     transform: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .border,
+    .marker > svg {
+        transition: none;
+    }
+
+    .borderLink:is(:hover, :focus-visible) .marker > svg {
+        transform: none;
+    }
 }

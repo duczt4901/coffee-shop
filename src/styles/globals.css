@@ -28,10 +28,18 @@
 
 html {
     background: var(--background);
+}
+
+[data-scroll-viewport] {
+    height: 100vh;
+    height: 100svh;
+}
+
+html[data-custom-scrollbar] {
     scrollbar-width: none;
 }
 
-html::-webkit-scrollbar {
+html[data-custom-scrollbar]::-webkit-scrollbar {
     display: none;
 }
 

@@ -24,7 +24,7 @@ export default function ContactPage() {
                     <header>
                         <h1 data-reveal="words">Thông tin liên hệ</h1>
 
-                        <p data-reveal="lines" data-reveal-at="0.25" className={styles.intro}>
+                        <p data-reveal="lines" className={styles.intro}>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
                             exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                         </p>
@@ -63,9 +63,9 @@ export default function ContactPage() {
                         </h2>
                     </EditorialReveal>
                     <ul>
-                        {emailContacts.map(({ label, email }, index) => (
+                        {emailContacts.map(({ label, email }) => (
                             <li key={email}>
-                                <RevealLink href={`mailto:${email}`} variant="border" delay={index * 0.1}>
+                                <RevealLink href={`mailto:${email}`} variant="border">
                                     {label}: {email}
                                 </RevealLink>
                             </li>

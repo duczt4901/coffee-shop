@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { createCoffeeRenderLoop } from "../src/components/experience/coffee-bag/coffee-render-loop.ts";
+import { importTypeScript } from "../scripts/lib/import-typescript.mjs";
+const { createCoffeeRenderLoop } = await importTypeScript(new URL("../src/components/experience/coffee-bag/coffee-render-loop.ts", import.meta.url));
 
 test("render lifecycle coalesces changes, suspends work and resumes with the latest state", () => {
     let nextId = 0;

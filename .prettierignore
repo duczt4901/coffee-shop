@@ -3,3 +3,4 @@ out
 node_modules
 .wrangler
 pnpm-lock.yaml
+src/components/experience/coffee-bag/coffee-framing.generated.css

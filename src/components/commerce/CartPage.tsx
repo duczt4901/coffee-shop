@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+import { RevealLine } from "@/components/ui/EditorialReveal";
 import { LinkMarker } from "@/components/ui/LinkMarker";
 import { formatPrice, FREE_SHIPPING_THRESHOLD } from "@/lib/commerce";
 import { Quantity } from "./Quantity";
@@ -23,6 +24,11 @@ export function CartPage() {
                 <h1 className={styles.heading}>
                     Giỏ hàng<span className="ml-4 align-top font-sans text-base tracking-normal">({cart.count})</span>
                 </h1>
+                <noscript>
+                    <p className={styles.summaryNote}>
+                        Giỏ hàng được lưu trên thiết bị của bạn và cần JavaScript để hoạt động. Bạn vẫn có thể <Link href="/san-pham/" className={styles.textLink}>xem sản phẩm</Link> hoặc <Link href="/lien-he/" className={styles.textLink}>liên hệ cửa hàng để đặt hàng</Link>.
+                    </p>
+                </noscript>
                 {!cart.ready ? (
                     <p role="status">Đang tải giỏ hàng…</p>
                 ) : !cart.items.length ? (
@@ -34,8 +40,10 @@ export function CartPage() {
                     <div className={styles.layout}>
                         <div>
                             <ul className={styles.items}>
-                                {cart.lines.map(({ product, quantity, lineTotal }) => (
+                                {cart.lines.map(({ product, quantity, lineTotal }, index) => (
                                     <li key={product.slug} className={styles.item}>
+                                        {index === 0 && <RevealLine className="text-[color:var(--line)]" />}
+                                        <RevealLine side="bottom" className="text-[color:var(--line)]" />
                                         <Link href={`/san-pham/${product.slug}/`} className={styles.itemImage} tabIndex={-1} aria-hidden="true">
                                             <Image src={product.image} alt="" width={120} height={140} />
                                         </Link>
@@ -74,14 +82,17 @@ export function CartPage() {
                             <h2>Đơn hàng của bạn</h2>
                             <dl>
                                 <div className={styles.summaryRow}>
+                                    <RevealLine side="bottom" className="text-foreground/15" />
                                     <dt>Tạm tính</dt>
                                     <dd>{formatPrice(cart.subtotal)}</dd>
                                 </div>
                                 <div className={styles.summaryRow}>
+                                    <RevealLine side="bottom" className="text-foreground/15" />
                                     <dt>Giao hàng</dt>
                                     <dd>{cart.subtotal >= FREE_SHIPPING_THRESHOLD ? "Miễn phí" : "Xác nhận khi đặt hàng"}</dd>
                                 </div>
                                 <div className={`${styles.summaryRow} ${styles.total}`}>
+                                    <RevealLine side="bottom" className="text-foreground/15" />
                                     <dt>Tổng tiền hàng</dt>
                                     <dd>{formatPrice(cart.subtotal)}</dd>
                                 </div>

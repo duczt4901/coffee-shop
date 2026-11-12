@@ -8,9 +8,9 @@ import { createMetadata } from "@/lib/metadata";
 import "@/styles/globals.css";
 import TransitionProvider from "@/providers/TransitionProvider";
 import { cormorantUpright, lexend } from "@/styles/font";
-import ReactLenis from "lenis/react";
-import { ExperienceRuntime } from "@/components/experience/ExperienceRuntime";
 import { PageScrollbar } from "@/components/layout/PageScrollbar";
+import SmoothScroll from "@/providers/SmoothScroll";
+import "lenis/dist/lenis.css";
 
 export const metadata: Metadata = {
     metadataBase: new URL(database.site.url),
@@ -42,24 +42,16 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
                     }}
                 />
 
-                <ReactLenis
-                    root
-                    options={{
-                        lerp: 0.12,
-                        wheelMultiplier: 0.85,
-                        smoothWheel: true,
-                        syncTouch: false,
-                    }}
-                >
-                    <ExperienceRuntime>
-                        <TransitionProvider>
-                            <SiteHeader />
-                            <main id="main-content">{children}</main>
-                            <SiteFooter />
-                        </TransitionProvider>
-                    </ExperienceRuntime>
+                {/* Stable CSS viewport shared by the existing scroll effects. */}
+                <div data-scroll-viewport aria-hidden="true" className="pointer-events-none invisible fixed top-0 left-0 w-0" />
+                <SmoothScroll>
+                    <TransitionProvider>
+                        <SiteHeader />
+                        <main id="main-content">{children}</main>
+                        <SiteFooter />
+                    </TransitionProvider>
                     <PageScrollbar />
-                </ReactLenis>
+                </SmoothScroll>
             </body>
         </html>
     );

@@ -62,6 +62,7 @@
     text-align: center;
     opacity: 1;
     overflow: hidden;
+    transition: opacity 0.35s ease-out;
 }
 
 .titleTrack {
@@ -89,6 +90,7 @@
     overflow: hidden;
     color: #fff;
     opacity: 0.28;
+    transition: opacity 0.5s ease-out;
 }
 
 .titleText {
@@ -109,6 +111,61 @@
     transform: translateY(0);
 }
 
+/* One DOM: unpinned photos and captions first; the parent activates the timeline. */
+:global([data-coffee-origin]:not([data-origin-enhanced])) .slideshow {
+    position: relative;
+    inset: auto;
+    order: 3;
+    height: auto;
+    background: var(--background);
+}
+
+:global([data-coffee-origin]:not([data-origin-enhanced])) .viewport {
+    display: grid;
+    height: auto;
+    gap: 1rem;
+    padding-bottom: var(--section-space-large);
+}
+
+:global([data-coffee-origin]:not([data-origin-enhanced])) :is(.slideTrack, .title, .titleTrack) {
+    position: static;
+    display: contents;
+    height: auto;
+}
+
+:global([data-coffee-origin]:not([data-origin-enhanced])) .slide {
+    position: relative;
+    inset: auto;
+}
+
+:global([data-coffee-origin]:not([data-origin-enhanced])) .media {
+    position: relative;
+    inset: auto;
+    aspect-ratio: 16 / 10;
+}
+
+:global([data-coffee-origin]:not([data-origin-enhanced])) .slide:nth-child(1) { grid-row: 1; }
+:global([data-coffee-origin]:not([data-origin-enhanced])) .slide:nth-child(2) { grid-row: 3; }
+:global([data-coffee-origin]:not([data-origin-enhanced])) .slide:nth-child(3) { grid-row: 5; }
+
+:global([data-coffee-origin]:not([data-origin-enhanced])) .titleItem {
+    overflow: visible;
+    padding: 0 1.25rem 2rem;
+    color: var(--foreground);
+    opacity: 1;
+    text-align: center;
+    white-space: normal;
+}
+
+:global([data-coffee-origin]:not([data-origin-enhanced])) .titleItem:nth-child(1) { grid-row: 2; }
+:global([data-coffee-origin]:not([data-origin-enhanced])) .titleItem:nth-child(2) { grid-row: 4; }
+:global([data-coffee-origin]:not([data-origin-enhanced])) .titleItem:nth-child(3) { grid-row: 6; }
+
+:global([data-coffee-origin]:not([data-origin-enhanced])) .titleText {
+    transform: none;
+    transition: none;
+}
+
 @media (max-width: 767px) {
     .title {
         right: 1.25rem;
@@ -123,28 +180,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .slideshow {
-        visibility: visible;
-        opacity: 1;
-        transform: none !important;
-    }
-
-    .slide {
-        display: none;
-        width: 100%;
-        height: 100%;
-    }
-
-    .slide:first-child {
-        display: block;
-    }
-
-    .titleItem:first-child {
-        opacity: 1;
-    }
-
+    .title,
+    .titleTrack,
+    .titleItem,
     .titleText {
-        transform: none;
         transition: none;
     }
 }

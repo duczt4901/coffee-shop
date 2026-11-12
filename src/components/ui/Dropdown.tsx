@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
 import { ChevronDownIcon } from "./Chevron";
 import styles from "./Dropdown.module.css";
 
-type Option = { value: string; label: string };
+type Option = { value: string; label: string; href: string };
 export function Dropdown({
     value,
     options,
@@ -22,12 +22,29 @@ export function Dropdown({
     const controlId = id ?? generatedId;
     const root = useRef<HTMLDivElement>(null);
     const button = useRef<HTMLButtonElement>(null);
+    const fallback = useRef<HTMLDetailsElement>(null);
+    const restoreFocus = useRef(false);
+    const [enhanced, setEnhanced] = useState(false);
     const [open, setOpen] = useState(false);
-    const [active, setActive] = useState(0);
+    const [active, setActive] = useState(() => Math.max(0, options.findIndex((option) => option.value === value)));
     const selected = Math.max(
         0,
         options.findIndex((option) => option.value === value),
     );
+
+    useLayoutEffect(() => {
+        restoreFocus.current = !!fallback.current?.contains(document.activeElement);
+        const focusedOption = fallback.current?.querySelector<HTMLAnchorElement>("a:focus");
+        if (focusedOption) setActive(Number(focusedOption.dataset.optionIndex));
+        setOpen(fallback.current?.open ?? false);
+        setEnhanced(true);
+    }, []);
+
+    useLayoutEffect(() => {
+        if (!enhanced || !restoreFocus.current) return;
+        button.current?.focus({ preventScroll: true });
+        restoreFocus.current = false;
+    }, [enhanced]);
 
     useEffect(() => {
         if (!open) return;
@@ -69,6 +86,26 @@ export function Dropdown({
             }
         }
     };
+
+    if (!enhanced) {
+        return (
+            <details ref={fallback} className={styles.dropdown}>
+                <summary id={controlId} className={styles.trigger} aria-label={label}>
+                    <span>{options[selected]?.label}</span>
+                    <ChevronDownIcon open={false} />
+                </summary>
+                <ul className={styles.options} aria-label={label}>
+                    {options.map((option, index) => (
+                        <li key={option.value}>
+                            <a href={option.href} data-option-index={index} className={styles.optionLink} aria-current={option.value === value ? "true" : undefined}>
+                                {option.label}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </details>
+        );
+    }
 
     return (
         <div

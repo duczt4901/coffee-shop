@@ -1,10 +1,11 @@
 .section {
-    --intro-scroll-length: 160svh;
-    --story-scroll-length: 350svh;
+    --origin-viewport: 100vh;
+    --intro-scroll-length: calc(var(--origin-viewport) * 0.7);
+    --story-scroll-length: calc(var(--origin-viewport) * 3.5);
 
     position: relative;
     /* The sticky stage and its scroll distances share a stable viewport. */
-    height: calc(100svh + var(--intro-scroll-length) + var(--story-scroll-length));
+    height: calc(var(--origin-viewport) + var(--intro-scroll-length) + var(--story-scroll-length));
     background: var(--background);
 }
 
@@ -19,7 +20,7 @@
 .stickyViewport {
     position: sticky;
     top: 0;
-    height: 100svh;
+    height: var(--origin-viewport);
     overflow: hidden;
 }
 
@@ -50,12 +51,61 @@
     height: 100%;
 }
 
+.introCopy,
+.provinceFill,
+.edgeFade,
+.locationLabel {
+    transition: opacity 150ms ease-out;
+}
+
 .edgeFade {
     position: absolute;
     inset-inline: 0;
     z-index: 1;
     height: clamp(5rem, 12vw, 13rem);
     pointer-events: none;
+}
+
+/* Keep the whole story readable until the map and slideshow are ready together. */
+.section:not([data-origin-enhanced]) {
+    height: auto;
+}
+
+.section:not([data-origin-enhanced]) .storyStart,
+.section:not([data-origin-enhanced]) .edgeFade {
+    display: none;
+}
+
+.section:not([data-origin-enhanced]) .stickyViewport {
+    position: relative;
+    display: flex;
+    height: auto;
+    flex-direction: column;
+}
+
+.section:not([data-origin-enhanced]) .introCopy {
+    position: relative;
+    inset: auto;
+    order: 0;
+    padding-bottom: 3rem;
+}
+
+.section:not([data-origin-enhanced]) .mapMask {
+    position: relative;
+    inset: auto;
+    order: 1;
+    width: min(100%, 50rem);
+    aspect-ratio: 1540 / 1240;
+    margin-inline: auto;
+}
+
+.section:not([data-origin-enhanced]) .locationLabel {
+    position: static;
+    order: 2;
+    transform: none;
+    margin: 0 0 2rem;
+    color: var(--foreground);
+    text-align: center;
 }
 
 .topFade {
@@ -69,6 +119,7 @@
 }
 
 .provinceFill {
+    fill: #8a857e;
     fill: color-mix(in srgb, var(--background) 48%, #000);
 }
 
@@ -85,10 +136,16 @@
     pointer-events: none;
 }
 
+@supports (height: 100svh) {
+    .section {
+        --origin-viewport: 100svh;
+    }
+}
+
 @media (max-width: 63.999rem) {
     .section {
-        --intro-scroll-length: 180svh;
-        --story-scroll-length: 300svh;
+        --intro-scroll-length: calc(var(--origin-viewport) * 0.8);
+        --story-scroll-length: calc(var(--origin-viewport) * 3);
     }
 
     .introCopy {
@@ -97,13 +154,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .section {
-        height: 100svh;
-    }
-
     .introCopy,
-    .mapMask,
+    .provinceFill,
+    .edgeFade,
     .locationLabel {
-        display: none;
+        transition: none;
     }
 }

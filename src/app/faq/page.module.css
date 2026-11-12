@@ -37,20 +37,21 @@
     display: grid;
     gap: 0.35rem;
 }
-.categoryNav button {
+.categoryNav a {
     min-height: 2.9rem;
     padding: 0.8rem;
     border-left: 1px solid transparent;
     font-size: 0.75rem;
     line-height: 1.5;
     text-align: left;
+    text-decoration: none;
     cursor: pointer;
 }
-.categoryNav button[aria-current] {
+.categoryNav a[aria-current] {
     border-color: currentColor;
     background: rgb(37 31 24 / 4%);
 }
-.categoryNav button:hover {
+.categoryNav a:hover {
     text-decoration: underline;
     text-underline-offset: 0.2em;
 }
@@ -84,12 +85,17 @@
     opacity: 0.4;
 }
 .question {
+    display: block;
+    list-style: none;
     font-size: clamp(1rem, 1.5vw, 1.25rem);
     font-weight: 400;
     line-height: 1.5;
     letter-spacing: -0.035em;
 }
-.question button {
+.question::-webkit-details-marker {
+    display: none;
+}
+.questionRow {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -103,8 +109,8 @@
 .questionText {
     min-width: 0;
 }
-.question button:hover .questionText,
-.question button:focus-visible .questionText {
+.question:hover .questionText,
+.question:focus-visible .questionText {
     text-decoration: underline;
     text-underline-offset: 0.2em;
     text-decoration-thickness: 1px;
@@ -130,23 +136,24 @@
     transform: rotate(90deg);
     transition: transform 0.35s ease;
 }
-.plus.open::after {
+.plus.open::after,
+.item:not(.enhanced)[open] .plus::after {
     transform: rotate(0);
 }
 .answer {
     display: grid;
-    grid-template-rows: 0fr;
-    visibility: hidden;
-    opacity: 0;
+    grid-template-rows: 1fr;
+    visibility: visible;
+    opacity: 1;
     transition:
         grid-template-rows 0.45s ease,
         opacity 0.35s ease,
         visibility 0.45s;
 }
-.answer.expanded {
-    grid-template-rows: 1fr;
-    visibility: visible;
-    opacity: 1;
+.answer.collapsed {
+    grid-template-rows: 0fr;
+    visibility: hidden;
+    opacity: 0;
 }
 .answer > div {
     min-height: 0;
@@ -173,7 +180,9 @@
     line-height: 1.1;
     letter-spacing: -0.05em;
 }
-.page button:focus-visible {
+.page button:focus-visible,
+.question:focus-visible,
+.categoryNav a:focus-visible {
     outline: 1px solid currentColor;
     outline-offset: 4px;
 }
@@ -237,7 +246,7 @@
     .group h2 {
         margin-bottom: 1.5rem;
     }
-    .question button {
+    .questionRow {
         min-height: 4.6rem;
     }
     .answer p {

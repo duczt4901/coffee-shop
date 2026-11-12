@@ -1,3 +1,44 @@
+.revealBoundary {
+    inline-size: 100%;
+    min-inline-size: 0;
+}
+
+.footer {
+    box-sizing: border-box;
+    inline-size: 100%;
+    min-inline-size: 0;
+    min-block-size: 100vh;
+    min-block-size: 100svh;
+    min-block-size: 100dvh;
+}
+
+.pressedMark {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+    overflow: visible;
+    pointer-events: none;
+    color: #e1dcd2;
+    color: color-mix(in oklab, #ede8dd, black 4%);
+}
+
+.pressedMark text {
+    fill: currentColor;
+    font-family: var(--font-cormorant-upright), Georgia, serif;
+    font-size: 270px;
+    font-weight: 400;
+}
+
+@media (forced-colors: active) {
+    .pressedMark {
+        color: CanvasText;
+    }
+
+    .pressedMark text {
+        filter: none;
+    }
+}
+
 .revealBoundary:has(:focus-visible) > footer {
     transform: none !important;
 }

@@ -1,0 +1,86 @@
+{
+  "file": "public/videos/coffee/coffee-cherry-sorting-hero.mp4",
+  "bytes": 8216260,
+  "boxes": [
+    {
+      "type": "ftyp",
+      "offset": 0,
+      "bytes": 28
+    },
+    {
+      "type": "moov",
+      "offset": 28,
+      "bytes": 20766
+    },
+    {
+      "type": "mdat",
+      "offset": 20794,
+      "bytes": 8195466
+    }
+  ],
+  "fastStart": true,
+  "tracks": [
+    {
+      "kind": "vide",
+      "codec": "avc1",
+      "durationSeconds": 32.36666666666667,
+      "sampleCount": 648,
+      "payloadBytes": 8187068,
+      "bitrateBitsPerSecond": 2023580.1441812564,
+      "width": 1280,
+      "height": 720,
+      "fpsAverage": 20.020597322348095,
+      "avcProfileIdc": 100,
+      "avcLevelIdc": 31,
+      "presentationIntervalMsHistogram": {
+        "33.333": 324,
+        "66.667": 323
+      },
+      "keyframes": [
+        1,
+        149,
+        299,
+        447,
+        597
+      ]
+    },
+    {
+      "kind": "soun",
+      "codec": "mp4a",
+      "durationSeconds": 32.43827664399093,
+      "sampleCount": 1397,
+      "payloadBytes": 8382,
+      "bitrateBitsPerSecond": 2067.1875
+    }
+  ],
+  "desktopPresentation": {
+    "viewport": [
+      1920,
+      911
+    ],
+    "backdropHeightRatio": 1.32,
+    "cssScale": 1.02,
+    "sourceToCssScale": 1.70357,
+    "cssBlurPx": 2,
+    "cssBrightness": 0.55,
+    "additionalBlackOverlay": 0.2
+  },
+  "browserPlayback": {
+    "callbackFps": 4.147338023417014,
+    "droppedFrames": 0,
+    "duration": 32.390385,
+    "elapsedMs": 6510.199999988079,
+    "hasFocus": true,
+    "height": 720,
+    "presentationIntervalMs": {
+      "33": 11,
+      "67": 10,
+      "967": 1,
+      "1000": 4
+    },
+    "presentedCallbacks": 27,
+    "videoFrames": 128,
+    "visibility": "visible",
+    "width": 1280
+  }
+}

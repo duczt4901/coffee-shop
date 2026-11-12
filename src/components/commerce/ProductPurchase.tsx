@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { products, type Product } from "@/data/products";
 import { formatPrice } from "@/lib/commerce";
-import { EditorialReveal } from "@/components/ui/EditorialReveal";
+import { EditorialReveal, RevealLine } from "@/components/ui/EditorialReveal";
 import { Button } from "@/components/ui/Button";
 import { LinkMarker } from "@/components/ui/LinkMarker";
 import { Dropdown } from "@/components/ui/Dropdown";
@@ -18,7 +18,7 @@ export function ProductPurchase({ product }: { product: Product }) {
     const [added, setAdded] = useState(false);
     const cart = useCart();
     const router = useRouter();
-    const options = products.filter((item) => item.category === product.category).map((item) => ({ value: item.slug, label: `${item.sizeLabel} · ${formatPrice(item.priceVnd)}` }));
+    const options = products.filter((item) => item.category === product.category).map((item) => ({ value: item.slug, label: `${item.sizeLabel} · ${formatPrice(item.priceVnd)}`, href: `/san-pham/${item.slug}/` }));
     const add = () => {
         cart.add(product.slug, quantity);
         setAdded(true);
@@ -33,7 +33,7 @@ export function ProductPurchase({ product }: { product: Product }) {
                                 <span data-reveal="block" className="inline-block bg-background px-1.5 py-0.5 text-xs uppercase">
                                     {product.category}
                                 </span>
-                                <h1 data-reveal="words" data-reveal-at="0.15" className="mt-4 max-w-xl font-cormorant text-[clamp(3.5rem,7vw,7rem)] font-semibold leading-[0.95] tracking-[-0.055em]">
+                                <h1 data-reveal="words" className="mt-4 max-w-xl font-cormorant text-[clamp(3.5rem,7vw,7rem)] font-semibold leading-[0.95] tracking-[-0.055em]">
                                     {product.name}
                                 </h1>
                             </div>
@@ -72,11 +72,16 @@ export function ProductPurchase({ product }: { product: Product }) {
                                     }}
                                 />
                             </div>
-                            <Button fullWidth onClick={add}>
+                            <Button fullWidth onClick={add} disabled={!cart.ready}>
                                 <span>Thêm vào giỏ hàng</span>
                                 <span>{formatPrice(product.priceVnd * quantity)}</span>
                             </Button>
                             <p className="mt-3 text-sm">Miễn phí giao hàng cho đơn từ 500.000đ</p>
+                            <noscript>
+                                <p className="mt-3 text-sm">
+                                    Giỏ hàng cần JavaScript để thêm sản phẩm. Bạn có thể <Link href="/lien-he/" className="underline underline-offset-4">liên hệ cửa hàng để đặt hàng</Link>.
+                                </p>
+                            </noscript>
                             <p role="status" className="mt-3 min-h-6 text-sm">
                                 {added && (
                                     <>
@@ -91,14 +96,15 @@ export function ProductPurchase({ product }: { product: Product }) {
                     </div>
                 </div>
             </section>
-            <div className="sticky top-[calc(100dvh-5rem)] z-10 flex min-h-20 items-center justify-between gap-4 border-t border-foreground/15 bg-background px-page py-3 shadow-[0_-8px_25px_rgba(37,31,24,0.08)]">
+            <div className="sticky top-[calc(100dvh-5rem)] z-10 flex min-h-20 items-center justify-between gap-4 border-t border-transparent bg-background px-page py-3 shadow-[0_-8px_25px_rgba(37,31,24,0.08)]">
+                <RevealLine className="text-foreground/15" />
                 <div className="flex items-center gap-3">
                     <Image src={product.image} alt="" width={44} height={44} className="h-11 w-11 object-contain" />
                     <span className="hidden text-sm sm:inline">
                         {product.name} · {product.sizeLabel}
                     </span>
                 </div>
-                <Button onClick={add}>Thêm vào giỏ hàng</Button>
+                <Button onClick={add} disabled={!cart.ready}>Thêm vào giỏ hàng</Button>
             </div>
         </>
     );

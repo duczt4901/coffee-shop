@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 
 import { createMetadata } from "@/lib/metadata";
 import { getProduct, products } from "@/data/products";
-import { EditorialReveal, RevealLink } from "@/components/ui/EditorialReveal";
+import { EditorialReveal, RevealLine, RevealLink } from "@/components/ui/EditorialReveal";
 import { ProductPurchase } from "@/components/commerce/ProductPurchase";
 
 type ProductPageProps = {
@@ -58,13 +58,15 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
                     <div>
                         <EditorialReveal>
-                            <dl className="border-t border-foreground/35">
+                            <dl className="border-t border-transparent">
                                 {details.map(([label, value], index) => (
-                                    <div key={label} className="grid grid-cols-[7rem_1fr] gap-6 border-b border-foreground/25 py-4 text-sm">
-                                        <dt data-reveal="lines" data-reveal-at={index * 0.1} className="uppercase text-foreground/50">
+                                    <div key={label} className="relative grid grid-cols-[7rem_1fr] gap-6 border-b border-transparent py-4 text-sm">
+                                        {index === 0 && <RevealLine className="text-foreground/35" />}
+                                        <RevealLine side="bottom" className="text-foreground/25" />
+                                        <dt data-reveal="lines" className="uppercase text-foreground/50">
                                             {label}
                                         </dt>
-                                        <dd data-reveal="lines" data-reveal-at={index * 0.1} className="text-right font-medium">
+                                        <dd data-reveal="lines" className="text-right font-medium">
                                             {value}
                                         </dd>
                                     </div>
@@ -93,7 +95,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                             <h2 data-reveal="words" id="product-story-title" className="font-cormorant text-[clamp(4rem,8vw,8rem)] font-semibold leading-none tracking-[-0.055em]">
                                 Cao nguyên
                             </h2>
-                            <p data-reveal="lines" data-reveal-at="0.25" className="mt-8 max-w-xl text-base font-medium leading-relaxed md:text-lg">
+                            <p data-reveal="lines" className="mt-8 max-w-xl text-base font-medium leading-relaxed md:text-lg">
                                 {product.story}
                             </p>
                             <RevealLink href="/cau-chuyen/" variant="border" className="mt-8 text-sm font-semibold uppercase">

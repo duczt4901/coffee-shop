@@ -43,6 +43,13 @@
 }
 
 .word {
+    display: inline-block;
     transform: translateY(100%);
     will-change: transform;
+}
+
+.mask {
+    display: inline-block;
+    overflow: clip;
+    vertical-align: bottom;
 }

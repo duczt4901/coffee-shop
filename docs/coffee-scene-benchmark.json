@@ -1,0 +1,189 @@
+{
+  "date": "2026-11-11",
+  "hardware": "NVIDIA RTX 3050 6GB Laptop / Chrome / ANGLE D3D11",
+  "method": "EXT_disjoint_timer_query_webgl2; controlled 2.4-second scroll; warm render; 1-second idle observation",
+  "assetSHA256": "1517d83a0b4dfd2df7f86780da61d1f91ac640210b0687ce6abe69d7b9421063",
+  "before": {
+    "buffer": [
+      2880,
+      2439
+    ],
+    "contextLost": false,
+    "devicePixelRatio": 1,
+    "disjoint": false,
+    "draws": 23058,
+    "drawsPerFrame": {
+      "max": 61,
+      "median": 61,
+      "min": 61
+    },
+    "frameCount": 378,
+    "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 6GB Laptop GPU (0x000025AC) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "gpuMedianMs": 4.727808,
+    "gpuP95Ms": 5.413888,
+    "idleDraws": 0,
+    "pixels": 7024320,
+    "samples": 378,
+    "viewport": [
+      1920,
+      911
+    ]
+  },
+  "after": {
+    "buffer": [
+      1920,
+      1626
+    ],
+    "contextLost": false,
+    "devicePixelRatio": 1,
+    "disjoint": false,
+    "draws": 8640,
+    "drawsPerFrame": {
+      "max": 20,
+      "median": 20,
+      "min": 20
+    },
+    "frameCount": 432,
+    "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 6GB Laptop GPU (0x000025AC) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "gpuMedianMs": 2.338816,
+    "gpuP95Ms": 3.367936,
+    "idleDraws": 0,
+    "pixels": 3121920,
+    "samples": 432,
+    "viewport": [
+      1920,
+      911
+    ]
+  },
+  "afterRetina": {
+    "buffer": [
+      2305,
+      1952
+    ],
+    "contextLost": false,
+    "devicePixelRatio": 2,
+    "disjoint": false,
+    "draws": 2740,
+    "drawsPerFrame": {
+      "max": 20,
+      "median": 20,
+      "min": 20
+    },
+    "frameCount": 137,
+    "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 6GB Laptop GPU (0x000025AC) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "gpuMedianMs": 2.154496,
+    "gpuP95Ms": 3.091456,
+    "idleDraws": 0,
+    "pixels": 4499360,
+    "samples": 137,
+    "viewport": [
+      1920,
+      911
+    ]
+  },
+  "afterMobileEmulated": {
+    "buffer": [
+      780,
+      1688
+    ],
+    "contextLost": false,
+    "devicePixelRatio": 3,
+    "disjoint": false,
+    "draws": 1640,
+    "drawsPerFrame": {
+      "max": 20,
+      "median": 20,
+      "min": 20
+    },
+    "frameCount": 82,
+    "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 6GB Laptop GPU (0x000025AC) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "gpuMedianMs": 2.470912,
+    "gpuP95Ms": 3.218432,
+    "idleDraws": 0,
+    "pixels": 1316640,
+    "samples": 82,
+    "viewport": [
+      390,
+      844
+    ]
+  },
+  "offscreenDraws": 0,
+  "beans": {
+    "background": 9,
+    "foreground": 4,
+    "atlasSize": [
+      512,
+      512
+    ],
+    "focused": 13,
+    "bakeDrawsOnce": 39,
+    "total": 26
+  },
+  "limitations": [
+    "Warm WebGL GPU query excludes application CPU, initial atlas/shadow/PMREM work, video, compositor and default framebuffer MSAA resolve after the render callback.",
+    "Mobile is viewport/DPR emulation on the same NVIDIA GPU, not real phone hardware.",
+    "DPR-1 before/after are comparable scenarios, not whole-site FPS. No fresh original mobile baseline was captured.",
+    "The 4.5M-pixel budget is soft: minimum DPR 1 preserves CSS resolution on larger 4K viewports."
+  ],
+  "offlineAtlas": {
+    "gpuRoundTripMaxByteError": 0,
+    "clientBakeDraws": 0,
+    "previousClientBakeDraws": 39,
+    "desktop": {
+      "buffer": [
+        1920,
+        1626
+      ],
+      "contextLost": false,
+      "devicePixelRatio": 1,
+      "disjoint": false,
+      "draws": 1520,
+      "drawsPerFrame": {
+        "max": 20,
+        "median": 20,
+        "min": 20
+      },
+      "frameCount": 76,
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 6GB Laptop GPU (0x000025AC) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "gpuMedianMs": 2.27328,
+      "gpuP95Ms": 3.582976,
+      "idleDraws": 0,
+      "pixels": 3121920,
+      "samples": 76,
+      "viewport": [
+        1920,
+        911
+      ]
+    },
+    "atlasFailureKeepsHero": true,
+    "format": "webp-lossless",
+    "imageBytes": 27172,
+    "pngComparisonBytes": 55880,
+    "desktopWebP": {
+      "buffer": [
+        1920,
+        1626
+      ],
+      "contextLost": false,
+      "devicePixelRatio": 1,
+      "disjoint": false,
+      "draws": 7560,
+      "drawsPerFrame": {
+        "max": 20,
+        "median": 20,
+        "min": 20
+      },
+      "frameCount": 378,
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 6GB Laptop GPU (0x000025AC) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "gpuMedianMs": 2.235392,
+      "gpuP95Ms": 2.690048,
+      "idleDraws": 0,
+      "pixels": 3121920,
+      "samples": 378,
+      "viewport": [
+        1920,
+        911
+      ]
+    }
+  }
+}

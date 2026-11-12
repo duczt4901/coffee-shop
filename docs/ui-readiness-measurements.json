@@ -1,0 +1,79 @@
+{
+  "scenarioCount": 23,
+  "routes": [
+    "/",
+    "/san-pham/",
+    "/cau-chuyen/",
+    "/faq/",
+    "/san-pham/trung-toan-coffee-robusta/",
+    "/gio-hang/",
+    "/ve-chung-toi/",
+    "/lien-he/",
+    "/thanh-toan/"
+  ],
+  "viewports": [
+    "1920x911",
+    "390x844",
+    "320x568",
+    "768x1024",
+    "1024x600"
+  ],
+  "layoutPasses": 22,
+  "homeTransferBytes": 15737976,
+  "homeTransferMiB": 15.008903503417969,
+  "mediaShare": 0.8372456534436195,
+  "jsGzipKiB": 392.4560546875,
+  "jsDecodedMiB": 1.4260263442993164,
+  "initialLongTaskMs": 431,
+  "gpuDesktop": {
+    "buffer": [
+      2880,
+      2439
+    ],
+    "disjoint": false,
+    "draws": 5429,
+    "gpuMaxMs": 8.89856,
+    "gpuMedianMs": 5.963776,
+    "gpuP95Ms": 7.661568,
+    "samples": 89,
+    "supported": true
+  },
+  "weights": [
+    [
+      "GPU / tốc độ",
+      30,
+      2.5
+    ],
+    [
+      "Thiết bị / tương thích",
+      25,
+      3
+    ],
+    [
+      "Nguồn cấu hình UI",
+      20,
+      3
+    ],
+    [
+      "Tương tác / animation",
+      10,
+      3.5
+    ],
+    [
+      "Trạng thái UI",
+      5,
+      2.5
+    ],
+    [
+      "Accessibility",
+      5,
+      3
+    ],
+    [
+      "Visual / nội dung",
+      5,
+      3.5
+    ]
+  ],
+  "score": 58
+}

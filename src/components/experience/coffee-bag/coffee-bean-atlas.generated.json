@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "format": "webp-lossless",
+  "width": 512,
+  "height": 512,
+  "tileSize": 128,
+  "columns": 4,
+  "count": 13,
+  "sourceSHA256": "d2a856559a8b18b40f8550b846ecb7b1bd8c92e5cdf68f2c132c9668fec3fb34",
+  "imageSHA256": "9b9b4a5764aef426578eacdccf50b5ffda768b8b6df0a9c2cf9fd0f50e805b0a",
+  "rgbaSHA256": "0e6ee105983ccf7978f1ae99d893e18c9ae74bbc611061289decaab9fa841d27"
+}

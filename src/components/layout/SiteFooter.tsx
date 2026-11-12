@@ -1,62 +1,43 @@
 "use client";
 
-import { useRef } from "react";
+import { useId, useLayoutEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-import { useLenis } from "lenis/react";
+import { observeMotion, observeScroll } from "@/lib/native-motion";
+import { getScrollViewportHeight } from "@/lib/scroll-viewport";
 import { ContactForm } from "@/components/ui/ContactForm";
-import { useExperienceRuntime } from "@/components/experience/ExperienceRuntime";
 import styles from "./SiteFooter.module.css";
-import { RevealLink } from "@/components/ui/EditorialReveal";
-
-gsap.registerPlugin(ScrollTrigger);
+import { RevealLine, RevealLink } from "@/components/ui/EditorialReveal";
 
 export function SiteFooter() {
+    const debossId = useId();
     const wrapperRef = useRef<HTMLDivElement>(null);
     const footerRef = useRef<HTMLElement>(null);
     const pathname = usePathname();
-    const { started } = useExperienceRuntime();
 
-    useLenis(() => ScrollTrigger.update());
-
-    useGSAP(
-        () => {
-            if (!started) return;
-
-            const motion = gsap.matchMedia();
-            motion.add("(min-width: 64rem) and (min-height: 38rem) and (prefers-reduced-motion: no-preference)", () => {
-                gsap.fromTo(
-                    footerRef.current,
-                    { yPercent: -50 },
-                    {
-                        yPercent: 0,
-                        ease: "none",
-                        scrollTrigger: {
-                            trigger: wrapperRef.current,
-                            start: "top bottom",
-                            // Finish before a tall footer's first content scrolls above the viewport.
-                            end: "top top",
-                            scrub: true,
-                            invalidateOnRefresh: true,
-                        },
-                    },
-                );
+    useLayoutEffect(() => {
+        const wrapper = wrapperRef.current;
+        const footer = footerRef.current;
+        if (!wrapper || !footer) return;
+        return observeMotion("(min-width: 64rem) and (min-height: 38rem)", () => {
+            const stop = observeScroll(() => {
+                const progress = Math.max(0, Math.min(1, 1 - wrapper.getBoundingClientRect().top / getScrollViewportHeight()));
+                footer.style.transform = `translateY(${(progress - 1) * 50}%)`;
             });
-
-            return () => motion.revert();
-        },
-        { scope: wrapperRef, dependencies: [pathname, started], revertOnUpdate: true },
-    );
+            return () => {
+                stop();
+                footer.style.removeProperty("transform");
+            };
+        });
+    }, [pathname]);
 
     return (
         <div ref={wrapperRef} data-footer-reveal className={`${styles.revealBoundary} relative overflow-clip bg-[#ede8dd]`}>
             <footer
                 ref={footerRef}
                 data-site-footer
-                className="relative flex flex-col justify-between gap-12 border-t-2 border-foreground/10 bg-[#ede8dd] px-page pt-24 pb-12 text-foreground md:gap-16 md:pt-12"
+                className={`${styles.footer} relative flex flex-col justify-between gap-12 border-t-2 border-transparent bg-[#ede8dd] px-page pt-24 pb-12 text-foreground md:gap-16 md:pt-12`}
             >
+                <RevealLine thickness={2} className="text-foreground/10" />
                 <div className="flex flex-col items-start justify-between gap-12 md:flex-row md:gap-10">
                     <ContactForm />
 
@@ -64,36 +45,65 @@ export function SiteFooter() {
                         <RevealLink href="#" variant="border">
                             Zalo · 0123 456 789
                         </RevealLink>
-                        <RevealLink href="#" variant="border" delay={0.1}>
+                        <RevealLink href="#" variant="border">
                             Facebook · ABC
                         </RevealLink>
-                        <RevealLink href="#" variant="border" delay={0.2}>
+                        <RevealLink href="#" variant="border">
                             Email · mail@email.com
                         </RevealLink>
                     </nav>
                 </div>
 
-                <span className="pointer-events-none block whitespace-nowrap font-cormorant text-[clamp(3rem,20vw,24rem)] leading-[0.8] uppercase tracking-[0.04em]">la vuon</span>
+                <svg className={styles.pressedMark} viewBox="0 0 1200 240" role="img" aria-label="Lá Vườn" focusable="false">
+                    <defs>
+                        <filter id={debossId} x="-2%" y="-6%" width="104%" height="112%" colorInterpolationFilters="sRGB">
+                            <feOffset in="SourceAlpha" dy="1.2" result="down" />
+                            <feGaussianBlur in="down" stdDeviation="0.65" result="downSoft" />
+                            <feComposite in="SourceAlpha" in2="downSoft" operator="out" result="topEdge" />
+                            <feFlood floodColor="#000" floodOpacity="0.22" result="shade" />
+                            <feComposite in="shade" in2="topEdge" operator="in" result="innerShade" />
+                            <feOffset in="SourceAlpha" dy="-0.65" result="up" />
+                            <feGaussianBlur in="up" stdDeviation="0.35" result="upSoft" />
+                            <feComposite in="SourceAlpha" in2="upSoft" operator="out" result="bottomEdge" />
+                            <feFlood floodColor="#fff" floodOpacity="0.55" result="light" />
+                            <feComposite in="light" in2="bottomEdge" operator="in" result="innerLight" />
+                            <feOffset in="SourceAlpha" dy="0.6" result="lipDown" />
+                            <feComposite in="lipDown" in2="SourceAlpha" operator="out" result="lipEdge" />
+                            <feFlood floodColor="#fff" floodOpacity="0.9" result="lipLight" />
+                            <feComposite in="lipLight" in2="lipEdge" operator="in" result="lip" />
+                            <feMerge>
+                                <feMergeNode in="lip" />
+                                <feMergeNode in="SourceGraphic" />
+                                <feMergeNode in="innerShade" />
+                                <feMergeNode in="innerLight" />
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    <text x="12" y="208" textLength="1176" lengthAdjust="spacing" filter={`url(#${debossId})`}>
+                        LA VUON
+                    </text>
+                </svg>
 
                 <div className="flex flex-col gap-8 text-sm text-foreground/60 md:flex-row md:flex-wrap md:items-end md:justify-between">
                     <div className="flex flex-wrap items-center justify-start gap-x-6 gap-y-3 md:gap-x-10">
                         <RevealLink href="/ve-chung-toi/" variant="border">
                             Về chúng tôi
                         </RevealLink>
-                        <RevealLink href="/san-pham/" variant="border" delay={0.1}>
+                        <RevealLink href="/san-pham/" variant="border">
                             Tất cả sản phẩm
                         </RevealLink>
-                        <RevealLink href="/faq/" variant="border" delay={0.2}>
+                        <RevealLink href="/faq/" variant="border">
                             Câu hỏi thường gặp
                         </RevealLink>
-                        <RevealLink href="/lien-he/" variant="border" delay={0.3}>
+                        <RevealLink href="/lien-he/" variant="border">
                             Liên hệ
                         </RevealLink>
                     </div>
 
                     <div className="flex flex-wrap items-center gap-x-6 gap-y-3 md:gap-10">
                         <span>All Rights Reserved</span>
-                        <a href="#" className="border-b border-current hover:text-neutral-900">
+                        <a href="#" className="relative border-b border-transparent hover:text-neutral-900">
+                            <RevealLine side="bottom" />
                             Credits
                         </a>
                     </div>

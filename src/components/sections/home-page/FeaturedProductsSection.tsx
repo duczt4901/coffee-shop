@@ -2,19 +2,19 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { products } from "@/data/products";
+import { formatListingPrice } from "@/lib/commerce";
 import { EditorialReveal, RevealLink } from "@/components/ui/EditorialReveal";
 
 export function FeaturedProductsSection() {
     return (
         <section className="px-page pb-section-large font-cormorant flex flex-col" aria-labelledby="product-title">
-            <EditorialReveal start="center 85%">
+            <EditorialReveal>
                 <header className="flex flex-col items-center justify-center px-3 py-section-large text-center md:px-6">
                     <p data-reveal="block" className="mb-8 text-[clamp(0.8rem,1vw,1rem)] italic">
                         Bầu ơi thương lấy bí cùng
                     </p>
                     <h2
                         data-reveal="words"
-                        data-reveal-at="0.15"
                         id="product-title"
                         className="text-[clamp(2.75rem,14vw,3.75rem)] font-medium uppercase leading-none tracking-[-0.06em] md:text-[clamp(3.75rem,8.5vw,10rem)]"
                     >
@@ -25,7 +25,7 @@ export function FeaturedProductsSection() {
             </EditorialReveal>
 
             <div className="flex flex-col items-center gap-20">
-                <EditorialReveal start="top 90%">
+                <EditorialReveal>
                     <div className="grid grid-cols-1 gap-x-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
                         {products.map((product) => (
                             <article data-reveal="block" key={product.slug} className="group">
@@ -55,7 +55,7 @@ export function FeaturedProductsSection() {
                                         </Link>
                                     </h3>
 
-                                    <p className="mt-1 text-[clamp(1rem,1.2vw,1.2rem)] text-neutral-400">{product.price}</p>
+                                    <p className="mt-1 text-[clamp(1rem,1.2vw,1.2rem)] text-neutral-400">{formatListingPrice(product.priceVnd)}</p>
                                 </div>
                             </article>
                         ))}

@@ -1,39 +1,57 @@
 "use client";
 
 import { useLayoutEffect, useRef, type KeyboardEvent, type PointerEvent } from "react";
-import { useLenis } from "lenis/react";
 import styles from "./PageScrollbar.module.css";
+import { useLenis } from "lenis/react";
 
 export function PageScrollbar() {
+    const lenis = useLenis();
     const trackRef = useRef<HTMLDivElement>(null);
     const thumbRef = useRef<HTMLDivElement>(null);
     const dragOffset = useRef(0);
-    const lenis = useLenis();
 
     useLayoutEffect(() => {
-        const track = trackRef.current!;
-        const thumb = thumbRef.current!;
+        const track = trackRef.current;
+        const thumb = thumbRef.current;
+        if (!track || !thumb || typeof ResizeObserver === "undefined") return;
+        const root = document.documentElement;
+        let observer: ResizeObserver | undefined;
+        let range = 0;
+        let travel = 0;
         const sync = () => {
+            const progress = range > 0 ? Math.min(1, Math.max(0, window.scrollY / range)) : 0;
+            track.setAttribute("aria-valuenow", String(Math.round(progress * 100)));
+            thumb.style.transform = `translateY(${progress * travel}px)`;
+        };
+        const measure = () => {
             const viewport = window.innerHeight;
             const height = document.documentElement.scrollHeight;
-            const range = height - viewport;
+            range = height - viewport;
             const thumbHeight = Math.min(viewport, Math.max(32, (viewport * viewport) / height));
-            const progress = range > 0 ? Math.min(1, Math.max(0, window.scrollY / range)) : 0;
+            travel = viewport - thumbHeight;
             track.hidden = range <= 0;
-            track.setAttribute("aria-valuenow", String(Math.round(progress * 100)));
             thumb.style.height = `${thumbHeight}px`;
-            thumb.style.transform = `translateY(${progress * (viewport - thumbHeight)}px)`;
+            sync();
         };
-        sync();
-        const observer = new ResizeObserver(sync);
-        observer.observe(document.body);
-        window.addEventListener("scroll", sync, { passive: true });
-        window.addEventListener("resize", sync);
-        return () => {
-            observer.disconnect();
+        const cleanup = () => {
+            observer?.disconnect();
             window.removeEventListener("scroll", sync);
-            window.removeEventListener("resize", sync);
+            window.removeEventListener("resize", measure);
+            root.removeAttribute("data-custom-scrollbar");
+            track.hidden = true;
         };
+        try {
+            observer = new ResizeObserver(measure);
+            observer.observe(document.body);
+            window.addEventListener("scroll", sync, { passive: true });
+            window.addEventListener("resize", measure);
+            measure();
+            // Only replace the browser's scrollbar after its enhancement is ready.
+            root.setAttribute("data-custom-scrollbar", "");
+        } catch {
+            cleanup();
+        }
+        return cleanup;
     }, []);
 
     const scrollTo = (top: number) => {
@@ -81,6 +99,7 @@ export function PageScrollbar() {
     return (
         <div
             ref={trackRef}
+            hidden
             className={styles.track}
             role="scrollbar"
             aria-label="Cuộn trang"

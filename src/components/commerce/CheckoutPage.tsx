@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState, type SubmitEvent } from "react";
 import { Button } from "@/components/ui/Button";
+import { RevealLine } from "@/components/ui/EditorialReveal";
 import { LinkMarker } from "@/components/ui/LinkMarker";
 import { formatPrice, FREE_SHIPPING_THRESHOLD } from "@/lib/commerce";
 import { useCart } from "./useCart";
@@ -79,6 +80,11 @@ export function CheckoutPage() {
                     </Link>
                 </nav>
                 <h1 className={styles.heading}>{receipt ? "Cảm ơn bạn." : "Thanh toán"}</h1>
+                <noscript>
+                    <p className={styles.summaryNote}>
+                        Thanh toán cần JavaScript để đọc giỏ hàng trên thiết bị và gửi đơn. Bạn có thể <Link href="/san-pham/" className={styles.textLink}>xem sản phẩm</Link> hoặc <Link href="/lien-he/" className={styles.textLink}>liên hệ cửa hàng để đặt hàng</Link>.
+                    </p>
+                </noscript>
                 {receipt ? (
                     <div ref={receiptRef} tabIndex={-1} className={styles.receipt} role="status">
                         <p className={styles.receiptId}>Đơn hàng {receipt.orderNumber}</p>
@@ -147,6 +153,8 @@ export function CheckoutPage() {
                                 </label>
                             </div>
                             <div className={styles.payment}>
+                                <RevealLine className="text-[color:var(--line)]" />
+                                <RevealLine side="bottom" className="text-[color:var(--line)]" />
                                 <h3>Thanh toán khi nhận hàng (COD)</h3>
                                 <p className={styles.muted}>
                                     Bạn thanh toán trực tiếp cho đơn vị giao hàng. Cửa hàng sẽ gọi xác nhận thông tin và phí giao hàng trước khi gửi đơn.
@@ -158,6 +166,7 @@ export function CheckoutPage() {
                             <dl>
                                 {cart.lines.map((line) => (
                                     <div key={line.slug} className={styles.summaryRow}>
+                                        <RevealLine side="bottom" className="text-foreground/15" />
                                         <dt>
                                             {line.product.name}
                                             <br />
@@ -169,14 +178,17 @@ export function CheckoutPage() {
                                     </div>
                                 ))}
                                 <div className={styles.summaryRow}>
+                                    <RevealLine side="bottom" className="text-foreground/15" />
                                     <dt>Tạm tính</dt>
                                     <dd>{formatPrice(cart.subtotal)}</dd>
                                 </div>
                                 <div className={styles.summaryRow}>
+                                    <RevealLine side="bottom" className="text-foreground/15" />
                                     <dt>Giao hàng</dt>
                                     <dd>{shipping === null ? "Cửa hàng xác nhận" : shipping === 0 ? "Miễn phí" : formatPrice(shipping)}</dd>
                                 </div>
                                 <div className={`${styles.summaryRow} ${styles.total}`}>
+                                    <RevealLine side="bottom" className="text-foreground/15" />
                                     <dt>{shipping === null ? "Tổng tiền hàng" : "Tổng thanh toán"}</dt>
                                     <dd>{formatPrice(cart.subtotal + (shipping ?? 0))}</dd>
                                 </div>

@@ -19,5 +19,5 @@
 
 .animated.revealed {
     clip-path: inset(0);
-    transition: clip-path 1.6s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: clip-path var(--reveal-duration) var(--reveal-easing);
 }

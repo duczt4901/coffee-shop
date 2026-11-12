@@ -11,8 +11,9 @@ export function HeroVideo(): React.ReactElement {
         if (!video || !hero) return;
 
         let inView = false;
+        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
         const updatePlayback = () => {
-            if (inView && !document.hidden) {
+            if (inView && !document.hidden && !reducedMotion.matches) {
                 void video.play().catch(() => {
                     /* Autoplay can be blocked by browser preferences. */
                 });
@@ -27,17 +28,19 @@ export function HeroVideo(): React.ReactElement {
         });
         observer.observe(hero);
         document.addEventListener("visibilitychange", updatePlayback);
+        reducedMotion.addEventListener("change", updatePlayback);
 
         return () => {
             observer.disconnect();
             document.removeEventListener("visibilitychange", updatePlayback);
+            reducedMotion.removeEventListener("change", updatePlayback);
             video.pause();
         };
     }, []);
 
     return (
         <div className="h-full w-full overflow-hidden bg-black">
-            <video ref={videoRef} data-hero-video muted loop playsInline preload="metadata" aria-hidden="true" className="h-full w-full scale-[1.02] object-cover blur-[2px] brightness-[0.55]">
+            <video ref={videoRef} data-hero-video muted loop playsInline preload="metadata" poster="/images/coffee/coffee-cherry-harvest.webp" aria-hidden="true" className="h-full w-full scale-[1.02] object-cover blur-[2px] brightness-[0.55]">
                 <source src="/videos/coffee/coffee-cherry-sorting-hero.mp4" type="video/mp4" />
             </video>
         </div>

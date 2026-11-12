@@ -1,20 +1,12 @@
 .backdropParallax {
-    animation-name: backdrop-parallax;
-    animation-duration: 1ms;
-    animation-timing-function: linear;
-    animation-fill-mode: both;
-
-    animation-timeline: scroll(root block);
-
-    animation-range: 0 100svh;
-
     will-change: transform;
 }
 
-@media (prefers-reduced-motion: reduce) {
+@supports (animation-timeline: scroll(root block)) {
     .backdropParallax {
-        animation: none;
-        transform: none;
+        animation: backdrop-parallax 1ms linear both;
+        animation-timeline: scroll(root block);
+        animation-range: 0 100svh;
     }
 }
 

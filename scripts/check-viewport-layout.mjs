@@ -23,7 +23,7 @@ export function collectViewportLayout() {
         canvasMinimumHeight: canvas ? parseFloat(getComputedStyle(canvas.closest("[data-coffee-canvas]")).minHeight) : null,
         canvasPaddingTop: canvas ? parseFloat(getComputedStyle(canvas.closest("[data-coffee-canvas]")).paddingTop) : null,
         canvasBuffer: canvas ? [canvas.width, canvas.height] : null,
-        canvasPixelBudget: Number(canvas?.closest("[data-coffee-canvas]").dataset.renderPixelBudget),
+        canvasPixelRatio: canvas ? canvas.width / canvas.getBoundingClientRect().width : null,
         coffeeStage: measure("[data-coffee-stage]"),
         coffeeScene: measure("[data-coffee-scene]"),
         coffeeText: copies.length ? {
@@ -55,9 +55,8 @@ if (process.argv[1]?.endsWith("check-viewport-layout.mjs")) {
         }
         if (snapshot.canvas) {
             const [width, height] = snapshot.canvasBuffer;
-            assert(width > 0 && width <= Math.round(snapshot.coffeeFrame.width), `${label}: canvas buffer width`);
-            assert(height > 0 && height <= Math.round(snapshot.coffeeFrame.height), `${label}: canvas buffer height`);
-            assert(width * height <= snapshot.canvasPixelBudget, `${label}: exceeded render pixel budget`);
+            assert(Math.abs(width - snapshot.coffeeFrame.width * snapshot.canvasPixelRatio) <= 1, `${label}: canvas buffer width must preserve render resolution`);
+            assert(Math.abs(height - snapshot.coffeeFrame.height * snapshot.canvasPixelRatio) <= 1, `${label}: canvas buffer height must preserve render resolution`);
             assert(Math.abs(width / height - snapshot.coffeeFrame.width / snapshot.coffeeFrame.height) < 0.005, `${label}: buffer aspect ratio`);
             assert.equal(snapshot.coffeeStage.position, "relative", `${label}: coffee stage must stay in document flow`);
             assert(snapshot.coffeeFrame.height >= snapshot.canvasMinimumHeight, `${label}: frame must respect 100vh minimum`);

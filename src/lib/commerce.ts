@@ -3,7 +3,9 @@ import { getProduct } from "../data/products";
 export type CartItem = { slug: string; quantity: number };
 export const FREE_SHIPPING_THRESHOLD = 500000;
 export const MAX_QUANTITY = 99;
-export const formatPrice = (amount: number) => `${new Intl.NumberFormat("vi-VN").format(amount)} ₫`;
+const priceFormatter = new Intl.NumberFormat("vi-VN");
+export const formatPrice = (amount: number) => `${priceFormatter.format(amount)} ₫`;
+export const formatListingPrice = (amount: number) => `${priceFormatter.format(amount)} vnđ`;
 
 export function readCart(raw: string): CartItem[] {
     try {

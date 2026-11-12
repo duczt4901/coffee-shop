@@ -1,6 +1,6 @@
-# Coffee Shop — Minimal Skeleton
+# Coffee Shop
 
-Project Next.js static export tối giản. App hiện chỉ có:
+Website Next.js static export với nội dung cà phê, motion và trải nghiệm WebGL. Các nền tảng có sẵn:
 
 - Header
 - Footer
@@ -11,7 +11,7 @@ Project Next.js static export tối giản. App hiện chỉ có:
 - `db.json` được kiểm tra bằng Zod
 - Cloudflare Workers Static Assets
 
-Không có page content, section mẫu hoặc animation đang chạy. Các vị trí làm tiếp đã được đánh dấu bằng `TODO` trong source code.
+Các kết nối nghiệp vụ chưa hoàn tất được theo dõi tại [docs/integrations.md](docs/integrations.md). Luôn cập nhật danh sách đó khi nối domain, WordPress, database, API hoặc email; không dùng báo cáo audit cũ làm trạng thái kết nối hiện tại.
 
 ## Chạy local
 

@@ -7,14 +7,13 @@ import styles from "./ProcessGallerySection.module.css";
 export function ProcessGallerySection(): ReactElement {
     return (
         <section className="relative z-1 bg-background px-page py-2.5 md:pb-0 font-cormorant" aria-labelledby="process-gallery-title">
-            <EditorialReveal start="center 85%">
+            <EditorialReveal>
                 <header className="flex flex-col items-center justify-center px-3 py-section-large text-center md:px-6">
                     <p data-reveal="block" className="mb-8  text-[clamp(0.8rem,1vw,1rem)] italic">
                         Chi chi chành chành
                     </p>
                     <h2
                         data-reveal="words"
-                        data-reveal-at="0.15"
                         id="process-gallery-title"
                         className="text-[clamp(2.75rem,14vw,3.75rem)] font-medium uppercase leading-none tracking-[-0.06em] md:text-[clamp(3.75rem,8.5vw,10rem)]"
                     >
@@ -53,12 +52,12 @@ export function ProcessGallerySection(): ReactElement {
                                         Rồng rắn lên mây
                                     </p>
 
-                                    <h3 data-reveal="words" data-reveal-at="0.15" className="text-[clamp(2rem,2.4vw,3rem)] font-medium leading-[1.05] tracking-[-0.04em]">
+                                    <h3 data-reveal="words" className="text-[clamp(2rem,2.4vw,3rem)] font-medium leading-[1.05] tracking-[-0.04em]">
                                         Có cây lúc lắc,
                                         <br /> có nhà hiển binh.
                                     </h3>
 
-                                    <p data-reveal="lines" data-reveal-at="0.35" className="max-w-lg text-[clamp(1rem,1.2vw,1.2rem)] leading-tight">
+                                    <p data-reveal="lines" className="max-w-lg text-[clamp(1rem,1.2vw,1.2rem)] leading-tight">
                                         Chú voi con ở Bản Đôn chưa có ngà nên còn trẻ con từ rừng già chú đến với người vẫn ham ăn với lại ham chơi. Voi con ơi voi con ơi mau lớn nhanh có đôi ngà to
                                         có sức đi khắp miền rừng xa kéo gỗ cho buôn làng của ta chú voi con thật là khôn quen thiếu nhi khắp vùng Bản Đôn. Đầu gật gù đưa vẫy cái vòi khéo đung đưa theo
                                         nhịp chiêng vui
@@ -94,12 +93,12 @@ export function ProcessGallerySection(): ReactElement {
                         </div>
                     </div>
 
-                    <EditorialReveal start="center 85%">
+                    <EditorialReveal>
                         <figure className="flex flex-col items-center justify-center px-[clamp(1.5rem,8vw,8rem)] py-section-large text-center">
                             <blockquote data-reveal="lines" className="max-w-180 text-[clamp(1.75rem,2.7vw,3rem)] font-medium leading-[1.08] tracking-[-0.04em]">
                                 “Một con vịt xoè ra hai cái cánh, nó kêu rằng cáp cáp cáp cạp cạp cạp. Gặp hồ nước nó bì bà bì bõm, lúc lên bờ vẫy cái cánh cho khô”
                             </blockquote>
-                            <figcaption data-reveal="block" data-reveal-at="0.3" className="mt-10 flex flex-col  text-[0.95rem] uppercase">
+                            <figcaption data-reveal="block" className="mt-10 flex flex-col  text-[0.95rem] uppercase">
                                 TRUNG TOÀN
                                 <span className="mt-[0.2rem] italic normal-case">SOMETHING Coffee CEO</span>
                             </figcaption>

@@ -38,15 +38,16 @@
 }
 .items {
     min-width: 0;
-    border-top: 1px solid var(--line);
+    border-top: 1px solid transparent;
 }
 .item {
+    position: relative;
     display: grid;
     grid-template-columns: 7.5rem minmax(0, 1fr) auto;
     gap: 1.5rem;
     align-items: center;
     padding-block: 1.75rem;
-    border-bottom: 1px solid var(--line);
+    border-bottom: 1px solid transparent;
 }
 .itemImage {
     display: flex;
@@ -147,12 +148,13 @@
     line-height: 1.15;
 }
 .summaryRow {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     gap: 1.5rem;
     padding-block: 1rem;
-    border-bottom: 1px solid rgb(37 31 24 / 15%);
+    border-bottom: 1px solid transparent;
     font-size: 0.875rem;
     line-height: 1.6;
 }
@@ -223,10 +225,11 @@
     outline-offset: 3px;
 }
 .payment {
+    position: relative;
     margin-top: 2.5rem;
     padding-block: 1.5rem;
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
 }
 .payment h3 {
     display: flex;

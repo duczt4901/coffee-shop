@@ -1,125 +1,133 @@
 "use client";
 
-import { useRef, type ReactNode } from "react";
+import { useLenis } from "lenis/react";
+
+import { useLayoutEffect, useRef, type ReactNode } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import gsap from "gsap";
-import { SplitText } from "gsap/SplitText";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-import { useExperienceRuntime } from "@/components/experience/ExperienceRuntime";
+import { usePathname, useRouter } from "next/navigation";
+import { observeMotion, observeScroll } from "@/lib/native-motion";
+import { getScrollViewportHeight } from "@/lib/scroll-viewport";
+import { splitWords } from "@/lib/split-words";
+import { getTextRevealDelay, isRevealVisible, REVEAL } from "@/lib/reveal";
 import styles from "./EditorialReveal.module.css";
 import { Button } from "./Button";
 import { LinkMarker } from "./LinkMarker";
 
-gsap.registerPlugin(SplitText, ScrollTrigger);
-
+const CONTENT_FRAMES = [
+    { opacity: 0, transform: "translateY(16px)" },
+    { opacity: 1, transform: "translateY(0)" },
+];
 const REVEALS = {
-    words: { from: { yPercent: 140 }, to: { yPercent: 0 }, duration: 1.2 },
-    lines: { from: { yPercent: 140 }, to: { yPercent: 0 }, duration: 1 },
-    block: { from: { autoAlpha: 0, y: 16 }, to: { autoAlpha: 1, y: 0 }, duration: 0.8 },
-    border: { from: { scaleX: 0, transformOrigin: "left" }, to: { scaleX: 1 }, duration: 1.2 },
-    marker: { from: { scale: 0, rotation: 20, transformOrigin: "left top" }, to: { scale: 1, rotation: 0 }, duration: 1 },
+    words: [{ transform: "translateY(160%)" }, { transform: "translateY(0)" }],
+    lines: CONTENT_FRAMES,
+    block: CONTENT_FRAMES,
+    border: [
+        { transform: "scaleX(0)", transformOrigin: "left" },
+        { transform: "scaleX(1)", transformOrigin: "left" },
+    ],
+    marker: [
+        { transform: "scale(0) rotate(20deg)", transformOrigin: "left top" },
+        { transform: "scale(1) rotate(0)", transformOrigin: "left top" },
+    ],
 };
 
-export function EditorialReveal({ children, start = "top 85%" }: { children: ReactNode; start?: string }) {
+export function EditorialReveal({ children }: { children: ReactNode }) {
     const scopeRef = useRef<HTMLDivElement>(null);
     const pathname = usePathname();
-    const { started } = useExperienceRuntime();
 
-    useGSAP(
-        () => {
-            const scope = scopeRef.current;
-            const root = scope?.firstElementChild;
-            if (!started || !scope || !root) return;
+    useLayoutEffect(() => {
+        const scope = scopeRef.current;
+        if (!scope || typeof scope.animate !== "function") return;
 
-            const motion = gsap.matchMedia();
-            motion.add("(prefers-reduced-motion: no-preference)", () => {
-                let entered = false;
-                const animations = new Map<Element, gsap.core.Timeline>();
-                const splits: SplitText[] = [];
-                const targets = Array.from(scope.querySelectorAll<HTMLElement>("[data-reveal]")).filter((target) => target.closest("[data-editorial-reveal]") === scope);
+        return observeMotion("(prefers-reduced-motion: no-preference)", () => {
+            const animations: Animation[] = [];
+            const splits: ReturnType<typeof splitWords>[] = [];
+            const targets = Array.from(scope.querySelectorAll<HTMLElement>("[data-reveal]")).filter((target) => target.closest("[data-editorial-reveal]") === scope && (target.dataset.reveal ?? "") in REVEALS);
+            const pending = new Set(targets);
+            let stop = () => {};
+            const cleanup = () => {
+                stop();
+                scope.removeEventListener("focusin", revealFocused);
+                animations.forEach((animation) => animation.cancel());
+                splits.forEach((split) => split.revert());
+                targets.forEach((target) => target.removeAttribute("data-reveal-pending"));
+                pending.clear();
+            };
+            const fail = (error: unknown) => {
+                cleanup();
+                console.error("Text reveal failed; keeping its content visible.", error);
+            };
 
-                targets.forEach((target, index) => {
-                    const mode = target.dataset.reveal as keyof typeof REVEALS;
-                    const preset = REVEALS[mode];
-                    const at = Number(target.dataset.revealAt ?? index * 0.1) + (mode === "lines" ? 0.12 : 0);
-                    const animate = (parts: gsap.TweenTarget, masks: Element[] = []) => {
-                        const timeline = gsap.timeline({ paused: !entered });
-                        timeline.fromTo(
-                            parts,
-                            preset.from,
-                            {
-                                ...preset.to,
-                                duration: preset.duration,
-                                stagger: 0.05,
-                                ease: mode === "border" ? "power3.inOut" : "power3.out",
-                            },
-                            at,
-                        );
-                        // Masks belong to the reveal, not the finished text's ink bounds.
-                        if (masks.length) timeline.set(masks, { overflow: "visible" });
-                        animations.set(target, timeline);
-                        return timeline;
+            const reveal = (target: HTMLElement, focused = false, sequenceDelay = 0) => {
+                if (!pending.delete(target)) return;
+                const mode = target.dataset.reveal as keyof typeof REVEALS;
+                let parts = [target];
+                // Keep offscreen text intact; allocate word masks and animations only when needed.
+                if (mode === "words") {
+                    const split = splitWords(target, styles.word, styles.mask);
+                    splits.push(split);
+                    parts = split.words;
+                }
+                target.removeAttribute("data-reveal-pending");
+                parts.forEach((part, wordIndex) => {
+                    const animation = part.animate(REVEALS[mode], {
+                        duration: REVEAL.duration,
+                        delay: sequenceDelay + getTextRevealDelay(target, mode, focused) + wordIndex * REVEAL.wordStagger,
+                        easing: REVEAL.easing,
+                        fill: "both",
+                    });
+                    animation.onfinish = () => {
+                        animation.cancel();
+                        if (mode === "words") part.parentElement?.classList.add(styles.finished);
                     };
-
-                    if (mode === "words" || mode === "lines") {
-                        splits.push(
-                            SplitText.create(target, {
-                                type: mode === "words" ? "lines,words" : "lines",
-                                mask: "lines",
-                                tag: "span",
-                                linesClass: styles.line,
-                                wordsClass: styles.word,
-                                autoSplit: true,
-                                onSplit: (split) => {
-                                    split.lines.forEach((line) => line.setAttribute("data-reveal-line", ""));
-                                    split.words.forEach((word) => word.setAttribute("data-reveal-word", ""));
-                                    split.masks.forEach((mask) => {
-                                        mask.classList.add(styles.mask);
-                                        mask.setAttribute("data-reveal-mask", "");
-                                    });
-                                    return animate(mode === "words" ? split.words : split.lines, split.masks);
-                                },
-                            }),
-                        );
-                    } else {
-                        animate(target);
-                    }
+                    animations.push(animation);
                 });
-
-                // One trigger gives the group a shared start while its parts overlap in time.
-                const reveal = () => {
-                    entered = true;
-                    animations.forEach((animation) => animation.play());
-                };
-                const trigger = ScrollTrigger.create({
-                    trigger: root,
-                    start: `clamp(${start})`,
-                    once: true,
-                    onEnter: reveal,
-                    onRefresh: (self) => {
-                        if (!entered && self.scroll() >= self.start) reveal();
-                    },
+            };
+            const sync = () => {
+                const viewport = getScrollViewportHeight();
+                const atPageEnd = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 1;
+                let textIndex = 0;
+                pending.forEach((target) => {
+                    if (!isRevealVisible(target.getBoundingClientRect(), viewport, atPageEnd)) return;
+                    const decoration = target.dataset.reveal === "border" || target.dataset.reveal === "marker";
+                    reveal(target, false, decoration ? 0 : textIndex++ * REVEAL.textStagger);
                 });
-                ScrollTrigger.refresh(true);
+                if (!pending.size) stop();
+            };
+            const revealFocused = (event: FocusEvent) => {
+                try {
+                    pending.forEach((target) => {
+                        if (event.target instanceof Node && (target.contains(event.target) || target.closest("a, button, summary")?.contains(event.target))) reveal(target, true);
+                    });
+                    if (!pending.size) stop();
+                } catch (error) {
+                    fail(error);
+                }
+            };
+            try {
+                targets.forEach((target) => target.setAttribute("data-reveal-pending", ""));
+                stop = observeScroll(sync, fail);
+                if (!pending.size) stop();
+                scope.addEventListener("focusin", revealFocused);
+            } catch (error) {
+                fail(error);
+            }
+            return cleanup;
+        });
+    }, [pathname]);
 
-                return () => {
-                    trigger.kill();
-                    splits.forEach((split) => split.revert());
-                    animations.forEach((animation) => animation.kill());
-                };
-            });
-            return () => motion.revert();
-        },
-        { scope: scopeRef, dependencies: [start, started, pathname], revertOnUpdate: true },
-    );
-
-    // An owned scope also accepts streamed Server Component children without cloning their refs.
     return (
         <div ref={scopeRef} className={styles.scope} data-editorial-reveal>
             {children}
         </div>
+    );
+}
+
+export function RevealLine({ side = "top", thickness = 1, className = "" }: { side?: "top" | "bottom"; thickness?: number; className?: string }) {
+    return (
+        <EditorialReveal>
+            <span aria-hidden="true" data-reveal="border" data-edge={side} className={`${styles.divider} ${className}`} style={{ height: thickness }} />
+        </EditorialReveal>
     );
 }
 
@@ -128,20 +136,30 @@ export function RevealLink({
     children,
     variant = "button",
     className = "",
-    delay = 0,
 }: {
     href: string;
     children: ReactNode;
     variant?: "button" | "border";
     className?: string;
-    delay?: number;
 }) {
+    const router = useRouter();
+    const lenis = useLenis();
+    const navigateAnchor = (event: { preventDefault: () => void }) => {
+        if (!href.startsWith("#") || href.length === 1) return;
+        const target = document.getElementById(href.slice(1));
+        if (!target) return;
+        event.preventDefault();
+        router.push(href, { scroll: false });
+        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (lenis) lenis.scrollTo(target, { immediate: reduced });
+        else target.scrollIntoView({ behavior: reduced ? "instant" : "smooth", block: "start" });
+    };
     const bordered = variant === "border";
     if (!bordered)
         return (
             <EditorialReveal>
-                <Button href={href} className={className}>
-                    <span data-reveal="words" data-reveal-at={delay} className={styles.label}>
+                <Button href={href} className={className} onNavigate={navigateAnchor}>
+                    <span data-reveal="words" className={styles.label}>
                         {children}
                     </span>
                 </Button>
@@ -149,13 +167,13 @@ export function RevealLink({
         );
     return (
         <EditorialReveal>
-            <Link href={href} className={`${styles.borderLink} ${className}`}>
-                {bordered && <span aria-hidden="true" data-reveal="border" data-reveal-at={delay} data-reveal-border className={styles.border} />}
-                <span data-reveal="words" data-reveal-at={delay + (bordered ? 0.2 : 0)} className={styles.label}>
+            <Link href={href} className={`${styles.borderLink} ${className}`} onNavigate={navigateAnchor}>
+                {bordered && <span aria-hidden="true" data-reveal="border" data-reveal-border className={styles.border} />}
+                <span data-reveal="words" className={styles.label}>
                     {children}
                 </span>
                 {bordered && (
-                    <span aria-hidden="true" data-reveal="marker" data-reveal-at={delay} className={styles.marker}>
+                    <span aria-hidden="true" data-reveal="marker" className={styles.marker}>
                         <LinkMarker />
                     </span>
                 )}

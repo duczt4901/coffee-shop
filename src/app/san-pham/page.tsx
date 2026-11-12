@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ImageReveal } from "@/components/ui/ImageReveal";
 import { EditorialReveal, RevealLink } from "@/components/ui/EditorialReveal";
 import { products } from "@/data/products";
+import { formatListingPrice } from "@/lib/commerce";
 import { createMetadata } from "@/lib/metadata";
 import styles from "./page.module.css";
 
@@ -26,7 +27,7 @@ export default function ProductsPage() {
             <EditorialReveal>
                 <header className={styles.intro}>
                     <h1 data-reveal="words">Sản phẩm</h1>
-                    <p data-reveal="lines" data-reveal-at="0.25">
+                    <p data-reveal="lines">
                         Cà phê từ cao nguyên, cho mỗi ngày.
                     </p>
                 </header>
@@ -46,7 +47,7 @@ export default function ProductsPage() {
                                         </div>
                                         <div data-product-details className={styles.productInfo}>
                                             <h2>{product.name}</h2>
-                                            <p>{product.price}</p>
+                                            <p>{formatListingPrice(product.priceVnd)}</p>
                                         </div>
                                     </Link>
                                 </div>

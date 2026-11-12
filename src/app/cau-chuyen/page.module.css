@@ -13,8 +13,15 @@
     font-family: var(--font-cormorant-upright), Georgia, serif;
 }
 
-.storyRoot :global(.pin-spacer) {
-    background: var(--story-stage);
+.cardStack {
+    position: relative;
+}
+
+@media (min-width: 1001px) and (min-height: 700px) and (prefers-reduced-motion: no-preference) {
+    .card:not(.introCard):not(.brewingCard) {
+        position: sticky;
+        top: 0;
+    }
 }
 
 .card {

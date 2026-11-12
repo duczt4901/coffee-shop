@@ -1,0 +1,68 @@
+/* Generated coffee framing; source: 2fd119f5246508e57d8603c4a75d4b02515ab1459c91c0e04e09a4754f517319; body: f60dfbb06f75d902534734bc65c37b699262a896d595a810e2eb1c13c990f1bc */
+/* Offline fit of the approved GLB/orbit; <=1px from the solver. Regenerate, never hand-edit. */
+[data-coffee-canvas] { --coffee-geometry-height: calc(126.99600000vw + 0.25000000px); }
+@media (min-width: 480px) { [data-coffee-canvas] { --coffee-geometry-height: calc(111.47426667vw + 74.75432000px); } }
+@media (min-width: 528px) { [data-coffee-canvas] { --coffee-geometry-height: calc(108.65213333vw + 89.65518400px); } }
+@media (min-width: 576px) { [data-coffee-canvas] { --coffee-geometry-height: calc(105.83000000vw + 105.91067200px); } }
+@media (min-width: 624px) { [data-coffee-canvas] { --coffee-geometry-height: calc(103.00786667vw + 123.52078400px); } }
+@media (min-width: 672px) { [data-coffee-canvas] { --coffee-geometry-height: calc(100.18573333vw + 142.48552000px); } }
+@media (min-width: 720px) { [data-coffee-canvas] { --coffee-geometry-height: calc(97.36360000vw + 162.80488000px); } }
+@media (min-width: 768px) { [data-coffee-canvas] { --coffee-geometry-height: calc(94.54146667vw + 184.47886400px); } }
+@media (min-width: 816px) { [data-coffee-canvas] { --coffee-geometry-height: calc(91.71933333vw + 207.50747200px); } }
+@media (min-width: 864px) { [data-coffee-canvas] { --coffee-geometry-height: calc(88.89720000vw + 231.89070400px); } }
+@media (min-width: 912px) { [data-coffee-canvas] { --coffee-geometry-height: calc(86.07506667vw + 257.62856000px); } }
+@media (min-width: 960px) { [data-coffee-canvas] { --coffee-geometry-height: calc(83.25293333vw + 284.72104000px); } }
+@media (min-width: 1008px) { [data-coffee-canvas] { --coffee-geometry-height: calc(80.43080000vw + 313.16814400px); } }
+@media (min-width: 1056px) { [data-coffee-canvas] { --coffee-geometry-height: calc(77.60866667vw + 342.96987200px); } }
+@media (min-width: 1104px) { [data-coffee-canvas] { --coffee-geometry-height: calc(74.78653333vw + 374.12622400px); } }
+@media (min-width: 1152px) { [data-coffee-canvas] { --coffee-geometry-height: calc(71.96440000vw + 406.63720000px); } }
+@media (min-width: 1200px) { [data-coffee-canvas] { --coffee-geometry-height: calc(69.14226667vw + 440.50280000px); } }
+@media (min-width: 1248px) { [data-coffee-canvas] { --coffee-geometry-height: calc(66.32013333vw + 475.72302400px); } }
+@media (min-width: 1296px) { [data-coffee-canvas] { --coffee-geometry-height: calc(63.49800000vw + 512.29787200px); } }
+@media (min-width: 1344px) { [data-coffee-canvas] { --coffee-geometry-height: calc(60.67586667vw + 550.22734400px); } }
+@media (min-width: 1392px) { [data-coffee-canvas] { --coffee-geometry-height: calc(57.85373333vw + 589.51144000px); } }
+@media (min-width: 1440px) { [data-coffee-canvas] { --coffee-geometry-height: calc(55.03160000vw + 630.15016000px); } }
+@media (min-width: 1488px) { [data-coffee-canvas] { --coffee-geometry-height: calc(52.20946667vw + 672.14350400px); } }
+@media (min-width: 1536px) { [data-coffee-canvas] { --coffee-geometry-height: calc(49.38733333vw + 715.49147200px); } }
+@media (min-width: 1584px) { [data-coffee-canvas] { --coffee-geometry-height: calc(46.56520000vw + 760.19406400px); } }
+@media (min-width: 1632px) { [data-coffee-canvas] { --coffee-geometry-height: calc(43.74306667vw + 806.25128000px); } }
+@media (min-width: 1680px) { [data-coffee-canvas] { --coffee-geometry-height: calc(40.92093333vw + 853.66312000px); } }
+@media (min-width: 1728px) { [data-coffee-canvas] { --coffee-geometry-height: calc(38.09880000vw + 902.42958400px); } }
+@media (min-width: 1776px) { [data-coffee-canvas] { --coffee-geometry-height: calc(35.27666667vw + 952.55067200px); } }
+@media (min-width: 1824px) { [data-coffee-canvas] { --coffee-geometry-height: calc(32.45453333vw + 1004.02638400px); } }
+@media (min-width: 1872px) { [data-coffee-canvas] { --coffee-geometry-height: calc(29.63240000vw + 1056.85672000px); } }
+@media (min-width: 1920px) { [data-coffee-canvas] { --coffee-geometry-height: calc(84.66400000vw + 0.25000000px); } }
+@supports (container-type: inline-size) {
+    @container (min-width: 0px) { [data-coffee-canvas] { --coffee-geometry-height: calc(126.99600000cqw + 0.25000000px); } }
+    @container (min-width: 480px) { [data-coffee-canvas] { --coffee-geometry-height: calc(111.47426667cqw + 74.75432000px); } }
+    @container (min-width: 528px) { [data-coffee-canvas] { --coffee-geometry-height: calc(108.65213333cqw + 89.65518400px); } }
+    @container (min-width: 576px) { [data-coffee-canvas] { --coffee-geometry-height: calc(105.83000000cqw + 105.91067200px); } }
+    @container (min-width: 624px) { [data-coffee-canvas] { --coffee-geometry-height: calc(103.00786667cqw + 123.52078400px); } }
+    @container (min-width: 672px) { [data-coffee-canvas] { --coffee-geometry-height: calc(100.18573333cqw + 142.48552000px); } }
+    @container (min-width: 720px) { [data-coffee-canvas] { --coffee-geometry-height: calc(97.36360000cqw + 162.80488000px); } }
+    @container (min-width: 768px) { [data-coffee-canvas] { --coffee-geometry-height: calc(94.54146667cqw + 184.47886400px); } }
+    @container (min-width: 816px) { [data-coffee-canvas] { --coffee-geometry-height: calc(91.71933333cqw + 207.50747200px); } }
+    @container (min-width: 864px) { [data-coffee-canvas] { --coffee-geometry-height: calc(88.89720000cqw + 231.89070400px); } }
+    @container (min-width: 912px) { [data-coffee-canvas] { --coffee-geometry-height: calc(86.07506667cqw + 257.62856000px); } }
+    @container (min-width: 960px) { [data-coffee-canvas] { --coffee-geometry-height: calc(83.25293333cqw + 284.72104000px); } }
+    @container (min-width: 1008px) { [data-coffee-canvas] { --coffee-geometry-height: calc(80.43080000cqw + 313.16814400px); } }
+    @container (min-width: 1056px) { [data-coffee-canvas] { --coffee-geometry-height: calc(77.60866667cqw + 342.96987200px); } }
+    @container (min-width: 1104px) { [data-coffee-canvas] { --coffee-geometry-height: calc(74.78653333cqw + 374.12622400px); } }
+    @container (min-width: 1152px) { [data-coffee-canvas] { --coffee-geometry-height: calc(71.96440000cqw + 406.63720000px); } }
+    @container (min-width: 1200px) { [data-coffee-canvas] { --coffee-geometry-height: calc(69.14226667cqw + 440.50280000px); } }
+    @container (min-width: 1248px) { [data-coffee-canvas] { --coffee-geometry-height: calc(66.32013333cqw + 475.72302400px); } }
+    @container (min-width: 1296px) { [data-coffee-canvas] { --coffee-geometry-height: calc(63.49800000cqw + 512.29787200px); } }
+    @container (min-width: 1344px) { [data-coffee-canvas] { --coffee-geometry-height: calc(60.67586667cqw + 550.22734400px); } }
+    @container (min-width: 1392px) { [data-coffee-canvas] { --coffee-geometry-height: calc(57.85373333cqw + 589.51144000px); } }
+    @container (min-width: 1440px) { [data-coffee-canvas] { --coffee-geometry-height: calc(55.03160000cqw + 630.15016000px); } }
+    @container (min-width: 1488px) { [data-coffee-canvas] { --coffee-geometry-height: calc(52.20946667cqw + 672.14350400px); } }
+    @container (min-width: 1536px) { [data-coffee-canvas] { --coffee-geometry-height: calc(49.38733333cqw + 715.49147200px); } }
+    @container (min-width: 1584px) { [data-coffee-canvas] { --coffee-geometry-height: calc(46.56520000cqw + 760.19406400px); } }
+    @container (min-width: 1632px) { [data-coffee-canvas] { --coffee-geometry-height: calc(43.74306667cqw + 806.25128000px); } }
+    @container (min-width: 1680px) { [data-coffee-canvas] { --coffee-geometry-height: calc(40.92093333cqw + 853.66312000px); } }
+    @container (min-width: 1728px) { [data-coffee-canvas] { --coffee-geometry-height: calc(38.09880000cqw + 902.42958400px); } }
+    @container (min-width: 1776px) { [data-coffee-canvas] { --coffee-geometry-height: calc(35.27666667cqw + 952.55067200px); } }
+    @container (min-width: 1824px) { [data-coffee-canvas] { --coffee-geometry-height: calc(32.45453333cqw + 1004.02638400px); } }
+    @container (min-width: 1872px) { [data-coffee-canvas] { --coffee-geometry-height: calc(29.63240000cqw + 1056.85672000px); } }
+    @container (min-width: 1920px) { [data-coffee-canvas] { --coffee-geometry-height: calc(84.66400000cqw + 0.25000000px); } }
+}

@@ -1,0 +1,376 @@
+{
+  "date": "2026-11-11",
+  "timezone": "Asia/Saigon",
+  "originalAudit": {
+    "source": "docs/ui-readiness-measurements.json",
+    "scenarioCount": 23,
+    "routes": [
+      "/",
+      "/san-pham/",
+      "/cau-chuyen/",
+      "/faq/",
+      "/san-pham/trung-toan-coffee-robusta/",
+      "/gio-hang/",
+      "/ve-chung-toi/",
+      "/lien-he/",
+      "/thanh-toan/"
+    ],
+    "viewports": [
+      "1920x911",
+      "390x844",
+      "320x568",
+      "768x1024",
+      "1024x600"
+    ],
+    "layoutPasses": 22,
+    "homeTransferBytes": 15737976,
+    "homeTransferMiB": 15.008903503417969,
+    "mediaShare": 0.8372456534436195,
+    "jsGzipKiB": 392.4560546875,
+    "jsDecodedMiB": 1.4260263442993164,
+    "initialLongTaskMs": 431,
+    "gpuDesktop": {
+      "buffer": [
+        2880,
+        2439
+      ],
+      "disjoint": false,
+      "draws": 5429,
+      "gpuMaxMs": 8.89856,
+      "gpuMedianMs": 5.963776,
+      "gpuP95Ms": 7.661568,
+      "samples": 89,
+      "supported": true
+    },
+    "weights": [
+      [
+        "GPU / tốc độ",
+        30,
+        2.5
+      ],
+      [
+        "Thiết bị / tương thích",
+        25,
+        3
+      ],
+      [
+        "Nguồn cấu hình UI",
+        20,
+        3
+      ],
+      [
+        "Tương tác / animation",
+        10,
+        3.5
+      ],
+      [
+        "Trạng thái UI",
+        5,
+        2.5
+      ],
+      [
+        "Accessibility",
+        5,
+        3
+      ],
+      [
+        "Visual / nội dung",
+        5,
+        3.5
+      ]
+    ],
+    "score": 58
+  },
+  "immediatelyBeforeOptimization": {
+    "buffer": [
+      2880,
+      2439
+    ],
+    "contextLost": false,
+    "devicePixelRatio": 1,
+    "disjoint": false,
+    "draws": 23058,
+    "drawsPerFrame": {
+      "max": 61,
+      "median": 61,
+      "min": 61
+    },
+    "frameCount": 378,
+    "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 6GB Laptop GPU (0x000025AC) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "gpuMedianMs": 4.727808,
+    "gpuP95Ms": 5.413888,
+    "idleDraws": 0,
+    "pixels": 7024320,
+    "samples": 378,
+    "viewport": [
+      1920,
+      911
+    ]
+  },
+  "previousWebPCheckpoint": {
+    "buffer": [
+      1920,
+      1626
+    ],
+    "contextLost": false,
+    "devicePixelRatio": 1,
+    "disjoint": false,
+    "draws": 7560,
+    "drawsPerFrame": {
+      "max": 20,
+      "median": 20,
+      "min": 20
+    },
+    "frameCount": 378,
+    "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 6GB Laptop GPU (0x000025AC) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "gpuMedianMs": 2.235392,
+    "gpuP95Ms": 2.690048,
+    "idleDraws": 0,
+    "pixels": 3121920,
+    "samples": 378,
+    "viewport": [
+      1920,
+      911
+    ]
+  },
+  "current": {
+    "measuredAt": "2026-11-11T14:07:57.124Z",
+    "environment": {
+      "dpr": 1,
+      "error": 0,
+      "hasFocus": true,
+      "measuredAt": "2026-11-11T14:07:57.124Z",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+      "viewport": [
+        1920,
+        911
+      ],
+      "visibility": "visible"
+    },
+    "gpu": {
+      "statistic": "median of three per-run medians/P95s; not a pooled percentile",
+      "medianMs": 2.253824,
+      "p95Ms": 4.194304,
+      "samples": 208,
+      "runs": [
+        {
+          "buffer": [
+            1920,
+            1626
+          ],
+          "contextLost": false,
+          "devicePixelRatio": 1,
+          "disjoint": false,
+          "draws": 1960,
+          "drawsPerFrame": {
+            "max": 20,
+            "median": 20,
+            "min": 20
+          },
+          "frameCount": 98,
+          "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 6GB Laptop GPU (0x000025AC) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "gpuMedianMs": 2.412544,
+          "gpuP95Ms": 3.749888,
+          "idleDraws": 0,
+          "pixels": 3121920,
+          "samples": 98,
+          "viewport": [
+            1920,
+            911
+          ]
+        },
+        {
+          "buffer": [
+            1920,
+            1626
+          ],
+          "contextLost": false,
+          "devicePixelRatio": 1,
+          "disjoint": false,
+          "draws": 1580,
+          "drawsPerFrame": {
+            "max": 20,
+            "median": 20,
+            "min": 20
+          },
+          "frameCount": 79,
+          "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 6GB Laptop GPU (0x000025AC) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "gpuMedianMs": 2.102272,
+          "gpuP95Ms": 4.194304,
+          "idleDraws": 0,
+          "pixels": 3121920,
+          "samples": 79,
+          "viewport": [
+            1920,
+            911
+          ]
+        },
+        {
+          "buffer": [
+            1920,
+            1626
+          ],
+          "contextLost": false,
+          "devicePixelRatio": 1,
+          "disjoint": false,
+          "draws": 620,
+          "drawsPerFrame": {
+            "max": 20,
+            "median": 20,
+            "min": 20
+          },
+          "frameCount": 31,
+          "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 6GB Laptop GPU (0x000025AC) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "gpuMedianMs": 2.253824,
+          "gpuP95Ms": 7.117824,
+          "idleDraws": 0,
+          "pixels": 3121920,
+          "samples": 31,
+          "viewport": [
+            1920,
+            911
+          ]
+        }
+      ]
+    },
+    "homeFullMediaVisit": {
+      "measuredAt": "2026-11-11T13:48:26.099Z",
+      "transferBytes": 15759850,
+      "groups": {
+        "css": {
+          "count": 3,
+          "decoded": 102683,
+          "transfer": 18437
+        },
+        "fonts": {
+          "count": 17,
+          "decoded": 325304,
+          "transfer": 330404
+        },
+        "glb": {
+          "count": 1,
+          "decoded": 4959692,
+          "transfer": 4959992
+        },
+        "images": {
+          "count": 5,
+          "decoded": 1784832,
+          "transfer": 1786332
+        },
+        "js": {
+          "count": 10,
+          "decoded": 1471233,
+          "transfer": 396241
+        },
+        "other": {
+          "count": 21,
+          "decoded": 123257,
+          "transfer": 51884
+        },
+        "video": {
+          "count": 1,
+          "decoded": 8216260,
+          "transfer": 8216560
+        }
+      },
+      "mainHTMLIncluded": false
+    },
+    "startupObservations": [
+      {
+        "measuredAt": "2026-11-11T13:56:16.792Z",
+        "lcpMs": 432,
+        "cls": 0.02010047076053482,
+        "longTaskTotalFirst3sMs": 334,
+        "longTasks": [
+          {
+            "duration": 108,
+            "start": 83.19999998807907
+          },
+          {
+            "duration": 226,
+            "start": 548.6999999880791
+          }
+        ]
+      },
+      {
+        "measuredAt": "2026-11-11T13:56:23.136Z",
+        "lcpMs": 472,
+        "cls": 0.02010047076053482,
+        "longTaskTotalFirst3sMs": 365,
+        "longTasks": [
+          {
+            "duration": 111,
+            "start": 96.30000001192091
+          },
+          {
+            "duration": 254,
+            "start": 603.8000000119209
+          }
+        ]
+      },
+      {
+        "measuredAt": "2026-11-11T14:04:11.108Z",
+        "lcpMs": 644,
+        "cls": 0.02010047076053482,
+        "longTaskTotalFirst3sMs": 609,
+        "longTasks": [
+          {
+            "duration": 262,
+            "start": 155.19999998807907
+          },
+          {
+            "duration": 51,
+            "start": 673.7999999523163
+          },
+          {
+            "duration": 296,
+            "start": 946.5999999642372
+          }
+        ]
+      }
+    ],
+    "mobileEmulated": {
+      "buffer": [
+        780,
+        1688
+      ],
+      "contextLost": false,
+      "devicePixelRatio": 3,
+      "disjoint": false,
+      "draws": 7520,
+      "drawsPerFrame": {
+        "max": 20,
+        "median": 20,
+        "min": 20
+      },
+      "frameCount": 376,
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 6GB Laptop GPU (0x000025AC) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "gpuMedianMs": 0.50176,
+      "gpuP95Ms": 2.688,
+      "idleDraws": 0,
+      "pixels": 1316640,
+      "samples": 376,
+      "viewport": [
+        390,
+        844
+      ]
+    }
+  },
+  "delta": {
+    "drawCallsReductionPercent": 67.21311475409837,
+    "pixelsReductionPercent": 55.55555555555556,
+    "gpuMedianReductionVsOriginalAuditPercent": 62.2081043956044,
+    "gpuMedianReductionVsMatchedScriptPercent": 52.328351743556425,
+    "transferChangePercent": 0.13898864758721263,
+    "jsTransferChangePercent": -1.40192846034215
+  },
+  "limitations": [
+    "Main matched-script comparison uses scripts/profile-coffee-webgl.js: 2.4-second scroll, +250px canvas offset, amplitude .45 viewport height. The old initial audit has a separate 89-sample capture.",
+    "GPU timers exclude application CPU, video/DOM compositor and default-framebuffer MSAA resolve after the render callback. Composer resolves were inside the earlier render path.",
+    "Alternative 1.8-second/zero-offset camera scenario produced ~.54ms, stored separately; it is not the matched-script headline.",
+    "Resource Timing media entries can be incomplete/cached. Transfer comparison uses the session capture with the complete 8,216,560-byte video entry. Later media-incomplete visits are not used to claim a bandwidth reduction.",
+    "Startup LCP/long tasks are local lab observations, not field Core Web Vitals or INP. Old capture is one visit; current repeats have different cache/warmup states.",
+    "Early scripted scrolling/restored-scroll visits produced CLS .727-.746 and are excluded from the settled top-of-page scenario; keep those traces for a separate scroll-restoration check.",
+    "Mobile uses the same RTX 3050 with viewport/DPR emulation. No reliable old physical-phone baseline or actual VRAM/FPS measurement."
+  ]
+}

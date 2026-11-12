@@ -1,10 +1,14 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { getShipping, readCart } from "../src/lib/commerce";
+import { formatListingPrice, formatPrice, getShipping, readCart } from "../src/lib/commerce";
 import { orderSchema, priceOrder } from "../src/lib/orders";
 import { handleOrder, notifyOrder, type Env } from "../worker/index";
 
 const slug = "trung-toan-coffee-robusta";
+test("catalog prices derive from one number while preserving both approved formats", () => {
+    assert.equal(formatListingPrice(119000), "119.000 vnđ");
+    assert.equal(formatPrice(119000), "119.000 ₫");
+});
 const input = {
     checkoutId: "d91b9e36-cb6a-4be2-862f-7a073d8be925",
     customer: {
