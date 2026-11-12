@@ -37,7 +37,7 @@ export function ImmersivePage({ backdrop, heroContent, children, overlay = true,
     return (
         <div className="relative isolate">
             <section ref={heroRef} data-hero className="relative min-h-screen min-h-svh overflow-hidden">
-                <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-neutral-950">
+                <div data-hero-media aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-neutral-950">
                     <div ref={backdropRef} className={`${styles.backdropParallax} absolute inset-x-0 -inset-y-[16svh] ${className}`}>
                         {backdrop}
                     </div>

@@ -58,6 +58,26 @@ test("server HTML has a native mobile menu, usable links and the homepage logo g
     assert.match(html, /class="logo homeLogo"/);
 });
 
+test("home hero keeps the shared poster/video layer without an oversized title", () => {
+    const { ImmersivePage } = load("src/components/layout/ImmersivePage.tsx", { "@/lib/native-motion": {} });
+    const { HeroVideo } = load("src/components/sections/home-page/HeroVideo.tsx");
+    const { default: HomePage } = load("src/app/page.tsx", {
+        "@/components/layout/ImmersivePage": { ImmersivePage },
+        "@/components/experience/CoffeeBagExperience": { CoffeeBagExperience: () => null },
+        "@/components/sections/home-page/CoffeeOriginSection": { CoffeeOriginSection: () => null },
+        "@/components/sections/home-page/ProcessGallerySection": { ProcessGallerySection: () => null },
+        "@/components/sections/home-page": { HeroVideo, FeaturedProductsSection: () => null },
+        "@/lib/metadata": { createMetadata: () => ({}) },
+    });
+    const html = renderToStaticMarkup(React.createElement(HomePage));
+    assert(html.includes('data-hero-media="true"'));
+    assert(html.includes('poster="/images/coffee/coffee-cherry-sorting-hero-poster.webp"'));
+    assert(!html.includes(".mp4"));
+    assert(!html.includes("data-hero-title-line"));
+    assert(!html.includes("heroTitle"));
+    assert(html.includes('class="relative z-10 min-h-screen min-h-svh"'));
+});
+
 test("header fixes its position only after valid geometry and restores the baseline on failure", () => {
     for (const failure of [undefined, "geometry", "listener"]) {
         const layout = [];

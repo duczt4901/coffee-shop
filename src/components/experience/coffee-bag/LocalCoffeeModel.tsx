@@ -301,8 +301,10 @@ export function LocalCoffeeModel({ ref }: { ref: Ref<CoffeeModelHandle> }) {
     return (
         <div ref={containerRef} data-coffee-canvas data-coffee-state="loading" className={styles.canvas} role="img" aria-label="Cà phê Robusta Lâm Đồng">
             <div ref={mountRef} data-coffee-frame className={styles.renderFrame}>
-                {/* eslint-disable-next-line @next/next/no-img-element -- Static fallback also works without hydration. */}
-                <img data-coffee-fallback className={styles.modelFallback} src="/images/products/trung-toan-robusta-500g.webp" alt="" loading="lazy" decoding="async" />
+                <picture>
+                    <source media="(max-width: 47.999rem)" srcSet="/images/3d/robusta-scene-poster-mobile.webp" />
+                    <img data-coffee-fallback className={styles.modelFallback} src="/images/3d/robusta-scene-poster.webp" alt="" width={1280} height={1325} loading="lazy" decoding="async" />
+                </picture>
             </div>
         </div>
     );

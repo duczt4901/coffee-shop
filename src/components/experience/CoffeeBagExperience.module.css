@@ -46,9 +46,10 @@
     position: absolute;
     inset: 0;
     margin: auto;
-    inline-size: min(70%, 40rem);
-    block-size: 90%;
+    inline-size: 100%;
+    block-size: 100%;
     object-fit: contain;
+    object-position: center bottom;
 }
 
 .canvas:not([data-coffee-state="ready"]) .renderFrame > canvas,
@@ -172,6 +173,18 @@
 
 .copyAbove .revealWord {
     transform: translateY(calc(-100% - 1em));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .animated .revealWord {
+        transform: none;
+        transition: none;
+        visibility: hidden;
+    }
+
+    .copyVisible .revealWord {
+        visibility: visible;
+    }
 }
 
 @media (max-width: 63.999rem) {

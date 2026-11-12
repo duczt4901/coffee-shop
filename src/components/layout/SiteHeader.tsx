@@ -185,7 +185,7 @@ export function SiteHeader(): React.ReactElement {
                 </div>
 
                 <Link ref={logoRef} href={header.href} aria-label={header.ariaLabel} onClick={closeMobileMenu} className={cn(styles.logo, isHome && styles.homeLogo)}>
-                    <Image src="/images/brand/logo-placeholder.jpg" alt="Lá Vườn Cà Phê" width={500} height={350} priority className="block h-auto w-full" />
+                    <Image data-page-reveal-logo={isHome ? "" : undefined} src="/images/brand/logo-placeholder.jpg" alt="Lá Vườn Cà Phê" width={500} height={350} priority className="block h-auto w-full" />
                 </Link>
 
                 <div className={cn(styles.desktopActions, "flex flex-1 items-center justify-end transition-opacity duration-150", isHome && "opacity-100 delay-500")}>
