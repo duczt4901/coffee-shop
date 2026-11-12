@@ -65,6 +65,13 @@
     transition: opacity 0.35s ease-out;
 }
 
+@supports (height: 100dvh) {
+    .title {
+        /* Keep the caption above browser controls without resizing the pinned images. */
+        bottom: calc(100% - 100dvh + 2.8125rem + env(safe-area-inset-bottom, 0px));
+    }
+}
+
 .titleTrack {
     --active: 0;
     --offset: 30%;
@@ -169,7 +176,6 @@
 @media (max-width: 767px) {
     .title {
         right: 1.25rem;
-        bottom: 2.8125rem;
         left: 1.25rem;
     }
 

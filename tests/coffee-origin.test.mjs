@@ -22,7 +22,7 @@ function element() {
     };
 }
 
-function mount({ initialFailure = false, incompleteStory = false, initialTop = 1200 } = {}) {
+function mount({ initialFailure = false, incompleteStory = false, initialTop = 1200, stageHeight = 800 } = {}) {
     const root = element();
     const map = { ...element(), clientWidth: 1200, clientHeight: 800 };
     const shape = element(), fill = element(), borders = element(), copy = element(), location = element();
@@ -31,11 +31,13 @@ function mount({ initialFailure = false, incompleteStory = false, initialTop = 1
     const storyStart = { offsetTop: 560 };
     let top = initialTop, fail = initialFailure, active = false, effect, frame, stop, mapImage;
     const windowEvents = new EventTarget();
+    let viewportHeight = 800;
     class MapImage {
         constructor() { mapImage = this; }
     }
     const track = { querySelectorAll: (selector) => selector === ".slide" ? slides : images };
     const photo = {
+        get clientHeight() { if (fail) throw new Error("layout unavailable"); return stageHeight; },
         querySelector: (selector) => ({ ".slideTrack": incompleteStory ? null : track, ".viewport": { clientWidth: 1200 }, ".title": title })[selector],
         querySelectorAll: () => titles,
     };
@@ -54,7 +56,7 @@ function mount({ initialFailure = false, incompleteStory = false, initialTop = 1
             exports,
             Image: MapImage,
             window: {
-                innerHeight: 800,
+                get innerHeight() { return viewportHeight; },
                 matchMedia: () => ({ matches: false }),
                 addEventListener: windowEvents.addEventListener.bind(windowEvents),
                 removeEventListener: windowEvents.removeEventListener.bind(windowEvents),
@@ -64,7 +66,6 @@ function mount({ initialFailure = false, incompleteStory = false, initialTop = 1
                 if (name === "react") return react;
                 if (name.endsWith(".css")) return { __esModule: true, default: new Proxy({}, { get: (_, key) => key }) };
                 if (name.endsWith("CoffeeProcessSlideshow")) return storyModule;
-                if (name.endsWith("scroll-viewport")) return { getScrollViewportHeight: () => { if (fail) throw new Error("layout unavailable"); return 800; } };
                 if (name.endsWith("native-motion")) return {
                     observeScroll(update, onError) {
                         active = true;
@@ -88,6 +89,7 @@ function mount({ initialFailure = false, incompleteStory = false, initialTop = 1
         failMap() { mapImage.onerror?.(); },
         mapImage: () => mapImage,
         move(value) { top = value; windowEvents.dispatchEvent(new Event("scroll")); frame?.(); },
+        resizeViewport(height) { viewportHeight = height; windowEvents.dispatchEvent(new Event("resize")); frame?.(); },
         fail() { fail = true; frame(); },
     };
 }
@@ -143,6 +145,21 @@ test("missing prerequisites and failed initial update leave the full baseline av
         assert.equal(story.active(), false);
         cleanup();
     }
+});
+
+test("slideshow uses its full stage and keeps horizontal progress when browser controls resize", () => {
+    const story = mount({ stageHeight: 920 });
+    const cleanup = story.start();
+    story.loadMap();
+    // One quarter of the 2680px travel, after the 560px map introduction.
+    story.move(-1230);
+    const transform = story.slides[1].style.transform;
+    assert(Math.abs(parseFloat(transform.slice("translateX(".length)) - 59.52381) < 0.001);
+    story.resizeViewport(920);
+    assert.equal(story.slides[1].style.transform, transform);
+    story.resizeViewport(740);
+    assert.equal(story.slides[1].style.transform, transform);
+    cleanup();
 });
 
 test("a later slideshow failure rolls back the map and every slide mutation", () => {

@@ -1,11 +1,12 @@
 .section {
     --origin-viewport: 100vh;
+    --origin-stage: 100vh;
     --intro-scroll-length: calc(var(--origin-viewport) * 0.7);
     --story-scroll-length: calc(var(--origin-viewport) * 3.5);
 
     position: relative;
-    /* The sticky stage and its scroll distances share a stable viewport. */
-    height: calc(var(--origin-viewport) + var(--intro-scroll-length) + var(--story-scroll-length));
+    /* Reserve the large stage separately so browser chrome cannot change the scroll range. */
+    height: calc(var(--origin-stage) + var(--intro-scroll-length) + var(--story-scroll-length));
     background: var(--background);
 }
 
@@ -20,8 +21,10 @@
 .stickyViewport {
     position: sticky;
     top: 0;
-    height: var(--origin-viewport);
+    height: var(--origin-stage);
     overflow: hidden;
+    /* Keep the pinned media on its own layer during native touch scrolling. */
+    transform: translateZ(0);
 }
 
 .introCopy {
@@ -139,6 +142,12 @@
 @supports (height: 100svh) {
     .section {
         --origin-viewport: 100svh;
+    }
+}
+
+@supports (height: 100lvh) {
+    .section {
+        --origin-stage: 100lvh;
     }
 }
 

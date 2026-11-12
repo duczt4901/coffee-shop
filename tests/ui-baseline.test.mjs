@@ -22,7 +22,7 @@ const modules = {
     "@/lib/scroll-viewport": { getScrollViewportHeight: () => 800 },
     "@/components/ui/ScribbleText": { ScribbleText: { Root: Pass, Item: ({ href, text }) => React.createElement("a", { href }, text) } },
     "@/components/commerce/CartLink": { CartLink: () => React.createElement("a", { href: "/gio-hang/" }, "Giỏ hàng") },
-    "@/components/ui/EditorialReveal": { EditorialReveal: Pass, RevealLink: Link },
+    "@/components/ui/EditorialReveal": { EditorialReveal: Pass, RevealLink: Link, RevealLine: () => null },
     "./Chevron": { ChevronDownIcon: () => React.createElement("svg") },
 };
 

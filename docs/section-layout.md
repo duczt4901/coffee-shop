@@ -13,14 +13,15 @@
 
 ## Những nơi giữ viewport height có chủ đích
 
-- Hero mở đầu, hero giới thiệu, sân khấu sticky bản đồ/slideshow và các card câu chuyện được pin trên desktop giữ `svh` ổn định.
+- Hero mở đầu, hero giới thiệu và các card câu chuyện được pin trên desktop giữ `svh` ổn định.
+- Sân khấu bản đồ/slideshow dùng `100lvh` để phủ cả vùng màn hình khi thanh trình duyệt thu lại; quãng intro/story vẫn tính bằng `svh`. Tổng chiều cao section chứa thêm đúng chiều cao sân khấu, và tiến độ ngang trừ chiều cao thực của slideshow. Chỉ vị trí chú thích theo `dvh` và safe area; không cho thanh trình duyệt thay đổi quãng cuộn. Cắt tràn ngang ở `html`, tránh lớp cắt bao ngoài sticky; sân khấu có lớp compositing riêng.
 - Ảnh chính trong `ProcessGallerySection` giữ nguyên breakpoint sticky từ 48rem; chiều cao là `100svh` trừ hai gutter ảnh, kể cả khi cửa sổ desktop thấp. Dưới breakpoint đó, ảnh cuộn tự nhiên với tỷ lệ 4:5.
 - Chữ mở đầu của trải nghiệm 3D nằm giữa sân khấu, chữ kết ở phía dưới. Hai pha dùng cùng tiến độ với camera, có khoảng nghỉ giữa lúc chữ đầu rời đi và chữ sau xuất hiện. Khi giảm chuyển động, nội dung trở về luồng tự nhiên và model đứng yên.
 - Overlay điều hướng/chuyển trang nằm ngoài luồng nội dung và phủ bằng `position: fixed; inset: 0`. Thanh mua hàng có thể bám vùng nhìn thấy hiện tại; nó không quyết định chiều cao các section.
 
 ## JavaScript và resize
 
-- `ExperienceRuntime` cung cấp phần tử đo `100svh` có hook `data-scroll-viewport`, nằm ngoài luồng layout.
+- `RootLayout` cung cấp phần tử đo `100svh` có hook `data-scroll-viewport`, nằm ngoài luồng layout.
 - Dùng `getScrollViewportHeight()` cho hình học animation và vị trí logo để thống nhất với CSS. Không dùng chiều cao động của thanh URL làm đầu vào cho hình học trang.
 - Canvas chỉ resize khi kích thước container đổi. Giữ phép tính viewport động của thanh cuộn/keyboard vì đây là điều khiển UI, không phải hình học section.
 - Vẫn xử lý resize thực, xoay máy và thay đổi kích thước nội dung; không đóng băng viewport bằng một số pixel chụp duy nhất lúc tải trang.

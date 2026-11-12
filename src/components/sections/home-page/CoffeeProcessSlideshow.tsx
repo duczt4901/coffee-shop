@@ -1,7 +1,6 @@
 "use client";
 
 import { type ReactElement } from "react";
-import { getScrollViewportHeight } from "@/lib/scroll-viewport";
 import styles from "./CoffeeProcessSlideshow.module.css";
 
 const stories = [
@@ -89,7 +88,7 @@ export function setupCoffeeProcessSlideshow(section: HTMLElement) {
         update: () => {
             const bounds = section.getBoundingClientRect();
             const distance = -bounds.top - storyStart.offsetTop;
-            const range = bounds.height - getScrollViewportHeight() - storyStart.offsetTop;
+            const range = bounds.height - photo.clientHeight - storyStart.offsetTop;
             const progress = Math.max(0, Math.min(1, distance / Math.max(1, range)));
             const visible = distance >= 0;
             title.toggleAttribute("data-title-visible", visible);

@@ -28,6 +28,8 @@
 
 html {
     background: var(--background);
+    /* Clip at the viewport, outside the ancestors of native sticky sections. */
+    overflow-x: clip;
 }
 
 [data-scroll-viewport] {
@@ -45,7 +47,6 @@ html[data-custom-scrollbar]::-webkit-scrollbar {
 
 body {
     margin: 0;
-    overflow-x: clip;
     color: var(--foreground);
     background: var(--background);
     text-rendering: optimizeLegibility;

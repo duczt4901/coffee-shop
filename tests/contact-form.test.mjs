@@ -16,7 +16,7 @@ function render(endpoint) {
         exports, process: { env: { NEXT_PUBLIC_CONTACT_ENDPOINT: endpoint } },
         require(name) {
             if (name === "react/jsx-runtime") return jsxRuntime;
-            if (name.endsWith("EditorialReveal")) return { EditorialReveal: ({ children }) => children };
+            if (name.endsWith("EditorialReveal")) return { EditorialReveal: ({ children }) => children, RevealLine: () => null };
             if (name.endsWith("Button")) return { Button: props => jsxRuntime.jsx("button", props) };
             throw Error(name);
         },
