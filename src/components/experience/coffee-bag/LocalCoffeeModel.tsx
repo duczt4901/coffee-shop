@@ -102,7 +102,6 @@ export function LocalCoffeeModel({ ref }: { ref: Ref<CoffeeModelHandle> }) {
             let hasFrame = false;
             let contextLost = false;
             let environmentDirty = true;
-            let intersectsViewport = false;
             const cameraDirection = new THREE.Vector3();
             const rebuildEnvironment = () => {
                 const phin = model?.getObjectByName("Vietnamese_Phin");
@@ -148,7 +147,12 @@ export function LocalCoffeeModel({ ref }: { ref: Ref<CoffeeModelHandle> }) {
             };
             const loop = createCoffeeRenderLoop(renderView);
             renderLoop = loop;
-            const updateActivity = () => loop.setActive(intersectsViewport && !document.hidden && !contextLost);
+            const updateActivity = () => {
+                // Intersection callbacks can lag behind native touch scrolling and layout changes.
+                const bounds = mount.getBoundingClientRect();
+                const visible = bounds.bottom > 0 && bounds.top < window.innerHeight && bounds.right > 0 && bounds.left < window.innerWidth;
+                loop.setActive(visible && !document.hidden && !contextLost);
+            };
             const onContextLost = (event: Event) => {
                 event.preventDefault();
                 contextLost = true;
@@ -187,6 +191,7 @@ export function LocalCoffeeModel({ ref }: { ref: Ref<CoffeeModelHandle> }) {
                 camera.far = Math.max(...layout.distances) + modelRadius * 40;
                 camera.setViewOffset(width, layout.height, 0, layout.offsetY, width, layout.height);
                 view.shadowMap.needsUpdate = true;
+                updateActivity();
                 if (!hasFrame) renderView();
                 else loop.invalidate();
             };
@@ -205,12 +210,10 @@ export function LocalCoffeeModel({ ref }: { ref: Ref<CoffeeModelHandle> }) {
             window.addEventListener("resize", requestResize);
             resizeObserver = new ResizeObserver(requestResize);
             resizeObserver.observe(container);
-            visibilityObserver = new IntersectionObserver(([entry]) => {
-                intersectsViewport = entry.isIntersecting && entry.intersectionRect.width > 0 && entry.intersectionRect.height > 0;
-                updateActivity();
-            });
+            visibilityObserver = new IntersectionObserver(updateActivity);
             visibilityObserver.observe(mount);
             renderProgressRef.current = progress => {
+                updateActivity();
                 if (scrollProgress === progress) return;
                 scrollProgress = progress;
                 if (initialized) loop.invalidate();

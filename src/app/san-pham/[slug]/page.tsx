@@ -49,7 +49,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             <ProductPurchase key={product.slug} product={product} />
 
             <section className="px-page py-20 md:py-32" aria-labelledby="product-details-title">
-                <div className="mx-auto grid max-w-[96rem] gap-14 md:grid-cols-2 md:gap-20">
+                <div className="grid gap-14 md:grid-cols-2 md:gap-20">
                     <EditorialReveal>
                         <h2 data-reveal="words" id="product-details-title" className="font-cormorant text-[clamp(3.5rem,7vw,7rem)] font-semibold leading-none tracking-[-0.05em]">
                             Về sản phẩm
@@ -89,7 +89,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </section>
 
             <section className="overflow-hidden px-page py-20 md:py-32" style={{ backgroundColor: product.accent }} aria-labelledby="product-story-title">
-                <div className="mx-auto max-w-[96rem]">
+                <div>
                     <EditorialReveal>
                         <div className="ml-auto max-w-2xl">
                             <h2 data-reveal="words" id="product-story-title" className="font-cormorant text-[clamp(4rem,8vw,8rem)] font-semibold leading-none tracking-[-0.055em]">

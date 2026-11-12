@@ -7,6 +7,7 @@ import { createMetadata } from "@/lib/metadata";
 import { CoffeeOriginSection } from "@/components/sections/home-page/CoffeeOriginSection";
 import { ProcessGallerySection } from "@/components/sections/home-page/ProcessGallerySection";
 import { HeroVideo, FeaturedProductsSection } from "@/components/sections/home-page";
+// import { BenefitsSection } from "@/components/sections/home-page/BenefitsSection";
 
 export const metadata: Metadata = createMetadata({
     path: "/",
@@ -16,6 +17,7 @@ export default function HomePage(): ReactElement {
     return (
         <>
             <ImmersivePage backdrop={<HeroVideo />}>
+                {/* <BenefitsSection /> */}
                 <CoffeeBagExperience />
                 <CoffeeOriginSection />
                 <ProcessGallerySection />

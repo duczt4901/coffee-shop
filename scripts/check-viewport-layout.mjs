@@ -60,7 +60,8 @@ if (process.argv[1]?.endsWith("check-viewport-layout.mjs")) {
             assert(Math.abs(width / height - snapshot.coffeeFrame.width / snapshot.coffeeFrame.height) < 0.005, `${label}: buffer aspect ratio`);
             assert.equal(snapshot.coffeeStage.position, "relative", `${label}: coffee stage must stay in document flow`);
             assert(snapshot.coffeeFrame.height >= snapshot.canvasMinimumHeight, `${label}: frame must respect 100vh minimum`);
-            assert(Math.abs(snapshot.canvasPaddingTop - snapshot.coffeeFrame.height / 2) <= 1, `${label}: top padding must equal half the frame height`);
+            const expectedPaddingTop = snapshot.width < 768 ? 0 : snapshot.coffeeFrame.height / 2;
+            assert(Math.abs(snapshot.canvasPaddingTop - expectedPaddingTop) <= 1, `${label}: top padding must match the responsive frame spacing`);
             assert(Math.abs(snapshot.canvas.height - snapshot.coffeeFrame.height - snapshot.canvasPaddingTop) <= 1, `${label}: padding must not stretch the render frame`);
             assert(Math.abs(snapshot.coffeeStage.height - snapshot.canvas.height) <= 1, `${label}: stage height must follow canvas`);
             assert(Math.abs(snapshot.coffeeScene.height - snapshot.canvas.height) <= 1, `${label}: scene height must follow canvas`);

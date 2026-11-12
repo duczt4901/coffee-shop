@@ -2,7 +2,7 @@
     padding: clamp(7.5rem, 12vw, 11rem) var(--page-gutter) 6rem;
 }
 .container {
-    width: min(100%, 82rem);
+    width: 100%;
     margin-inline: auto;
 }
 .steps {

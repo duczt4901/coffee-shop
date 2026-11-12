@@ -30,8 +30,10 @@ export function createCoffeeRenderLoop(render: () => void, clock: FrameClock = w
         setActive(value: boolean) {
             if (disposed || active === value) return;
             active = value;
-            if (active) schedule();
-            else cancel();
+            if (active) {
+                dirty = true;
+                schedule();
+            } else cancel();
         },
         dispose() {
             disposed = true;

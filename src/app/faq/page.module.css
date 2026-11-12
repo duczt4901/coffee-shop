@@ -5,7 +5,7 @@
 }
 
 .container {
-    width: min(87.2%, 100rem);
+    width: calc(100% - 2 * var(--page-gutter));
     margin-inline: auto;
 }
 
@@ -26,7 +26,7 @@
 
 .layout {
     display: grid;
-    grid-template-columns: minmax(9rem, 15.3%) minmax(0, 57.7%);
+    grid-template-columns: minmax(9rem, 15.3%) minmax(0, 1fr);
     align-items: start;
     gap: 1.2rem;
 }
@@ -160,6 +160,7 @@
     overflow: hidden;
 }
 .answer p {
+    max-width: 60rem;
     padding: 0 2rem 1.5rem 0;
     font-size: 0.875rem;
     line-height: 1.75;
@@ -199,9 +200,6 @@
 @media (max-width: 47.999rem) {
     .page {
         padding-top: 4.5rem;
-    }
-    .container {
-        width: calc(100% - 2 * var(--page-gutter));
     }
     .mobileNav {
         position: sticky;

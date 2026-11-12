@@ -31,6 +31,8 @@ Chi phí lớn nằm ở pipeline: ép DPR tối thiểu 1.5, composer với Ren
 
 Điểm tốt: render theo nhu cầu, tắt khi ngoài viewport/tab ẩn, bóng đổ tĩnh, các hạt đã dùng instancing. Không đổi các cơ chế này.
 
+Khi đồng bộ scroll/resize hoặc nhận sự kiện intersection, renderer kiểm tra lại bounds hiện tại của khung thay vì giữ cờ intersection cũ. Mỗi lần chuyển từ nghỉ sang active vẽ lại một frame kể cả camera chưa đổi, tránh phải cuộn ra/vào mới hồi phục. Không thêm vòng render liên tục khi đứng yên; lỗi thực tế trên điện thoại vẫn cần kiểm tra trực quan.
+
 ## B. Kế hoạch đã thực hiện
 
 - Giữ nguyên GLB, camera FOV/orbit/distance/offset, framing và kích thước bố cục, saturation, ánh sáng studio, môi trường phản xạ kim loại và shadow map tĩnh.

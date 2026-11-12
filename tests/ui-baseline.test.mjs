@@ -63,7 +63,7 @@ test("home hero keeps the shared poster/video layer without an oversized title",
     const { HeroVideo } = load("src/components/sections/home-page/HeroVideo.tsx");
     const { default: HomePage } = load("src/app/page.tsx", {
         "@/components/layout/ImmersivePage": { ImmersivePage },
-        "@/components/experience/CoffeeBagExperience": { CoffeeBagExperience: () => null },
+        "@/components/experience/CoffeeBagExperience": { CoffeeBagExperience: () => React.createElement("section", { "data-coffee-experience": true }) },
         "@/components/sections/home-page/CoffeeOriginSection": { CoffeeOriginSection: () => null },
         "@/components/sections/home-page/ProcessGallerySection": { ProcessGallerySection: () => null },
         "@/components/sections/home-page": { HeroVideo, FeaturedProductsSection: () => null },
@@ -76,6 +76,43 @@ test("home hero keeps the shared poster/video layer without an oversized title",
     assert(!html.includes("data-hero-title-line"));
     assert(!html.includes("heroTitle"));
     assert(html.includes('class="relative z-10 min-h-screen min-h-svh"'));
+    assert(!html.includes("data-home-benefits"));
+});
+
+test("benefits use a plain heading, empty icon slots and a native dismissible popover", () => {
+    const { BenefitsSection } = load("src/components/sections/home-page/BenefitsSection.tsx", {
+        "@/lib/commerce": { formatPrice: value => `${value} ₫`, FREE_SHIPPING_THRESHOLD: 700000 },
+    });
+    const html = renderToStaticMarkup(React.createElement(BenefitsSection));
+    const heading = html.match(/<h2 id="home-benefits-title"[^>]*>[^<]*<\/h2>/)?.[0];
+    assert(heading);
+    assert(!heading.includes("data-reveal"));
+    assert(!html.includes("data-editorial-reveal"));
+    assert.equal((html.match(/data-benefit-icon="true" aria-hidden="true" class="icon"><\/span>/g) ?? []).length, 3);
+    assert(!html.includes("<img") && !html.includes("<svg"));
+    assert(html.includes('popover="auto" role="dialog"'));
+    assert.equal((html.match(/popoverTarget="home-benefits-details"/gi) ?? []).length, 4);
+    assert(html.includes('popoverTargetAction="hide"'));
+    assert(html.includes("700000 ₫"), "free shipping follows the real commerce threshold");
+});
+
+test("footer mark, legal text and contact controls have reveals without hiding server HTML", () => {
+    const { Button } = load("src/components/ui/Button.tsx");
+    const { ContactForm } = load("src/components/ui/ContactForm.tsx", {
+        "@/components/ui/Button": { Button },
+    }, { process: { env: {} } });
+    const { SiteFooter } = load("src/components/layout/SiteFooter.tsx", {
+        "@/components/ui/ContactForm": { ContactForm },
+        "@/lib/native-motion": {},
+    });
+    const html = renderToStaticMarkup(React.createElement(SiteFooter));
+    assert.match(html, /<svg[^>]*data-reveal="block"[^>]*aria-label="Lá Vườn"/);
+    assert(html.includes("LA VUON"));
+    assert.match(html, /data-reveal="words">All Rights Reserved<\/span>/);
+    assert.match(html, /data-reveal="words">Credits<\/span>/);
+    assert.match(html, /<div data-reveal="block"[^>]*>[\s\S]*name="contactInfo"/);
+    assert.match(html, /<p data-reveal="lines"[^>]*>Kênh gửi tư vấn/);
+    assert(!html.includes("data-reveal-pending"));
 });
 
 test("header fixes its position only after valid geometry and restores the baseline on failure", () => {

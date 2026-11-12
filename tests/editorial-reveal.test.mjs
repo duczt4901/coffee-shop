@@ -11,8 +11,8 @@ const source = ts.transpileModule(readFileSync("src/components/ui/EditorialRevea
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true },
 }).outputText;
 
-function mount({ fail = false, offscreen = false, supported = true } = {}) {
-    let effect, ref, focus;
+function mount({ fail = false, offscreen = false, supported = true, footer = false, footerTop = 900, targetTop = offscreen ? 900 : 100, atPageEnd = false } = {}) {
+    let effect, ref, focus, sync;
     const animations = [];
     let reverts = 0;
     class FakeNode {}
@@ -20,6 +20,7 @@ function mount({ fail = false, offscreen = false, supported = true } = {}) {
     summary.contains = node => node === summary;
     const scope = {
         animate: supported ? () => {} : undefined,
+        closest: () => footer ? { getBoundingClientRect: () => ({ top: footerTop, bottom: footerTop + 1000 }) } : null,
         querySelectorAll: () => targets,
         addEventListener: (_name, callback) => { focus = callback; },
         removeEventListener: () => { focus = undefined; },
@@ -36,7 +37,7 @@ function mount({ fail = false, offscreen = false, supported = true } = {}) {
         },
         querySelector: () => null,
         contains: () => false,
-        getBoundingClientRect: () => ({ top: offscreen ? 900 : 100, height: 40 }),
+        getBoundingClientRect: () => ({ top: targetTop, height: 40 }),
         animate(_frames, options) {
             if (fail && !heading) throw Error("animation failed");
             const animation = { options, cancelled: false, cancel() { this.cancelled = true; } };
@@ -47,7 +48,7 @@ function mount({ fail = false, offscreen = false, supported = true } = {}) {
     const exports = {};
     vm.runInNewContext(source, {
         exports, Node: FakeNode, console: { error() {} },
-        window: { scrollY: 0, innerHeight: 800 }, document: { documentElement: { scrollHeight: 5000 } },
+        window: { scrollY: atPageEnd ? 4200 : 0, innerHeight: 800 }, document: { documentElement: { scrollHeight: 5000 } },
         require(name) {
             if (name === "react/jsx-runtime") return jsxRuntime;
             if (name === "react") return { useRef() { ref = { current: scope }; return ref; }, useLayoutEffect(callback) { effect = callback; } };
@@ -55,14 +56,15 @@ function mount({ fail = false, offscreen = false, supported = true } = {}) {
             if (name.endsWith("/reveal")) return preset;
             if (name.endsWith("scroll-viewport")) return { getScrollViewportHeight: () => 800 };
             if (name.endsWith("split-words")) return { splitWords: target => ({ words: [target], revert() { reverts++; } }) };
-            if (name.endsWith("native-motion")) return { observeMotion: (_query, setup) => setup(), observeScroll: update => { update(); return () => {}; } };
+            if (name.endsWith("native-motion")) return { observeMotion: (_query, setup) => setup(), observeScroll: update => { sync = update; update(); return () => {}; } };
             if (name === "lenis/react" || name.endsWith(".css") || ["next/link", "./Button", "./LinkMarker"].includes(name)) return {};
             throw Error(name);
         },
     });
     exports.EditorialReveal({ children: null });
     const cleanup = effect();
-    return { targets, animations, cleanup, reverts: () => reverts, focusSummary: () => focus({ target: summary }), ref };
+    return { targets, animations, cleanup, reverts: () => reverts, focusSummary: () => focus({ target: summary }), ref,
+        scrollFooter(top) { footerTop = top; sync(); } };
 }
 
 test("partial reveal failure cancels completed setup and restores every target", () => {
@@ -85,4 +87,24 @@ test("unsupported animation API leaves the HTML visible without enhancement", ()
     const reveal = mount({ supported: false });
     assert.equal(reveal.cleanup, undefined);
     assert(reveal.targets.every(target => !target.pending));
+});
+
+test("footer text waits until its clipping boundary is actually in view", () => {
+    const reveal = mount({ footer: true, footerTop: 750, targetTop: 700 });
+    assert.equal(reveal.animations.length, 0, "text behind the footer mask must not reveal early");
+    assert(reveal.targets.every(target => target.pending));
+    reveal.scrollFooter(710);
+    assert.equal(reveal.animations.length, 2);
+    assert(reveal.targets.every(target => !target.pending));
+    reveal.scrollFooter(600);
+    assert.equal(reveal.animations.length, 2, "each text reveals only once");
+    reveal.cleanup();
+});
+
+test("page-end fallback reveals visible footer text but never text behind its clip", () => {
+    const clipped = mount({ footer: true, footerTop: 810, targetTop: 760, atPageEnd: true });
+    assert.equal(clipped.animations.length, 0);
+    clipped.scrollFooter(740);
+    assert.equal(clipped.animations.length, 2);
+    clipped.cleanup();
 });

@@ -53,3 +53,23 @@ test("render lifecycle coalesces changes, suspends work and resumes with the lat
     assert.deepEqual(drawn, [101, 120], "unmounted components must never render again");
     assert.equal(pending.size, 0);
 });
+
+test("resuming visibility redraws even when the camera progress did not change", () => {
+    let frame, draws = 0;
+    const loop = createCoffeeRenderLoop(() => draws++, {
+        requestAnimationFrame(callback) { frame = callback; return 1; },
+        cancelAnimationFrame() { frame = undefined; },
+    });
+    loop.setActive(true);
+    frame();
+    frame = undefined;
+    assert.equal(draws, 1);
+    loop.setActive(true);
+    assert.equal(frame, undefined, "an active idle model must not start continuous rendering");
+    loop.setActive(false);
+    loop.setActive(true);
+    assert.equal(typeof frame, "function");
+    frame();
+    assert.equal(draws, 2);
+    loop.dispose();
+});

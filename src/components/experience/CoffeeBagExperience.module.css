@@ -199,3 +199,9 @@
         --opening-sticky-top: calc(35svh - var(--opening-copy-size) * 1.35);
     }
 }
+
+@media (max-width: 47.999rem) {
+    .canvas {
+        padding-block-start: 0;
+    }
+}

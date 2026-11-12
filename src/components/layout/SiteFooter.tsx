@@ -6,7 +6,7 @@ import { observeMotion, observeScroll } from "@/lib/native-motion";
 import { getScrollViewportHeight } from "@/lib/scroll-viewport";
 import { ContactForm } from "@/components/ui/ContactForm";
 import styles from "./SiteFooter.module.css";
-import { RevealLine, RevealLink } from "@/components/ui/EditorialReveal";
+import { EditorialReveal, RevealLine, RevealLink } from "@/components/ui/EditorialReveal";
 
 export function SiteFooter() {
     const debossId = useId();
@@ -54,35 +54,37 @@ export function SiteFooter() {
                     </nav>
                 </div>
 
-                <svg className={styles.pressedMark} viewBox="0 0 1200 240" role="img" aria-label="Lá Vườn" focusable="false">
-                    <defs>
-                        <filter id={debossId} x="-2%" y="-6%" width="104%" height="112%" colorInterpolationFilters="sRGB">
-                            <feOffset in="SourceAlpha" dy="1.2" result="down" />
-                            <feGaussianBlur in="down" stdDeviation="0.65" result="downSoft" />
-                            <feComposite in="SourceAlpha" in2="downSoft" operator="out" result="topEdge" />
-                            <feFlood floodColor="#000" floodOpacity="0.22" result="shade" />
-                            <feComposite in="shade" in2="topEdge" operator="in" result="innerShade" />
-                            <feOffset in="SourceAlpha" dy="-0.65" result="up" />
-                            <feGaussianBlur in="up" stdDeviation="0.35" result="upSoft" />
-                            <feComposite in="SourceAlpha" in2="upSoft" operator="out" result="bottomEdge" />
-                            <feFlood floodColor="#fff" floodOpacity="0.55" result="light" />
-                            <feComposite in="light" in2="bottomEdge" operator="in" result="innerLight" />
-                            <feOffset in="SourceAlpha" dy="0.6" result="lipDown" />
-                            <feComposite in="lipDown" in2="SourceAlpha" operator="out" result="lipEdge" />
-                            <feFlood floodColor="#fff" floodOpacity="0.9" result="lipLight" />
-                            <feComposite in="lipLight" in2="lipEdge" operator="in" result="lip" />
-                            <feMerge>
-                                <feMergeNode in="lip" />
-                                <feMergeNode in="SourceGraphic" />
-                                <feMergeNode in="innerShade" />
-                                <feMergeNode in="innerLight" />
-                            </feMerge>
-                        </filter>
-                    </defs>
-                    <text x="12" y="208" textLength="1176" lengthAdjust="spacing" filter={`url(#${debossId})`}>
-                        LA VUON
-                    </text>
-                </svg>
+                <EditorialReveal>
+                    <svg data-reveal="block" data-reveal-title className={styles.pressedMark} viewBox="0 0 1200 240" role="img" aria-label="Lá Vườn" focusable="false">
+                        <defs>
+                            <filter id={debossId} x="-2%" y="-6%" width="104%" height="112%" colorInterpolationFilters="sRGB">
+                                <feOffset in="SourceAlpha" dy="1.2" result="down" />
+                                <feGaussianBlur in="down" stdDeviation="0.65" result="downSoft" />
+                                <feComposite in="SourceAlpha" in2="downSoft" operator="out" result="topEdge" />
+                                <feFlood floodColor="#000" floodOpacity="0.22" result="shade" />
+                                <feComposite in="shade" in2="topEdge" operator="in" result="innerShade" />
+                                <feOffset in="SourceAlpha" dy="-0.65" result="up" />
+                                <feGaussianBlur in="up" stdDeviation="0.35" result="upSoft" />
+                                <feComposite in="SourceAlpha" in2="upSoft" operator="out" result="bottomEdge" />
+                                <feFlood floodColor="#fff" floodOpacity="0.55" result="light" />
+                                <feComposite in="light" in2="bottomEdge" operator="in" result="innerLight" />
+                                <feOffset in="SourceAlpha" dy="0.6" result="lipDown" />
+                                <feComposite in="lipDown" in2="SourceAlpha" operator="out" result="lipEdge" />
+                                <feFlood floodColor="#fff" floodOpacity="0.9" result="lipLight" />
+                                <feComposite in="lipLight" in2="lipEdge" operator="in" result="lip" />
+                                <feMerge>
+                                    <feMergeNode in="lip" />
+                                    <feMergeNode in="SourceGraphic" />
+                                    <feMergeNode in="innerShade" />
+                                    <feMergeNode in="innerLight" />
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        <text x="12" y="208" textLength="1176" lengthAdjust="spacing" filter={`url(#${debossId})`}>
+                            LA VUON
+                        </text>
+                    </svg>
+                </EditorialReveal>
 
                 <div className="flex flex-col gap-8 text-sm text-foreground/60 md:flex-row md:flex-wrap md:items-end md:justify-between">
                     <div className="flex flex-wrap items-center justify-start gap-x-6 gap-y-3 md:gap-x-10">
@@ -101,11 +103,15 @@ export function SiteFooter() {
                     </div>
 
                     <div className="flex flex-wrap items-center gap-x-6 gap-y-3 md:gap-10">
-                        <span>All Rights Reserved</span>
-                        <a href="#" className="relative border-b border-transparent hover:text-neutral-900">
-                            <RevealLine side="bottom" />
-                            Credits
-                        </a>
+                        <EditorialReveal>
+                            <span data-reveal="words">All Rights Reserved</span>
+                        </EditorialReveal>
+                        <EditorialReveal>
+                            <a href="#" className="relative border-b border-transparent hover:text-neutral-900">
+                                <RevealLine side="bottom" />
+                                <span data-reveal="words">Credits</span>
+                            </a>
+                        </EditorialReveal>
                     </div>
                 </div>
             </footer>

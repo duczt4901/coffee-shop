@@ -40,6 +40,7 @@ export function EditorialReveal({ children }: { children: ReactNode }) {
         if (!scope || typeof scope.animate !== "function") return;
 
         return observeMotion("(prefers-reduced-motion: no-preference)", () => {
+            const footerBoundary = scope.closest<HTMLElement>("[data-footer-reveal]");
             const animations: Animation[] = [];
             const splits: ReturnType<typeof splitWords>[] = [];
             const targets = Array.from(scope.querySelectorAll<HTMLElement>("[data-reveal]")).filter((target) => target.closest("[data-editorial-reveal]") === scope && (target.dataset.reveal ?? "") in REVEALS);
@@ -86,9 +87,14 @@ export function EditorialReveal({ children }: { children: ReactNode }) {
             const sync = () => {
                 const viewport = getScrollViewportHeight();
                 const atPageEnd = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 1;
+                const clip = footerBoundary?.getBoundingClientRect();
                 let textIndex = 0;
                 pending.forEach((target) => {
-                    if (!isRevealVisible(target.getBoundingClientRect(), viewport, atPageEnd)) return;
+                    const bounds = target.getBoundingClientRect();
+                    // The translated footer can enter the viewport while still hidden by its wrapper.
+                    const top = Math.max(bounds.top, clip?.top ?? bounds.top);
+                    const bottom = Math.min(bounds.top + bounds.height, clip?.bottom ?? bounds.top + bounds.height);
+                    if (!isRevealVisible({ top, height: Math.max(0, bottom - top) }, viewport, atPageEnd)) return;
                     const decoration = target.dataset.reveal === "border" || target.dataset.reveal === "marker";
                     reveal(target, false, decoration ? 0 : textIndex++ * REVEAL.textStagger);
                 });
