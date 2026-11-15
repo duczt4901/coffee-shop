@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { observeMotion, observeScroll } from "@/lib/native-motion";
 import { getScrollViewportHeight } from "@/lib/scroll-viewport";
 import { ContactForm } from "@/components/ui/ContactForm";
+import { ZALO_PHONE, ZALO_URL } from "@/data/contact";
 import styles from "./SiteFooter.module.css";
 import { EditorialReveal, RevealLine, RevealLink } from "@/components/ui/EditorialReveal";
 
@@ -41,9 +42,9 @@ export function SiteFooter() {
                 <div className="flex flex-col items-start justify-between gap-12 md:flex-row md:gap-10">
                     <ContactForm />
 
-                    <nav aria-label="Kết nối với Lá Vườn" className="flex w-full min-w-0 flex-col gap-6 text-sm text-foreground md:w-60 md:shrink-0">
-                        <RevealLink href="#" variant="border">
-                            Zalo · 0123 456 789
+                    <nav aria-label="Kết nối với Là Vườn" className="flex w-full min-w-0 flex-col gap-6 text-sm text-foreground md:w-60 md:shrink-0">
+                        <RevealLink href={ZALO_URL} variant="border">
+                            Zalo · {ZALO_PHONE}
                         </RevealLink>
                         <RevealLink href="#" variant="border">
                             Facebook · ABC
@@ -55,7 +56,7 @@ export function SiteFooter() {
                 </div>
 
                 <EditorialReveal>
-                    <svg data-reveal="block" data-reveal-title className={styles.pressedMark} viewBox="0 0 1200 240" role="img" aria-label="Lá Vườn" focusable="false">
+                    <svg data-reveal="block" data-reveal-title className={styles.pressedMark} viewBox="0 0 1200 240" role="img" aria-label="Là Vườn Coffee" focusable="false">
                         <defs>
                             <filter id={debossId} x="-2%" y="-6%" width="104%" height="112%" colorInterpolationFilters="sRGB">
                                 <feOffset in="SourceAlpha" dy="1.2" result="down" />
@@ -80,8 +81,8 @@ export function SiteFooter() {
                                 </feMerge>
                             </filter>
                         </defs>
-                        <text x="12" y="208" textLength="1176" lengthAdjust="spacing" filter={`url(#${debossId})`}>
-                            LA VUON
+                        <text x="12" y="50%" dominantBaseline="central" textLength="1176" lengthAdjust="spacing" filter={`url(#${debossId})`}>
+                            Là Vườn Coffee
                         </text>
                     </svg>
                 </EditorialReveal>

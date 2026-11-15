@@ -15,21 +15,21 @@ type ImmersivePageProps = {
 
 export function ImmersivePage({ backdrop, heroContent, children, overlay = true, className = "" }: ImmersivePageProps): React.ReactElement {
     const heroRef = useRef<HTMLElement>(null);
-    const backdropRef = useRef<HTMLDivElement>(null);
 
     useLayoutEffect(() => {
-        if (CSS.supports("animation-timeline", "scroll(root block)")) return;
         const hero = heroRef.current;
-        const layer = backdropRef.current;
-        if (!hero || !layer) return;
-        return observeMotion("(min-width: 48rem) and (min-height: 38rem)", () => {
+        if (!hero) return;
+        return observeMotion("(prefers-reduced-motion: no-preference)", () => {
+            let previousDistance = -1;
             const stop = observeScroll(() => {
                 const distance = Math.max(0, Math.min(getScrollViewportHeight(), -hero.getBoundingClientRect().top));
-                layer.style.transform = `translate3d(0, ${distance * 0.16}px, 0)`;
+                if (distance === previousDistance) return;
+                previousDistance = distance;
+                hero.style.setProperty("--hero-parallax", `${distance * 0.5}px`);
             });
             return () => {
                 stop();
-                layer.style.removeProperty("transform");
+                hero.style.removeProperty("--hero-parallax");
             };
         });
     }, []);
@@ -38,7 +38,7 @@ export function ImmersivePage({ backdrop, heroContent, children, overlay = true,
         <div className="relative isolate">
             <section ref={heroRef} data-hero className="relative min-h-screen min-h-svh overflow-hidden">
                 <div data-hero-media aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-neutral-950">
-                    <div ref={backdropRef} className={`${styles.backdropParallax} absolute inset-x-0 -inset-y-[16svh] ${className}`}>
+                    <div className={`${styles.backdropParallax} absolute inset-x-0 -inset-y-[16svh] ${className}`}>
                         {backdrop}
                     </div>
 
@@ -53,7 +53,7 @@ export function ImmersivePage({ backdrop, heroContent, children, overlay = true,
                     )}
                 </div>
 
-                <div className="relative z-10 min-h-screen min-h-svh">{heroContent}</div>
+                <div data-hero-content className="relative z-10 min-h-screen min-h-svh">{heroContent}</div>
             </section>
 
             <div className="relative z-20 bg-background">{children}</div>

@@ -18,18 +18,23 @@
     position: relative;
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
 }
 
 .slideTrack {
     position: relative;
+    display: flex;
     width: 100%;
     height: 100%;
 }
 
 .slide {
-    position: absolute;
+    position: relative;
     inset: 0;
+    flex: 0 0 100%;
+    scroll-snap-align: start;
     overflow: hidden;
 }
 
@@ -96,13 +101,13 @@
     display: block;
     overflow: hidden;
     color: #fff;
-    opacity: 0.28;
+    opacity: 1;
     transition: opacity 0.5s ease-out;
 }
 
 .titleText {
     display: block;
-    transform: translateY(100%);
+    transform: none;
     transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -114,63 +119,28 @@
     transition-delay: 0.2s;
 }
 
-.title[data-title-visible] .titleText {
-    transform: translateY(0);
-}
-
-/* One DOM: unpinned photos and captions first; the parent activates the timeline. */
-:global([data-coffee-origin]:not([data-origin-enhanced])) .slideshow {
-    position: relative;
-    inset: auto;
-    order: 3;
-    height: auto;
-    background: var(--background);
-}
-
-:global([data-coffee-origin]:not([data-origin-enhanced])) .viewport {
-    display: grid;
-    height: auto;
-    gap: 1rem;
-    padding-bottom: var(--section-space-large);
-}
-
-:global([data-coffee-origin]:not([data-origin-enhanced])) :is(.slideTrack, .title, .titleTrack) {
-    position: static;
-    display: contents;
-    height: auto;
-}
-
-:global([data-coffee-origin]:not([data-origin-enhanced])) .slide {
-    position: relative;
-    inset: auto;
-}
-
-:global([data-coffee-origin]:not([data-origin-enhanced])) .media {
-    position: relative;
-    inset: auto;
-    aspect-ratio: 16 / 10;
-}
-
-:global([data-coffee-origin]:not([data-origin-enhanced])) .slide:nth-child(1) { grid-row: 1; }
-:global([data-coffee-origin]:not([data-origin-enhanced])) .slide:nth-child(2) { grid-row: 3; }
-:global([data-coffee-origin]:not([data-origin-enhanced])) .slide:nth-child(3) { grid-row: 5; }
-
-:global([data-coffee-origin]:not([data-origin-enhanced])) .titleItem {
-    overflow: visible;
-    padding: 0 1.25rem 2rem;
-    color: var(--foreground);
-    opacity: 1;
-    text-align: center;
+/* The same horizontal track works before hydration and after an animation failure. */
+:global([data-coffee-origin]:not([data-origin-enhanced])) .titleTrack {
+    left: 0;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.3em;
+    transform: none;
     white-space: normal;
 }
-
-:global([data-coffee-origin]:not([data-origin-enhanced])) .titleItem:nth-child(1) { grid-row: 2; }
-:global([data-coffee-origin]:not([data-origin-enhanced])) .titleItem:nth-child(2) { grid-row: 4; }
-:global([data-coffee-origin]:not([data-origin-enhanced])) .titleItem:nth-child(3) { grid-row: 6; }
-
-:global([data-coffee-origin]:not([data-origin-enhanced])) .titleText {
-    transform: none;
-    transition: none;
+:global([data-coffee-origin][data-origin-enhanced]) .viewport {
+    overflow: clip;
+    scroll-snap-type: none;
+}
+:global([data-coffee-origin][data-origin-enhanced]) .slide {
+    position: absolute;
+}
+:global([data-coffee-origin][data-origin-enhanced]) .titleText {
+    transform: translateY(100%);
+}
+:global([data-coffee-origin][data-origin-enhanced]) .title[data-title-visible] .titleText {
+    transform: translateY(0);
 }
 
 @media (max-width: 767px) {

@@ -69,7 +69,7 @@ for (const width of [320, 390, 480, 768, 1024, 1440, 1920, 2560, 3840]) {
     }
 }
 const css = fs.readFileSync("src/components/experience/CoffeeBagExperience.module.css", "utf8");
-const component = fs.readFileSync("src/components/experience/coffee-bag/LocalCoffeeModel.tsx", "utf8");
+const component = fs.readFileSync("src/components/experience/coffee-bag/coffee-model-runtime.ts", "utf8");
 assert(!/\.(?:stage|scene|canvas)\s*\{[^}]*position:\s*(sticky|fixed)|100svh|112\.5rem/.test(css), "Remove canvas and parent pinning and artificial scroll height");
 assert(/min-height:\s*100vh/.test(css), "Keep the requested canvas minimum");
 assert(!/getScrollViewportHeight|(?:mount|container)\.clientHeight|style\.translate|camera\.translateY|camera\.fov\s*=/.test(component), "No parent-height input, scroll positioning, bottom snapping or FOV compensation");

@@ -60,7 +60,7 @@ export default function TransitionProvider({ children }: { children: ReactNode }
             <div ref={coverRef} data-route-transition className={styles.routeCover} aria-hidden="true">
                 <span className={revealStyles.spinner} />
             </div>
-            <PageReveal key={pathname} initial={!booted} onReady={ready} />
+            <PageReveal key={pathname} initial={!booted} home={pathname === "/"} onReady={ready} />
             {children}
         </TransitionRouter>
     );
@@ -73,7 +73,7 @@ export default function TransitionProvider({ children }: { children: ReactNode }
 // import { type ReactNode, useEffect, useRef } from "react";
 // import styles from "./TransitionProvider.module.css";
 //
-// const WORDS = ["TRUNG", "TOAN", "COFFEE", "SHOP"];
+// const WORDS = ["LA", "VUON", "COFFEE"];
 //
 // export default function TransitionProvider({ children }: { children: ReactNode }) {
 //     const panelRefs = useRef<Array<HTMLDivElement | null>>([]);

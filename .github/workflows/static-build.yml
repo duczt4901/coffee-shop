@@ -1,0 +1,32 @@
+name: Validate static build
+
+on:
+    pull_request:
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        timeout-minutes: 20
+        env:
+            WORDPRESS_API_BASE_URL: ${{ vars.WORDPRESS_API_BASE_URL }}
+        steps:
+            - uses: actions/checkout@v7
+              with:
+                  persist-credentials: false
+            - uses: actions/setup-node@v7
+              with:
+                  node-version: 22
+                  package-manager-cache: false
+            - run: corepack enable
+            - run: pnpm install --frozen-lockfile
+            - run: pnpm typecheck
+            - run: pnpm exec eslint src worker scripts/check-static-export.mjs scripts/finalize-static-export.mjs scripts/test-cms-export.mjs scripts/test-wordpress.mjs tests/wordpress.test.ts tests/wordpress*.test.mjs tests/worker-safety.test.mjs
+            - run: pnpm test:cms
+            - run: pnpm test:commerce
+            - run: pnpm test:cms-export
+            - run: pnpm build
+            - run: pnpm check:static

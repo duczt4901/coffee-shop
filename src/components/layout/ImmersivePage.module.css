@@ -1,28 +1,9 @@
 .backdropParallax {
+    transform: translate3d(0, var(--hero-parallax, 0px), 0);
     will-change: transform;
 }
-
-@supports (animation-timeline: scroll(root block)) {
+@media (prefers-reduced-motion: reduce) {
     .backdropParallax {
-        animation: backdrop-parallax 1ms linear both;
-        animation-timeline: scroll(root block);
-        animation-range: 0 100svh;
-    }
-}
-
-@media (max-width: 47.999rem), (max-height: 37.999rem) {
-    .backdropParallax {
-        animation: none;
         will-change: auto;
-    }
-}
-
-@keyframes backdrop-parallax {
-    from {
-        transform: translate3d(0, 0, 0);
-    }
-
-    to {
-        transform: translate3d(0, 16svh, 0);
     }
 }

@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 
     return product
         ? createMetadata({
-              title: `${product.name} | Coffee Shop`,
+              title: `${product.name} | Là Vườn Coffee`,
               description: product.tagline,
               path: `/san-pham/${product.slug}/`,
           })

@@ -1,0 +1,1604 @@
+{
+  "url": "https://coffee-shop.ngvd4901.workers.dev/",
+  "date": "2026-11-15",
+  "protocol": {
+    "browser": "ChatGPT in-app browser / Chrome 157 Windows",
+    "viewport": "1280x720 DPR 1",
+    "cache": "Network.setCacheDisabled(true)",
+    "throttling": "No network or CPU throttling applied",
+    "runs": 3,
+    "windowMs": 10000,
+    "interaction": "No scrolling or clicks",
+    "notes": [
+      "LCP is the loading placeholder logo, not hero readiness.",
+      "BlockingOver50 is sum(max(0,longTask.duration-50)) over first 10 seconds; it is not Lighthouse TBT.",
+      "Resource records include completed entries available at collection; incomplete downloads are not a full page weight.",
+      "No Lighthouse score, field Core Web Vitals or INP was collected.",
+      "Production currently has title Coffee Shop and older header/content, unlike the local implementation."
+    ]
+  },
+  "medians": {
+    "ttfbMs": 169.90000000596046,
+    "fcpMs": 1444,
+    "lcpMs": 1508,
+    "cls": 0.00025661468505859373,
+    "longTasks": 2,
+    "longTaskTotalMs": 259,
+    "blockingOver50Ms": 159,
+    "maxTaskMs": 177
+  },
+  "runs": [
+    {
+      "at": "2026-11-15T12:13:53.446Z",
+      "blockingOver50Ms": 440,
+      "cls": 0.00025661468505859373,
+      "domContentLoadedMs": 1296.3999999910593,
+      "fcpMs": 1444,
+      "hidden": false,
+      "lcpElement": "IMG",
+      "lcpMs": 1444,
+      "lcpUrl": "https://coffee-shop.ngvd4901.workers.dev/images/brand/logo-placeholder.jpg",
+      "loadMs": 7489.59999999404,
+      "longTaskTotalMs": 690,
+      "longTasks": 5,
+      "maxTaskMs": 312,
+      "resources": [
+        {
+          "duration": 194.29999999701977,
+          "encoded": 6208,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/0b0ccee50222a044.p.1tt4btciu1m76.woff2",
+          "start": 227.5999999940395,
+          "transfer": 6508,
+          "type": "link"
+        },
+        {
+          "duration": 121.5,
+          "encoded": 6172,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/1024ebb6bc4a0702.p.1-zaihok2evvt.woff2",
+          "start": 228.0999999940395,
+          "transfer": 6472,
+          "type": "link"
+        },
+        {
+          "duration": 296.5,
+          "encoded": 6200,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/46ea4bad27686d06.p.0p33yzfhxg1ff.woff2",
+          "start": 228.20000000298023,
+          "transfer": 6500,
+          "type": "link"
+        },
+        {
+          "duration": 714.8999999910593,
+          "encoded": 39720,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/85ba544592656337.p.0ouwamd020iyx.woff2",
+          "start": 228.5,
+          "transfer": 40020,
+          "type": "link"
+        },
+        {
+          "duration": 694.2000000029802,
+          "encoded": 22776,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/99b1318f543aeb31.p.0-h1tlsv6lsyb.woff2",
+          "start": 228.5,
+          "transfer": 23076,
+          "type": "link"
+        },
+        {
+          "duration": 295.3999999910593,
+          "encoded": 23000,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/acfeecc1bc0e4f43.p.1ovk4bgq1ae7c.woff2",
+          "start": 228.70000000298023,
+          "transfer": 23300,
+          "type": "link"
+        },
+        {
+          "duration": 715.0999999940395,
+          "encoded": 23000,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/b122be8550e0146d.p.424rwzrsm99ez.woff2",
+          "start": 228.79999999701977,
+          "transfer": 23300,
+          "type": "link"
+        },
+        {
+          "duration": 691.9000000059605,
+          "encoded": 6116,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/d381f6ba7a6b1095.p.349cv3j_ykzgu.woff2",
+          "start": 228.8999999910593,
+          "transfer": 6416,
+          "type": "link"
+        },
+        {
+          "duration": 292.79999999701977,
+          "encoded": 6236,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/d48750d8b6b551c0.p.0zsye8mjafucv.woff2",
+          "start": 229,
+          "transfer": 6536,
+          "type": "link"
+        },
+        {
+          "duration": 687.2999999970198,
+          "encoded": 23036,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/e4eb68d95a0add54.p.2_qq7qt-n_0_p.woff2",
+          "start": 229.20000000298023,
+          "transfer": 23336,
+          "type": "link"
+        },
+        {
+          "duration": 713.5,
+          "encoded": 35508,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/e8f2fbee2754df70.p.1dqa_6e_ad4sj.woff2",
+          "start": 229.3999999910593,
+          "transfer": 35808,
+          "type": "link"
+        },
+        {
+          "duration": 733.1000000089407,
+          "encoded": 22836,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/f12bf55884aa53d3.p.1dqnxm6s-aci_.woff2",
+          "start": 229.5999999940395,
+          "transfer": 23136,
+          "type": "link"
+        },
+        {
+          "duration": 376,
+          "encoded": 7654,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/images/brand/logo-placeholder.jpg",
+          "start": 229.79999999701977,
+          "transfer": 7954,
+          "type": "link"
+        },
+        {
+          "duration": 4864.29999999702,
+          "encoded": 826712,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/images/coffee/lam-dong-coffee-farm-panorama.webp",
+          "start": 229.79999999701977,
+          "transfer": 827012,
+          "type": "link"
+        },
+        {
+          "duration": 6766.5,
+          "encoded": 471866,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/images/coffee/coffee-cherry-harvest.webp",
+          "start": 229.8999999910593,
+          "transfer": 472166,
+          "type": "link"
+        },
+        {
+          "duration": 7256.20000000298,
+          "encoded": 451428,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/images/coffee/sun-dried-coffee-cherries.webp",
+          "start": 230,
+          "transfer": 451728,
+          "type": "link"
+        },
+        {
+          "duration": 683.7000000029802,
+          "encoded": 9599,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/394s67jk2s4ul.css",
+          "start": 230.0999999940395,
+          "transfer": 9899,
+          "type": "link"
+        },
+        {
+          "duration": 709.9000000059605,
+          "encoded": 8990,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/0cd6n8q8c_2-b.css",
+          "start": 230.29999999701977,
+          "transfer": 9290,
+          "type": "link"
+        },
+        {
+          "duration": 292.29999999701977,
+          "encoded": 2888,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/13l0vlwlu9_nc.css",
+          "start": 230.5,
+          "transfer": 3188,
+          "type": "link"
+        },
+        {
+          "duration": 142.29999999701977,
+          "encoded": 578,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/13ydrqdkaxt8d.css",
+          "start": 230.79999999701977,
+          "transfer": 878,
+          "type": "link"
+        },
+        {
+          "duration": 1184.7999999970198,
+          "encoded": 7786,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/311kcc9-a9-nc.js",
+          "start": 231,
+          "transfer": 8086,
+          "type": "link"
+        },
+        {
+          "duration": 1331,
+          "encoded": 47411,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/0smknogw-1p7h.js",
+          "start": 231.3999999910593,
+          "transfer": 47711,
+          "type": "script"
+        },
+        {
+          "duration": 2146.70000000298,
+          "encoded": 73242,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/1s7w_f8hicdom.js",
+          "start": 231.5999999940395,
+          "transfer": 73542,
+          "type": "script"
+        },
+        {
+          "duration": 1013.7999999970198,
+          "encoded": 4048,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/turbopack-2gcozvvi8e-7d.js",
+          "start": 231.79999999701977,
+          "transfer": 4348,
+          "type": "script"
+        },
+        {
+          "duration": 1382.2000000029802,
+          "encoded": 12123,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/1-b8rtmuqj_c3.js",
+          "start": 231.8999999910593,
+          "transfer": 12423,
+          "type": "script"
+        },
+        {
+          "duration": 3072.20000000298,
+          "encoded": 79344,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/17_gexl5fhb3r.js",
+          "start": 232.0999999940395,
+          "transfer": 79644,
+          "type": "script"
+        },
+        {
+          "duration": 1743.3999999910593,
+          "encoded": 21379,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/0wqg4hx9ihmlz.js",
+          "start": 232.20000000298023,
+          "transfer": 21679,
+          "type": "script"
+        },
+        {
+          "duration": 1021.7000000029802,
+          "encoded": 1467,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/2royzfzxzdpsm.js",
+          "start": 232.29999999701977,
+          "transfer": 1767,
+          "type": "script"
+        },
+        {
+          "duration": 3690.79999999702,
+          "encoded": 169689,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/3fxdigrjbwlgt.js",
+          "start": 232.5,
+          "transfer": 169989,
+          "type": "script"
+        },
+        {
+          "duration": 290.79999999701977,
+          "encoded": 20720,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/images/coffee/coffee-cherry-sorting-hero-poster.webp",
+          "start": 232.70000000298023,
+          "transfer": 21020,
+          "type": "video"
+        },
+        {
+          "duration": 1993.0999999940395,
+          "encoded": 36905,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/images/maps/south-vietnam-knockout.svg#lam-dong",
+          "start": 589.7000000029802,
+          "transfer": 37205,
+          "type": "other"
+        },
+        {
+          "duration": 1513.5,
+          "encoded": 34512,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/969f0adf11a48ffa.2qxfib5bautk7.woff2",
+          "start": 1099.7999999970198,
+          "transfer": 34812,
+          "type": "css"
+        },
+        {
+          "duration": 617.2000000029802,
+          "encoded": 18636,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/8ffa9b9dcfcce585.27ybcaxqaeu8t.woff2",
+          "start": 1112.2999999970198,
+          "transfer": 18936,
+          "type": "css"
+        },
+        {
+          "duration": 1233,
+          "encoded": 18840,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/71f7291b3eb39808.17es44b7_yv3g.woff2",
+          "start": 1126,
+          "transfer": 19140,
+          "type": "css"
+        },
+        {
+          "duration": 783.2000000029802,
+          "encoded": 13756,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/8aad2d60f83adb5a.2lwd160tm8ilm.woff2",
+          "start": 1136.5,
+          "transfer": 14056,
+          "type": "css"
+        },
+        {
+          "duration": 853.5999999940395,
+          "encoded": 18752,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/32db700796fa0093.0_23748dm5kbw.woff2",
+          "start": 1164.7000000029802,
+          "transfer": 19052,
+          "type": "css"
+        },
+        {
+          "duration": 1954,
+          "encoded": 75978,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/images/3d/robusta-scene-poster.webp",
+          "start": 1395.7000000029802,
+          "transfer": 76278,
+          "type": "img"
+        },
+        {
+          "duration": 373.3999999910593,
+          "encoded": 27172,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/images/3d/coffee-beans-atlas.webp?v=9b9b4a5764ae",
+          "start": 4209.20000000298,
+          "transfer": 27472,
+          "type": "fetch"
+        },
+        {
+          "duration": 442.79999999701977,
+          "encoded": 36905,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/images/maps/south-vietnam-knockout.svg",
+          "start": 4232.5999999940395,
+          "transfer": 37205,
+          "type": "img"
+        },
+        {
+          "duration": 119.6000000089407,
+          "encoded": 0,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/ve-chung-toi/",
+          "start": 4264.399999991059,
+          "transfer": 300,
+          "type": "fetch"
+        },
+        {
+          "duration": 120.59999999403954,
+          "encoded": 0,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/cau-chuyen/",
+          "start": 4265.79999999702,
+          "transfer": 300,
+          "type": "fetch"
+        },
+        {
+          "duration": 117.80000001192091,
+          "encoded": 0,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/san-pham/",
+          "start": 4266.899999991059,
+          "transfer": 300,
+          "type": "fetch"
+        },
+        {
+          "duration": 116.09999999403954,
+          "encoded": 0,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/",
+          "start": 4269.20000000298,
+          "transfer": 300,
+          "type": "fetch"
+        },
+        {
+          "duration": 172.70000000298023,
+          "encoded": 563,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/ve-chung-toi/__next._tree.txt?_rsc=5CB68i4pnAekjehf",
+          "start": 4400.29999999702,
+          "transfer": 863,
+          "type": "fetch"
+        },
+        {
+          "duration": 455.79999999701977,
+          "encoded": 575,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/san-pham/__next._tree.txt?_rsc=5CB68i4pnAekjehf",
+          "start": 4402.20000000298,
+          "transfer": 875,
+          "type": "fetch"
+        },
+        {
+          "duration": 169.79999999701977,
+          "encoded": 572,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/__next._tree.txt?_rsc=5CB68i4pnAekjehf",
+          "start": 4403.70000000298,
+          "transfer": 872,
+          "type": "fetch"
+        },
+        {
+          "duration": 171.90000000596046,
+          "encoded": 562,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/cau-chuyen/__next._tree.txt?_rsc=5CB68i4pnAekjehf",
+          "start": 4405.399999991059,
+          "transfer": 862,
+          "type": "fetch"
+        },
+        {
+          "duration": 338.40000000596046,
+          "encoded": 0,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/faq/",
+          "start": 4592.899999991059,
+          "transfer": 300,
+          "type": "fetch"
+        },
+        {
+          "duration": 337.20000000298023,
+          "encoded": 0,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/gio-hang/",
+          "start": 4596,
+          "transfer": 300,
+          "type": "fetch"
+        },
+        {
+          "duration": 353.79999999701977,
+          "encoded": 2189,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/ve-chung-toi/__next.ve-chung-toi.__PAGE__.txt?_rsc=w49rD6b5uAWb8Amn",
+          "start": 4599.79999999702,
+          "transfer": 2489,
+          "type": "fetch"
+        },
+        {
+          "duration": 141.20000000298023,
+          "encoded": 2250,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/cau-chuyen/__next.cau-chuyen.__PAGE__.txt?_rsc=7LkcZoSVMjNJyQzm",
+          "start": 4864.399999991059,
+          "transfer": 2550,
+          "type": "fetch"
+        },
+        {
+          "duration": 270.29999999701977,
+          "encoded": 557,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/faq/__next._tree.txt?_rsc=5CB68i4pnAekjehf",
+          "start": 4938.5999999940395,
+          "transfer": 857,
+          "type": "fetch"
+        },
+        {
+          "duration": 177.20000000298023,
+          "encoded": 562,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/gio-hang/__next._tree.txt?_rsc=5CB68i4pnAekjehf",
+          "start": 4940.399999991059,
+          "transfer": 862,
+          "type": "fetch"
+        },
+        {
+          "duration": 300.40000000596046,
+          "encoded": 3916,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/san-pham/__next.san-pham.__PAGE__.txt?_rsc=dw7nyzO1vDsNbEJR",
+          "start": 4961.899999991059,
+          "transfer": 4216,
+          "type": "fetch"
+        },
+        {
+          "duration": 280,
+          "encoded": 5091,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/1-lceq7ww40pn.js",
+          "start": 5013.79999999702,
+          "transfer": 5391,
+          "type": "script"
+        },
+        {
+          "duration": 275.90000000596046,
+          "encoded": 4774,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/__next.__PAGE__.txt?_rsc=8nTjltbQWvg6NcbE",
+          "start": 5018.5999999940395,
+          "transfer": 5074,
+          "type": "fetch"
+        },
+        {
+          "duration": 219.20000000298023,
+          "encoded": 2180,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/gio-hang/__next.gio-hang.__PAGE__.txt?_rsc=FjDgE9nZOiubjwGe",
+          "start": 5129.899999991059,
+          "transfer": 2480,
+          "type": "fetch"
+        },
+        {
+          "duration": 120.09999999403954,
+          "encoded": 2258,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/faq/__next.faq.__PAGE__.txt?_rsc=dzIsfw4qQTAENwrl",
+          "start": 5216.29999999702,
+          "transfer": 2558,
+          "type": "fetch"
+        },
+        {
+          "duration": 129.69999998807907,
+          "encoded": 922,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/369m-fe1nkplb.js",
+          "start": 5266.70000000298,
+          "transfer": 1222,
+          "type": "script"
+        },
+        {
+          "duration": 413.90000000596046,
+          "encoded": 5229,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/306y7rhkpd5l_.js",
+          "start": 5344.29999999702,
+          "transfer": 5529,
+          "type": "script"
+        },
+        {
+          "duration": 300.70000000298023,
+          "encoded": 1993,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/3sq4x9cm3z03a.js",
+          "start": 5356.5999999940395,
+          "transfer": 2293,
+          "type": "script"
+        },
+        {
+          "duration": 98.70000000298025,
+          "encoded": 199,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/icon.svg?icon.1dfo024ipbvlv.svg",
+          "start": 7494.79999999702,
+          "transfer": 499,
+          "type": "other"
+        }
+      ],
+      "reveal": "done",
+      "sampleWindowMs": 10000,
+      "scripts": [
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/0smknogw-1p7h.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/1s7w_f8hicdom.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/turbopack-2gcozvvi8e-7d.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/1-b8rtmuqj_c3.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/17_gexl5fhb3r.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/0wqg4hx9ihmlz.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/2royzfzxzdpsm.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/3fxdigrjbwlgt.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/0cz1d0mv5g_q7.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/1-lceq7ww40pn.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/369m-fe1nkplb.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/306y7rhkpd5l_.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/3sq4x9cm3z03a.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/311kcc9-a9-nc.js"
+      ],
+      "title": "Coffee Shop",
+      "ttfbMs": 179.29999999701977,
+      "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+      "url": "https://coffee-shop.ngvd4901.workers.dev/",
+      "viewport": {
+        "dpr": 1,
+        "height": 720,
+        "width": 1280
+      }
+    },
+    {
+      "at": "2026-11-15T12:14:53.895Z",
+      "blockingOver50Ms": 127,
+      "cls": 0.00025412241617838545,
+      "domContentLoadedMs": 1926.79999999702,
+      "fcpMs": 1940,
+      "hidden": false,
+      "lcpElement": "IMG",
+      "lcpMs": 1940,
+      "lcpUrl": "https://coffee-shop.ngvd4901.workers.dev/images/brand/logo-placeholder.jpg",
+      "loadMs": 0,
+      "longTaskTotalMs": 177,
+      "longTasks": 1,
+      "maxTaskMs": 177,
+      "resources": [
+        {
+          "duration": 386.20000000298023,
+          "encoded": 6208,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/0b0ccee50222a044.p.1tt4btciu1m76.woff2",
+          "start": 210.20000000298023,
+          "transfer": 6508,
+          "type": "link"
+        },
+        {
+          "duration": 498.3999999910593,
+          "encoded": 6172,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/1024ebb6bc4a0702.p.1-zaihok2evvt.woff2",
+          "start": 210.9000000059605,
+          "transfer": 6472,
+          "type": "link"
+        },
+        {
+          "duration": 420.29999999701977,
+          "encoded": 6200,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/46ea4bad27686d06.p.0p33yzfhxg1ff.woff2",
+          "start": 211.1000000089407,
+          "transfer": 6500,
+          "type": "link"
+        },
+        {
+          "duration": 1150.5,
+          "encoded": 39720,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/85ba544592656337.p.0ouwamd020iyx.woff2",
+          "start": 211.29999999701977,
+          "transfer": 40020,
+          "type": "link"
+        },
+        {
+          "duration": 1901.3999999910593,
+          "encoded": 22776,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/99b1318f543aeb31.p.0-h1tlsv6lsyb.woff2",
+          "start": 211.4000000059605,
+          "transfer": 23076,
+          "type": "link"
+        },
+        {
+          "duration": 1813.4000000059605,
+          "encoded": 23000,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/acfeecc1bc0e4f43.p.1ovk4bgq1ae7c.woff2",
+          "start": 211.70000000298023,
+          "transfer": 23300,
+          "type": "link"
+        },
+        {
+          "duration": 1496.6000000089407,
+          "encoded": 23000,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/b122be8550e0146d.p.424rwzrsm99ez.woff2",
+          "start": 211.79999999701977,
+          "transfer": 23300,
+          "type": "link"
+        },
+        {
+          "duration": 1968.699999988079,
+          "encoded": 6116,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/d381f6ba7a6b1095.p.349cv3j_ykzgu.woff2",
+          "start": 212.1000000089407,
+          "transfer": 6416,
+          "type": "link"
+        },
+        {
+          "duration": 1781.5999999940395,
+          "encoded": 6236,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/d48750d8b6b551c0.p.0zsye8mjafucv.woff2",
+          "start": 212.4000000059605,
+          "transfer": 6536,
+          "type": "link"
+        },
+        {
+          "duration": 2566.5999999940395,
+          "encoded": 23036,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/e4eb68d95a0add54.p.2_qq7qt-n_0_p.woff2",
+          "start": 212.6000000089407,
+          "transfer": 23336,
+          "type": "link"
+        },
+        {
+          "duration": 2174.9000000059605,
+          "encoded": 35508,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/e8f2fbee2754df70.p.1dqa_6e_ad4sj.woff2",
+          "start": 212.79999999701977,
+          "transfer": 35808,
+          "type": "link"
+        },
+        {
+          "duration": 2191,
+          "encoded": 22836,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/f12bf55884aa53d3.p.1dqnxm6s-aci_.woff2",
+          "start": 212.9000000059605,
+          "transfer": 23136,
+          "type": "link"
+        },
+        {
+          "duration": 940.2999999970198,
+          "encoded": 7654,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/images/brand/logo-placeholder.jpg",
+          "start": 213,
+          "transfer": 7954,
+          "type": "link"
+        },
+        {
+          "duration": 1541.5999999940395,
+          "encoded": 9525,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/394s67jk2s4ul.css",
+          "start": 213.6000000089407,
+          "transfer": 9825,
+          "type": "link"
+        },
+        {
+          "duration": 512.7000000029802,
+          "encoded": 8990,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/0cd6n8q8c_2-b.css",
+          "start": 214.4000000059605,
+          "transfer": 9290,
+          "type": "link"
+        },
+        {
+          "duration": 522.7999999970198,
+          "encoded": 2888,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/13l0vlwlu9_nc.css",
+          "start": 214.6000000089407,
+          "transfer": 3188,
+          "type": "link"
+        },
+        {
+          "duration": 435.90000000596046,
+          "encoded": 578,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/13ydrqdkaxt8d.css",
+          "start": 215,
+          "transfer": 878,
+          "type": "link"
+        },
+        {
+          "duration": 1552.7999999970198,
+          "encoded": 7786,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/311kcc9-a9-nc.js",
+          "start": 215.4000000059605,
+          "transfer": 8086,
+          "type": "link"
+        },
+        {
+          "duration": 3892.599999994039,
+          "encoded": 47466,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/0smknogw-1p7h.js",
+          "start": 215.6000000089407,
+          "transfer": 47766,
+          "type": "script"
+        },
+        {
+          "duration": 3792.79999999702,
+          "encoded": 73242,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/1s7w_f8hicdom.js",
+          "start": 215.70000000298023,
+          "transfer": 73542,
+          "type": "script"
+        },
+        {
+          "duration": 1531,
+          "encoded": 4011,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/turbopack-2gcozvvi8e-7d.js",
+          "start": 215.9000000059605,
+          "transfer": 4311,
+          "type": "script"
+        },
+        {
+          "duration": 1870,
+          "encoded": 12123,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/1-b8rtmuqj_c3.js",
+          "start": 216,
+          "transfer": 12423,
+          "type": "script"
+        },
+        {
+          "duration": 4542.600000008941,
+          "encoded": 79344,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/17_gexl5fhb3r.js",
+          "start": 216.29999999701977,
+          "transfer": 79644,
+          "type": "script"
+        },
+        {
+          "duration": 1696.199999988079,
+          "encoded": 21379,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/0wqg4hx9ihmlz.js",
+          "start": 216.6000000089407,
+          "transfer": 21679,
+          "type": "script"
+        },
+        {
+          "duration": 1579.5,
+          "encoded": 1467,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/2royzfzxzdpsm.js",
+          "start": 216.79999999701977,
+          "transfer": 1767,
+          "type": "script"
+        },
+        {
+          "duration": 5188.70000000298,
+          "encoded": 169689,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/3fxdigrjbwlgt.js",
+          "start": 216.9000000059605,
+          "transfer": 169989,
+          "type": "script"
+        },
+        {
+          "duration": 1543.5999999940395,
+          "encoded": 20720,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/images/coffee/coffee-cherry-sorting-hero-poster.webp",
+          "start": 217.1000000089407,
+          "transfer": 21020,
+          "type": "video"
+        },
+        {
+          "duration": 2152.20000000298,
+          "encoded": 36905,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/images/maps/south-vietnam-knockout.svg#lam-dong",
+          "start": 373.20000000298023,
+          "transfer": 37205,
+          "type": "other"
+        },
+        {
+          "duration": 1478.0999999940395,
+          "encoded": 34512,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/969f0adf11a48ffa.2qxfib5bautk7.woff2",
+          "start": 1775.6000000089407,
+          "transfer": 34812,
+          "type": "css"
+        },
+        {
+          "duration": 608.5,
+          "encoded": 18636,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/8ffa9b9dcfcce585.27ybcaxqaeu8t.woff2",
+          "start": 1779.7999999970198,
+          "transfer": 18936,
+          "type": "css"
+        },
+        {
+          "duration": 1069.2999999970198,
+          "encoded": 18840,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/71f7291b3eb39808.17es44b7_yv3g.woff2",
+          "start": 1786.1000000089407,
+          "transfer": 19140,
+          "type": "css"
+        },
+        {
+          "duration": 1084.5,
+          "encoded": 13756,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/8aad2d60f83adb5a.2lwd160tm8ilm.woff2",
+          "start": 1821.6000000089407,
+          "transfer": 14056,
+          "type": "css"
+        },
+        {
+          "duration": 930.2999999970198,
+          "encoded": 18752,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/32db700796fa0093.0_23748dm5kbw.woff2",
+          "start": 1842.1000000089407,
+          "transfer": 19052,
+          "type": "css"
+        },
+        {
+          "duration": 2446.5,
+          "encoded": 75978,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/images/3d/robusta-scene-poster.webp",
+          "start": 1892.79999999702,
+          "transfer": 76278,
+          "type": "img"
+        },
+        {
+          "duration": 567,
+          "encoded": 27172,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/images/3d/coffee-beans-atlas.webp?v=9b9b4a5764ae",
+          "start": 5613.70000000298,
+          "transfer": 27472,
+          "type": "fetch"
+        },
+        {
+          "duration": 1947.5999999940395,
+          "encoded": 36905,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/images/maps/south-vietnam-knockout.svg",
+          "start": 5636.70000000298,
+          "transfer": 37205,
+          "type": "img"
+        },
+        {
+          "duration": 116.8999999910593,
+          "encoded": 0,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/ve-chung-toi/",
+          "start": 5669.4000000059605,
+          "transfer": 300,
+          "type": "fetch"
+        },
+        {
+          "duration": 129.40000000596046,
+          "encoded": 0,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/cau-chuyen/",
+          "start": 5671.70000000298,
+          "transfer": 300,
+          "type": "fetch"
+        },
+        {
+          "duration": 131.30000001192093,
+          "encoded": 0,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/san-pham/",
+          "start": 5673.79999999702,
+          "transfer": 300,
+          "type": "fetch"
+        },
+        {
+          "duration": 152.29999999701977,
+          "encoded": 0,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/",
+          "start": 5675.20000000298,
+          "transfer": 300,
+          "type": "fetch"
+        },
+        {
+          "duration": 110.79999999701975,
+          "encoded": 563,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/ve-chung-toi/__next._tree.txt?_rsc=5CB68i4pnAekjehf",
+          "start": 5793.4000000059605,
+          "transfer": 863,
+          "type": "fetch"
+        },
+        {
+          "duration": 106.20000000298025,
+          "encoded": 562,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/cau-chuyen/__next._tree.txt?_rsc=5CB68i4pnAekjehf",
+          "start": 5818.79999999702,
+          "transfer": 862,
+          "type": "fetch"
+        },
+        {
+          "duration": 110.59999999403954,
+          "encoded": 575,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/san-pham/__next._tree.txt?_rsc=5CB68i4pnAekjehf",
+          "start": 5820.70000000298,
+          "transfer": 875,
+          "type": "fetch"
+        },
+        {
+          "duration": 89.70000000298023,
+          "encoded": 572,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/__next._tree.txt?_rsc=5CB68i4pnAekjehf",
+          "start": 5842.70000000298,
+          "transfer": 872,
+          "type": "fetch"
+        },
+        {
+          "duration": 100,
+          "encoded": 0,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/faq/",
+          "start": 5912.9000000059605,
+          "transfer": 300,
+          "type": "fetch"
+        },
+        {
+          "duration": 105,
+          "encoded": 0,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/gio-hang/",
+          "start": 5935.5,
+          "transfer": 300,
+          "type": "fetch"
+        },
+        {
+          "duration": 340.59999999403954,
+          "encoded": 2189,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/ve-chung-toi/__next.ve-chung-toi.__PAGE__.txt?_rsc=w49rD6b5uAWb8Amn",
+          "start": 5950.600000008941,
+          "transfer": 2489,
+          "type": "fetch"
+        },
+        {
+          "duration": 271.5,
+          "encoded": 2250,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/cau-chuyen/__next.cau-chuyen.__PAGE__.txt?_rsc=7LkcZoSVMjNJyQzm",
+          "start": 5953.4000000059605,
+          "transfer": 2550,
+          "type": "fetch"
+        },
+        {
+          "duration": 266,
+          "encoded": 557,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/faq/__next._tree.txt?_rsc=5CB68i4pnAekjehf",
+          "start": 6022.29999999702,
+          "transfer": 857,
+          "type": "fetch"
+        },
+        {
+          "duration": 161.29999999701977,
+          "encoded": 562,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/gio-hang/__next._tree.txt?_rsc=5CB68i4pnAekjehf",
+          "start": 6051.4000000059605,
+          "transfer": 862,
+          "type": "fetch"
+        },
+        {
+          "duration": 596.5,
+          "encoded": 3825,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/san-pham/__next.san-pham.__PAGE__.txt?_rsc=dw7nyzO1vDsNbEJR",
+          "start": 6222.600000008941,
+          "transfer": 4125,
+          "type": "fetch"
+        },
+        {
+          "duration": 912,
+          "encoded": 5146,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/1-lceq7ww40pn.js",
+          "start": 6234.9000000059605,
+          "transfer": 5446,
+          "type": "script"
+        },
+        {
+          "duration": 768.8000000119209,
+          "encoded": 4774,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/__next.__PAGE__.txt?_rsc=8nTjltbQWvg6NcbE",
+          "start": 6240.29999999702,
+          "transfer": 5074,
+          "type": "fetch"
+        },
+        {
+          "duration": 652.7000000029802,
+          "encoded": 2258,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/faq/__next.faq.__PAGE__.txt?_rsc=dzIsfw4qQTAENwrl",
+          "start": 6299.9000000059605,
+          "transfer": 2558,
+          "type": "fetch"
+        },
+        {
+          "duration": 702.5999999940395,
+          "encoded": 2180,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/gio-hang/__next.gio-hang.__PAGE__.txt?_rsc=FjDgE9nZOiubjwGe",
+          "start": 6305.600000008941,
+          "transfer": 2480,
+          "type": "fetch"
+        },
+        {
+          "duration": 324.20000000298023,
+          "encoded": 922,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/369m-fe1nkplb.js",
+          "start": 6823.29999999702,
+          "transfer": 1222,
+          "type": "script"
+        },
+        {
+          "duration": 344.09999999403954,
+          "encoded": 5229,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/306y7rhkpd5l_.js",
+          "start": 6969.70000000298,
+          "transfer": 5529,
+          "type": "script"
+        },
+        {
+          "duration": 591.5,
+          "encoded": 1993,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/3sq4x9cm3z03a.js",
+          "start": 7012.79999999702,
+          "transfer": 2293,
+          "type": "script"
+        }
+      ],
+      "reveal": "done",
+      "sampleWindowMs": 10000,
+      "scripts": [
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/0smknogw-1p7h.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/1s7w_f8hicdom.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/turbopack-2gcozvvi8e-7d.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/1-b8rtmuqj_c3.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/17_gexl5fhb3r.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/0wqg4hx9ihmlz.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/2royzfzxzdpsm.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/3fxdigrjbwlgt.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/0cz1d0mv5g_q7.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/1-lceq7ww40pn.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/369m-fe1nkplb.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/306y7rhkpd5l_.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/3sq4x9cm3z03a.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/311kcc9-a9-nc.js"
+      ],
+      "title": "Coffee Shop",
+      "ttfbMs": 169.90000000596046,
+      "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+      "url": "https://coffee-shop.ngvd4901.workers.dev/",
+      "viewport": {
+        "dpr": 1,
+        "height": 720,
+        "width": 1280
+      }
+    },
+    {
+      "at": "2026-11-15T12:16:34.929Z",
+      "blockingOver50Ms": 159,
+      "cls": 0.0022954944838511683,
+      "domContentLoadedMs": 1292.8999999910593,
+      "fcpMs": 1360,
+      "hidden": false,
+      "lcpElement": "IMG",
+      "lcpMs": 1508,
+      "lcpUrl": "https://coffee-shop.ngvd4901.workers.dev/images/brand/logo-placeholder.jpg",
+      "loadMs": 0,
+      "longTaskTotalMs": 259,
+      "longTasks": 2,
+      "maxTaskMs": 147,
+      "resources": [
+        {
+          "duration": 244.6000000089407,
+          "encoded": 6208,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/0b0ccee50222a044.p.1tt4btciu1m76.woff2",
+          "start": 285.8999999910593,
+          "transfer": 6508,
+          "type": "link"
+        },
+        {
+          "duration": 685.2999999970198,
+          "encoded": 6172,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/1024ebb6bc4a0702.p.1-zaihok2evvt.woff2",
+          "start": 288.5,
+          "transfer": 6472,
+          "type": "link"
+        },
+        {
+          "duration": 270.20000000298023,
+          "encoded": 6200,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/46ea4bad27686d06.p.0p33yzfhxg1ff.woff2",
+          "start": 289.3999999910593,
+          "transfer": 6500,
+          "type": "link"
+        },
+        {
+          "duration": 2814.1000000089407,
+          "encoded": 39720,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/85ba544592656337.p.0ouwamd020iyx.woff2",
+          "start": 289.59999999403954,
+          "transfer": 40020,
+          "type": "link"
+        },
+        {
+          "duration": 610.8000000119209,
+          "encoded": 22776,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/99b1318f543aeb31.p.0-h1tlsv6lsyb.woff2",
+          "start": 289.8999999910593,
+          "transfer": 23076,
+          "type": "link"
+        },
+        {
+          "duration": 1089.4000000059605,
+          "encoded": 23000,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/acfeecc1bc0e4f43.p.1ovk4bgq1ae7c.woff2",
+          "start": 290.09999999403954,
+          "transfer": 23300,
+          "type": "link"
+        },
+        {
+          "duration": 468.3999999910593,
+          "encoded": 23000,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/b122be8550e0146d.p.424rwzrsm99ez.woff2",
+          "start": 290.20000000298023,
+          "transfer": 23300,
+          "type": "link"
+        },
+        {
+          "duration": 796.2000000029802,
+          "encoded": 6116,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/d381f6ba7a6b1095.p.349cv3j_ykzgu.woff2",
+          "start": 290.3999999910593,
+          "transfer": 6416,
+          "type": "link"
+        },
+        {
+          "duration": 667.3999999910593,
+          "encoded": 6236,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/d48750d8b6b551c0.p.0zsye8mjafucv.woff2",
+          "start": 290.5,
+          "transfer": 6536,
+          "type": "link"
+        },
+        {
+          "duration": 1746,
+          "encoded": 23036,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/e4eb68d95a0add54.p.2_qq7qt-n_0_p.woff2",
+          "start": 290.70000000298023,
+          "transfer": 23336,
+          "type": "link"
+        },
+        {
+          "duration": 2301.0999999940395,
+          "encoded": 35508,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/e8f2fbee2754df70.p.1dqa_6e_ad4sj.woff2",
+          "start": 290.79999999701977,
+          "transfer": 35808,
+          "type": "link"
+        },
+        {
+          "duration": 2044.70000000298,
+          "encoded": 22836,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/f12bf55884aa53d3.p.1dqnxm6s-aci_.woff2",
+          "start": 290.8999999910593,
+          "transfer": 23136,
+          "type": "link"
+        },
+        {
+          "duration": 1146.4000000059605,
+          "encoded": 7654,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/images/brand/logo-placeholder.jpg",
+          "start": 291.29999999701977,
+          "transfer": 7954,
+          "type": "link"
+        },
+        {
+          "duration": 8116,
+          "encoded": 471866,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/images/coffee/coffee-cherry-harvest.webp",
+          "start": 292.70000000298023,
+          "transfer": 472166,
+          "type": "link"
+        },
+        {
+          "duration": 7880.90000000596,
+          "encoded": 451428,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/images/coffee/sun-dried-coffee-cherries.webp",
+          "start": 294.3999999910593,
+          "transfer": 451728,
+          "type": "link"
+        },
+        {
+          "duration": 860.5,
+          "encoded": 9524,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/394s67jk2s4ul.css",
+          "start": 294.59999999403954,
+          "transfer": 9824,
+          "type": "link"
+        },
+        {
+          "duration": 880.2000000029802,
+          "encoded": 8990,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/0cd6n8q8c_2-b.css",
+          "start": 294.8999999910593,
+          "transfer": 9290,
+          "type": "link"
+        },
+        {
+          "duration": 685.0999999940395,
+          "encoded": 2888,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/13l0vlwlu9_nc.css",
+          "start": 295.20000000298023,
+          "transfer": 3188,
+          "type": "link"
+        },
+        {
+          "duration": 280.70000000298023,
+          "encoded": 578,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/13ydrqdkaxt8d.css",
+          "start": 295.29999999701977,
+          "transfer": 878,
+          "type": "link"
+        },
+        {
+          "duration": 870.6000000089407,
+          "encoded": 7786,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/311kcc9-a9-nc.js",
+          "start": 295.3999999910593,
+          "transfer": 8086,
+          "type": "link"
+        },
+        {
+          "duration": 2989.5,
+          "encoded": 47416,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/0smknogw-1p7h.js",
+          "start": 295.5,
+          "transfer": 47716,
+          "type": "script"
+        },
+        {
+          "duration": 3129.70000000298,
+          "encoded": 73242,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/1s7w_f8hicdom.js",
+          "start": 295.59999999403954,
+          "transfer": 73542,
+          "type": "script"
+        },
+        {
+          "duration": 582.5999999940395,
+          "encoded": 4011,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/turbopack-2gcozvvi8e-7d.js",
+          "start": 295.79999999701977,
+          "transfer": 4311,
+          "type": "script"
+        },
+        {
+          "duration": 1246.6000000089407,
+          "encoded": 12123,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/1-b8rtmuqj_c3.js",
+          "start": 295.8999999910593,
+          "transfer": 12423,
+          "type": "script"
+        },
+        {
+          "duration": 3405.3999999910593,
+          "encoded": 79344,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/17_gexl5fhb3r.js",
+          "start": 296,
+          "transfer": 79644,
+          "type": "script"
+        },
+        {
+          "duration": 2175.5,
+          "encoded": 21440,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/0wqg4hx9ihmlz.js",
+          "start": 296.09999999403954,
+          "transfer": 21740,
+          "type": "script"
+        },
+        {
+          "duration": 584.7000000029802,
+          "encoded": 1467,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/2royzfzxzdpsm.js",
+          "start": 296.29999999701977,
+          "transfer": 1767,
+          "type": "script"
+        },
+        {
+          "duration": 4505.70000000298,
+          "encoded": 169444,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/3fxdigrjbwlgt.js",
+          "start": 296.3999999910593,
+          "transfer": 169744,
+          "type": "script"
+        },
+        {
+          "duration": 1280.7000000029802,
+          "encoded": 20720,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/images/coffee/coffee-cherry-sorting-hero-poster.webp",
+          "start": 296.59999999403954,
+          "transfer": 21020,
+          "type": "video"
+        },
+        {
+          "duration": 2492.300000011921,
+          "encoded": 36905,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/images/maps/south-vietnam-knockout.svg#lam-dong",
+          "start": 315.8999999910593,
+          "transfer": 37205,
+          "type": "other"
+        },
+        {
+          "duration": 1924.8999999910593,
+          "encoded": 34512,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/969f0adf11a48ffa.2qxfib5bautk7.woff2",
+          "start": 1225.2000000029802,
+          "transfer": 34812,
+          "type": "css"
+        },
+        {
+          "duration": 1100.5,
+          "encoded": 18636,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/8ffa9b9dcfcce585.27ybcaxqaeu8t.woff2",
+          "start": 1230,
+          "transfer": 18936,
+          "type": "css"
+        },
+        {
+          "duration": 1420.7999999970198,
+          "encoded": 18840,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/71f7291b3eb39808.17es44b7_yv3g.woff2",
+          "start": 1240,
+          "transfer": 19140,
+          "type": "css"
+        },
+        {
+          "duration": 825.1000000089407,
+          "encoded": 13756,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/8aad2d60f83adb5a.2lwd160tm8ilm.woff2",
+          "start": 1244.3999999910593,
+          "transfer": 14056,
+          "type": "css"
+        },
+        {
+          "duration": 829.5,
+          "encoded": 18752,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/media/32db700796fa0093.0_23748dm5kbw.woff2",
+          "start": 1259,
+          "transfer": 19052,
+          "type": "css"
+        },
+        {
+          "duration": 2360.199999988079,
+          "encoded": 75978,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/images/3d/robusta-scene-poster.webp",
+          "start": 1321.2000000029802,
+          "transfer": 76278,
+          "type": "img"
+        },
+        {
+          "duration": 452.20000000298023,
+          "encoded": 27172,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/images/3d/coffee-beans-atlas.webp?v=9b9b4a5764ae",
+          "start": 4967.79999999702,
+          "transfer": 27472,
+          "type": "fetch"
+        },
+        {
+          "duration": 1322,
+          "encoded": 36923,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/images/maps/south-vietnam-knockout.svg",
+          "start": 4987.5,
+          "transfer": 37223,
+          "type": "img"
+        },
+        {
+          "duration": 91.69999998807909,
+          "encoded": 0,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/ve-chung-toi/",
+          "start": 5051.70000000298,
+          "transfer": 300,
+          "type": "fetch"
+        },
+        {
+          "duration": 91.6000000089407,
+          "encoded": 0,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/cau-chuyen/",
+          "start": 5052.899999991059,
+          "transfer": 300,
+          "type": "fetch"
+        },
+        {
+          "duration": 135.40000000596046,
+          "encoded": 0,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/san-pham/",
+          "start": 5056.399999991059,
+          "transfer": 300,
+          "type": "fetch"
+        },
+        {
+          "duration": 124.09999999403954,
+          "encoded": 0,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/",
+          "start": 5068.20000000298,
+          "transfer": 300,
+          "type": "fetch"
+        },
+        {
+          "duration": 201.30000001192093,
+          "encoded": 563,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/ve-chung-toi/__next._tree.txt?_rsc=5CB68i4pnAekjehf",
+          "start": 5151.899999991059,
+          "transfer": 863,
+          "type": "fetch"
+        },
+        {
+          "duration": 202.5,
+          "encoded": 562,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/cau-chuyen/__next._tree.txt?_rsc=5CB68i4pnAekjehf",
+          "start": 5153.20000000298,
+          "transfer": 862,
+          "type": "fetch"
+        },
+        {
+          "duration": 124.29999999701975,
+          "encoded": 575,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/san-pham/__next._tree.txt?_rsc=5CB68i4pnAekjehf",
+          "start": 5201.29999999702,
+          "transfer": 875,
+          "type": "fetch"
+        },
+        {
+          "duration": 126.5,
+          "encoded": 572,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/__next._tree.txt?_rsc=5CB68i4pnAekjehf",
+          "start": 5203,
+          "transfer": 872,
+          "type": "fetch"
+        },
+        {
+          "duration": 74.20000000298023,
+          "encoded": 0,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/faq/",
+          "start": 5334.79999999702,
+          "transfer": 300,
+          "type": "fetch"
+        },
+        {
+          "duration": 99.30000001192091,
+          "encoded": 0,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/gio-hang/",
+          "start": 5338.399999991059,
+          "transfer": 300,
+          "type": "fetch"
+        },
+        {
+          "duration": 118.6000000089407,
+          "encoded": 2189,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/ve-chung-toi/__next.ve-chung-toi.__PAGE__.txt?_rsc=w49rD6b5uAWb8Amn",
+          "start": 5366.899999991059,
+          "transfer": 2489,
+          "type": "fetch"
+        },
+        {
+          "duration": 115.79999999701975,
+          "encoded": 2250,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/cau-chuyen/__next.cau-chuyen.__PAGE__.txt?_rsc=7LkcZoSVMjNJyQzm",
+          "start": 5374.0999999940395,
+          "transfer": 2550,
+          "type": "fetch"
+        },
+        {
+          "duration": 96.5,
+          "encoded": 557,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/faq/__next._tree.txt?_rsc=5CB68i4pnAekjehf",
+          "start": 5414.899999991059,
+          "transfer": 857,
+          "type": "fetch"
+        },
+        {
+          "duration": 131.70000000298023,
+          "encoded": 562,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/gio-hang/__next._tree.txt?_rsc=5CB68i4pnAekjehf",
+          "start": 5444.79999999702,
+          "transfer": 862,
+          "type": "fetch"
+        },
+        {
+          "duration": 167.80000001192093,
+          "encoded": 3825,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/san-pham/__next.san-pham.__PAGE__.txt?_rsc=dw7nyzO1vDsNbEJR",
+          "start": 5492.899999991059,
+          "transfer": 4125,
+          "type": "fetch"
+        },
+        {
+          "duration": 212,
+          "encoded": 5091,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/1-lceq7ww40pn.js",
+          "start": 5496.399999991059,
+          "transfer": 5391,
+          "type": "script"
+        },
+        {
+          "duration": 321.90000000596046,
+          "encoded": 4774,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/__next.__PAGE__.txt?_rsc=8nTjltbQWvg6NcbE",
+          "start": 5501.899999991059,
+          "transfer": 5074,
+          "type": "fetch"
+        },
+        {
+          "duration": 227.5999999940395,
+          "encoded": 2258,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/faq/__next.faq.__PAGE__.txt?_rsc=dzIsfw4qQTAENwrl",
+          "start": 5537.70000000298,
+          "transfer": 2558,
+          "type": "fetch"
+        },
+        {
+          "duration": 143.09999999403954,
+          "encoded": 2180,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/gio-hang/__next.gio-hang.__PAGE__.txt?_rsc=FjDgE9nZOiubjwGe",
+          "start": 5587.5,
+          "transfer": 2480,
+          "type": "fetch"
+        },
+        {
+          "duration": 112.8999999910593,
+          "encoded": 922,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/369m-fe1nkplb.js",
+          "start": 5667.20000000298,
+          "transfer": 1222,
+          "type": "script"
+        },
+        {
+          "duration": 204.20000000298023,
+          "encoded": 1993,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/3sq4x9cm3z03a.js",
+          "start": 5733.899999991059,
+          "transfer": 2293,
+          "type": "script"
+        },
+        {
+          "duration": 199.4000000059605,
+          "encoded": 5229,
+          "name": "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/306y7rhkpd5l_.js",
+          "start": 5769.79999999702,
+          "transfer": 5529,
+          "type": "script"
+        }
+      ],
+      "reveal": "done",
+      "sampleWindowMs": 10000,
+      "scripts": [
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/0smknogw-1p7h.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/1s7w_f8hicdom.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/turbopack-2gcozvvi8e-7d.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/1-b8rtmuqj_c3.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/17_gexl5fhb3r.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/0wqg4hx9ihmlz.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/2royzfzxzdpsm.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/3fxdigrjbwlgt.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/0cz1d0mv5g_q7.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/1-lceq7ww40pn.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/369m-fe1nkplb.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/3sq4x9cm3z03a.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/306y7rhkpd5l_.js",
+        "https://coffee-shop.ngvd4901.workers.dev/_next/static/chunks/311kcc9-a9-nc.js"
+      ],
+      "title": "Coffee Shop",
+      "ttfbMs": 73.59999999403954,
+      "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+      "url": "https://coffee-shop.ngvd4901.workers.dev/",
+      "viewport": {
+        "dpr": 1,
+        "height": 720,
+        "width": 1280
+      }
+    }
+  ]
+}

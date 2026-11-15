@@ -1,0 +1,7 @@
+.heroBrand {
+    position: absolute;
+    inset-inline: var(--page-gutter);
+    top: 55%;
+    transform: translateY(-50%);
+    color: var(--background);
+}

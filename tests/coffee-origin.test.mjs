@@ -6,76 +6,86 @@ import ts from "typescript";
 import * as jsxRuntime from "react/jsx-runtime";
 import { renderToStaticMarkup } from "react-dom/server";
 
-const files = ["CoffeeProcessSlideshow", "CoffeeOriginSection"];
-const compiled = files.map((file) => ts.transpileModule(readFileSync(`src/components/sections/home-page/${file}.tsx`, "utf8"), {
+const compiled = ["CoffeeProcessSlideshow", "CoffeeOriginSection"].map(file => ts.transpileModule(readFileSync(`src/components/sections/home-page/${file}.tsx`, "utf8"), {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true },
 }).outputText);
 
 function element() {
     const attributes = new Map();
+    let writes = 0;
     return {
         attributes,
-        style: { setProperty(name, value) { this[name] = value; }, removeProperty(name) { delete this[name]; } },
-        setAttribute(name, value) { attributes.set(name, value); },
+        get writes() { return writes; },
+        style: new Proxy({ setProperty(name, value) { this[name] = value; }, removeProperty(name) { delete this[name]; } }, {
+            set(target, name, value) { writes++; target[name] = value; return true; },
+        }),
+        setAttribute(name, value) { writes++; attributes.set(name, value); },
         removeAttribute(name) { attributes.delete(name); },
         toggleAttribute(name, value) { if (value) attributes.set(name, ""); else attributes.delete(name); },
     };
 }
 
-function mount({ initialFailure = false, incompleteStory = false, initialTop = 1200, stageHeight = 800 } = {}) {
-    const root = element();
-    const map = { ...element(), clientWidth: 1200, clientHeight: 800 };
-    const shape = element(), fill = element(), borders = element(), copy = element(), location = element();
+function mount({ initialTop = 1200, incompleteStory = false, initialFailure = false, reduced = false, imageFailure = false } = {}) {
+    const root = element(), map = element(), shape = element(), fill = element(), borders = element(), copy = element();
+    const mask = { ...element(), hidden: true };
     const title = element(), titleTrack = element();
     const slides = Array.from({ length: 3 }, element), images = Array.from({ length: 3 }, element), titles = Array.from({ length: 3 }, element);
-    const storyStart = { offsetTop: 560 };
-    let top = initialTop, fail = initialFailure, active = false, effect, frame, stop, mapImage;
-    const windowEvents = new EventTarget();
-    let viewportHeight = 800;
-    class MapImage {
-        constructor() { mapImage = this; }
-    }
-    const track = { querySelectorAll: (selector) => selector === ".slide" ? slides : images };
+    const metrics = { width: 1200, height: 800, intro: 560, story: 2800 };
+    const reads = { width: 0, height: 0, intro: 0, bounds: 0 };
+    const stage = {
+        get clientWidth() { reads.width++; if (failed) throw Error("layout unavailable"); return metrics.width; },
+        get clientHeight() { reads.height++; return metrics.height; },
+    };
+    const storyStart = { get offsetTop() { reads.intro++; return metrics.intro; } };
+    const slider = { ...element(), tabIndex: 0, scrollLeft: 0 };
+    const track = { querySelectorAll: selector => selector === ".slide" ? slides : images };
     const photo = {
-        get clientHeight() { if (fail) throw new Error("layout unavailable"); return stageHeight; },
-        querySelector: (selector) => ({ ".slideTrack": incompleteStory ? null : track, ".viewport": { clientWidth: 1200 }, ".title": title })[selector],
+        querySelector: selector => ({ ".slideTrack": incompleteStory ? null : track, ".viewport": slider, ".title": title })[selector],
         querySelectorAll: () => titles,
     };
     title.querySelector = () => titleTrack;
-    root.querySelector = (selector) => ({
-        ".introCopy": copy, ".locationLabel": location, ".map": map, "[data-origin-shape]": shape,
-        "[data-origin-borders]": borders, ".provinceFill": fill, "[data-coffee-story-start]": storyStart, ".slideshow": photo,
+    root.querySelector = selector => ({
+        ".introCopy": copy, ".map": map, ".stickyViewport": stage, "[data-origin-shape]": shape,
+        "[data-origin-borders]": borders, ".provinceFill": fill, "[data-coffee-story-start]": storyStart, ".slideshow": photo, ".mapMask": mask,
     })[selector];
     root.querySelectorAll = () => [];
-    root.getBoundingClientRect = () => ({ top, height: 4160 });
-    const react = { useRef: () => ({ current: root }), useId: () => "origin-test", useLayoutEffect: (setup) => { effect = setup; } };
+    root.getBoundingClientRect = () => { reads.bounds++; return { top, height: metrics.height + metrics.intro + metrics.story }; };
+    let top = initialTop, failed = initialFailure, active = false, effect, update, mapImage;
+    let viewportHeight = 800;
+    const events = new EventTarget(), media = Object.assign(new EventTarget(), { matches: reduced });
+    const observers = new Set();
+    class Observer {
+        constructor(callback) { this.callback = callback; observers.add(this); }
+        observe() {}
+        disconnect() { observers.delete(this); }
+    }
+    class MapImage {
+        constructor() { if (imageFailure) throw Error("image unavailable"); mapImage = this; }
+    }
+    const react = { useRef: () => ({ current: root }), useId: () => "origin-test", useLayoutEffect(setup) { effect = setup; } };
     let storyModule;
-    const modules = compiled.map((code) => {
+    const modules = compiled.map(code => {
         const exports = {};
         vm.runInNewContext(code, {
-            exports,
-            Image: MapImage,
+            exports, Image: MapImage, ResizeObserver: Observer,
             window: {
                 get innerHeight() { return viewportHeight; },
-                matchMedia: () => ({ matches: false }),
-                addEventListener: windowEvents.addEventListener.bind(windowEvents),
-                removeEventListener: windowEvents.removeEventListener.bind(windowEvents),
+                matchMedia: query => query.includes("prefers-reduced-motion") ? media : { matches: metrics.width < 1024 },
+                addEventListener: events.addEventListener.bind(events), removeEventListener: events.removeEventListener.bind(events),
             },
-            require: (name) => {
+            require(name) {
                 if (name === "react/jsx-runtime") return jsxRuntime;
                 if (name === "react") return react;
                 if (name.endsWith(".css")) return { __esModule: true, default: new Proxy({}, { get: (_, key) => key }) };
                 if (name.endsWith("CoffeeProcessSlideshow")) return storyModule;
-                if (name.endsWith("native-motion")) return {
-                    observeScroll(update, onError) {
-                        active = true;
-                        stop = () => { active = false; };
-                        frame = () => { if (active) { try { update(); } catch (error) { stop(); onError(error); } } };
-                        try { update(); } catch (error) { stop(); throw error; }
-                        return stop;
-                    },
-                };
-                throw new Error(`Unexpected dependency: ${name}`);
+                if (name.endsWith("native-motion")) return { observeScroll(sync, onError) {
+                    active = true;
+                    const stop = () => { active = false; };
+                    update = () => { if (active) { try { sync(); } catch (error) { stop(); onError(error); } } };
+                    try { sync(); } catch (error) { stop(); throw error; }
+                    return stop;
+                } };
+                throw Error(`Unexpected dependency: ${name}`);
             },
         });
         storyModule = exports;
@@ -83,130 +93,217 @@ function mount({ initialFailure = false, incompleteStory = false, initialTop = 1
     });
     const markup = modules[1].CoffeeOriginSection();
     return {
-        root, map, shape, borders, copy, title, titleTrack, slides, images, titles, markup,
-        start: () => effect(), active: () => active,
-        loadMap() { mapImage.onload?.(); },
-        failMap() { mapImage.onerror?.(); },
-        mapImage: () => mapImage,
-        move(value) { top = value; windowEvents.dispatchEvent(new Event("scroll")); frame?.(); },
-        resizeViewport(height) { viewportHeight = height; windowEvents.dispatchEvent(new Event("resize")); frame?.(); },
-        fail() { fail = true; frame(); },
+        root, map, shape, fill, borders, copy, title, titleTrack, slides, images, titles, slider, mask, markup, reads, metrics, observers,
+        start: () => effect(), active: () => active, mapImage: () => mapImage,
+        loadMap() { mapImage.onload?.(); }, failMap() { mapImage.onerror?.(); },
+        move(value) { top = value; update?.(); },
+        restore(value) { top = value; events.dispatchEvent(new Event("pageshow")); },
+        resize(values) { Object.assign(metrics, values); for (const observer of observers) observer.callback(); },
+        browserControls(height) { viewportHeight = height; events.dispatchEvent(new Event("resize")); },
+        motion(value) { media.matches = value; media.dispatchEvent(new Event("change")); },
+        fail() { failed = true; events.dispatchEvent(new Event("resize")); },
     };
 }
 
-function assertBaseline(story) {
+function assertNative(story) {
+    assert.equal(story.active(), false);
     assert.equal(story.root.attributes.has("data-origin-enhanced"), false);
-    assert.equal(story.shape.attributes.has("transform"), false);
-    assert.equal(story.copy.style.opacity, undefined);
-    assert.equal(story.title.style.opacity, undefined);
-    assert.equal(story.title.attributes.has("data-title-visible"), false);
+    assert.equal(story.root.attributes.has("data-origin-map-ready"), false);
+    assert.equal(story.root.attributes.has("data-origin-pin"), false);
+    assert.equal(story.mask.hidden, true);
+    assert.equal(story.slider.tabIndex, 0);
     for (const item of [...story.slides, ...story.images]) assert.equal(item.style.transform, undefined);
-    for (const title of story.titles) assert.equal(title.style.opacity, undefined);
+    assert.equal(story.title.style.opacity, undefined);
+    assert.equal(story.copy.style.opacity, undefined);
 }
 
-test("origin HTML contains all three photos and captions without opting into the pinned experience", () => {
-    const story = mount();
-    const html = renderToStaticMarkup(story.markup);
+function frame(story) {
+    return [...story.slides, ...story.images].map(item => item.style.transform);
+}
+
+test("server HTML has one horizontal story and keeps the unready map hidden", () => {
+    const story = mount(), html = renderToStaticMarkup(story.markup);
     assert.equal((html.match(/<article /g) ?? []).length, 3);
     assert.equal((html.match(/<img /g) ?? []).length, 3);
     for (const caption of ["Từ VƯỜN", "và THU HÁI", "đến PHƠI SẤY"]) assert(html.includes(caption));
+    assert.match(html, /class="viewport"[^>]*tabindex="0"/);
+    assert.match(html, /class="mapMask" hidden=""/);
     assert(!html.includes("data-origin-enhanced"));
-    assertBaseline(story);
+    assert(!html.includes(">Lâm Đồng</p>"));
+    assertNative(story);
 });
 
-test("map and slideshow activate together, retain scroll zoom and parallax, and clean up together", () => {
+test("restored positions render the same horizontal frame as scrolling there, before SVG loads", () => {
+    for (const top of [400, -280, -1960, -3300]) {
+        const restored = mount({ initialTop: top }), scrolled = mount();
+        const cleanRestored = restored.start(), cleanScrolled = scrolled.start();
+        scrolled.move(top);
+        assert.equal(restored.active(), true);
+        assert.equal(restored.root.attributes.has("data-origin-enhanced"), true);
+        assert.equal(restored.mask.hidden, true);
+        assert.deepEqual(frame(restored), frame(scrolled));
+        const before = frame(restored);
+        restored.loadMap();
+        assert.deepEqual(frame(restored), before, "SVG arrival must not restart the horizontal timeline");
+        cleanRestored(); cleanScrolled();
+    }
+});
+
+test("a delayed SVG activates only the map at the current intro progress", () => {
     const story = mount();
     const cleanup = story.start();
-    assertBaseline(story);
-    story.loadMap();
-    assert.equal(story.root.attributes.has("data-origin-enhanced"), true);
-    const initialMap = story.shape.attributes.get("transform");
-    const initialBorders = story.borders.attributes.get("transform");
     story.move(-280);
-    assert.notEqual(story.shape.attributes.get("transform"), initialMap);
-    assert.equal(story.borders.attributes.get("transform"), initialBorders);
-    assert.equal(story.slides[1].style.transform, "translateX(100%)");
-    story.move(-1960);
-    assert.equal(story.slides[1].style.transform, "translateX(0%)");
-    assert(story.images[1].style.transform.includes("scale(1.2)"));
-    assert.equal(story.title.attributes.has("data-title-visible"), true);
+    assert.equal(story.shape.attributes.has("transform"), false);
+    const before = frame(story);
+    story.loadMap();
+    assert.equal(story.mapImage().src, "/images/maps/south-vietnam-knockout.svg");
+    assert.equal(story.mask.hidden, false);
+    assert(story.shape.attributes.get("transform").startsWith("matrix("));
+    assert.deepEqual(frame(story), before);
+    assert.equal(story.copy.style.opacity, undefined);
     cleanup();
-    assert.equal(story.active(), false);
-    assert.equal(story.map.attributes.get("viewBox"), "0 0 1540 1240");
-    assertBaseline(story);
+    assertNative(story);
 });
 
-test("missing prerequisites and failed initial update leave the full baseline available", () => {
-    for (const options of [{ incompleteStory: true }, { initialFailure: true }]) {
-        const story = mount(options);
+test("SVG failure or an unavailable image loader cannot stop the horizontal story", () => {
+    for (const imageFailure of [false, true]) {
+        const story = mount({ imageFailure });
         const cleanup = story.start();
-        story.loadMap();
-        assertBaseline(story);
-        assert.equal(story.active(), false);
+        if (!imageFailure) story.failMap();
+        story.move(-1960);
+        assert.equal(story.active(), true);
+        assert.equal(story.slides[1].style.transform, "translateX(0%)");
+        assert.equal(story.title.attributes.has("data-title-visible"), true);
+        assert.equal(story.mask.hidden, true);
         cleanup();
     }
 });
 
-test("slideshow uses its full stage and keeps horizontal progress when browser controls resize", () => {
-    const story = mount({ stageHeight: 920 });
+test("a map rendering error leaves the horizontal timeline running", () => {
+    const story = mount();
     const cleanup = story.start();
+    story.shape.setAttribute = () => { throw Error("map rendering failed"); };
     story.loadMap();
-    // One quarter of the 2680px travel, after the 560px map introduction.
-    story.move(-1230);
-    const transform = story.slides[1].style.transform;
-    assert(Math.abs(parseFloat(transform.slice("translateX(".length)) - 59.52381) < 0.001);
-    story.resizeViewport(920);
-    assert.equal(story.slides[1].style.transform, transform);
-    story.resizeViewport(740);
-    assert.equal(story.slides[1].style.transform, transform);
+    assert.equal(story.root.attributes.has("data-origin-map-ready"), false);
+    story.move(-1960);
+    assert.equal(story.active(), true);
+    assert.equal(story.slides[1].style.transform, "translateX(0%)");
+    assert.equal(story.mask.hidden, true);
     cleanup();
 });
 
-test("a later slideshow failure rolls back the map and every slide mutation", () => {
+test("completed map zoom sleeps during horizontal travel and resumes on reverse", () => {
     const story = mount();
-    story.start();
+    const cleanup = story.start();
+    story.loadMap();
+    const borders = story.borders.attributes.get("transform");
+    story.move(-800);
+    assert.equal(story.mask.hidden, true);
+    const writes = story.shape.writes;
+    story.move(-1600);
+    assert.equal(story.shape.writes, writes);
+    assert.equal(story.borders.attributes.get("transform"), borders);
+    story.move(-200);
+    assert.equal(story.mask.hidden, false);
+    assert(story.shape.writes > writes);
+    cleanup();
+});
+
+test("scroll reads section position once, caches geometry, and skips unchanged clamped frames", () => {
+    const story = mount();
+    const cleanup = story.start();
+    const widthReads = story.reads.width, boundsReads = story.reads.bounds;
+    for (let i = 0; i < 20; i++) story.move(-1800 - i * 10);
+    assert.equal(story.reads.width, widthReads);
+    assert.equal(story.reads.bounds, boundsReads + 20);
+    story.move(-5000);
+    const writes = [...story.slides, ...story.images, story.titleTrack].map(item => item.writes);
+    story.move(-6000);
+    assert.deepEqual([...story.slides, ...story.images, story.titleTrack].map(item => item.writes), writes);
+    cleanup();
+});
+
+test("orientation/container changes remeasure geometry and browser chrome alone preserves progress", () => {
+    const story = mount({ initialTop: -1960 });
+    const cleanup = story.start();
+    const before = frame(story);
+    story.browserControls(920);
+    assert.deepEqual(frame(story), before);
+    story.resize({ width: 600, height: 920, intro: 736, story: 2760 });
+    const reference = mount({ initialTop: -1960 });
+    Object.assign(reference.metrics, story.metrics);
+    const cleanupReference = reference.start();
+    assert.deepEqual(frame(story), frame(reference));
+    assert.equal(story.active(), true);
+    cleanup(); cleanupReference();
+});
+
+test("pageshow restores progress without requiring another user scroll", () => {
+    const story = mount();
+    const cleanup = story.start();
+    story.restore(-1960);
+    assert.equal(story.slides[1].style.transform, "translateX(0%)");
+    assert.equal(story.root.attributes.get("data-origin-pin"), "active");
+    story.restore(100);
+    assert.equal(story.root.attributes.get("data-origin-pin"), "before");
+    cleanup();
+});
+
+test("a temporarily zero-sized stage resumes when its container becomes measurable", () => {
+    const story = mount({ initialTop: -1960 });
+    story.metrics.width = 0;
+    const cleanup = story.start();
+    assert.equal(story.active(), true);
+    assert.equal(story.mask.hidden, true);
+    story.loadMap();
+    story.resize({ width: 1200 });
+    assert.equal(story.slides[1].style.transform, "translateX(0%)");
+    assert.equal(story.active(), true);
+    cleanup();
+});
+
+test("reduced motion keeps horizontal navigation and removes map zoom and image parallax", () => {
+    const story = mount({ reduced: true });
+    const cleanup = story.start();
     story.loadMap();
     story.move(-1960);
-    story.fail();
-    assertBaseline(story);
-    assert.equal(story.active(), false);
+    assert.equal(story.active(), true);
+    assert.equal(story.mask.hidden, true);
+    assert(story.images.every(image => image.style.transform === "translateX(0px) scale(1)"));
+    assert.equal(story.slides[1].style.transform, "translateX(0%)");
+    story.motion(false);
+    assert(story.images[1].style.transform.includes("scale(1.2)"));
+    story.move(-280);
+    assert.equal(story.mask.hidden, false);
+    cleanup();
 });
 
-test("a failed SVG request never activates the opaque map mask or pinned story", () => {
+test("timeline setup/measurement failures keep the native horizontal fallback accessible", () => {
+    for (const options of [{ incompleteStory: true }, { initialFailure: true }]) {
+        const story = mount(options);
+        const cleanup = story.start();
+        assertNative(story);
+        cleanup();
+    }
     const story = mount();
     story.start();
-    assert.equal(story.mapImage().src, "/images/maps/south-vietnam-knockout.svg");
-    story.failMap();
-    assertBaseline(story);
-    assert.equal(story.active(), false);
+    story.move(-1960);
+    story.fail();
+    assertNative(story);
 });
 
-test("SVG completion after unmount cannot activate the section", () => {
+test("unmount releases observers and rejects queued asset, resize and restoration callbacks", () => {
     const story = mount();
     const cleanup = story.start();
-    const queuedLoad = story.mapImage().onload;
+    const load = story.mapImage().onload, error = story.mapImage().onerror;
+    const resize = [...story.observers][0].callback;
     cleanup();
-    queuedLoad();
-    assertBaseline(story);
-    assert.equal(story.active(), false);
-});
-
-test("a late map never pins a baseline already visible or restored midway through the story", () => {
-    for (const top of [400, -1200]) {
-        const story = mount({ initialTop: top });
-        story.start();
-        story.loadMap();
-        assertBaseline(story);
-        assert.equal(story.active(), false);
-    }
-});
-
-test("returning above an already viewed baseline does not allow a late map to change its layout", () => {
-    const story = mount();
-    story.start();
-    story.move(400);
-    story.move(1200);
-    story.loadMap();
-    assertBaseline(story);
-    assert.equal(story.active(), false);
+    assertNative(story);
+    assert.equal(story.observers.size, 0);
+    const writes = story.root.writes;
+    load(); error(); resize();
+    story.restore(-1960);
+    story.motion(true);
+    assert.equal(story.root.writes, writes);
+    assertNative(story);
 });

@@ -52,13 +52,16 @@ export function useEnhancedDisclosure() {
         if (!enhanced || !nativeOpen || open || !panel) return;
         if (desiredOpen.current) {
             let cancelled = false;
-            // Commit the collapsed box before revealing a newly opened native disclosure.
+            // Let a newly opened native disclosure paint its collapsed state first.
             try {
                 void panel.offsetHeight;
                 frame.current = requestAnimationFrame(() => {
                     if (cancelled) return;
-                    logicalOpen.current = true;
-                    setLogicalOpen(true);
+                    frame.current = requestAnimationFrame(() => {
+                        if (cancelled) return;
+                        logicalOpen.current = true;
+                        setLogicalOpen(true);
+                    });
                 });
             } catch {
                 queueMicrotask(() => {

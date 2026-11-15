@@ -9,7 +9,7 @@ import { createMetadata } from "@/lib/metadata";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = createMetadata({
-    title: "Sản phẩm | Coffee Shop",
+    title: "Sản phẩm | Là Vườn Coffee",
     description: "Khám phá bộ sưu tập cà phê Robusta và Arabica, với những hương vị từ cao nguyên Việt Nam.",
     path: "/san-pham/",
 });

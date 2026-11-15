@@ -70,9 +70,11 @@ function mount({ nativeOpen = false, reduced = false, failStyle = false } = {}) 
         open() {
             api.setOpen(true);
             flush();
-            const callbacks = [...frames.values()];
-            frames.clear();
-            callbacks.forEach((callback) => callback());
+            for (let paint = 0; paint < 2; paint++) {
+                const callbacks = [...frames.values()];
+                frames.clear();
+                callbacks.forEach((callback) => callback());
+            }
             flush();
         },
         close() { api.setOpen(false); flush(); },

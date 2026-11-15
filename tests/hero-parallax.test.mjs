@@ -9,15 +9,14 @@ const compiled = ts.transpileModule(readFileSync("src/components/layout/Immersiv
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true },
 }).outputText;
 
-function mount(supported) {
+function mount(motion = true) {
     const refs = [];
     const exports = {};
     let setup, sync, cleaned = false;
     let top = -200;
-    const style = { removeProperty(name) { delete this[name]; } };
+    const style = { setProperty(name, value) { this[name] = value; }, removeProperty(name) { delete this[name]; } };
     vm.runInNewContext(compiled, {
         exports,
-        CSS: { supports: () => supported },
         require: (name) => {
             if (name === "react/jsx-runtime") return jsxRuntime;
             if (name === "react") return {
@@ -28,8 +27,8 @@ function mount(supported) {
             if (name.endsWith("scroll-viewport")) return { getScrollViewportHeight: () => 800 };
             if (name.endsWith("native-motion")) return {
                 observeMotion: (query, start) => {
-                    assert(query.includes("min-width"));
-                    return start();
+                    assert.equal(query, "(prefers-reduced-motion: no-preference)");
+                    return motion ? start() : undefined;
                 },
                 observeScroll: (update) => { sync = update; update(); return () => { cleaned = true; }; },
             };
@@ -37,26 +36,25 @@ function mount(supported) {
         },
     });
     exports.ImmersivePage({ backdrop: null, children: null });
-    refs[0].current = { getBoundingClientRect: () => ({ top }) };
-    refs[1].current = { style };
+    refs[0].current = { style, getBoundingClientRect: () => ({ top }) };
     const stop = setup();
     return { style, stop, cleaned: () => cleaned, move(value) { top = value; sync(); } };
 }
 
-test("hero parallax falls back to shared scroll updates and releases its transform", () => {
-    const hero = mount(false);
-    assert.equal(hero.style.transform, "translate3d(0, 32px, 0)");
+test("hero supplies a clamped 50% scroll offset to its media and releases it", () => {
+    const hero = mount();
+    assert.equal(hero.style["--hero-parallax"], "100px");
     hero.move(-2000);
-    assert.equal(hero.style.transform, "translate3d(0, 128px, 0)");
+    assert.equal(hero.style["--hero-parallax"], "400px");
     hero.move(100);
-    assert.equal(hero.style.transform, "translate3d(0, 0px, 0)");
+    assert.equal(hero.style["--hero-parallax"], "0px");
     hero.stop();
-    assert.equal(hero.style.transform, undefined);
+    assert.equal(hero.style["--hero-parallax"], undefined);
     assert.equal(hero.cleaned(), true);
 });
 
-test("native timelines do not start a redundant parallax handler", () => {
-    const hero = mount(true);
-    assert.equal(hero.style.transform, undefined);
+test("reduced motion keeps hero media static", () => {
+    const hero = mount(false);
+    assert.equal(hero.style["--hero-parallax"], undefined);
     assert.equal(hero.stop, undefined);
 });

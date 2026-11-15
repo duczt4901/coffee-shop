@@ -8,6 +8,7 @@ import { LinkMarker } from "@/components/ui/LinkMarker";
 import { formatPrice, FREE_SHIPPING_THRESHOLD } from "@/lib/commerce";
 import { Quantity } from "./Quantity";
 import { useCart } from "./useCart";
+import { ZALO_PHONE, ZALO_URL } from "@/data/contact";
 import styles from "./Commerce.module.css";
 
 export function CartPage() {
@@ -19,7 +20,7 @@ export function CartPage() {
                     <Link href="/gio-hang/" aria-current="step">
                         01 / Giỏ hàng
                     </Link>
-                    <Link href="/thanh-toan/">02 / Thanh toán</Link>
+                    <a href={ZALO_URL} target="_blank" rel="noopener noreferrer">02 / Liên hệ Zalo</a>
                 </nav>
                 <h1 className={styles.heading}>
                     Giỏ hàng<span className="ml-4 align-top font-sans text-base tracking-normal">({cart.count})</span>
@@ -97,15 +98,15 @@ export function CartPage() {
                                     <dd>{formatPrice(cart.subtotal)}</dd>
                                 </div>
                             </dl>
-                            <Button href="/thanh-toan/" fullWidth>
-                                Tiến hành thanh toán <LinkMarker />
+                            <Button href={ZALO_URL} target="_blank" rel="noopener noreferrer" fullWidth>
+                                Liên hệ Zalo <LinkMarker />
                             </Button>
                             <p className={styles.summaryNote}>
                                 {cart.subtotal >= FREE_SHIPPING_THRESHOLD
                                     ? "Đơn hàng của bạn được miễn phí giao hàng."
                                     : `Mua thêm ${formatPrice(FREE_SHIPPING_THRESHOLD - cart.subtotal)} để được miễn phí giao hàng.`}
                             </p>
-                            <p className={styles.summaryNote}>Thanh toán khi nhận hàng (COD).</p>
+                            <p className={styles.summaryNote}>Zalo: {ZALO_PHONE}. Gửi sản phẩm và số lượng để được hỗ trợ.</p>
                         </aside>
                     </div>
                 )}

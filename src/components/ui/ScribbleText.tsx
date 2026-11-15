@@ -8,6 +8,7 @@ import {
     useState,
     type ReactElement,
     type ReactNode,
+    type AnchorHTMLAttributes,
 } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -19,10 +20,11 @@ type ScribbleVariant = {
     className: string;
 };
 
-type ScribbleItemProps = {
+type ScribbleItemProps = Pick<AnchorHTMLAttributes<HTMLAnchorElement>, "onClick" | "tabIndex" | "aria-current"> & {
     href: string;
     text: string;
     strokeWidth?: number;
+    className?: string;
 };
 
 type ScribbleRootProps = {
@@ -90,6 +92,8 @@ function Item({
                   href,
                   text,
                   strokeWidth = 2,
+                  className,
+                  ...linkProps
               }: ScribbleItemProps): ReactElement {
     const store = useContext(ScribbleContext);
 
@@ -141,11 +145,14 @@ function Item({
 
     return (
         <span
-            className="relative inline-flex shrink-0 items-center justify-center whitespace-nowrap p-3 text-center leading-none"
+            className={cn("relative inline-flex shrink-0 items-center justify-center whitespace-nowrap p-3 text-center leading-none", className)}
             onPointerEnter={handlePointerEnter}
             onPointerLeave={handlePointerLeave}
+            onFocus={handlePointerEnter}
+            onBlur={handlePointerLeave}
         >
             <Link
+                {...linkProps}
                 href={href}
                 className={cn(
                     "relative z-10 flex w-full items-center justify-center gap-[0.25em]",

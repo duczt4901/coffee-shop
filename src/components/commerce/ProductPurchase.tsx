@@ -25,7 +25,7 @@ export function ProductPurchase({ product }: { product: Product }) {
     };
     return (
         <>
-            <section className="relative px-page pb-10 pt-28 md:pt-32" style={{ backgroundColor: product.accent }}>
+            <section data-header-hero className="relative px-page pb-10 pt-28 md:pt-32" style={{ backgroundColor: product.accent }}>
                 <div className="grid w-full grid-cols-1 items-center gap-8 md:grid-cols-[1fr_minmax(18rem,0.9fr)_1fr]">
                     <div className="z-10 flex h-full flex-col justify-between py-4 md:py-10">
                         <EditorialReveal>

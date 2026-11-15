@@ -2,10 +2,16 @@
 
 ## Nội dung và media
 
+- Hero đặt cụm chữ ở 55% chiều cao và cuộn bình thường, không parallax. Chỉ lớp hình dùng `--hero-parallax`, dịch xuống 50% quãng cuộn trên cả desktop và mobile, tương ứng mức nửa màn hình của footer; shared scroll observer bỏ qua giá trị không đổi. Video hero không blur. Reduce Motion giữ bố cục tĩnh.
+- Menu có JavaScript được đặt ngoài `<details>` để trạng thái đóng luôn được layout, transition transform 400 ms hoạt động từ lần mở đầu và đảo chiều được. Không dùng đồng thời keyframe mở với transition đóng. Không có JavaScript vẫn dùng menu native bên trong `<details>`. Giữ khóa cuộn/inert đến hết pha đóng, scrollbar drawer ẩn nhưng vẫn cuộn được.
+- Header fixed có burger + Menu bên trái, wordmark giữa và giỏ hàng bên phải. Đầu trang và sau hero trong suốt; khi cuộn trong hero chỉ blur, không pha màu nền; viền dưới tồn tại trong vùng hero, cả trang chủ và sản phẩm chi tiết. `SiteMenu` có drawer và nút đóng riêng; header vẫn hiện phía sau lớp phủ, chỉ nav lớn vẽ underline bằng SVG/CSS cố định, các link nhỏ không có hiệu ứng. Header cũ giữ tại `assets/archive/layout/` (TSX đã comment). Hero dùng `BrandIntro` gồm mặt trời, tên và slogan; loading chỉ dùng `BrandMark` mặt trời, độc lập với header; không còn logo trôi lên header theo scroll.
+- Lâm Đồng luôn có track ngang và chiều cao section ổn định ngay từ HTML/CSS. Timeline khởi tạo theo vị trí cuộn hiện tại, độc lập tải SVG; lỗi SVG chỉ ẩn bản đồ. Pin dùng sticky trên desktop, fixed trong phạm vi section trên mobile; trước/sau trả về absolute. Geometry được cache theo kích thước container, mỗi update chỉ đọc bounds section một lần rồi cập nhật ảnh/caption/bản đồ từ chung tiến độ. SVG ẩn sau intro và hiện lại khi cuộn ngược. Khi giảm chuyển động, vẫn đi ngang nhưng bỏ zoom bản đồ và parallax ảnh. Nếu không có enhancement, ảnh vẫn cuộn ngang tự nhiên; noscript bỏ quãng cuộn animation thừa.
+
 - Section nội dung tự tăng chiều cao theo chữ và các phần tử con. Dùng `--section-space` / `--section-space-large` (hoặc `py-section` / `py-section-large`) để tạo nhịp nghỉ, không đặt chiều cao tối thiểu theo màn hình cho từng heading/quote.
 - Khung ảnh dùng `aspect-ratio`. Ảnh sản phẩm dùng `object-fit: contain`, ảnh editorial có thể crop bằng `object-fit: cover`.
 - Giỏ hàng, checkout và footer theo chiều cao nội dung; trang ít nội dung có thể đưa footer lên sớm hơn.
 - Reveal trong footer phải giao với vùng cắt `[data-footer-reveal]`, không chỉ viewport: footer trượt lên sau mask nên tọa độ text có thể vào viewport trước khi thực sự nhìn thấy. Wordmark “LA VUON”, text, liên kết và form dùng trigger riêng khi cuộn tới; Reduce Motion và HTML chưa hydrate vẫn đọc được bình thường.
+- Shell 3D xuất sẵn placeholder trong HTML; Three.js/WebGL chỉ được import khi frame vào viewport, không chạy trong lúc hero còn ở đầu trang.
 - Trải nghiệm 3D tách sân khấu `100svh` khỏi đoạn cuộn dài thêm `112.5rem`. Sân khấu sticky trong section; canvas dịch chuyển dọc qua sân khấu và sản phẩm quay theo scroll. Một ScrollTrigger cung cấp chung tiến độ cho camera và các pha chữ; không có vòng render liên tục khi đứng yên.
 - Framing 3D fit theo chiều ngang của bounds cụm sản phẩm trên đường orbit: từ 1920px trở lên chiếm khoảng 80% chiều rộng; từ 480px trở xuống là 120%, nội suy tuyến tính giữa hai mốc. Khoảng cách camera được tính tại 33 góc quay khi resize và nội suy theo scroll để giữ tỷ lệ ngang; chiều dọc được phép đi qua mép sân khấu, không ép toàn bộ model vừa chiều cao.
 - Đáy của từng mesh sản phẩm được chiếu về mép dưới **canvas** ở mọi góc quay. Scroll dịch chuyển phần tử canvas bằng `translate` bên ngoài phép căn model; canvas có thể đi qua mép viewport, không khóa model vào đáy viewport. Không dùng các góc rỗng của bounding box toàn cụm để căn đáy. Sàn/bóng không quyết định điểm neo; căn đáy không làm thay đổi tỷ lệ ngang hoặc giới hạn ngân sách pixel.
@@ -23,9 +29,9 @@
 ## JavaScript và resize
 
 - `RootLayout` cung cấp phần tử đo `100svh` có hook `data-scroll-viewport`, nằm ngoài luồng layout.
-- Dùng `getScrollViewportHeight()` cho hình học animation và vị trí logo để thống nhất với CSS. Không dùng chiều cao động của thanh URL làm đầu vào cho hình học trang.
+- Dùng `getScrollViewportHeight()` cho hình học animation để thống nhất với CSS; wordmark header mới căn giữa bằng CSS. Không dùng chiều cao động của thanh URL làm đầu vào cho hình học trang.
 - Canvas chỉ resize khi kích thước container đổi. Giữ phép tính viewport động của thanh cuộn/keyboard vì đây là điều khiển UI, không phải hình học section.
-- Vẫn xử lý resize thực, xoay máy và thay đổi kích thước nội dung; không đóng băng viewport bằng một số pixel chụp duy nhất lúc tải trang.
+- Vẫn xử lý resize thực, xoay máy, thay đổi kích thước nội dung và pageshow khi Back/Forward; không đóng băng viewport bằng một số pixel chụp duy nhất lúc tải trang.
 
 ## Xác minh
 

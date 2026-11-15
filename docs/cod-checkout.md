@@ -1,5 +1,11 @@
 # COD checkout
 
+## Current public state
+
+Checkout is disabled with `CHECKOUT_ENABLED = false` in `src/lib/commerce.ts`. `/thanh-toan/` returns 404, and the Worker rejects both `/api/orders` and `/api/checkout-config` with 404 before processing requests. The cart still works; its next step opens Zalo at `https://zalo.me/0356597539`. It does not automatically send cart contents or create an order.
+
+The COD form, validation, pricing, storage and notification code remain for reuse. To restore checkout later, enable the constant, restore the cart links, complete the production setup below, and rebuild both the site and Worker. Do not run the local API order-creation script while checkout is disabled. No existing cart or order data is deleted.
+
 The cart lives in the browser. Orders are validated and priced from `src/data/products.ts` in a Cloudflare Worker, then saved in D1 before checkout reports success. Customer details are never stored in browser storage. Emails go to `ngvd4901@gmail.com` through Resend.
 
 ## Local development

@@ -25,7 +25,7 @@
 .pressedMark text {
     fill: currentColor;
     font-family: var(--font-cormorant-upright), Georgia, serif;
-    font-size: 270px;
+    font-size: 195px;
     font-weight: 400;
 }
 

@@ -46,7 +46,7 @@ export function HeroVideo(): React.ReactElement {
 
     return (
         <div className="h-full w-full overflow-hidden bg-black">
-            <video ref={videoRef} data-hero-video muted loop playsInline preload="none" poster="/images/coffee/coffee-cherry-sorting-hero-poster.webp" aria-hidden="true" className="h-full w-full scale-[1.02] object-cover blur-[2px] brightness-[0.55]" />
+            <video ref={videoRef} data-hero-video muted loop playsInline preload="none" poster="/images/coffee/coffee-cherry-sorting-hero-poster.webp" aria-hidden="true" className="h-full w-full scale-[1.02] object-cover brightness-[0.55]" />
         </div>
     );
 }

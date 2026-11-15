@@ -1,4 +1,4 @@
-# Checklist chuẩn bị CMS Coffee Shop — waterfall
+# Checklist chuẩn bị CMS Là Vườn Coffee — waterfall
 
 > **TÀI LIỆU CŨ — PHẠM VI ĐÃ ĐƯỢC THAY THẾ ngày 01/11/2026.** Phạm vi mới là một người vận hành coffee-shop, nội dung + bán hàng + SEO phù hợp; giỏ local, guest checkout qua SĐT/email; $0 ngoài domain. Mục tiêu “chỉ liên hệ để mua”, các quyết định cũ và yêu cầu quản trị rộng bên dưới không còn hiện hành. Xem [use case hiện hành v0.2](cms-use-cases-solo.md). Giữ tài liệu này để tham khảo cấu trúc waterfall, không dùng làm đầu vào triển khai.
 
@@ -26,7 +26,7 @@ Mục tiêu phiên bản đầu đã được chủ dự án xác nhận: **qu�
 | Website | Có trang chủ, câu chuyện, sản phẩm, chi tiết sản phẩm, liên hệ; trang về chúng tôi mới có tiêu đề | Trang nào cần quản lý trong bản đầu, trang nào cần hoàn thiện nội dung trước |
 | Sản phẩm | 4 bản ghi trong `src/data/products.ts`; các gói có slug riêng; giá là chuỗi hiển thị | Một gói là một sản phẩm hay cần nhóm theo dòng sản phẩm |
 | Nội dung chung | Có `src/data/db.json`, nhưng nhiều nội dung/ảnh vẫn viết trực tiếp trong component | Danh sách trường được biên tập và nơi đang sử dụng |
-| Nhận diện | Có các tên Coffee Shop, la vuon, TrungToan ở những vị trí khác nhau | Tên thương hiệu, tên dòng sản phẩm và thông tin thật được duyệt |
+| Nhận diện | Tên hiển thị và metadata thống nhất Là Vườn Coffee; slug sản phẩm cũ được giữ để bảo toàn URL/giỏ hàng | Logo chính thức và thông tin thật được duyệt |
 | Mua hàng | Nút “Thêm vào giỏ hàng” trên trang chi tiết chưa có xử lý | Thay bằng lời kêu gọi liên hệ và đích liên hệ đã chốt |
 | Tư vấn | Form footer chỉ `console.log`, chưa lưu hay chuyển thông tin | Dùng liên kết liên hệ trực tiếp hay thực sự cần tiếp nhận form |
 | Xuất bản | `next.config.ts` dùng `output: "export"`; route sản phẩm tạo khi build | Cách nội dung từ CMS xuất hiện trên website và thời gian chờ chấp nhận được |

@@ -18,8 +18,10 @@ const modules = {
     "next/navigation": { usePathname: () => "/" },
     "lenis/react": { useLenis: () => undefined },
     "@/lib/utils": { cn: (...names) => names.filter(Boolean).join(" ") },
-    "@/lib/database": { database: { header: { href: "/", ariaLabel: "Lá Vườn", headerItems: [{ href: "/san-pham/", ariaLabel: "Sản phẩm" }] } } },
+    "@/lib/database": { database: { site: { name: "Là Vườn Coffee" }, header: { href: "/", ariaLabel: "Là Vườn", headerItems: [{ href: "/san-pham/", ariaLabel: "Sản phẩm" }] } } },
+    "@/lib/native-motion": { observeScroll: () => () => {} },
     "@/lib/scroll-viewport": { getScrollViewportHeight: () => 800 },
+    "@/data/contact": { ZALO_PHONE: "0356597539", ZALO_URL: "https://zalo.me/0356597539" },
     "@/components/ui/ScribbleText": { ScribbleText: { Root: Pass, Item: ({ href, text }) => React.createElement("a", { href }, text) } },
     "@/components/commerce/CartLink": { CartLink: () => React.createElement("a", { href: "/gio-hang/" }, "Giỏ hàng") },
     "@/components/ui/EditorialReveal": { EditorialReveal: Pass, RevealLink: Link, RevealLine: () => null },
@@ -39,26 +41,34 @@ function load(file, overrides = {}, globals = {}) {
             if (name in overrides) return overrides[name];
             if (name in modules) return modules[name];
             if (name === "@/components/ui/useEnhancedDisclosure") return load("src/components/ui/useEnhancedDisclosure.ts", overrides, globals);
+            if (name === "@/components/layout/BrandIntro") return load("src/components/layout/BrandIntro.tsx", overrides, globals);
+            if (name === "./SiteMenu") return load("src/components/layout/SiteMenu.tsx", overrides, globals);
             throw new Error(`Unexpected import: ${name}`);
         },
     });
     return exports;
 }
 
-test("server HTML has a native mobile menu, usable links and the homepage logo geometry", () => {
+test("server header has a native menu, centered wordmark and cart without a Zalo header button", () => {
     const { SiteHeader } = load("src/components/layout/SiteHeader.tsx");
     const html = renderToStaticMarkup(React.createElement(SiteHeader));
-    assert.match(html, /<nav[^>]*class="header homeHeader /);
+    assert.match(html, /<header[^>]*data-over-hero="true"[^>]*class="header"/);
     assert.doesNotMatch(html, /data-scroll-ready/);
-    assert.match(html, /<details[^>]*class="mobileMenu"[^>]*><summary/);
+    assert.match(html, /<details[^>]*class="menu"[^>]*><summary/);
     const menu = html.slice(html.indexOf("<details"), html.indexOf("</details>"));
     assert.match(menu, /href="\/san-pham\/"/);
     assert.match(menu, /href="\/faq\/"/);
-    assert.doesNotMatch(menu, /aria-hidden="true"|tabindex="-1"/);
-    assert.match(html, /class="logo homeLogo"/);
+    assert.doesNotMatch(menu, /<div[^>]*class="panel"[^>]*aria-hidden="true"|<a[^>]*tabindex="-1"/);
+    assert(!html.includes("Điều hướng nhanh") && !html.includes("VI-VN"));
+    assert(html.includes('class="toggleLabel">Menu</span>'));
+    assert(html.includes('data-menu-close="true"'));
+    assert.match(html, /class="logo"/);
+    assert(!html.includes("data-page-reveal-logo"));
+    assert(html.includes('href="https://zalo.me/0356597539"'));
+    assert(!html.slice(html.indexOf('class="actions"')).includes("zalo.me"));
 });
 
-test("home hero keeps the shared poster/video layer without an oversized title", () => {
+test("home keeps its poster/video and owns the three-line brand outside the header", () => {
     const { ImmersivePage } = load("src/components/layout/ImmersivePage.tsx", { "@/lib/native-motion": {} });
     const { HeroVideo } = load("src/components/sections/home-page/HeroVideo.tsx");
     const { default: HomePage } = load("src/app/page.tsx", {
@@ -77,6 +87,9 @@ test("home hero keeps the shared poster/video layer without an oversized title",
     assert(!html.includes("heroTitle"));
     assert(html.includes('class="relative z-10 min-h-screen min-h-svh"'));
     assert(!html.includes("data-home-benefits"));
+    assert(html.includes('data-hero-brand="true"'));
+    assert.equal((html.match(/data-brand-line="true"/g) ?? []).length, 3);
+    assert.match(html, /<h1[^>]*>Chậm một chút, đậm một ngày\.<\/h1>/);
 });
 
 test("benefits use a plain heading, empty icon slots and a native dismissible popover", () => {
@@ -106,8 +119,9 @@ test("footer mark, legal text and contact controls have reveals without hiding s
         "@/lib/native-motion": {},
     });
     const html = renderToStaticMarkup(React.createElement(SiteFooter));
-    assert.match(html, /<svg[^>]*data-reveal="block"[^>]*aria-label="Lá Vườn"/);
-    assert(html.includes("LA VUON"));
+    assert.match(html, /<svg[^>]*data-reveal="block"[^>]*aria-label="Là Vườn Coffee"/);
+    assert(html.includes("Là Vườn Coffee"));
+    assert(html.includes('href="https://zalo.me/0356597539"'));
     assert.match(html, /data-reveal="words">All Rights Reserved<\/span>/);
     assert.match(html, /data-reveal="words">Credits<\/span>/);
     assert.match(html, /<div data-reveal="block"[^>]*>[\s\S]*name="contactInfo"/);
@@ -115,63 +129,65 @@ test("footer mark, legal text and contact controls have reveals without hiding s
     assert(!html.includes("data-reveal-pending"));
 });
 
-test("header fixes its position only after valid geometry and restores the baseline on failure", () => {
-    for (const failure of [undefined, "geometry", "listener"]) {
-        const layout = [];
-        const listeners = new Map();
-        const header = { dataset: {} };
-        const logo = { offsetWidth: 600, offsetHeight: 420, style: { removeProperty(name) { delete this[name]; } } };
-        const react = {
-            ...React,
-            useState: (value) => [value, () => {}],
-            useRef: (value) => ({ current: value }),
-            useLayoutEffect: (effect) => layout.push(effect),
-            useEffect() {},
-        };
-        const { SiteHeader } = load("src/components/layout/SiteHeader.tsx", {
-            react,
-            "@/components/ui/useEnhancedDisclosure": { useEnhancedDisclosure: () => ({
-                detailsRef: { current: null }, panelRef: { current: null }, enhanced: false, open: false, nativeOpen: false, setOpen() {}, disable() {},
-            }) },
-        }, {
-            document: { readyState: "loading" },
-            window: {
-                scrollY: 2400,
-                addEventListener(name, callback) {
-                    if (failure === "listener" && name === "resize") throw new Error("listener failed");
-                    listeners.set(name, callback);
-                },
-                removeEventListener(name) { listeners.delete(name); },
-            },
-            getComputedStyle: () => ({ top: failure === "geometry" ? "auto" : "20px", getPropertyValue: () => "72px" }),
-            requestAnimationFrame: () => 1,
-            cancelAnimationFrame() {},
-        });
-        const tree = SiteHeader();
-        tree.props.ref.current = header;
-        const findLogo = (node) => {
-            if (!node?.props) return;
-            if (node.props.className === "logo homeLogo") return node;
-            return React.Children.toArray(node.props.children).map(findLogo).find(Boolean);
-        };
-        findLogo(tree).props.ref.current = logo;
-        const cleanup = layout[0]();
-        if (failure) {
-            assert.equal(header.dataset.scrollReady, undefined);
-            assert.equal(logo.style.transform, undefined);
-            assert.equal(listeners.size, 0);
-        } else {
-            assert.equal(header.dataset.scrollReady, "");
-            assert.equal(logo.style.transform, "translate3d(-50%, 0px, 0) scale(0.12)");
-            assert.equal(listeners.size, 3);
-            cleanup();
-            assert.equal(header.dataset.scrollReady, undefined);
-            assert.equal(logo.style.transform, undefined);
-            assert.equal(listeners.size, 0);
-        }
-    }
+test("cart keeps its items and replaces checkout links with the Zalo contact", () => {
+    const { Button } = load("src/components/ui/Button.tsx");
+    const { CartPage } = load("src/components/commerce/CartPage.tsx", {
+        "@/components/ui/Button": { Button },
+        "@/components/ui/LinkMarker": { LinkMarker: () => null },
+        "@/lib/commerce": { formatPrice: value => `${value} ₫`, FREE_SHIPPING_THRESHOLD: 500000 },
+        "./Quantity": { Quantity: () => null },
+        "./useCart": { useCart: () => ({ ready: true, count: 1, items: [{ slug: "coffee", quantity: 1 }], subtotal: 119000, lines: [{ slug: "coffee", quantity: 1, lineTotal: 119000, product: { slug: "coffee", name: "Là Vườn Coffee Robusta", image: "/coffee.webp", priceVnd: 119000, sizeLabel: "200 g" } }] }) },
+    });
+    const html = renderToStaticMarkup(React.createElement(CartPage));
+    assert(html.includes("Là Vườn Coffee Robusta"));
+    assert(html.includes("0356597539"));
+    assert.equal((html.match(/href="https:\/\/zalo.me\/0356597539"/g) ?? []).length, 2);
+    assert(!html.includes('href="/thanh-toan/"'));
+    assert(!html.includes("Tiến hành thanh toán"));
 });
 
+test("disabled checkout route returns not found before mounting its form", () => {
+    const { default: Page } = load("src/app/thanh-toan/page.tsx", {
+        "next/navigation": { notFound() { throw new Error("NOT_FOUND"); } },
+        "@/lib/commerce": { CHECKOUT_ENABLED: false },
+        "@/components/commerce/CheckoutPage": { CheckoutPage() { throw new Error("Checkout must not mount"); } },
+    });
+    assert.throws(() => Page(), /NOT_FOUND/);
+});
+
+test("header tracks hero boundaries on home and product pages without moving the hero brand", () => {
+    for (const pathname of ["/", "/san-pham/trung-toan-coffee-robusta/"]) {
+        let effect, sync, stopped = false, state, bottom = 900;
+        const events = { scrollY: 0 };
+        const { SiteHeader } = load("src/components/layout/SiteHeader.tsx", {
+            react: { ...React, useRef: value => ({ current: value }), useLayoutEffect: setup => { effect ??= setup; }, useEffect() {}, useState(initial) { state = initial; return [initial, update => { state = update(state); }]; } },
+            "@/components/ui/useEnhancedDisclosure": { useEnhancedDisclosure: () => ({ detailsRef: {}, panelRef: {}, enhanced: false, open: false, nativeOpen: false, setOpen() {} }) },
+            "@/lib/native-motion": { observeScroll(update) { sync = update; update(); return () => { stopped = true; }; } },
+            "next/navigation": { usePathname: () => pathname },
+        }, { document: { querySelector: () => ({ getBoundingClientRect: () => ({ bottom }) }) }, window: events });
+        const tree = SiteHeader();
+        tree.props.ref.current = { offsetHeight: 100 };
+        const cleanup = effect();
+        assert.equal(state.overHero, true);
+        assert.equal(state.scrolled, false);
+        events.scrollY = 1;
+        sync();
+        assert.equal(state.scrolled, true);
+        bottom = 1;
+        sync();
+        assert.equal(state.overHero, true);
+        bottom = 0;
+        sync();
+        assert.equal(state.overHero, false);
+        bottom = -100;
+        events.scrollY = 1000;
+        sync();
+        assert.equal(state.overHero, false);
+        assert.equal(state.scrolled, true);
+        cleanup();
+        assert.equal(stopped, true);
+    }
+});
 test("FAQ answers are behind native disclosures rather than JS-only inert panels", () => {
     const { Dropdown } = load("src/components/ui/Dropdown.tsx");
     const { FaqContent } = load("src/app/faq/FaqContent.tsx", { "@/components/ui/Dropdown": { Dropdown } });
@@ -265,57 +281,57 @@ test("purchase controls stay disabled until the local cart is ready and explain 
     }
 });
 
-function menuLock({ alreadyStopped = false, failMedia = false, failStop = false } = {}) {
-    let effect;
-    let stateIndex = 0;
-    let starts = 0;
-    let removes = 0;
+function menuLock({ alreadyStopped = false, failStop = false } = {}) {
+    let effect, starts = 0, closed;
     const root = { style: { overflow: "scroll" } };
-    const lenis = {
-        isStopped: alreadyStopped,
-        stop() { this.isStopped = true; if (failStop) throw new Error("stop failed"); },
-        start() { starts++; this.isStopped = false; },
-    };
-    const react = {
-        ...React,
-        useState(initial) { return [stateIndex++ === 1 ? true : initial, () => {}]; },
-        useRef() { return { current: null }; },
-        useLayoutEffect() {},
-        useEffect(callback) { effect = callback; },
-    };
+    const background = [{ inert: false }, { inert: true }];
+    const doc = Object.assign(new EventTarget(), { documentElement: root, querySelectorAll: () => background, activeElement: null });
+    const controls = Array.from({ length: 2 }, () => ({ getClientRects: () => [{}], hasAttribute: () => false, focus() { doc.activeElement = this; } }));
+    const backdrop = { ...controls[0], tabIndex: -1, focus() { throw new Error("Backdrop must stay out of the Tab sequence"); } };
+    const panel = { querySelector: () => controls[0], querySelectorAll: () => [...controls, backdrop], contains: element => controls.includes(element) };
+    const header = {};
+    const lenis = { isStopped: alreadyStopped, stop() { this.isStopped = true; if (failStop) throw new Error("stop failed"); }, start() { starts++; this.isStopped = false; } };
     const { SiteHeader } = load("src/components/layout/SiteHeader.tsx", {
-        react, "lenis/react": { useLenis: () => lenis },
-        "@/components/ui/useEnhancedDisclosure": { useEnhancedDisclosure: () => ({
-            detailsRef: { current: null }, panelRef: { current: null }, enhanced: true, open: true, nativeOpen: true, setOpen() {}, disable() {},
-        }) },
-    }, {
-        document: { documentElement: root },
-        queueMicrotask,
-        window: { matchMedia: () => ({ matches: false, addEventListener() { if (failMedia) throw new Error("media failed"); }, removeEventListener() { removes++; } }) },
-    });
-    SiteHeader();
+        react: { ...React, useState: value => [value, () => {}], useRef: value => ({ current: value }), useLayoutEffect() {}, useEffect(setup) { effect ??= setup; } },
+        "lenis/react": { useLenis: () => lenis },
+        "@/components/ui/useEnhancedDisclosure": { useEnhancedDisclosure: () => ({ detailsRef: {}, panelRef: { current: panel }, enhanced: true, open: true, nativeOpen: true, setOpen(value) { closed = value; } }) },
+    }, { document: doc, getComputedStyle: () => ({ visibility: "visible" }) });
+    const tree = SiteHeader();
+    tree.props.ref.current = header;
     const cleanup = effect();
-    return { root, lenis, cleanup, starts: () => starts, removes: () => removes };
+    return { root, lenis, background, doc, controls, cleanup, starts: () => starts, closed: () => closed };
 }
 
-test("mobile menu releases its own scroll lock and preserves a pre-existing Lenis stop", () => {
+test("menu releases its own scroll/inert lock and preserves a pre-existing Lenis stop", () => {
     for (const alreadyStopped of [false, true]) {
         const mounted = menuLock({ alreadyStopped });
         assert.equal(mounted.root.style.overflow, "hidden");
+        assert(mounted.background.every(element => element.inert));
         mounted.cleanup();
         assert.equal(mounted.root.style.overflow, "scroll");
+        assert.deepEqual(mounted.background.map(element => element.inert), [false, true]);
         assert.equal(mounted.lenis.isStopped, alreadyStopped);
         assert.equal(mounted.starts(), alreadyStopped ? 0 : 1);
-        assert.equal(mounted.removes(), 1);
     }
 });
 
-test("optional menu setup failures cannot leave native overflow or Lenis locked", () => {
-    for (const failure of [{ failMedia: true }, { failStop: true }]) {
-        const mounted = menuLock(failure);
-        assert.equal(mounted.root.style.overflow, "scroll");
-        assert.equal(mounted.lenis.isStopped, false);
-        mounted.cleanup();
-        assert.equal(mounted.root.style.overflow, "scroll");
-    }
+test("menu setup failures cannot strand scroll or background controls", () => {
+    const mounted = menuLock({ failStop: true });
+    assert.equal(mounted.root.style.overflow, "scroll");
+    assert.equal(mounted.lenis.isStopped, false);
+    assert.equal(mounted.closed(), false);
+    mounted.cleanup();
+    assert.equal(mounted.starts(), 1);
+});
+
+test("menu closes with Escape and wraps keyboard focus inside its own panel", () => {
+    const mounted = menuLock();
+    mounted.doc.activeElement = mounted.controls[1];
+    const tab = Object.assign(new Event("keydown", { cancelable: true }), { key: "Tab", shiftKey: false });
+    mounted.doc.dispatchEvent(tab);
+    assert.equal(tab.defaultPrevented, true);
+    assert.equal(mounted.doc.activeElement, mounted.controls[0]);
+    mounted.doc.dispatchEvent(Object.assign(new Event("keydown"), { key: "Escape" }));
+    assert.equal(mounted.closed(), false);
+    mounted.cleanup();
 });

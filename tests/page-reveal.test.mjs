@@ -16,7 +16,7 @@ function deferred() {
     return { promise, resolve, reject };
 }
 
-function mount({ initial = true, home = initial, reduced = false, scrollY = 0, hash = "", age = 0, stopped = false, throwAt = -1 } = {}) {
+function mount({ initial = true, home = initial, reduced = false, scrollY = 0, hash = "", age = 0, stopped = false, throwAt = -1, heroTop = 200 } = {}) {
     const refs = [], animations = [], timers = new Map(), frames = new Map();
     const fonts = deferred(), image = deferred();
     const effects = [];
@@ -29,13 +29,14 @@ function mount({ initial = true, home = initial, reduced = false, scrollY = 0, h
         return animation;
     };
     const node = (target, bounds) => ({ getBoundingClientRect: () => bounds, animate(frames, timing) { const animation = animate(frames, timing); animation.target = target; return animation; } });
-    const brand = node("brand", { left: 400, top: 300, width: 200, height: 140 });
-    const logo = node("logo", { left: 300, top: 200, width: 400, height: 280 });
-    const overlay = { hidden: false, dataset: { revealState: phase }, animate, querySelector: () => brand };
-    const root = { style: { overflow: "scroll" } };
+    const brand = node("brand", { left: 420, top: 300, width: 160, height: 160 });
+    const logo = node("heroMark", { left: 480, top: heroTop, width: 40, height: 40 });
+    const heroBrand = { querySelector: () => logo, querySelectorAll: () => [node("heroName"), node("heroSlogan")] };
+    const overlay = { hidden: false, dataset: { revealState: phase }, animate, querySelector: selector => selector === "[data-loading-logo]" ? { getAttribute: () => "/sun.png" } : brand };
+    const root = { style: { overflow: "scroll" }, dataset: {} };
     const content = [{ inert: false }, { inert: true }];
     const events = Object.assign(new EventTarget(), {
-        scrollY, location: { hash }, matchMedia: query => ({ matches: query.includes("prefers-reduced-motion") && reduced }),
+        scrollY, innerHeight: 800, location: { hash }, matchMedia: query => ({ matches: query.includes("prefers-reduced-motion") && reduced }),
     });
     const lenis = { isStopped: stopped, stop() { stops++; this.isStopped = true; }, start() { starts++; this.isStopped = false; } };
     const exports = {};
@@ -45,7 +46,7 @@ function mount({ initial = true, home = initial, reduced = false, scrollY = 0, h
             documentElement: root, fonts: { ready: fonts.promise }, querySelectorAll: () => content,
             querySelector: selector => selector === "main" ? { querySelector: () => ({ poster: "/poster.webp" }) }
                 : selector === "[data-hero]" ? (home ? {} : null)
-                : selector === "[data-page-reveal-logo]" ? (home ? logo : null) : node(selector),
+                : selector === "[data-hero-brand]" ? (home ? heroBrand : null) : node(selector),
         },
         Image: class { decode() { return image.promise; } },
         setTimeout(fn, delay) { timers.set(++id, { fn, delay }); return id; },
@@ -58,14 +59,16 @@ function mount({ initial = true, home = initial, reduced = false, scrollY = 0, h
                 useRef(value) { const ref = { current: value }; refs.push(ref); return ref; },
                 useState(value) { return typeof value === "boolean" ? [value, () => {}] : [phase, next => { phase = next; overlay.dataset.revealState = next; overlay.hidden = next === "done"; }]; },
                 useEffect(setup) { effects.push(setup); },
+                useLayoutEffect(setup) { effects.push(setup); },
             };
             if (name === "lenis/react") return { useLenis: () => lenis };
-            if (name.endsWith("database")) return { database: { site: { name: "Coffee Shop" } } };
+            if (name.endsWith("database")) return { database: { site: { name: "Là Vườn Coffee" } } };
+            if (name.endsWith("BrandIntro")) return { BrandMark: () => jsxRuntime.jsx("svg", { "data-brand-mark": true }) };
             if (name.endsWith(".css")) return { __esModule: true, default: new Proxy({}, { get: (_, key) => key }) };
             throw Error(name);
         },
     });
-    const markup = exports.PageReveal({ initial, onReady() {} });
+    const markup = exports.PageReveal({ initial, home, onReady() {} });
     refs[0].current = overlay;
     refs[1].current = node("curtain");
     return {
@@ -74,23 +77,58 @@ function mount({ initial = true, home = initial, reduced = false, scrollY = 0, h
         async ready(failedImage = false) { fonts.resolve(); if (failedImage) image.reject(Error("missing image")); else image.resolve(); await flush(); },
         tick(delay) { for (const [key, timer] of [...timers]) if (timer.delay === delay) { timers.delete(key); timer.fn(); } },
         paint() { while (frames.size) { const [key, fn] = frames.entries().next().value; frames.delete(key); fn(); } },
+        time(value) { age = value; },
     };
 }
 
 test("server intro has a no-JavaScript escape and does not make the page inert in HTML", () => {
     const html = renderToStaticMarkup(mount().markup);
     assert(html.includes('data-reveal-state="waiting"'));
-    assert(html.includes("Đang mở Coffee Shop"));
+    assert(html.includes("Đang mở Là Vườn Coffee"));
     assert(html.includes("<noscript>"));
     assert(html.includes("display:none!important"));
     assert(!html.includes('inert=""'));
     assert(html.includes('class="spinner"'));
+    assert(html.includes('data-brand-mark="true"'));
+    assert(!html.includes("Chậm một chút"), "loading contains no hero slogan");
+    assert(!html.includes("data-brand-text"), "loading contains no visible brand text");
+    assert.match(html, /<span aria-hidden="true" class="spinner"/);
 });
 
-test("shell readiness starts reveal but keeps scroll locked until the logo handoff finishes", async () => {
+test("slow initial loading latches placeholder mode, including late hydration", () => {
+    const slow = mount();
+    const cleanup = slow.start();
+    slow.tick(5000);
+    assert.equal(slow.root.dataset.coffeeFallback, "true");
+    cleanup();
+    assert.equal(slow.root.dataset.coffeeFallback, "true", "route changes must not re-enable 3D during this document visit");
+    const late = mount({ age: 8000 });
+    late.start()();
+    assert.equal(late.root.dataset.coffeeFallback, "true", "the deadline counts pre-hydration time");
+});
+
+test("fast loading cancels the model deadline and delayed finish still detects a slow load", async () => {
+    for (const age of [2000, 6000]) {
+        const intro = mount();
+        const cleanup = intro.start();
+        await intro.ready();
+        intro.tick(450);
+        await flush();
+        intro.paint();
+        intro.time(age);
+        intro.animations.forEach(animation => animation.resolve());
+        await flush();
+        intro.tick(5000);
+        assert.equal(intro.root.dataset.coffeeFallback, age >= 5000 ? "true" : undefined);
+        cleanup();
+    }
+});
+
+test("loading shrinks only the sun into the hero and starts text reveal after opening", async () => {
     const intro = mount();
     const cleanup = intro.start();
     assert.equal(intro.root.style.overflow, "hidden");
+    assert.equal(intro.overlay.dataset.revealHydrated, "true", "hydration replaces the CSS-only timeout with the client lifecycle");
     assert(intro.content.every(element => element.inert));
     assert.equal(intro.phase(), "waiting");
     await intro.ready();
@@ -106,11 +144,15 @@ test("shell readiness starts reveal but keeps scroll locked until the logo hando
     assert.equal(cover.frames[1].clipPath, "inset(0 0 100% 0)");
     assert.equal(cover.timing.duration, 900);
     const brand = intro.animations.find(animation => animation.target === "brand");
-    assert.equal(brand.frames[1].transform, "translate(calc(-50% + 0px), calc(-50% + -30px)) scale(2)");
+    assert.equal(brand.frames[1].transform, "translate(calc(-50% + 0px), calc(-50% + -160px)) scale(0.25)");
     assert(!brand.frames.some(frame => frame.opacity === 0), "logo stays visible throughout the handoff");
-    const logo = intro.animations.find(animation => animation.target === "logo");
+    const logo = intro.animations.find(animation => animation.target === "heroMark");
     assert(logo.frames.every(frame => frame.opacity === 0), "the real logo is hidden only while its matching copy flies");
     assert.equal(logo.frames[0].transform, undefined, "logo scroll positioning stays on its parent");
+    const texts = intro.animations.filter(animation => ["heroName", "heroSlogan"].includes(animation.target));
+    assert.equal(texts.length, 2, "the first visit also reveals hero text independently of the logo handoff");
+    assert.deepEqual(texts.map(animation => animation.timing.delay), [550, 630]);
+    assert(texts.every(animation => animation.frames[0].opacity === 0 && animation.timing.fill === "both"), "text stays hidden during the delay behind the curtain");
     intro.animations.forEach(animation => animation.resolve());
     await flush();
     assert.equal(intro.phase(), "done");
@@ -186,6 +228,21 @@ test("cached navigation home still reveals the whole hero with its poster, witho
     assert.equal(intro.animations[0].target, "curtain");
     assert.equal(intro.animations[0].timing.duration, 900);
     assert(!intro.animations.some(animation => animation.target === "brand"));
+    assert(intro.animations.some(animation => animation.target === "heroName"));
+    assert(intro.animations.some(animation => animation.target === "heroSlogan"));
+    cleanup();
+});
+
+test("a deep home reload fades the loading brand without flying to an offscreen hero", async () => {
+    const intro = mount({ scrollY: 4000, heroTop: -3500 });
+    const cleanup = intro.start();
+    await intro.ready();
+    intro.tick(450);
+    await flush();
+    intro.paint();
+    assert.equal(intro.phase(), "opening");
+    assert(!intro.animations.some(animation => animation.target === "heroMark"));
+    assert(intro.animations.find(animation => animation.target === "brand").frames.some(frame => frame.opacity === 0));
     cleanup();
 });
 

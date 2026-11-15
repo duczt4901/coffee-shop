@@ -45,6 +45,20 @@ html[data-custom-scrollbar]::-webkit-scrollbar {
     display: none;
 }
 
+/* Hide the native gutter before hydration; match the loading cover's no-bundle failsafe. */
+html:has([data-page-reveal][data-reveal-state="waiting"]) {
+    scrollbar-width: none;
+    animation: loading-scrollbar-failsafe 0s 30s forwards;
+}
+
+html:has([data-page-reveal][data-reveal-state="waiting"][data-reveal-hydrated="true"]) {
+    animation: none;
+}
+
+@keyframes loading-scrollbar-failsafe {
+    to { scrollbar-width: auto; }
+}
+
 body {
     margin: 0;
     color: var(--foreground);

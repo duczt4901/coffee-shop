@@ -19,7 +19,7 @@ export type Product = {
 export const products: Product[] = [
     {
         slug: "trung-toan-coffee-robusta",
-        name: "TrungToan Coffee Robusta",
+        name: "Là Vườn Coffee Robusta",
         category: "Robusta",
         tagline: "Đậm, tròn vị với hậu vị chocolate và hạt rang.",
         sizeLabel: "200 g",
@@ -35,7 +35,7 @@ export const products: Product[] = [
     },
     {
         slug: "trung-toan-coffee-arabica",
-        name: "TrungToan Coffee Arabica",
+        name: "Là Vườn Coffee Arabica",
         category: "Arabica",
         tagline: "Thanh, ngọt và thơm với sắc trái cây chín.",
         sizeLabel: "200 g",
@@ -51,7 +51,7 @@ export const products: Product[] = [
     },
     {
         slug: "trung-toan-coffee-robusta-500g",
-        name: "TrungToan Coffee Robusta Large Pack",
+        name: "Là Vườn Coffee Robusta Large Pack",
         category: "Robusta",
         tagline: "Gói lớn cho nhịp pha đều đặn mỗi ngày.",
         sizeLabel: "500 g",
@@ -68,7 +68,7 @@ export const products: Product[] = [
     },
     {
         slug: "trung-toan-coffee-robusta-1000g",
-        name: "TrungToan Coffee Robusta Grand Pack",
+        name: "Là Vườn Coffee Robusta Grand Pack",
         category: "Robusta",
         tagline: "Vị cà phê nguyên bản trong gói lớn tiết kiệm.",
         sizeLabel: "1000 g",

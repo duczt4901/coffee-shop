@@ -99,8 +99,8 @@ export function ProcessGallerySection(): ReactElement {
                                 “Một con vịt xoè ra hai cái cánh, nó kêu rằng cáp cáp cáp cạp cạp cạp. Gặp hồ nước nó bì bà bì bõm, lúc lên bờ vẫy cái cánh cho khô”
                             </blockquote>
                             <figcaption data-reveal="block" className="mt-10 flex flex-col  text-[0.95rem] uppercase">
-                                TRUNG TOÀN
-                                <span className="mt-[0.2rem] italic normal-case">SOMETHING Coffee CEO</span>
+                                LÀ VƯỜN
+                                <span className="mt-[0.2rem] italic normal-case">Đội ngũ Là Vườn Coffee</span>
                             </figcaption>
                         </figure>
                     </EditorialReveal>

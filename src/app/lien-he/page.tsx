@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import { createMetadata } from "@/lib/metadata";
 import styles from "./page.module.css";
 import { EditorialReveal, RevealLink } from "@/components/ui/EditorialReveal";
+import { ZALO_PHONE, ZALO_URL } from "@/data/contact";
 
 export const metadata: Metadata = createMetadata({
-    title: "Liên hệ | Coffee Shop",
-    description: "Thông tin liên hệ và các đầu mối hỗ trợ của Coffee Shop.",
+    title: "Liên hệ | Là Vườn Coffee",
+    description: "Thông tin liên hệ và các đầu mối hỗ trợ của Là Vườn Coffee.",
     path: "/lien-he/",
 });
 
@@ -51,8 +52,8 @@ export default function ContactPage() {
                         <h2 data-reveal="words" id="contact-phone-title">
                             Điện thoại
                         </h2>
-                        <p data-reveal="lines">Lorem ipsum dolor sit amet.</p>
-                        <p data-reveal="lines">Giờ liên hệ: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <p data-reveal="lines"><a href={`tel:${ZALO_PHONE}`}>{ZALO_PHONE}</a></p>
+                        <RevealLink href={ZALO_URL} variant="border">Liên hệ Zalo</RevealLink>
                     </section>
                 </EditorialReveal>
 

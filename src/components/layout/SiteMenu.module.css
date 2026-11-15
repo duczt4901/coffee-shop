@@ -1,0 +1,189 @@
+.panel {
+    position: fixed;
+    inset: 0;
+    z-index: 4;
+    height: 100vh;
+    height: 100dvh;
+    color: var(--foreground);
+    pointer-events: auto;
+    transition: visibility 400ms;
+}
+.panel[aria-hidden="true"] {
+    visibility: hidden;
+    pointer-events: none;
+}
+.backdrop {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: 0;
+    background: rgb(0 0 0 / 66%);
+    backdrop-filter: blur(3px);
+    cursor: pointer;
+    opacity: 1;
+    transition: opacity 400ms cubic-bezier(0.6, 0, 0.2, 1);
+}
+.drawer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: min(100%, clamp(26rem, 34vw, 42rem));
+    height: 100%;
+    overflow-y: auto;
+    scrollbar-width: none;
+    overscroll-behavior: contain;
+    background: var(--background);
+    transform: translateX(0);
+    transition: transform 400ms cubic-bezier(0.6, 0, 0.2, 1);
+}
+.drawer::-webkit-scrollbar {
+    display: none;
+}
+.panel:not([aria-hidden="true"]) .drawer {
+    will-change: transform;
+}
+.panel[aria-hidden="true"] .backdrop {
+    opacity: 0;
+}
+.panel[aria-hidden="true"] .drawer {
+    transform: translateX(-100%);
+}
+.closeButton {
+    position: absolute;
+    top: 1.5625rem;
+    left: clamp(1.5rem, 3.333vw, 4rem);
+    display: grid;
+    place-items: center;
+    width: 3.125rem;
+    height: 3.125rem;
+    margin-left: -0.9375rem;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+}
+.panel[data-enhanced="false"] .closeButton {
+    visibility: hidden;
+}
+.closeButton:focus-visible,
+.drawer a:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+}
+.menuPrimary {
+    padding: clamp(7rem, 18svh, 9.5rem) clamp(1.5rem, 3.333vw, 4rem) 2rem;
+}
+.menuLabel {
+    margin: 0 0 1.25rem;
+    color: color-mix(in srgb, var(--foreground) 50%, transparent);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+.menuLinks {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.12em;
+    font-family: var(--font-cormorant-upright), Georgia, serif;
+    font-size: clamp(2.75rem, 3.3vw, 4.75rem);
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+}
+.menuItem {
+    max-width: 100%;
+    overflow: hidden;
+    padding-block: 0.06em 0.55em;
+}
+.menuItem:focus-within {
+    overflow: visible;
+}
+.menuItem > a {
+    transform: translateY(0);
+    transition: transform 325ms cubic-bezier(0.6, 0, 0.2, 1);
+    transition-delay: calc(70ms + var(--menu-order) * 25ms);
+}
+.panel[aria-hidden="true"] .menuItem > a {
+    transform: translateY(130%);
+    transition-delay: 0ms;
+}
+.navLink {
+    position: relative;
+    display: block;
+    white-space: nowrap;
+}
+.underline {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100%;
+    height: 0.45em;
+    overflow: visible;
+    pointer-events: none;
+    opacity: 0;
+    clip-path: inset(-0.1em 100% -0.1em 0);
+}
+.underline path {
+    stroke-width: 0.04875em;
+}
+.navLink:hover .underline,
+.navLink:focus-visible .underline {
+    opacity: 1;
+    clip-path: inset(-0.1em 0 -0.1em 0);
+    transition: clip-path 500ms ease-out;
+}
+.menuSecondary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    padding: 2.5rem clamp(1.5rem, 3.333vw, 4rem);
+    border-top: 1px solid var(--line);
+}
+.menuSecondary nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+    font-size: 0.8rem;
+    line-height: 1.6;
+}
+.menuSecondary .menuLabel {
+    margin-bottom: 0.3rem;
+}
+.menuContact {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: auto;
+    padding: 1.5rem clamp(1.5rem, 3.333vw, 4rem) max(2rem, env(safe-area-inset-bottom));
+    font-size: 0.8rem;
+}
+@media (max-width: 47.999rem) {
+    .drawer {
+        width: min(100%, 30rem);
+    }
+    .closeButton {
+        top: 0.875rem;
+        width: 2.75rem;
+        height: 2.75rem;
+        margin-left: -0.75rem;
+    }
+    .menuPrimary {
+        padding-top: 7rem;
+    }
+    .menuLinks {
+        font-size: clamp(2.75rem, 11vw, 4rem);
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .panel,
+    .backdrop,
+    .drawer,
+    .menuItem > a,
+    .navLink:hover .underline,
+    .navLink:focus-visible .underline {
+        transition: none;
+    }
+}

@@ -5,14 +5,13 @@ import vm from "node:vm";
 import ts from "typescript";
 import * as jsxRuntime from "react/jsx-runtime";
 
-const source = ts.transpileModule(readFileSync("src/components/experience/coffee-bag/LocalCoffeeModel.tsx", "utf8"), {
+const source = ts.transpileModule(readFileSync("src/components/experience/coffee-bag/coffee-model-runtime.ts", "utf8"), {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX },
 }).outputText;
 
 function mount() {
-    let effect, handle, intersect, setupError, active = false;
+    let handle, intersect, setupError, active = false;
     let top = 100;
-    const refs = [];
     const events = Object.assign(new EventTarget(), { innerHeight: 800, innerWidth: 390 });
     const document = Object.assign(new EventTarget(), { hidden: false });
     const domElement = Object.assign(new EventTarget(), { setAttribute() {}, remove() {} });
@@ -25,10 +24,6 @@ function mount() {
         ResizeObserver: class { observe() {} disconnect() {} },
         require(name) {
             if (name === "react/jsx-runtime") return jsxRuntime;
-            if (name === "react") return {
-                useRef(value) { const ref = { current: value }; refs.push(ref); return ref; },
-                useEffect(setup) { effect = setup; }, useImperativeHandle(_ref, create) { handle = create(); },
-            };
             if (name === "three") return {
                 Scene: class {}, PerspectiveCamera: class {}, Vector3: class {},
                 WebGLRenderer: class {
@@ -47,10 +42,10 @@ function mount() {
             return {};
         },
     });
-    exports.LocalCoffeeModel({ ref: null });
-    refs[0].current = { dataset: {}, clientWidth: 390 };
-    refs[1].current = { appendChild() {}, getBoundingClientRect: () => ({ top, bottom: top + 800, left: 0, right: 390, height: 800 }) };
-    const cleanup = effect();
+    const container = { dataset: {}, clientWidth: 390 };
+    const mount = { appendChild() {}, getBoundingClientRect: () => ({ top, bottom: top + 800, left: 0, right: 390, height: 800 }) };
+    handle = exports.createCoffeeModel(container, mount, 0.5);
+    const cleanup = handle.dispose;
     if (setupError) throw setupError;
     return { active: () => active, cleanup,
         bounds(value) { top = value; },

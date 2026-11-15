@@ -4,14 +4,14 @@
     "private": true,
     "packageManager": "pnpm@10.14.0",
     "engines": {
-        "node": ">=20.9.0"
+        "node": ">=22.12.0"
     },
     "scripts": {
         "dev": "next dev",
         "dev:api": "wrangler dev --port 8787 --compatibility-date 2026-08-06 --assets public",
         "db:migrate:local": "wrangler d1 migrations apply coffee-shop-orders --local",
         "db:migrate:remote": "wrangler d1 migrations apply coffee-shop-orders --remote",
-        "build": "node scripts/check-coffee-bean-atlas.mjs && node scripts/check-coffee-framing-css.mjs && next build",
+        "build": "node scripts/check-coffee-bean-atlas.mjs && node scripts/check-coffee-framing-css.mjs && next build && node scripts/finalize-static-export.mjs",
         "generate:coffee-framing": "node scripts/generate-coffee-framing-css.mjs",
         "check:coffee-framing": "node scripts/check-coffee-framing-css.mjs",
         "bake:coffee-atlas": "node scripts/coffee-scene-update/generate-bean-atlas.mjs",
@@ -19,6 +19,9 @@
         "preview": "pnpm build && wrangler dev",
         "deploy": "pnpm build && wrangler deploy",
         "typecheck": "tsc --noEmit",
+        "test:cms": "node scripts/test-wordpress.mjs && node --test tests/wordpress*.test.mjs tests/worker-safety.test.mjs",
+        "test:cms-export": "node scripts/test-cms-export.mjs",
+        "check:static": "node scripts/check-static-export.mjs",
         "test:commerce": "node scripts/test-commerce.cjs",
         "test:styles": "node scripts/check-style-references.mjs",
         "test:motion": "node scripts/test-motion.mjs",
@@ -33,6 +36,7 @@
         "next-transition-router": "^0.2.11",
         "react": "^19.2.0",
         "react-dom": "^19.2.0",
+        "sanitize-html": "^2.18.2",
         "tailwind-merge": "^3.6.0",
         "three": "^0.186.1",
         "zod": "^4.1.0"
@@ -42,6 +46,7 @@
         "@types/node": "^24.0.0",
         "@types/react": "^19.0.0",
         "@types/react-dom": "^19.0.0",
+        "@types/sanitize-html": "^2.16.2",
         "@types/three": "^0.186.0",
         "eslint": "^9.0.0",
         "eslint-config-next": "^16.0.0",

@@ -2,9 +2,30 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { formatListingPrice, formatPrice, getShipping, readCart } from "../src/lib/commerce";
 import { orderSchema, priceOrder } from "../src/lib/orders";
-import { handleOrder, notifyOrder, type Env } from "../worker/index";
+import worker, { handleOrder, notifyOrder, type Env } from "../worker/index";
 
 const slug = "trung-toan-coffee-robusta";
+test("disabled checkout returns a real 404 on the static host", async () => {
+    const env = { ASSETS: { async fetch(request: Request) {
+        assert.equal(new URL(request.url).pathname, "/404.html");
+        return new Response("Not found page", { headers: { "Content-Type": "text/html" } });
+    } } } as Env;
+    for (const path of ["/thanh-toan", "/thanh-toan/", "/thanh-toan/index.html"]) {
+        const response = await worker.fetch(new Request(`https://lavuon.example${path}`), env, { waitUntil() {} });
+        assert.equal(response.status, 404);
+        assert.equal(response.headers.get("Cache-Control"), "no-store");
+        assert.equal(await response.text(), "Not found page");
+    }
+});
+test("disabled public checkout cannot reach storage or create orders through the API", async () => {
+    for (const path of ["/api/orders", "/api/orders/", "/api/checkout-config"]) {
+        for (const method of ["GET", "POST"]) {
+            const response = await worker.fetch(new Request(`https://lavuon.example${path}`, { method }), {} as Env, { waitUntil() { throw new Error("No order work allowed"); } });
+            assert.equal(response.status, 404);
+            assert.equal(response.headers.get("Cache-Control"), "no-store");
+        }
+    }
+});
 test("catalog prices derive from one number while preserving both approved formats", () => {
     assert.equal(formatListingPrice(119000), "119.000 vnđ");
     assert.equal(formatPrice(119000), "119.000 ₫");

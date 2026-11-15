@@ -1,172 +1,158 @@
 .header {
+    --header-button-height: 3.125rem;
     position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    color: var(--foreground);
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    pointer-events: none;
+    transition: border-color 300ms;
 }
-
-.homeHeader {
+.header::before {
+    content: "";
     position: absolute;
-    bottom: auto;
-    block-size: 100vh;
-    block-size: 100svh;
+    inset: 0;
+    z-index: -1;
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    transition: opacity 300ms;
 }
-
-.homeHeader[data-scroll-ready] {
-    position: fixed;
-    bottom: 0;
-    block-size: auto;
+.header[data-over-hero="true"] {
+    border-bottom-color: color-mix(in srgb, currentColor 20%, transparent);
 }
-
+.header[data-light-logo="true"] {
+    color: var(--background);
+}
+.header[data-over-hero="true"][data-scrolled="true"]::before {
+    opacity: 1;
+}
+.row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: clamp(6.25rem, 7.5vw, 9rem);
+    padding-inline: clamp(1.25rem, 3.333vw, 4rem);
+    transition: min-height 350ms ease;
+}
+.header[data-scrolled="true"] .row {
+    min-height: 6.25rem;
+}
+.left,
+.actions {
+    display: flex;
+    align-items: center;
+}
+.actions {
+    position: relative;
+    z-index: 3;
+    pointer-events: auto;
+}
 .logo {
-    --header-logo-width: 72px;
-    --header-logo-top: 1.25rem;
     position: absolute;
-    top: var(--header-logo-top);
     left: 50%;
-    width: var(--header-logo-width);
-    aspect-ratio: 10 / 7;
-    transform: translate3d(-50%, 0, 0);
-    transform-origin: 50% 0;
+    top: 50%;
+    z-index: 3;
+    width: 9rem;
+    transform: translate(-50%, -50%);
+    pointer-events: auto;
 }
-
-.homeLogo {
-    width: min(42vw, 600px);
-    transform: translate3d(-50%, calc(50vh - var(--header-logo-top) - 50%), 0);
-    transform: translate3d(-50%, calc(50svh - var(--header-logo-top) - 50%), 0);
-    will-change: transform;
+.logo img {
+    display: block;
+    width: 100%;
+    height: auto;
 }
-
-.menuToggle,
-.menuSlot,
-.mobileMenu,
-.mobilePanel {
+.header[data-light-logo="true"] .logo img {
+    filter: brightness(0) invert(1);
+}
+.toggle,
+.actions > a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    height: var(--header-button-height);
+    min-height: var(--header-button-height);
+    padding-inline: 1.25rem;
+    border: 0;
+    border-radius: 0;
+    background: var(--background);
+    color: var(--foreground);
+    font-size: 0.875rem;
+    line-height: 1;
+}
+.actions > a {
+    width: auto;
+}
+.menu {
+    position: static;
+}
+.toggle {
+    position: relative;
+    z-index: 3;
+    gap: 0.75rem;
+    list-style: none;
+    cursor: pointer;
+    pointer-events: auto;
+}
+.toggle::-webkit-details-marker {
     display: none;
 }
-
+.toggleLabel {
+    line-height: 1;
+}
+.hamburger {
+    display: grid;
+    flex-shrink: 0;
+    gap: 5px;
+    width: 19px;
+}
+.hamburger i {
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+}
+.header:has(.menu[open]) {
+    z-index: 103;
+}
+/* The native summary remains available to close the menu without JavaScript. */
+.header[data-menu-enhanced="false"]:has(.menu[open]) .toggle {
+    z-index: 6;
+}
+.toggle:focus-visible,
+.actions a:focus-visible,
+.logo:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 5px;
+}
 @media (max-width: 47.999rem) {
-    .row {
-        z-index: 2;
+    .header {
+        --header-button-height: 2.75rem;
+    }
+    .row,
+    .header[data-scrolled="true"] .row {
         min-height: 4.5rem;
-        justify-content: space-between;
-        padding: 0.75rem;
+        padding-inline: 1rem;
     }
-
-    .desktopLinks {
-        display: none;
-    }
-
-    .desktopActions {
-        display: none;
-    }
-
     .logo {
-        --header-logo-top: 0.75rem;
-        --header-logo-width: 52px;
+        width: clamp(4rem, 22vw, 5.5rem);
     }
-
-    .homeLogo {
-        width: min(70vw, 400px);
+    .toggle,
+    .actions > a {
+        padding-inline: 0.75rem;
+        gap: 0.5rem;
+        font-size: 0.75rem;
     }
-
-    .header:has(.mobileMenu:not(.menuEnhanced)[open]) .homeLogo {
-        width: var(--header-logo-width);
-        transform: translate3d(-50%, 0, 0);
-    }
-
-    .mobileMenu {
-        display: block;
-    }
-
-    .menuSlot {
-        display: block;
-        width: 4.5rem;
-    }
-
-    .menuToggle {
-        position: fixed;
-        top: 0.75rem;
-        left: 0.75rem;
-        z-index: 3;
-        display: inline-flex;
-        pointer-events: auto;
-        min-width: 4.5rem;
-        align-items: center;
-        justify-content: center;
-        padding: 0.8rem 0.75rem;
-        border: 1px solid rgb(37 31 24 / 8%);
-        background: rgb(244 241 234 / 94%);
-        box-shadow: 0 0.5rem 1.5rem rgb(37 31 24 / 6%);
-        color: var(--foreground);
-        font-size: 0.65rem;
-        font-weight: 500;
-        letter-spacing: 0.04em;
-        list-style: none;
-        cursor: pointer;
-        transition: opacity 0.3s;
-    }
-
-    .menuToggle[data-hidden="true"] {
-        opacity: 0;
-        pointer-events: none;
-    }
-
-    .menuToggle::-webkit-details-marker {
-        display: none;
-    }
-
-    .menuToggle:focus-visible {
-        outline: 1px solid currentColor;
-        outline-offset: 4px;
-    }
-
-    .mobilePanel {
-        position: fixed;
-        inset: 0;
-        z-index: 1;
-        display: flex;
-        visibility: hidden;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 7rem 1.25rem 2rem;
-        background: var(--background);
-        color: var(--foreground);
-        opacity: 0;
-        transform: translateY(-1rem);
-        transition:
-            opacity 0.35s ease,
-            transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-            visibility 0.35s;
-    }
-
-    .mobileMenu:not(.menuEnhanced)[open] .mobilePanel,
-    .menuEnhanced .mobilePanel[aria-hidden="false"] {
-        visibility: visible;
-        pointer-events: auto;
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .mobileLinks {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.15em;
-        font-family: var(--font-cormorant-upright), Georgia, serif;
-        font-size: clamp(2.5rem, 11vw, 4.5rem);
-        line-height: 0.95;
-        text-align: center;
-        text-transform: uppercase;
-    }
-
-    .mobileLanguage {
-        align-self: center;
-        font-size: 0.7rem;
-        letter-spacing: 0.08em;
+    .hamburger {
+        width: 17px;
     }
 }
-
 @media (prefers-reduced-motion: reduce) {
-    .homeLogo {
-        width: var(--header-logo-width);
-        transform: translate3d(-50%, 0, 0) !important;
-        will-change: auto;
+    .header,
+    .header::before,
+    .row {
+        transition: none;
     }
 }

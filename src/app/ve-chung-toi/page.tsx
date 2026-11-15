@@ -1,6 +1,9 @@
 import { EditorialReveal } from "@/components/ui/EditorialReveal";
+import { createMetadata } from "@/lib/metadata";
 
 import styles from "./page.module.css";
+
+export const metadata = createMetadata({ title: "Về chúng tôi | Là Vườn Coffee", path: "/ve-chung-toi/" });
 
 const AboutPage = () => {
     return (

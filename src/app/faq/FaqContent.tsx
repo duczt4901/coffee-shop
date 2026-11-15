@@ -13,7 +13,7 @@ const categories = [
         title: "Cà phê của chúng tôi",
         questions: [
             [
-                "Coffee Shop có những dòng cà phê nào?",
+                "Là Vườn Coffee có những dòng cà phê nào?",
                 "Bộ sưu tập hiện có cà phê Robusta và Arabica, với nhiều lựa chọn khối lượng. Bạn có thể xem hương vị, giống và mức rang trên từng trang sản phẩm.",
             ],
             [
@@ -70,11 +70,11 @@ const categories = [
         questions: [
             [
                 "Tôi có thể đặt cà phê bằng cách nào?",
-                "Chọn loại cà phê, khối lượng và số lượng trên trang Sản phẩm, thêm vào giỏ rồi điền thông tin giao hàng ở bước Thanh toán. Bạn thanh toán khi nhận hàng (COD); cửa hàng sẽ gọi xác nhận trước khi giao.",
+                "Chọn cà phê, khối lượng và số lượng trên trang Sản phẩm, rồi dùng nút Liên hệ Zalo trong giỏ hàng để trao đổi với Là Vườn Coffee qua số 0356597539. Website hiện không nhận thanh toán trực tiếp.",
             ],
             [
                 "Phí giao hàng được tính như thế nào?",
-                "Đơn từ 500.000đ được miễn phí giao hàng. Với đơn dưới mức này, phí được hiển thị ở bước Thanh toán hoặc được cửa hàng xác nhận qua điện thoại trước khi gửi hàng.",
+                "Đơn từ 500.000đ được miễn phí giao hàng. Với đơn dưới mức này, vui lòng liên hệ Zalo để được xác nhận phí trước khi gửi hàng.",
             ],
             [
                 "Tôi có thể thay đổi thông tin đơn hàng không?",

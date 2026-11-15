@@ -7,6 +7,8 @@ import { createMetadata } from "@/lib/metadata";
 import { CoffeeOriginSection } from "@/components/sections/home-page/CoffeeOriginSection";
 import { ProcessGallerySection } from "@/components/sections/home-page/ProcessGallerySection";
 import { HeroVideo, FeaturedProductsSection } from "@/components/sections/home-page";
+import { BrandIntro } from "@/components/layout/BrandIntro";
+import styles from "./page.module.css";
 // import { BenefitsSection } from "@/components/sections/home-page/BenefitsSection";
 
 export const metadata: Metadata = createMetadata({
@@ -16,7 +18,7 @@ export const metadata: Metadata = createMetadata({
 export default function HomePage(): ReactElement {
     return (
         <>
-            <ImmersivePage backdrop={<HeroVideo />}>
+            <ImmersivePage backdrop={<HeroVideo />} heroContent={<div data-hero-brand className={styles.heroBrand}><BrandIntro heading /></div>}>
                 {/* <BenefitsSection /> */}
                 <CoffeeBagExperience />
                 <CoffeeOriginSection />

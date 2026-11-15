@@ -2,7 +2,7 @@
 
 Yêu cầu của người dùng ngày 2026-11-12:
 
-- Chỉ dùng **mặt trời xoắn ốc và các tia nắng** trong logo Lá Vườn; không dùng chữ V, nhánh hoặc lá.
+- Chỉ dùng **mặt trời xoắn ốc và các tia nắng** trong logo Là Vườn; không dùng chữ V, nhánh hoặc lá.
 - Đã tách ảnh gốc màu vàng tại `public/images/brand/lavuon-sun-source.png`. Giữ nguyên hình và tỷ lệ, chưa đổi màu.
 - Mẫu màu: `public/images/brand/muted-logo-color-reference.png`. Dùng một màu be nhạt tương tự mẫu; màu dự kiến `#c8bfb0`.
 - Nền phải khớp nền chung website: `--background: #f4f1ea` trong `src/styles/globals.css`, không lấy màu nền của ảnh mẫu.

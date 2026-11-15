@@ -1,17 +1,26 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useLenis } from "lenis/react";
 import { database } from "@/lib/database";
+import { BrandMark } from "./BrandIntro";
 import styles from "./PageReveal.module.css";
 
-export function PageReveal({ initial, onReady }: { initial: boolean; onReady: () => void }) {
+const MODEL_FALLBACK_AFTER_MS = 5000;
+
+export function PageReveal({ initial, home, onReady }: { initial: boolean; home: boolean; onReady: () => void }) {
     const [firstLoad] = useState(initial);
     const [phase, setPhase] = useState("waiting");
     const overlayRef = useRef<HTMLDivElement>(null);
     const curtainRef = useRef<HTMLDivElement>(null);
     const lenis = useLenis();
     const stoppedLenisRef = useRef<typeof lenis>(undefined);
+    useLayoutEffect(() => {
+        const overlay = overlayRef.current;
+        if (!overlay) return;
+        overlay.dataset.revealHydrated = "true";
+        return () => { delete overlay.dataset.revealHydrated; };
+    }, []);
     useEffect(() => {
         if (!lenis || overlayRef.current?.hidden || lenis.isStopped) return;
         lenis.stop();
@@ -34,6 +43,7 @@ export function PageReveal({ initial, onReady }: { initial: boolean; onReady: ()
         let deadline: ReturnType<typeof setTimeout> | undefined;
         let mediaDeadline: ReturnType<typeof setTimeout> | undefined;
         let loadingDeadline: ReturnType<typeof setTimeout> | undefined;
+        let modelDeadline: ReturnType<typeof setTimeout> | undefined;
         const animations: Animation[] = [];
         const root = document.documentElement;
         const previousOverflow = root.style.overflow;
@@ -62,6 +72,8 @@ export function PageReveal({ initial, onReady }: { initial: boolean; onReady: ()
             clearTimeout(deadline);
             clearTimeout(mediaDeadline);
             clearTimeout(loadingDeadline);
+            clearTimeout(modelDeadline);
+            if (firstLoad && performance.now() >= MODEL_FALLBACK_AFTER_MS) root.dataset.coffeeFallback = "true";
             cancelAnimationFrame(frame);
             // Hide before cancelling fill animations so the cover cannot flash back.
             overlay.hidden = true;
@@ -77,7 +89,6 @@ export function PageReveal({ initial, onReady }: { initial: boolean; onReady: ()
             onReady();
             try {
                 const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-                const home = !!document.querySelector("[data-hero]");
                 if (home && !reduced && curtainRef.current) animations.push(curtainRef.current.animate([
                     { clipPath: "inset(0 0 0% 0)" },
                     { clipPath: "inset(0 0 100% 0)" },
@@ -86,10 +97,11 @@ export function PageReveal({ initial, onReady }: { initial: boolean; onReady: ()
                     duration: reduced ? 100 : 600, easing: "cubic-bezier(0.3, 0, 0.3, 1)", fill: "both",
                 }));
                 const brand = overlay.querySelector<HTMLElement>("[data-reveal-brand]");
-                const logo = document.querySelector<HTMLElement>("[data-page-reveal-logo]");
+                const heroBrand = document.querySelector<HTMLElement>("[data-hero-brand]");
+                const logo = heroBrand?.querySelector<SVGSVGElement>("[data-brand-mark]");
                 const from = brand?.getBoundingClientRect();
                 const to = logo?.getBoundingClientRect();
-                const handoff = firstLoad && home && !reduced && brand && logo && from?.width && to?.width;
+                const handoff = firstLoad && home && !reduced && brand && logo && from?.width && to?.width && to.top + to.height > 0 && to.top < window.innerHeight;
                 if (handoff) {
                     const x = to.left + to.width / 2 - from.left - from.width / 2;
                     const y = to.top + to.height / 2 - from.top - from.height / 2;
@@ -106,10 +118,17 @@ export function PageReveal({ initial, onReady }: { initial: boolean; onReady: ()
                     { opacity: 0, filter: "blur(4px)" },
                     { opacity: 1, filter: "blur(0px)" },
                 ], { duration: 500, delay: home ? 300 : 100, easing: "ease-out", fill: "both" }));
-                if (logo && !handoff && !reduced) animations.push(logo.animate([
-                    { opacity: 0, translate: "0 1.5rem" },
-                    { opacity: 1, translate: "0 0" },
-                ], { duration: 800, delay: firstLoad ? 450 : 100, easing: "cubic-bezier(0.16, 1, 0.3, 1)", fill: "both" }));
+                if (heroBrand && !reduced && to && to.top + to.height > 0 && to.top < window.innerHeight) {
+                    if (logo && !handoff) animations.push(logo.animate([
+                        { opacity: 0, transform: "translateY(1rem)" },
+                        { opacity: 1, transform: "translateY(0)" },
+                    ], { duration: 700, delay: 450, easing: "cubic-bezier(0.16, 1, 0.3, 1)", fill: "both" }));
+                    // Start text after the curtain has uncovered the hero, including on the first visit.
+                    Array.from(heroBrand.querySelectorAll<HTMLElement>("[data-brand-text]")).forEach((line, index) => animations.push(line.animate([
+                        { opacity: 0, transform: "translateY(1rem)" },
+                        { opacity: 1, transform: "translateY(0)" },
+                    ], { duration: 700, delay: 550 + index * 80, easing: "cubic-bezier(0.16, 1, 0.3, 1)", fill: "both" })));
+                }
                 const heading = document.querySelector<HTMLElement>("main h1");
                 if (!home && heading && !reduced) animations.push(heading.animate([
                     { opacity: 0, transform: "translateY(1rem)", filter: "blur(4px)" },
@@ -138,6 +157,14 @@ export function PageReveal({ initial, onReady }: { initial: boolean; onReady: ()
             deadline = setTimeout(finish, 6000);
             for (const event of ["wheel", "touchmove"]) window.addEventListener(event, blockScroll, { passive: false });
             window.addEventListener("keydown", onKeyDown);
+            if (firstLoad && root.dataset.coffeeFallback !== "true") {
+                // Count from navigation, including time spent waiting for hydration on a slow CPU.
+                const remaining = MODEL_FALLBACK_AFTER_MS - performance.now();
+                if (remaining <= 0) root.dataset.coffeeFallback = "true";
+                else modelDeadline = setTimeout(() => {
+                    if (!disposed && !finished) root.dataset.coffeeFallback = "true";
+                }, remaining);
+            }
             // Only fonts and the first image/poster are essential; 3D and video playback can finish later.
             let ready: Promise<unknown> = Promise.resolve();
             if (firstLoad) {
@@ -145,7 +172,9 @@ export function PageReveal({ initial, onReady }: { initial: boolean; onReady: ()
                 const video = main?.querySelector<HTMLVideoElement>("[data-hero-video]");
                 const image = video?.poster ? new Image() : main?.querySelector<HTMLImageElement>("img");
                 if (video?.poster && image) image.src = video.poster;
-                const logo = overlay.querySelector<HTMLImageElement>("[data-loading-logo]");
+                const logoSource = overlay.querySelector<SVGImageElement>("[data-loading-logo]")?.getAttribute("href");
+                const logo = logoSource ? new Image() : undefined;
+                if (logo && logoSource) logo.src = logoSource;
                 ready = Promise.allSettled([document.fonts?.ready, image?.decode?.(), logo?.decode?.()]);
             }
             const mediaReady = Promise.race([ready, new Promise(resolve => { mediaDeadline = setTimeout(resolve, 1200); })]);
@@ -164,25 +193,25 @@ export function PageReveal({ initial, onReady }: { initial: boolean; onReady: ()
             clearTimeout(deadline);
             clearTimeout(mediaDeadline);
             clearTimeout(loadingDeadline);
+            clearTimeout(modelDeadline);
             cancelAnimationFrame(frame);
             cancelAnimations();
             unlock();
             releaseInput();
         };
-    }, [firstLoad, onReady]);
+    }, [firstLoad, home, onReady]);
 
     return (
         <>
-            <div ref={overlayRef} data-page-reveal data-reveal-state={phase} data-reveal-initial={firstLoad} hidden={phase === "done"} aria-hidden={phase !== "waiting"} className={styles.reveal}>
+            <div ref={overlayRef} data-page-reveal data-reveal-home={home} data-reveal-state={phase} data-reveal-initial={firstLoad} hidden={phase === "done"} aria-hidden={phase !== "waiting"} className={styles.reveal}>
                 <div ref={curtainRef} data-reveal-curtain className={styles.curtain} />
                 <div data-reveal-brand hidden={!firstLoad} className={styles.brand}>
-                    {/* eslint-disable-next-line @next/next/no-img-element -- Same local image as the real logo for a matching handoff. */}
-                    <img data-loading-logo src="/images/brand/logo-placeholder.jpg" width={500} height={350} alt="" fetchPriority="high" />
+                    <BrandMark />
                     <span role="status" className="sr-only">Đang mở {database.site.name}…</span>
                 </div>
                 <span aria-hidden="true" className={styles.spinner} />
             </div>
-            <noscript><style>{"[data-page-reveal]{display:none!important}"}</style></noscript>
+            <noscript><style>{"[data-page-reveal]{display:none!important}html{scrollbar-width:auto!important}"}</style></noscript>
         </>
     );
 }

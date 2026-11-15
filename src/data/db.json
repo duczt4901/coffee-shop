@@ -1,17 +1,17 @@
 {
     "site": {
-        "name": "Coffee Shop",
-        "shortName": "Coffee",
-        "url": "https://coffee-shop.example",
+        "name": "Là Vườn Coffee",
+        "shortName": "Là Vườn",
+        "url": "https://lavuon.cafe",
         "language": "vi",
         "locale": "vi_VN",
-        "title": "Coffee Shop",
-        "description": "Website chính thức của Coffee Shop.",
-        "keywords": ["coffee shop", "cà phê", "coffee"],
+        "title": "Là Vườn Coffee",
+        "description": "Website chính thức của Là Vườn Coffee.",
+        "keywords": ["Là Vườn Coffee", "lavuon", "cà phê", "coffee"],
         "themeColor": "#111111"
     },
     "header": {
-        "ariaLabel": "COFFEE",
+        "ariaLabel": "Là Vườn Coffee",
         "href": "/",
         "headerItems": [
             {
@@ -29,6 +29,6 @@
         ]
     },
     "footer": {
-        "copyright": "Coffee Shop"
+        "copyright": "Là Vườn Coffee"
     }
 }

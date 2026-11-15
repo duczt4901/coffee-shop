@@ -56,11 +56,13 @@ export function observeScroll(update: () => void, onError?: (error: unknown) => 
         resize?.observe(document.body);
         window.addEventListener("scroll", requestUpdate, { passive: true });
         window.addEventListener("resize", requestUpdate);
+        window.addEventListener("pageshow", requestUpdate);
         document.fonts?.addEventListener?.("loadingdone", requestUpdate);
         stopScroll = () => {
             resize?.disconnect();
             window.removeEventListener("scroll", requestUpdate);
             window.removeEventListener("resize", requestUpdate);
+            window.removeEventListener("pageshow", requestUpdate);
             document.fonts?.removeEventListener?.("loadingdone", requestUpdate);
             cancelAnimationFrame(frame);
             stopScroll = undefined;

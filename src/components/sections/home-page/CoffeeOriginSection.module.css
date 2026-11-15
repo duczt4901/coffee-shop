@@ -30,7 +30,7 @@
 .introCopy {
     position: absolute;
     inset: 0;
-    z-index: 3;
+    z-index: 5;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -38,15 +38,26 @@
     color: #171411;
 }
 
+/* Keep text outside the expanding province using the same cutout as the backdrop. */
+.section[data-origin-map-ready] .introCopy {
+    mask-image: var(--origin-text-mask);
+}
+
+.mapMask[hidden] ~ .introCopy {
+    visibility: hidden;
+}
+
 .mapMask {
     position: absolute;
     inset: 0;
-    z-index: 2;
+    z-index: 4;
     overflow: hidden;
     contain: layout paint;
     isolation: isolate;
     pointer-events: none;
 }
+
+.mapMask[hidden] { display: none; }
 
 .map {
     display: block;
@@ -54,11 +65,11 @@
     height: 100%;
 }
 
-.introCopy,
 .provinceFill,
-.edgeFade,
-.locationLabel {
-    transition: opacity 150ms ease-out;
+.edgeFade {
+    /* Temporarily disabled to compare direct scroll-linked opacity. */
+    /* transition: opacity 150ms ease-out; */
+    transition: none;
 }
 
 .edgeFade {
@@ -67,48 +78,6 @@
     z-index: 1;
     height: clamp(5rem, 12vw, 13rem);
     pointer-events: none;
-}
-
-/* Keep the whole story readable until the map and slideshow are ready together. */
-.section:not([data-origin-enhanced]) {
-    height: auto;
-}
-
-.section:not([data-origin-enhanced]) .storyStart,
-.section:not([data-origin-enhanced]) .edgeFade {
-    display: none;
-}
-
-.section:not([data-origin-enhanced]) .stickyViewport {
-    position: relative;
-    display: flex;
-    height: auto;
-    flex-direction: column;
-}
-
-.section:not([data-origin-enhanced]) .introCopy {
-    position: relative;
-    inset: auto;
-    order: 0;
-    padding-bottom: 3rem;
-}
-
-.section:not([data-origin-enhanced]) .mapMask {
-    position: relative;
-    inset: auto;
-    order: 1;
-    width: min(100%, 50rem);
-    aspect-ratio: 1540 / 1240;
-    margin-inline: auto;
-}
-
-.section:not([data-origin-enhanced]) .locationLabel {
-    position: static;
-    order: 2;
-    transform: none;
-    margin: 0 0 2rem;
-    color: var(--foreground);
-    text-align: center;
 }
 
 .topFade {
@@ -124,19 +93,6 @@
 .provinceFill {
     fill: #8a857e;
     fill: color-mix(in srgb, var(--background) 48%, #000);
-}
-
-.locationLabel {
-    position: absolute;
-    top: 61%;
-    left: 50%;
-    z-index: 3;
-    transform: translate(-50%, -50%);
-    margin: 0;
-    color: #fff;
-    font-size: clamp(0.875rem, 1.4vw, 1.625rem);
-    white-space: nowrap;
-    pointer-events: none;
 }
 
 @supports (height: 100svh) {
@@ -162,11 +118,21 @@
     }
 }
 
+@media (max-width: 47.999rem) {
+    /* A fixed layer avoids native sticky compositing lag during touch scrolling. */
+    .section[data-origin-enhanced] .stickyViewport {
+        position: absolute;
+        inset-inline: 0;
+        top: 0;
+    }
+
+    .section[data-origin-enhanced][data-origin-pin="active"] .stickyViewport { position: fixed; }
+    .section[data-origin-enhanced][data-origin-pin="after"] .stickyViewport { top: auto; bottom: 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-    .introCopy,
     .provinceFill,
-    .edgeFade,
-    .locationLabel {
+    .edgeFade {
         transition: none;
     }
 }

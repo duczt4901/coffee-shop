@@ -24,7 +24,7 @@ export function CoffeeProcessSlideshow(): ReactElement {
     return (
         <div className={styles.slideshow} role="group" aria-label="Câu chuyện cà phê Lâm Đồng">
             <div className={styles.frame}>
-                <div className={styles.viewport}>
+                <div className={styles.viewport} role="region" aria-label="Ảnh câu chuyện cà phê, cuộn ngang để xem" tabIndex={0}>
                     <div className={styles.slideTrack}>
                         {stories.map((story) => (
                             <article className={styles.slide} key={story.title} aria-label={story.title}>
@@ -55,14 +55,12 @@ export function CoffeeProcessSlideshow(): ReactElement {
     );
 }
 
-/** Origin owns activation and rollback for both the map and its story. */
+/** Render the owner's progress; the native horizontal layout is available without enhancement. */
 export function setupCoffeeProcessSlideshow(section: HTMLElement) {
     const photo = section.querySelector<HTMLElement>(`.${styles.slideshow}`);
     const slides = photo?.querySelector<HTMLElement>(`.${styles.slideTrack}`);
     const slider = photo?.querySelector<HTMLElement>(`.${styles.viewport}`);
-    const storyStart = section.querySelector<HTMLElement>("[data-coffee-story-start]");
-
-    if (!photo || !slides || !slider || !storyStart) throw new Error("Coffee story markup is incomplete");
+    if (!photo || !slides || !slider) throw new Error("Coffee story markup is incomplete");
 
     const slideItems = Array.from(slides.querySelectorAll<HTMLElement>(`.${styles.slide}`));
     const images = Array.from(slides.querySelectorAll<HTMLImageElement>(`.${styles.image}`));
@@ -73,6 +71,12 @@ export function setupCoffeeProcessSlideshow(section: HTMLElement) {
     if (!title || !titleTrack || slideItems.length !== stories.length || images.length !== slideItems.length || titleItems.length !== slideItems.length) throw new Error("Coffee story slides are incomplete");
 
     let currentVisibleIndex = -1;
+    let lastProgress = -1;
+    let lastWidth = 0;
+    let lastVisible: boolean | undefined;
+    let lastReducedMotion: boolean | undefined;
+    slider.scrollLeft = 0;
+    slider.tabIndex = -1;
 
     const showTitle = (activeIndex: number): void => {
         if (currentVisibleIndex === activeIndex) return;
@@ -85,15 +89,16 @@ export function setupCoffeeProcessSlideshow(section: HTMLElement) {
     };
 
     return {
-        update: () => {
-            const bounds = section.getBoundingClientRect();
-            const distance = -bounds.top - storyStart.offsetTop;
-            const range = bounds.height - photo.clientHeight - storyStart.offsetTop;
-            const progress = Math.max(0, Math.min(1, distance / Math.max(1, range)));
-            const visible = distance >= 0;
-            title.toggleAttribute("data-title-visible", visible);
-            title.style.opacity = visible ? "1" : "0";
-            const slideWidth = slider.clientWidth;
+        update: ({ progress, width, visible, reducedMotion }: { progress: number; width: number; visible: boolean; reducedMotion: boolean }) => {
+            if (progress === lastProgress && width === lastWidth && visible === lastVisible && reducedMotion === lastReducedMotion) return;
+            lastProgress = progress;
+            lastWidth = width;
+            lastReducedMotion = reducedMotion;
+            if (visible !== lastVisible) {
+                lastVisible = visible;
+                title.toggleAttribute("data-title-visible", visible);
+                title.style.opacity = visible ? "1" : "0";
+            }
             const horizontalProgress = Math.max(0, Math.min(1, (progress - edgeHold) / (1 - edgeHold * 2)));
             const totalProgress = horizontalProgress * (slideItems.length - 1);
             const currentSlide = Math.min(slideItems.length - 2, Math.floor(totalProgress));
@@ -113,18 +118,19 @@ export function setupCoffeeProcessSlideshow(section: HTMLElement) {
 
             images.forEach((image, index) => {
                 let x = 0;
-                if (index === currentSlide) {
-                    x = -sliderProgress * slideWidth * 0.05;
-                } else if (index === currentSlide + 1) {
-                    x = (sliderProgress - 1) * slideWidth * 0.85;
+                if (!reducedMotion && index === currentSlide) {
+                    x = -sliderProgress * width * 0.05;
+                } else if (!reducedMotion && index === currentSlide + 1) {
+                    x = (sliderProgress - 1) * width * 0.85;
                 }
-                image.style.transform = `translateX(${x}px) scale(1.2)`;
+                image.style.transform = `translateX(${x}px) scale(${reducedMotion ? 1 : 1.2})`;
             });
 
             showTitle(Math.round(totalProgress));
         },
 
         cleanup: () => {
+            slider.tabIndex = 0;
             title.removeAttribute("data-title-visible");
             title.style.removeProperty("opacity");
             titleTrack.style.removeProperty("--active");

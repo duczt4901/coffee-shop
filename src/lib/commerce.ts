@@ -1,6 +1,7 @@
 import { getProduct } from "../data/products";
 
 export type CartItem = { slug: string; quantity: number };
+export const CHECKOUT_ENABLED = false;
 export const FREE_SHIPPING_THRESHOLD = 500000;
 export const MAX_QUANTITY = 99;
 const priceFormatter = new Intl.NumberFormat("vi-VN");

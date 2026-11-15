@@ -1,5 +1,5 @@
 import { orderSchema, priceOrder } from "../src/lib/orders";
-import { formatPrice, FREE_SHIPPING_THRESHOLD, getShipping } from "../src/lib/commerce";
+import { CHECKOUT_ENABLED, formatPrice, FREE_SHIPPING_THRESHOLD, getShipping } from "../src/lib/commerce";
 
 interface Statement {
     bind(...values: unknown[]): Statement;
@@ -181,6 +181,13 @@ export async function handleOrder(request: Request, env: Env, context: { waitUnt
 const worker = {
     async fetch(request: Request, env: Env, context: { waitUntil(promise: Promise<unknown>): void }) {
         const path = new URL(request.url).pathname.replace(/\/$/, "");
+        if (!CHECKOUT_ENABLED && (path === "/thanh-toan" || path.startsWith("/thanh-toan/"))) {
+            const page = await env.ASSETS.fetch(new Request(new URL("/404.html", request.url)));
+            const headers = new Headers(page.headers);
+            headers.set("Cache-Control", "no-store");
+            return new Response(page.body, { status: 404, headers });
+        }
+        if (!CHECKOUT_ENABLED && (path === "/api/orders" || path === "/api/checkout-config")) return json({ error: "Not found" }, 404);
         if (path === "/api/checkout-config" && request.method === "GET") {
             try {
                 return json({ shippingFee: getShipping(0, env.SHIPPING_FEE_VND), freeShippingThreshold: FREE_SHIPPING_THRESHOLD });
@@ -196,6 +203,7 @@ const worker = {
         return env.ASSETS.fetch(request);
     },
     async scheduled(_event: unknown, env: Env) {
+        if (!CHECKOUT_ENABLED || !env.DB) return;
         const pending = await env.DB.prepare("SELECT * FROM orders WHERE email_status = 'pending' ORDER BY created_at ASC LIMIT 10").all<OrderRow>();
         for (const order of pending.results) {
             if (!(await notifyOrder(env, order))) break;
