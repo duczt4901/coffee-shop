@@ -17,7 +17,7 @@ function anchor(href, variant, reduced = false, found = true, smooth = false) {
         document: { getElementById: () => found ? { scrollIntoView: (options) => actions.push(["scroll", { ...options }]) } : null },
         window: { matchMedia: () => ({ matches: reduced }) },
         require: (name) => {
-            if (name === "lenis/react") return { useLenis: () => smooth ? { scrollTo: (_target, options) => actions.push(["lenis-scroll", { ...options }]) } : undefined };
+            if (name === "@/lib/smooth-scroll") return { getSmoothScroll: () => smooth ? { scrollTo: (_target, options) => actions.push(["lenis-scroll", { ...options }]) } : undefined };
             if (name === "next/navigation") return { useRouter: () => ({ push: (url, options) => actions.push(["push", url, { ...options }]) }) };
             if (name === "react/jsx-runtime") return jsxRuntime;
             if (name === "react" || name.startsWith("@/lib/") || name.endsWith(".css")) return {};

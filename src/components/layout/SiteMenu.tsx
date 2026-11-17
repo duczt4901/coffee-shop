@@ -27,8 +27,9 @@ export function SiteMenu({ ref, enhanced, open, pathname, links, onClose }: Site
             <button type="button" className={styles.backdrop} aria-label="Đóng menu" tabIndex={-1} onClick={onClose} />
             <div className={styles.drawer} data-lenis-prevent>
                 <button type="button" data-menu-close className={styles.closeButton} aria-label="Đóng menu" onClick={onClose}>
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                        <path d="m4 4 12 12M16 4 4 16" stroke="currentColor" strokeWidth="1.2" />
+                    <svg className={styles.closeIcon} width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path d="m4 4 12 12" stroke="currentColor" strokeWidth="1.2" />
+                        <path d="m16 4-12 12" stroke="currentColor" strokeWidth="1.2" />
                     </svg>
                 </button>
                 <div className={styles.menuPrimary}>

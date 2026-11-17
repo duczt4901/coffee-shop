@@ -4,8 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { useLenis } from "lenis/react";
-import { database } from "@/lib/database";
+import { lockScroll } from "@/lib/scroll-lock";
+import { siteConfig as database } from "@/lib/site-config";
 import { observeScroll } from "@/lib/native-motion";
 import { CartLink } from "@/components/commerce/CartLink";
 import { useEnhancedDisclosure } from "@/components/ui/useEnhancedDisclosure";
@@ -15,7 +15,6 @@ import styles from "./SiteHeader.module.css";
 // The previous header and stylesheet are commented/archived in assets/archive/layout/.
 export function SiteHeader() {
     const pathname = usePathname();
-    const lenis = useLenis();
     const headerRef = useRef<HTMLElement>(null);
     const toggleRef = useRef<HTMLElement>(null);
     const { detailsRef, panelRef, enhanced, open, nativeOpen, setOpen } = useEnhancedDisclosure();
@@ -43,11 +42,9 @@ export function SiteHeader() {
         const header = headerRef.current;
         const panel = panelRef.current;
         if (!header || !panel) return;
-        const root = document.documentElement;
-        const overflow = root.style.overflow;
         const background = Array.from(document.querySelectorAll<HTMLElement>("main, [data-site-footer], [role='scrollbar']"));
         const inert = background.map((element) => element.inert);
-        let stoppedHere = false;
+        let unlockScroll = () => {};
         let released = false;
         const onKey = (event: KeyboardEvent) => {
             if (event.key === "Escape") {
@@ -75,29 +72,21 @@ export function SiteHeader() {
             background.forEach((element, index) => {
                 element.inert = inert[index];
             });
-            root.style.overflow = overflow;
-            if (stoppedHere) {
-                stoppedHere = false;
-                lenis?.start();
-            }
+            unlockScroll();
             toggleRef.current?.focus({ preventScroll: true });
         };
         try {
-            root.style.overflow = "hidden";
+            unlockScroll = lockScroll();
             background.forEach((element) => {
                 element.inert = true;
             });
-            if (lenis && !lenis.isStopped) {
-                stoppedHere = true;
-                lenis.stop();
-            }
             document.addEventListener("keydown", onKey);
         } catch {
             release();
             setOpen(false);
         }
         return release;
-    }, [nativeOpen, lenis, setOpen, panelRef]);
+    }, [nativeOpen, setOpen, panelRef]);
 
     useEffect(() => {
         if (!open) return;
@@ -115,6 +104,12 @@ export function SiteHeader() {
         void Promise.all(panel.getAnimations().map(animation => animation.finished)).then(focus, () => {});
         return () => { cancelled = true; };
     }, [open, panelRef, setOpen]);
+
+    useEffect(() => {
+        const closeOnHistory = () => setOpen(false);
+        window.addEventListener("popstate", closeOnHistory);
+        return () => window.removeEventListener("popstate", closeOnHistory);
+    }, [setOpen]);
 
     return (
         <header

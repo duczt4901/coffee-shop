@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useLenis } from "lenis/react";
 import { EditorialReveal, RevealLink } from "@/components/ui/EditorialReveal";
 import { Dropdown } from "@/components/ui/Dropdown";
 import { useEnhancedDisclosure } from "@/components/ui/useEnhancedDisclosure";
@@ -120,13 +119,13 @@ function FaqItem({ question, answer, id }: { question: string; answer: string; i
                         setOpen(!open);
                     }}
                 >
-                    <h6 className={styles.questionRow}>
+                    <span data-reveal-title className={styles.questionRow}>
                         <span aria-hidden="true" data-reveal="border" data-reveal-border className={styles.border} />
                         <span data-reveal="block" className={styles.questionText}>
                             {question}
                         </span>
                         <span aria-hidden="true" className={`${styles.plus} ${open ? styles.open : ""}`} />
-                    </h6>
+                    </span>
                 </summary>
                 <div
                     ref={panelRef}
@@ -147,7 +146,6 @@ function FaqItem({ question, answer, id }: { question: string; answer: string; i
 }
 
 export function FaqContent() {
-    const lenis = useLenis();
     const rootRef = useRef<HTMLElement>(null);
     const [active, setActive] = useState(categories[0].id);
 
@@ -179,8 +177,7 @@ export function FaqContent() {
         const target = document.getElementById(id);
         if (!target) return;
         const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        if (lenis) lenis.scrollTo(target, { immediate: reduced });
-        else target.scrollIntoView({ behavior: reduced ? "instant" : "smooth", block: "start" });
+        target.scrollIntoView({ behavior: reduced ? "instant" : "smooth", block: "start" });
         setActive(id);
     };
 

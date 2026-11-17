@@ -7,11 +7,11 @@ import * as jsxRuntime from "react/jsx-runtime";
 import { importTypeScript } from "../scripts/lib/import-typescript.mjs";
 
 const preset = await importTypeScript(new URL("../src/lib/reveal.ts", import.meta.url));
-const source = ts.transpileModule(readFileSync("src/components/ui/EditorialReveal.tsx", "utf8"), {
+const source = ts.transpileModule(readFileSync("src/components/ui/editorial-reveal-runtime.ts", "utf8"), {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true },
 }).outputText;
 
-function mount({ fail = false, offscreen = false, supported = true, footer = false, footerTop = 900, targetTop = offscreen ? 900 : 100, atPageEnd = false } = {}) {
+function mount({ fail = false, offscreen = false, supported = true, footer = false, footerTop = 900, targetTop = offscreen ? 900 : 100, atPageEnd = false, pageHeading = false, covered = false } = {}) {
     let effect, ref, focus, sync;
     const animations = [];
     let reverts = 0;
@@ -32,6 +32,7 @@ function mount({ fail = false, offscreen = false, supported = true, footer = fal
         removeAttribute() { this.pending = false; },
         closest(selector) {
             if (selector === "[data-editorial-reveal]") return scope;
+            if (selector === "h1") return heading && pageHeading ? {} : null;
             if (selector.includes("summary")) return summary;
             return heading ? {} : null;
         },
@@ -46,9 +47,11 @@ function mount({ fail = false, offscreen = false, supported = true, footer = fal
         },
     }));
     const exports = {};
+    const events = Object.assign(new EventTarget(), { scrollY: atPageEnd ? 4200 : 0, innerHeight: 800 });
+    const root = { scrollHeight: 5000, dataset: { revealActive: String(covered) } };
     vm.runInNewContext(source, {
         exports, Node: FakeNode, console: { error() {} },
-        window: { scrollY: atPageEnd ? 4200 : 0, innerHeight: 800 }, document: { documentElement: { scrollHeight: 5000 } },
+        window: events, document: { documentElement: root },
         require(name) {
             if (name === "react/jsx-runtime") return jsxRuntime;
             if (name === "react") return { useRef() { ref = { current: scope }; return ref; }, useLayoutEffect(callback) { effect = callback; } };
@@ -61,9 +64,9 @@ function mount({ fail = false, offscreen = false, supported = true, footer = fal
             throw Error(name);
         },
     });
-    exports.EditorialReveal({ children: null });
-    const cleanup = effect();
+    const cleanup = exports.setupEditorialReveal(scope);
     return { targets, animations, cleanup, reverts: () => reverts, focusSummary: () => focus({ target: summary }), ref,
+        endReveal() { root.dataset.revealActive = "false"; events.dispatchEvent(new Event("lavuon:reveal-done")); },
         scrollFooter(top) { footerTop = top; sync(); } };
 }
 
@@ -107,4 +110,24 @@ test("page-end fallback reveals visible footer text but never text behind its cl
     clipped.scrollFooter(740);
     assert.equal(clipped.animations.length, 2);
     clipped.cleanup();
+});
+
+test("page headings stay visible and have only the shared page reveal as owner", () => {
+    const reveal = mount({ pageHeading: true });
+    assert.equal(reveal.targets[0].pending, false);
+    assert.equal(reveal.animations.length, 1, "only body text gets an editorial animation");
+    assert.equal(reveal.reverts(), 0, "H1 never acquires word masks");
+    reveal.cleanup();
+});
+
+test("editorial motion prepares under the cover but starts only when page reveal finishes", () => {
+    const reveal = mount({ covered: true });
+    assert.equal(reveal.animations.length, 0);
+    assert(reveal.targets.every(target => target.pending));
+    reveal.endReveal();
+    assert.equal(reveal.animations.length, 2);
+    assert(reveal.targets.every(target => !target.pending));
+    reveal.cleanup();
+    reveal.endReveal();
+    assert.equal(reveal.animations.length, 2);
 });

@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import Image from "next/image";
+import { SkeletonImage as Image } from "@/components/ui/SkeletonImage";
 import { ImageReveal } from "@/components/ui/ImageReveal";
 import { EditorialReveal, RevealLink } from "@/components/ui/EditorialReveal";
 import styles from "./ProcessGallerySection.module.css";

@@ -2,10 +2,9 @@
 
 import { useLayoutEffect, useRef, type KeyboardEvent, type PointerEvent } from "react";
 import styles from "./PageScrollbar.module.css";
-import { useLenis } from "lenis/react";
+import { getSmoothScroll } from "@/lib/smooth-scroll";
 
 export function PageScrollbar() {
-    const lenis = useLenis();
     const trackRef = useRef<HTMLDivElement>(null);
     const thumbRef = useRef<HTMLDivElement>(null);
     const dragOffset = useRef(0);
@@ -56,6 +55,7 @@ export function PageScrollbar() {
 
     const scrollTo = (top: number) => {
         if (getComputedStyle(document.documentElement).overflowY === "hidden") return;
+        const lenis = getSmoothScroll();
         if (lenis) lenis.scrollTo(top, { immediate: true });
         else window.scrollTo({ top, behavior: "instant" });
     };

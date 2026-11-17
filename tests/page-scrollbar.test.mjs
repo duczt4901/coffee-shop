@@ -40,7 +40,7 @@ function mountScrollbar(failure, lenis) {
             disconnect() { disconnected++; }
         },
         require: (name) => {
-            if (name === "lenis/react") return { useLenis: () => lenis };
+            if (name === "@/lib/smooth-scroll") return { getSmoothScroll: () => lenis };
             if (name === "react") return { useRef: () => ({ current: null }), useLayoutEffect: (effect) => { setup = effect; } };
             if (name.endsWith(".css")) return {};
             if (name === "react/jsx-runtime") return jsxRuntime;

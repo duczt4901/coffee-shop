@@ -5,7 +5,7 @@ import vm from "node:vm";
 import ts from "typescript";
 import * as jsxRuntime from "react/jsx-runtime";
 
-const source = ts.transpileModule(readFileSync("src/components/experience/CoffeeBagExperience.tsx", "utf8"), {
+const source = ts.transpileModule(readFileSync("src/components/experience/coffee-experience-runtime.ts", "utf8"), {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX },
 }).outputText;
 function classes() {
@@ -30,8 +30,8 @@ function mount(reduced) {
         if (name.endsWith(".css")) return { default: new Proxy({}, { get: (_, key) => key }) };
         return {};
     } });
-    exports.CoffeeBagExperience();
-    const cleanup = effect();
+    section.querySelector = () => refs[1];
+    const cleanup = exports.setupCoffeeExperience(section, { current: refs[2] });
     return { section, copies, media, progress, cleanup, stopped: () => stopped, reverted: () => reverted,
         scroll(top) { closingTop = top; update(); return copies.map(copy => [copy.classList.has("copyVisible"), copy.classList.has("copyAbove")]); } };
 }

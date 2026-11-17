@@ -46,17 +46,18 @@ html[data-custom-scrollbar]::-webkit-scrollbar {
 }
 
 /* Hide the native gutter before hydration; match the loading cover's no-bundle failsafe. */
-html:has([data-page-reveal][data-reveal-state="waiting"]) {
+html:has([data-page-reveal][data-reveal-state="waiting"]:not([hidden])) {
     scrollbar-width: none;
-    animation: loading-scrollbar-failsafe 0s 30s forwards;
+    overflow: hidden;
+    animation: loading-scrollbar-failsafe 0s 6s forwards;
 }
 
-html:has([data-page-reveal][data-reveal-state="waiting"][data-reveal-hydrated="true"]) {
+html:has([data-page-reveal][data-reveal-state="waiting"][data-reveal-managed="true"]:not([hidden])) {
     animation: none;
 }
 
 @keyframes loading-scrollbar-failsafe {
-    to { scrollbar-width: auto; }
+    to { scrollbar-width: auto; overflow: auto; }
 }
 
 body {

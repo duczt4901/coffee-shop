@@ -1,0 +1,76 @@
+.scene {
+    --coffee-parallax: 0;
+}
+
+.frame {
+    position: relative;
+    inline-size: 100%;
+    block-size: 100%;
+    container-type: size;
+}
+
+.artboard {
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline-start: 50%;
+    inline-size: min(100cqw, calc(100cqh * var(--frame-ratio)));
+    aspect-ratio: var(--frame-ratio);
+    transform: translateX(-50%);
+}
+
+.layer {
+    position: absolute;
+    display: block;
+    inset-inline-start: var(--left);
+    inset-block-start: var(--top);
+    inline-size: var(--width);
+    block-size: var(--height);
+    transform: translate3d(calc(var(--coffee-parallax) * var(--drift-x) * 1px), calc(var(--coffee-parallax) * var(--drift-y) * 1svh), 0) rotate(calc(var(--coffee-parallax) * var(--drift-rotate) * 1deg));
+}
+
+.image {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    pointer-events: none;
+}
+
+.decoration {
+    opacity: 0;
+    transition: opacity 280ms ease-out;
+}
+
+.scene[data-parallax-ready="true"] .decoration {
+    opacity: 1;
+}
+
+.scene[data-parallax-active] .layer {
+    will-change: transform;
+}
+
+.scene[data-parallax-fallback="true"] .layer {
+    transform: none;
+    will-change: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .scene .artboard .layer {
+        transform: none;
+        transition: none;
+        will-change: auto;
+    }
+}
+
+@media (max-width: 47.999rem) {
+    .artboard {
+        inline-size: min(100cqw, calc(100cqh * var(--mobile-frame-ratio)));
+        aspect-ratio: var(--mobile-frame-ratio);
+    }
+
+    .layer {
+        inset-inline-start: var(--mobile-left);
+        inset-block-start: var(--mobile-top);
+        inline-size: var(--mobile-width);
+        block-size: var(--mobile-height);
+    }
+}

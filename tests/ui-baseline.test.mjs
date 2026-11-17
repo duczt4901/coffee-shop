@@ -17,7 +17,12 @@ const modules = {
     "next/image": { default: (props) => React.createElement("img", { ...props, priority: undefined }), __esModule: true },
     "next/navigation": { usePathname: () => "/" },
     "lenis/react": { useLenis: () => undefined },
+    "@/lib/smooth-scroll": { getSmoothScroll: () => undefined },
+    "@/lib/enhance-when-visible": { enhanceWhenVisible: () => () => {} },
     "@/lib/utils": { cn: (...names) => names.filter(Boolean).join(" ") },
+    "@/lib/image-load-reveal": { revealLoadedImage() {} },
+    "@/data/image-placeholders.json": JSON.parse(readFileSync("src/data/image-placeholders.json", "utf8")),
+    "@/data/responsive-images.json": JSON.parse(readFileSync("src/data/responsive-images.json", "utf8")),
     "@/lib/database": { database: { site: { name: "Là Vườn Coffee" }, header: { href: "/", ariaLabel: "Là Vườn", headerItems: [{ href: "/san-pham/", ariaLabel: "Sản phẩm" }] } } },
     "@/lib/native-motion": { observeScroll: () => () => {} },
     "@/lib/scroll-viewport": { getScrollViewportHeight: () => 800 },
@@ -27,6 +32,7 @@ const modules = {
     "@/components/ui/EditorialReveal": { EditorialReveal: Pass, RevealLink: Link, RevealLine: () => null },
     "./Chevron": { ChevronDownIcon: () => React.createElement("svg") },
 };
+modules["@/lib/site-config"] = { siteConfig: modules["@/lib/database"].database };
 
 function load(file, overrides = {}, globals = {}) {
     const compiled = ts.transpileModule(readFileSync(file, "utf8"), {
@@ -40,6 +46,9 @@ function load(file, overrides = {}, globals = {}) {
             if (name.endsWith(".css")) return { default: styles, __esModule: true };
             if (name in overrides) return overrides[name];
             if (name in modules) return modules[name];
+            if (name === "@/components/ui/SkeletonImage") return load("src/components/ui/SkeletonImage.tsx", overrides, globals);
+            if (name === "@/lib/scroll-lock") return load("src/lib/scroll-lock.ts", overrides, globals);
+            if (name === "./smooth-scroll") return overrides["@/lib/smooth-scroll"] ?? modules["@/lib/smooth-scroll"];
             if (name === "@/components/ui/useEnhancedDisclosure") return load("src/components/ui/useEnhancedDisclosure.ts", overrides, globals);
             if (name === "@/components/layout/BrandIntro") return load("src/components/layout/BrandIntro.tsx", overrides, globals);
             if (name === "./SiteMenu") return load("src/components/layout/SiteMenu.tsx", overrides, globals);
@@ -88,6 +97,7 @@ test("home keeps its poster/video and owns the three-line brand outside the head
     assert(html.includes('class="relative z-10 min-h-screen min-h-svh"'));
     assert(!html.includes("data-home-benefits"));
     assert(html.includes('data-hero-brand="true"'));
+    assert(!html.includes("data-hero-video-control"));
     assert.equal((html.match(/data-brand-line="true"/g) ?? []).length, 3);
     assert.match(html, /<h1[^>]*>Chậm một chút, đậm một ngày\.<\/h1>/);
 });
@@ -293,7 +303,7 @@ function menuLock({ alreadyStopped = false, failStop = false } = {}) {
     const lenis = { isStopped: alreadyStopped, stop() { this.isStopped = true; if (failStop) throw new Error("stop failed"); }, start() { starts++; this.isStopped = false; } };
     const { SiteHeader } = load("src/components/layout/SiteHeader.tsx", {
         react: { ...React, useState: value => [value, () => {}], useRef: value => ({ current: value }), useLayoutEffect() {}, useEffect(setup) { effect ??= setup; } },
-        "lenis/react": { useLenis: () => lenis },
+        "@/lib/smooth-scroll": { getSmoothScroll: () => lenis },
         "@/components/ui/useEnhancedDisclosure": { useEnhancedDisclosure: () => ({ detailsRef: {}, panelRef: { current: panel }, enhanced: true, open: true, nativeOpen: true, setOpen(value) { closed = value; } }) },
     }, { document: doc, getComputedStyle: () => ({ visibility: "visible" }) });
     const tree = SiteHeader();

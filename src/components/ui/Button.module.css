@@ -37,8 +37,17 @@
     cursor: not-allowed;
 }
 .button:focus-visible {
-    outline: 1px solid currentColor;
-    outline-offset: 5px;
+    outline: 2px solid var(--foreground);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 5px var(--background);
+}
+@media (prefers-reduced-motion: no-preference) {
+    .button {
+        transition: background-color 200ms, color 200ms, translate 120ms ease-out;
+    }
+    .button:active:not(:disabled) {
+        translate: 0 1px;
+    }
 }
 .button:focus-visible [data-reveal-word] {
     transform: none !important;

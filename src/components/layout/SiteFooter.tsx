@@ -2,8 +2,7 @@
 
 import { useId, useLayoutEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { observeMotion, observeScroll } from "@/lib/native-motion";
-import { getScrollViewportHeight } from "@/lib/scroll-viewport";
+import { enhanceWhenVisible } from "@/lib/enhance-when-visible";
 import { ContactForm } from "@/components/ui/ContactForm";
 import { ZALO_PHONE, ZALO_URL } from "@/data/contact";
 import styles from "./SiteFooter.module.css";
@@ -12,29 +11,17 @@ import { EditorialReveal, RevealLine, RevealLink } from "@/components/ui/Editori
 export function SiteFooter() {
     const debossId = useId();
     const wrapperRef = useRef<HTMLDivElement>(null);
-    const footerRef = useRef<HTMLElement>(null);
     const pathname = usePathname();
 
     useLayoutEffect(() => {
         const wrapper = wrapperRef.current;
-        const footer = footerRef.current;
-        if (!wrapper || !footer) return;
-        return observeMotion("(min-width: 64rem) and (min-height: 38rem)", () => {
-            const stop = observeScroll(() => {
-                const progress = Math.max(0, Math.min(1, 1 - wrapper.getBoundingClientRect().top / getScrollViewportHeight()));
-                footer.style.transform = `translateY(${(progress - 1) * 50}%)`;
-            });
-            return () => {
-                stop();
-                footer.style.removeProperty("transform");
-            };
-        });
+        if (!wrapper) return;
+        return enhanceWhenVisible(wrapper, () => import("./footer-parallax-runtime").then(module => module.setupFooterParallax));
     }, [pathname]);
 
     return (
         <div ref={wrapperRef} data-footer-reveal className={`${styles.revealBoundary} relative overflow-clip bg-[#ede8dd]`}>
             <footer
-                ref={footerRef}
                 data-site-footer
                 className={`${styles.footer} relative flex flex-col justify-between gap-12 border-t-2 border-transparent bg-[#ede8dd] px-page pt-24 pb-12 text-foreground md:gap-16 md:pt-12`}
             >

@@ -68,6 +68,31 @@
 .panel[data-enhanced="false"] .closeButton {
     visibility: hidden;
 }
+.closeIcon path {
+    transform-origin: 10px 10px;
+}
+.panel[aria-hidden="true"] .closeIcon path:first-child {
+    transform: translateY(-3px) rotate(-45deg);
+}
+.panel[aria-hidden="true"] .closeIcon path:last-child {
+    transform: translateY(3px) rotate(45deg);
+}
+@media (hover: hover) {
+    .closeButton:hover {
+        background: color-mix(in srgb, var(--foreground) 6%, transparent);
+    }
+}
+@media (prefers-reduced-motion: no-preference) {
+    .closeIcon path {
+        transition: transform 400ms cubic-bezier(0.6, 0, 0.2, 1);
+    }
+    .closeButton {
+        transition: translate 120ms ease-out, background-color 200ms ease-out;
+    }
+    .closeButton:active {
+        translate: 0 1px;
+    }
+}
 .closeButton:focus-visible,
 .drawer a:focus-visible {
     outline: 2px solid currentColor;

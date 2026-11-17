@@ -1,7 +1,8 @@
 "use client";
 
-import Image from "next/image";
+import { SkeletonImage as Image } from "@/components/ui/SkeletonImage";
 import Link from "next/link";
+import { useLayoutEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { RevealLine } from "@/components/ui/EditorialReveal";
 import { LinkMarker } from "@/components/ui/LinkMarker";
@@ -13,6 +14,16 @@ import styles from "./Commerce.module.css";
 
 export function CartPage() {
     const cart = useCart();
+    const [status, setStatus] = useState("");
+    const emptyRef = useRef<HTMLDivElement>(null);
+    const focusAfterRemove = useRef<string | null>(null);
+    useLayoutEffect(() => {
+        const slug = focusAfterRemove.current;
+        if (slug === null) return;
+        focusAfterRemove.current = null;
+        const target = slug ? document.getElementById(`cart-item-${slug}`) : emptyRef.current;
+        target?.querySelector<HTMLElement>(slug ? "button:not(:disabled), input" : "a")?.focus();
+    }, [cart.lines]);
     return (
         <article className={styles.page}>
             <div className={styles.container}>
@@ -25,6 +36,7 @@ export function CartPage() {
                 <h1 className={styles.heading}>
                     Giỏ hàng<span className="ml-4 align-top font-sans text-base tracking-normal">({cart.count})</span>
                 </h1>
+                <p role="status" aria-atomic="true" className="sr-only">{status}</p>
                 <noscript>
                     <p className={styles.summaryNote}>
                         Giỏ hàng được lưu trên thiết bị của bạn và cần JavaScript để hoạt động. Bạn vẫn có thể <Link href="/san-pham/" className={styles.textLink}>xem sản phẩm</Link> hoặc <Link href="/lien-he/" className={styles.textLink}>liên hệ cửa hàng để đặt hàng</Link>.
@@ -33,7 +45,7 @@ export function CartPage() {
                 {!cart.ready ? (
                     <p role="status">Đang tải giỏ hàng…</p>
                 ) : !cart.items.length ? (
-                    <div className={styles.empty}>
+                    <div ref={emptyRef} className={styles.empty}>
                         <p>Giỏ hàng của bạn đang trống. Chọn một hương vị cà phê cho ngày mới.</p>
                         <Button href="/san-pham/">Xem sản phẩm</Button>
                     </div>
@@ -42,11 +54,11 @@ export function CartPage() {
                         <div>
                             <ul className={styles.items}>
                                 {cart.lines.map(({ product, quantity, lineTotal }, index) => (
-                                    <li key={product.slug} className={styles.item}>
+                                    <li key={product.slug} id={`cart-item-${product.slug}`} className={styles.item}>
                                         {index === 0 && <RevealLine className="text-[color:var(--line)]" />}
                                         <RevealLine side="bottom" className="text-[color:var(--line)]" />
                                         <Link href={`/san-pham/${product.slug}/`} className={styles.itemImage} tabIndex={-1} aria-hidden="true">
-                                            <Image src={product.image} alt="" width={120} height={140} />
+                                            <Image src={product.image} alt="" width={120} height={140} style={{ objectFit: "contain" }} />
                                         </Link>
                                         <div>
                                             <Link href={`/san-pham/${product.slug}/`} className={styles.itemTitle}>
@@ -59,13 +71,20 @@ export function CartPage() {
                                                 <Quantity
                                                     label={`Số lượng ${product.name}`}
                                                     value={quantity}
-                                                    onChange={(next) => cart.update(product.slug, next)}
+                                                    onChange={(next) => {
+                                                        cart.update(product.slug, next);
+                                                        setStatus(`${product.name}: ${next} gói.`);
+                                                    }}
                                                 />
                                                 <button
                                                     type="button"
                                                     className={styles.remove}
                                                     aria-label={`Xóa ${product.name}`}
-                                                    onClick={() => cart.remove(product.slug)}
+                                                    onClick={() => {
+                                                        focusAfterRemove.current = (cart.lines[index + 1] ?? cart.lines[index - 1])?.product.slug ?? "";
+                                                        cart.remove(product.slug);
+                                                        setStatus(`Đã xóa ${product.name} khỏi giỏ.`);
+                                                    }}
                                                 >
                                                     Xóa
                                                 </button>

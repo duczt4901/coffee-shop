@@ -54,7 +54,12 @@ export function useCart() {
         count: items.reduce((sum, item) => sum + item.quantity, 0),
         subtotal: lines.reduce((sum, line) => sum + line.lineTotal, 0),
         add(slug: string, quantity = 1) {
-            write(readCart(JSON.stringify([...readCart(snapshot()), { slug, quantity }])));
+            const before = readCart(snapshot());
+            const next = readCart(JSON.stringify([...before, { slug, quantity }]));
+            const previousQuantity = before.find((item) => item.slug === slug)?.quantity ?? 0;
+            const nextQuantity = next.find((item) => item.slug === slug)?.quantity ?? 0;
+            write(next);
+            return { added: nextQuantity - previousQuantity, count: next.reduce((sum, item) => sum + item.quantity, 0) };
         },
         update(slug: string, quantity: number) {
             if (!Number.isInteger(quantity)) return;

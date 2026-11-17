@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+import { SkeletonImage as Image } from "@/components/ui/SkeletonImage";
 import Link from "next/link";
 import { products } from "@/data/products";
 import { formatListingPrice } from "@/lib/commerce";
@@ -41,6 +41,7 @@ export function FeaturedProductsSection() {
                                         width={800}
                                         height={1000}
                                         className="h-auto w-2/3 object-contain transition-transform duration-120 group-hover:scale-[1.02]"
+                                        style={{ objectFit: "contain" }}
                                     />
 
                                     {product.badge && (

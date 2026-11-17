@@ -46,6 +46,9 @@ test("hero keeps its poster and defers video until reveal, visibility and motion
     changed();
     assert(video.src.endsWith(".mp4"));
     assert.equal(plays, 1);
+    intersect([{ isIntersecting: false }]);
+    changed();
+    assert.equal(plays, 1, "offscreen video must not restart");
     cleanup();
     assert.equal(disconnected, 2);
 });

@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
+import { SkeletonImage as Image } from "@/components/ui/SkeletonImage";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { products, type Product } from "@/data/products";
-import { formatPrice } from "@/lib/commerce";
+import { formatPrice, MAX_QUANTITY } from "@/lib/commerce";
 import { EditorialReveal, RevealLine } from "@/components/ui/EditorialReveal";
 import { Button } from "@/components/ui/Button";
 import { LinkMarker } from "@/components/ui/LinkMarker";
@@ -15,13 +15,20 @@ import { useCart } from "./useCart";
 
 export function ProductPurchase({ product }: { product: Product }) {
     const [quantity, setQuantity] = useState(1);
-    const [added, setAdded] = useState(false);
+    const [feedback, setFeedback] = useState<{ added: number; total?: number; message?: string } | null>(null);
     const cart = useCart();
     const router = useRouter();
     const options = products.filter((item) => item.category === product.category).map((item) => ({ value: item.slug, label: `${item.sizeLabel} · ${formatPrice(item.priceVnd)}`, href: `/san-pham/${item.slug}/` }));
     const add = () => {
-        cart.add(product.slug, quantity);
-        setAdded(true);
+        if (!cart.ready) return;
+        try {
+            const result = cart.add(product.slug, quantity);
+            setFeedback(result.added > 0
+                ? { added: result.added, total: result.count }
+                : { added: 0, message: `Tối đa ${MAX_QUANTITY} gói cho mỗi sản phẩm.` });
+        } catch {
+            setFeedback({ added: 0, message: "Chưa thêm được. Vui lòng thử lại." });
+        }
     };
     return (
         <>
@@ -56,8 +63,11 @@ export function ProductPurchase({ product }: { product: Product }) {
                             alt={product.name}
                             width={1200}
                             height={1200}
-                            priority
+                            loading="eager"
+                            fetchPriority="high"
+                            sizes="(min-width: 1024px) 32vw, (min-width: 768px) 42vw, calc(100vw - 2rem)"
                             className="absolute inset-0 h-full w-full object-contain drop-shadow-[0_2rem_2rem_rgba(0,0,0,0.18)]"
+                        style={{ objectFit: "contain" }}
                         />
                     </div>
                     <div className="z-10 flex h-full items-end justify-end py-4 md:py-10">
@@ -68,7 +78,7 @@ export function ProductPurchase({ product }: { product: Product }) {
                                     value={quantity}
                                     onChange={(next) => {
                                         setQuantity(next);
-                                        setAdded(false);
+                                        setFeedback(null);
                                     }}
                                 />
                             </div>
@@ -82,13 +92,15 @@ export function ProductPurchase({ product }: { product: Product }) {
                                     Giỏ hàng cần JavaScript để thêm sản phẩm. Bạn có thể <Link href="/lien-he/" className="underline underline-offset-4">liên hệ cửa hàng để đặt hàng</Link>.
                                 </p>
                             </noscript>
-                            <p role="status" className="mt-3 min-h-6 text-sm">
-                                {added && (
+                            <p role="status" aria-atomic="true" className="mt-3 min-h-6 text-sm">
+                                {feedback?.message}
+                                {!!feedback?.added && (
                                     <>
-                                        Đã thêm vào giỏ.{" "}
+                                        Đã thêm {feedback.added} gói.{" "}
                                         <Link href="/gio-hang/" className="underline underline-offset-4">
                                             Xem giỏ hàng <LinkMarker />
                                         </Link>
+                                        <span className="sr-only"> Tổng số gói trong giỏ: {feedback.total}.</span>
                                     </>
                                 )}
                             </p>
@@ -99,7 +111,7 @@ export function ProductPurchase({ product }: { product: Product }) {
             <div className="sticky top-[calc(100dvh-5rem)] z-10 flex min-h-20 items-center justify-between gap-4 border-t border-transparent bg-background px-page py-3 shadow-[0_-8px_25px_rgba(37,31,24,0.08)]">
                 <RevealLine className="text-foreground/15" />
                 <div className="flex items-center gap-3">
-                    <Image src={product.image} alt="" width={44} height={44} className="h-11 w-11 object-contain" />
+                    <Image src={product.image} alt="" width={44} height={44} className="h-11 w-11 object-contain" style={{ objectFit: "contain" }} />
                     <span className="hidden text-sm sm:inline">
                         {product.name} · {product.sizeLabel}
                     </span>

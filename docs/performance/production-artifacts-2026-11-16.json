@@ -1,0 +1,83 @@
+{
+  "date": "2026-11-16",
+  "htmlPages": 14,
+  "internalLinks": 279,
+  "missingInternalLinks": [],
+  "emptyLinkCount": 39,
+  "images": {
+    "desktop": {
+      "displayedLayers": 7,
+      "bytes": 373200,
+      "productPixels": 7107719,
+      "fourUncroppedProductPixels": 27136000
+    },
+    "mobile": {
+      "displayedLayers": 7,
+      "bytes": 158510,
+      "productPixels": 2090755,
+      "fourUncroppedProductPixels": 11849760
+    }
+  },
+  "scripts": [
+    {
+      "path": "/_next/static/chunks/1bb22pki2st78.js",
+      "bytes": 174430,
+      "gzip": 46656,
+      "legacy": false
+    },
+    {
+      "path": "/_next/static/chunks/35y3m2ol5gs9o.js",
+      "bytes": 228842,
+      "gzip": 71562,
+      "legacy": false
+    },
+    {
+      "path": "/_next/static/chunks/turbopack-033fa7yr-y8fm.js",
+      "bytes": 9619,
+      "gzip": 3818,
+      "legacy": false
+    },
+    {
+      "path": "/_next/static/chunks/08anl10zypgwm.js",
+      "bytes": 31875,
+      "gzip": 11565,
+      "legacy": false
+    },
+    {
+      "path": "/_next/static/chunks/22m7aem2p5of-.js",
+      "bytes": 39329,
+      "gzip": 13288,
+      "legacy": false
+    },
+    {
+      "path": "/_next/static/chunks/25k4d8zzovhy-.js",
+      "bytes": 39045,
+      "gzip": 12199,
+      "legacy": false
+    },
+    {
+      "path": "/_next/static/chunks/2ehzcie7qg8-x.js",
+      "bytes": 29153,
+      "gzip": 11928,
+      "legacy": false
+    },
+    {
+      "path": "/_next/static/chunks/0cz1d0mv5g_q7.js",
+      "bytes": 112594,
+      "gzip": 39627,
+      "legacy": true
+    },
+    {
+      "path": "/scripts/page-reveal.js",
+      "bytes": 11425,
+      "gzip": 2896,
+      "legacy": false
+    },
+    {
+      "path": "/_next/static/chunks/0o75_gbgqlcgv.js",
+      "bytes": 23873,
+      "gzip": 7417,
+      "legacy": false
+    }
+  ]
+}

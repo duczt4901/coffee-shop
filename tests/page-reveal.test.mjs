@@ -6,80 +6,78 @@ import ts from "typescript";
 import * as jsxRuntime from "react/jsx-runtime";
 import { renderToStaticMarkup } from "react-dom/server";
 
-const source = ts.transpileModule(readFileSync("src/components/layout/PageReveal.tsx", "utf8"), {
+const compile = file => ts.transpileModule(readFileSync(file, "utf8"), {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true },
 }).outputText;
+const source = compile("src/lib/page-reveal-runtime.ts");
+const component = compile("src/components/layout/PageReveal.tsx");
 const flush = () => new Promise(resolve => setImmediate(resolve));
-function deferred() {
-    let resolve, reject;
-    const promise = new Promise((yes, no) => { resolve = yes; reject = no; });
-    return { promise, resolve, reject };
-}
+function deferred() { let resolve, reject; const promise = new Promise((yes, no) => { resolve = yes; reject = no; }); return { promise, resolve, reject }; }
 
-function mount({ initial = true, home = initial, reduced = false, scrollY = 0, hash = "", age = 0, stopped = false, throwAt = -1, heroTop = 200 } = {}) {
-    const refs = [], animations = [], timers = new Map(), frames = new Map();
+function mount({ initial = true, home = initial, reduced = false, scrollY = 0, hash = "", age = 0, escaped = false, stopped = false, throwAt = -1, heroTop = 200 } = {}) {
+    const animations = [], timers = new Map(), frames = new Map();
     const fonts = deferred(), image = deferred();
-    const effects = [];
-    let phase = "waiting", id = 0, calls = 0, stops = 0, starts = 0;
+    let id = 0, calls = 0, stops = 0, starts = 0;
     const animate = (_frames, timing) => {
         if (calls++ === throwAt) throw Error("Animation API failed");
         const result = deferred();
         const animation = { frames: _frames, finished: result.promise, resolve: result.resolve, timing, cancelled: false, hiddenAtCancel: false, cancel() { this.hiddenAtCancel = overlay.hidden; this.cancelled = true; result.reject(Error("cancelled")); } };
-        animations.push(animation);
-        return animation;
+        animations.push(animation); return animation;
     };
     const node = (target, bounds) => ({ getBoundingClientRect: () => bounds, animate(frames, timing) { const animation = animate(frames, timing); animation.target = target; return animation; } });
     const brand = node("brand", { left: 420, top: 300, width: 160, height: 160 });
     const logo = node("heroMark", { left: 480, top: heroTop, width: 40, height: 40 });
+    const curtain = node("curtain");
     const heroBrand = { querySelector: () => logo, querySelectorAll: () => [node("heroName"), node("heroSlogan")] };
-    const overlay = { hidden: false, dataset: { revealState: phase }, animate, querySelector: selector => selector === "[data-loading-logo]" ? { getAttribute: () => "/sun.png" } : brand };
-    const root = { style: { overflow: "scroll" }, dataset: {} };
-    const content = [{ inert: false }, { inert: true }];
-    const events = Object.assign(new EventTarget(), {
-        scrollY, innerHeight: 800, location: { hash }, matchMedia: query => ({ matches: query.includes("prefers-reduced-motion") && reduced }),
-    });
+    const overlay = { hidden: false, isConnected: true, dataset: { revealState: "waiting", revealHome: String(home) }, animate, querySelector: selector => selector === "[data-reveal-curtain]" ? curtain : brand };
+    const root = { style: { overflow: "scroll" }, dataset: {} }, content = [{ inert: false }, { inert: true }];
     const lenis = { isStopped: stopped, stop() { stops++; this.isStopped = true; }, start() { starts++; this.isStopped = false; } };
+    const events = Object.assign(new EventTarget(), { scrollY, innerHeight: 800, location: { hash }, __lavuonLenis: lenis, matchMedia: query => ({ matches: query.includes("prefers-reduced-motion") && reduced }) });
     const exports = {};
-    vm.runInNewContext(source, {
-        exports, window: events, performance: { now: () => age },
-        document: {
-            documentElement: root, fonts: { ready: fonts.promise }, querySelectorAll: () => content,
-            querySelector: selector => selector === "main" ? { querySelector: () => ({ poster: "/poster.webp" }) }
-                : selector === "[data-hero]" ? (home ? {} : null)
+    const context = {
+        exports, window: undefined, Event, performance: { now: () => age }, getComputedStyle: () => ({ visibility: escaped ? "hidden" : "visible" }),
+        document: { documentElement: root, fonts: { ready: fonts.promise }, querySelectorAll: () => content,
+            querySelector: selector => selector.startsWith("[data-page-reveal]") ? (initial ? overlay : null)
+                : selector === "main" ? { querySelector: () => ({ poster: "/poster.webp" }) }
                 : selector === "[data-hero-brand]" ? (home ? heroBrand : null) : node(selector),
         },
         Image: class { decode() { return image.promise; } },
-        setTimeout(fn, delay) { timers.set(++id, { fn, delay }); return id; },
-        clearTimeout(key) { timers.delete(key); },
-        requestAnimationFrame(fn) { frames.set(++id, fn); return id; },
-        cancelAnimationFrame(key) { frames.delete(key); },
-        require(name) {
-            if (name === "react/jsx-runtime") return jsxRuntime;
-            if (name === "react") return {
-                useRef(value) { const ref = { current: value }; refs.push(ref); return ref; },
-                useState(value) { return typeof value === "boolean" ? [value, () => {}] : [phase, next => { phase = next; overlay.dataset.revealState = next; overlay.hidden = next === "done"; }]; },
-                useEffect(setup) { effects.push(setup); },
-                useLayoutEffect(setup) { effects.push(setup); },
-            };
-            if (name === "lenis/react") return { useLenis: () => lenis };
-            if (name.endsWith("database")) return { database: { site: { name: "Là Vườn Coffee" } } };
-            if (name.endsWith("BrandIntro")) return { BrandMark: () => jsxRuntime.jsx("svg", { "data-brand-mark": true }) };
-            if (name.endsWith(".css")) return { __esModule: true, default: new Proxy({}, { get: (_, key) => key }) };
-            throw Error(name);
-        },
-    });
-    const markup = exports.PageReveal({ initial, home, onReady() {} });
-    refs[0].current = overlay;
-    refs[1].current = node("curtain");
+        setTimeout(fn, delay) { timers.set(++id, { fn, delay }); return id; }, clearTimeout(key) { timers.delete(key); },
+        requestAnimationFrame(fn) { frames.set(++id, fn); return id; }, cancelAnimationFrame(key) { frames.delete(key); },
+    };
+    vm.runInNewContext(source, context);
+    const client = {};
+    vm.runInNewContext(component, { exports: client, require(name) {
+        if (name === "react/jsx-runtime") return jsxRuntime;
+        if (name === "react") return { useRef: () => ({ current: null }), useState: value => [value, () => {}], useEffect() {} };
+        if (name.endsWith("site-config")) return { siteConfig: { site: { name: "Là Vườn Coffee" } } };
+        if (name.endsWith("BrandIntro")) return { BrandMark: () => jsxRuntime.jsx("svg", { "data-brand-mark": true }) };
+        if (name.endsWith(".css")) return { __esModule: true, default: new Proxy({}, { get: (_, key) => key }) };
+        throw Error(name);
+    } });
+    const markup = client.PageReveal({ initial, home, onReady() {} });
     return {
         markup, root, content, lenis, animations, overlay, timers, frames, events,
-        start: () => { const cleanups = effects.map(effect => effect()); return () => cleanups.forEach(cleanup => cleanup?.()); }, phase: () => phase, starts: () => starts, stops: () => stops,
+        install() { context.window = events; exports.installPageRevealRuntime(); },
+        start() { context.window = events; exports.installPageRevealRuntime(); const cleanup = events.__lavuonReveal.attach(overlay, initial, home, () => {}); return () => { overlay.isConnected = false; cleanup(); }; },
+        phase: () => overlay.dataset.revealState, starts: () => starts, stops: () => stops,
         async ready(failedImage = false) { fonts.resolve(); if (failedImage) image.reject(Error("missing image")); else image.resolve(); await flush(); },
         tick(delay) { for (const [key, timer] of [...timers]) if (timer.delay === delay) { timers.delete(key); timer.fn(); } },
         paint() { while (frames.size) { const [key, fn] = frames.entries().next().value; frames.delete(key); fn(); } },
         time(value) { age = value; },
     };
 }
+
+test("ordinary cold loads have no artificial minimum while home keeps its loading choreography", () => {
+    const ordinary = mount({ home: false });
+    const cancelOrdinary = ordinary.start();
+    assert(![...ordinary.timers.values()].some(timer => timer.delay === 450));
+    const home = mount();
+    const cancelHome = home.start();
+    assert([...home.timers.values()].some(timer => timer.delay === 450));
+    cancelOrdinary();
+    cancelHome();
+});
 
 test("server intro has a no-JavaScript escape and does not make the page inert in HTML", () => {
     const html = renderToStaticMarkup(mount().markup);
@@ -93,6 +91,84 @@ test("server intro has a no-JavaScript escape and does not make the page inert i
     assert(!html.includes("Chậm một chút"), "loading contains no hero slogan");
     assert(!html.includes("data-brand-text"), "loading contains no visible brand text");
     assert.match(html, /<span aria-hidden="true" class="spinner"/);
+});
+
+test("initial reveal completes before React attaches and late hydration does not replay it", async () => {
+    const intro = mount();
+    const cleanup = intro.start();
+    await intro.ready();
+    intro.tick(450);
+    await flush();
+    intro.paint();
+    intro.animations.forEach(animation => animation.resolve());
+    await flush();
+    const count = intro.animations.length;
+    let ready = 0;
+    const detach = intro.events.__lavuonReveal.attach(intro.overlay, true, true, () => ready++);
+    assert.equal(ready, 1);
+    assert.equal(intro.root.dataset.initialReveal, "done");
+    assert.equal(intro.root.dataset.revealActive, "false");
+    assert.equal(intro.animations.length, count);
+    assert.equal(intro.overlay.hidden, true);
+    detach();
+    cleanup();
+});
+
+test("a bootstrap arriving after the CSS escape never covers the visible page again", () => {
+    const intro = mount({ age: 8000, escaped: true });
+    const cleanup = intro.start();
+    assert.equal(intro.overlay.hidden, true);
+    assert.equal(intro.root.dataset.initialReveal, "done");
+    assert.equal(intro.root.style.overflow, "scroll");
+    assert.equal(intro.animations.length, 0);
+    cleanup();
+});
+
+test("a closing menu cannot release a route reveal lock or leave scrolling locked afterward", async () => {
+    const intro = mount({ initial: false });
+    intro.install();
+    const releaseMenu = intro.events.__lavuonReveal.lockScroll();
+    const cleanup = intro.start();
+    releaseMenu(); releaseMenu();
+    assert.equal(intro.root.style.overflow, "hidden");
+    assert.equal(intro.stops(), 1);
+    assert.equal(intro.starts(), 0);
+    await flush(); intro.paint();
+    intro.animations.forEach(animation => animation.resolve());
+    await flush();
+    assert.equal(intro.root.style.overflow, "scroll");
+    assert.equal(intro.starts(), 1);
+    cleanup();
+    assert.equal(intro.starts(), 1);
+});
+
+test("unlock does not restart a Lenis instance destroyed by a motion preference change", () => {
+    const intro = mount({ initial: false });
+    const cleanup = intro.start();
+    delete intro.events.__lavuonLenis;
+    cleanup();
+    assert.equal(intro.root.style.overflow, "scroll");
+    assert.equal(intro.starts(), 0);
+});
+
+test("a late bootstrap adopts a scroll lock acquired by the menu fallback", async () => {
+    const intro = mount({ initial: false });
+    const fallback = {};
+    vm.runInNewContext(compile("src/lib/scroll-lock.ts"), {
+        exports: fallback, window: intro.events, document: { documentElement: intro.root },
+        require: () => ({ getSmoothScroll: () => intro.lenis }),
+    });
+    const releaseMenu = fallback.lockScroll();
+    const cleanup = intro.start();
+    releaseMenu();
+    assert.equal(intro.root.style.overflow, "hidden");
+    assert.equal(intro.stops(), 1);
+    await flush(); intro.paint();
+    intro.animations.forEach(animation => animation.resolve());
+    await flush();
+    assert.equal(intro.root.style.overflow, "scroll");
+    assert.equal(intro.starts(), 1);
+    cleanup();
 });
 
 test("slow initial loading latches placeholder mode, including late hydration", () => {
@@ -128,7 +204,7 @@ test("loading shrinks only the sun into the hero and starts text reveal after op
     const intro = mount();
     const cleanup = intro.start();
     assert.equal(intro.root.style.overflow, "hidden");
-    assert.equal(intro.overlay.dataset.revealHydrated, "true", "hydration replaces the CSS-only timeout with the client lifecycle");
+    assert.equal(intro.overlay.dataset.revealManaged, "true", "the independent bootstrap owns the CSS-only timeout");
     assert(intro.content.every(element => element.inert));
     assert.equal(intro.phase(), "waiting");
     await intro.ready();
@@ -179,7 +255,7 @@ test("unavailable media cannot delay the reveal indefinitely", async () => {
     cleanup();
 });
 
-test("restored positions, anchors and late hydration still reveal without moving the page", async () => {
+test("restored positions, anchors and slow HTML responses reveal without moving the page", async () => {
     for (const options of [{ scrollY: 500 }, { hash: "#products" }, { age: 6500 }]) {
         const intro = mount(options);
         const cleanup = intro.start();
@@ -204,6 +280,27 @@ test("even an instant route commit reveals without waiting for media or fonts", 
     assert.equal(intro.animations[0].timing.duration, 600);
     assert.equal(intro.root.style.overflow, "hidden");
     cleanup();
+});
+
+test("ordinary arrivals reveal the entire viewport with one curtain and no blur or per-node animation", async () => {
+    for (const initial of [true, false]) {
+        const intro = mount({ initial, home: false, scrollY: 1500 });
+        const cleanup = intro.start();
+        await intro.ready();
+        intro.paint();
+        const curtain = intro.animations[0];
+        assert(curtain);
+        assert.equal(curtain.timing.duration, 600);
+        assert.deepEqual(Array.from(curtain.frames, frame => frame.transform), ["translateY(0%)", "translateY(-100%)"]);
+        assert(intro.animations.every(animation => animation.frames.every(frame => !("filter" in frame))));
+        assert.equal(intro.animations.length, initial ? 4 : 3, "curtain replaces the existing fade; no animation per content node");
+        assert.equal(intro.events.scrollY, 1500);
+        intro.animations.forEach(animation => animation.resolve());
+        await flush();
+        assert.equal(intro.root.style.overflow, "scroll");
+        assert.equal(intro.overlay.hidden, true);
+        cleanup();
+    }
 });
 
 test("reduced motion uses a short opacity reveal on every route", async () => {

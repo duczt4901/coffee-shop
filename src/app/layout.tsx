@@ -30,7 +30,10 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
     return (
-        <html lang={database.site.language}>
+        <html lang={database.site.language} suppressHydrationWarning>
+            <head>
+                <link rel="preload" as="script" href="/scripts/page-reveal.js" fetchPriority="high" />
+            </head>
             <body className={`${lexend.className} ${lexend.variable} ${cormorantUpright.variable}`}>
                 <JsonLd
                     data={{
@@ -46,12 +49,15 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
                 <div data-scroll-viewport aria-hidden="true" className="pointer-events-none invisible fixed top-0 left-0 w-0" />
                 <SmoothScroll>
                     <TransitionProvider>
-                        <SiteHeader />
-                        <main id="main-content">{children}</main>
-                        <SiteFooter />
+                        <div data-site-content suppressHydrationWarning>
+                            <SiteHeader />
+                            <main id="main-content">{children}</main>
+                            <SiteFooter />
+                            <PageScrollbar />
+                        </div>
                     </TransitionProvider>
-                    <PageScrollbar />
                 </SmoothScroll>
+                <script src="/scripts/page-reveal.js" defer fetchPriority="high" />
             </body>
         </html>
     );

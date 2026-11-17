@@ -116,6 +116,23 @@
     opacity: 0.3;
     cursor: not-allowed;
 }
+.remove:focus-visible {
+    outline: 1px solid var(--foreground);
+    outline-offset: 3px;
+}
+@media (hover: hover) {
+    .quantity button:hover:not(:disabled) {
+        background: color-mix(in srgb, var(--foreground) 6%, transparent);
+    }
+}
+@media (prefers-reduced-motion: no-preference) {
+    .quantity button {
+        transition: translate 120ms ease-out, background-color 200ms ease-out;
+    }
+    .quantity button:active:not(:disabled) {
+        translate: 0 1px;
+    }
+}
 .quantity input {
     appearance: textfield;
     width: 2.75rem;

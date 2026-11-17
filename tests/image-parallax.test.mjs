@@ -3,20 +3,28 @@ import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import vm from "node:vm";
 import ts from "typescript";
-import * as jsxRuntime from "react/jsx-runtime";
 
-const compiled = ts.transpileModule(readFileSync("src/components/ui/ImageReveal.tsx", "utf8"), {
-    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true },
+const compile = (file) => ts.transpileModule(readFileSync(file, "utf8"), {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true },
 }).outputText;
+const compiled = compile("src/components/ui/image-reveal-runtime.ts");
+const nativeCompiled = compile("src/lib/native-motion.ts");
 
 function mount(reduced) {
-    const refs = [];
-    const exports = {};
-    const classes = new Set();
-    let setup, sync, revealCleanup, stopped = false;
-    let top = 100;
+    const exports = {}, native = {};
+    const classes = new Set(), updates = new Set(), changes = new Set();
+    let top = 100, measurements = 0;
+    const window = {
+        scrollY: 0, innerHeight: 800,
+        matchMedia: (query) => ({
+            get matches() { return !query.includes("no-preference") || !reduced; },
+            addEventListener: (_name, callback) => changes.add(callback),
+            removeEventListener: (_name, callback) => changes.delete(callback),
+        }),
+    };
+    vm.runInNewContext(nativeCompiled, { exports: native, window });
     const root = {
-        getBoundingClientRect: () => ({ top, height: 400 }),
+        getBoundingClientRect: () => { measurements++; return { top, height: 400 }; },
         classList: {
             add: (...names) => names.forEach((name) => classes.add(name)),
             remove: (...names) => names.forEach((name) => classes.delete(name)),
@@ -24,57 +32,68 @@ function mount(reduced) {
         },
     };
     const style = { removeProperty(name) { delete this[name]; } };
+    root.querySelector = () => ({ style });
     vm.runInNewContext(compiled, {
-        exports,
-        window: { scrollY: 0, innerHeight: 800 },
-        document: { documentElement: { scrollHeight: 4000 } },
+        exports, window, document: { documentElement: { scrollHeight: 4000 } },
         require: (name) => {
-            if (name === "react/jsx-runtime") return jsxRuntime;
-            if (name === "react") return {
-                useRef: (value) => { const ref = { current: value }; refs.push(ref); return ref; },
-                useLayoutEffect: (effect) => { setup = effect; },
-            };
-            if (name.endsWith(".css")) return { root: "root", layer: "layer", animated: "animated", revealed: "revealed", inView: "in-view" };
+            if (name.endsWith(".css")) return { default: { animated: "animated", revealed: "revealed", inView: "in-view" }, __esModule: true };
             if (name.endsWith("scroll-viewport")) return { getScrollViewportHeight: () => 800 };
-            if (name.endsWith("reveal")) return { isRevealVisible: () => true, revealStyle: {} };
+            if (name.endsWith("reveal")) return { isRevealVisible: () => true };
             if (name.endsWith("native-motion")) return {
-                observeMotion: (_query, start) => {
-                    if (!reduced) revealCleanup = start();
-                    return () => revealCleanup?.();
-                },
-                observeScroll: (update) => { sync = update; update(); return () => { stopped = true; }; },
+                observeMotion: native.observeMotion,
+                observeScroll: (update) => { updates.add(update); update(); return () => updates.delete(update); },
             };
             throw new Error(`Unexpected dependency: ${name}`);
         },
     });
-    exports.ImageReveal({ children: null, parallax: 80 });
-    refs[0].current = root;
-    refs[1].current = { style };
-    const stop = setup();
-    return { classes, style, stop, stopped: () => stopped, reduce: () => revealCleanup?.(), move(value) { top = value; sync(); } };
+    const stop = exports.setupImageReveal(root, 80, { current: false });
+    return {
+        classes, style, stop, measurements: () => measurements, subscribers: () => updates.size, listeners: () => changes.size,
+        motion(next) { reduced = next; changes.forEach((change) => change()); },
+        move(value) { top = value; updates.forEach((update) => update()); },
+    };
 }
 
-test("reduced motion keeps image parallax without clipping away image content", () => {
+test("reduced motion keeps the full image static without scroll measurements", () => {
     const image = mount(true);
-    const first = image.style.transform;
-    assert(first.includes("scale(1.2)"));
-    assert(!image.classes.has("animated"));
-    image.move(200);
-    assert.notEqual(image.style.transform, first);
-    assert(!image.classes.has("animated"));
-    image.stop();
     assert.equal(image.style.transform, undefined);
-    assert.equal(image.stopped(), true);
+    assert.equal(image.classes.size, 0);
+    assert.equal(image.subscribers(), 0);
+    image.move(200);
+    assert.equal(image.measurements(), 0);
+    image.stop();
+    assert.equal(image.listeners(), 0);
 });
 
-test("turning off reveal animation preserves the independent parallax transform", () => {
+test("normal motion preserves parallax, reveals and offscreen cleanup", () => {
     const image = mount(false);
+    assert.match(image.style.transform, /scale\(1\.2\)$/);
     assert(image.classes.has("animated"));
     assert(image.classes.has("revealed"));
-    const transform = image.style.transform;
-    image.reduce();
-    assert(!image.classes.has("animated"));
-    assert(!image.classes.has("revealed"));
-    assert.equal(image.style.transform, transform);
+    const first = image.style.transform;
+    image.move(200);
+    assert.notEqual(image.style.transform, first);
+    image.move(1000);
+    assert.equal(image.style.transform, undefined);
     image.stop();
+    assert.equal(image.subscribers(), 0);
+    assert.equal(image.classes.size, 0);
+});
+
+test("changing motion preference stops transforms immediately and restores only normal motion", () => {
+    const image = mount(false);
+    image.motion(true);
+    assert.equal(image.style.transform, undefined);
+    assert.equal(image.classes.size, 0);
+    assert.equal(image.subscribers(), 0);
+    const reads = image.measurements();
+    image.move(200);
+    assert.equal(image.measurements(), reads);
+    image.motion(false);
+    assert.match(image.style.transform, /scale\(1\.2\)$/);
+    assert.equal(image.subscribers(), 1);
+    assert(!image.classes.has("animated"), "already revealed content must not be clipped again");
+    image.stop();
+    assert.equal(image.listeners(), 0);
+    assert.equal(image.subscribers(), 0);
 });

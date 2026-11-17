@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/seo/json-ld";
 import { EditorialReveal } from "@/components/ui/EditorialReveal";
+import { SkeletonHtml } from "@/components/ui/SkeletonHtml";
 import { database } from "@/lib/database";
 import { createMetadata } from "@/lib/metadata";
 import { blogCategoryPath, blogPostPath, getWordPressBlog } from "@/lib/wordpress-blog";
@@ -66,7 +67,7 @@ export default async function BlogPage({ params }: Props) {
                 </EditorialReveal>
                 {post ? (
                     <>
-                        <div className={styles.body} dangerouslySetInnerHTML={{ __html: sanitizeWordPressHtml(post.content.rendered) }} />
+                        <SkeletonHtml className={styles.body} html={sanitizeWordPressHtml(post.content.rendered)} />
                         <p className={styles.links}>
                             <Link href="/bai-viet/">Tất cả bài viết</Link>
                         </p>

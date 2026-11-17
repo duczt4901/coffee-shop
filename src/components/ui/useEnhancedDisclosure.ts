@@ -48,6 +48,21 @@ export function useEnhancedDisclosure() {
     }, []);
 
     useLayoutEffect(() => {
+        const details = detailsRef.current;
+        if (!enhanced || !details) return;
+        const syncNative = () => {
+            // Find-in-page can open details without activating its summary.
+            if (details.open === nativeOpen) return;
+            cancelAnimationFrame(frame.current);
+            desiredOpen.current = logicalOpen.current = details.open;
+            setLogicalOpen(details.open);
+            setNativeOpen(details.open);
+        };
+        details.addEventListener("toggle", syncNative);
+        return () => details.removeEventListener("toggle", syncNative);
+    }, [enhanced, nativeOpen]);
+
+    useLayoutEffect(() => {
         const panel = panelRef.current;
         if (!enhanced || !nativeOpen || open || !panel) return;
         if (desiredOpen.current) {

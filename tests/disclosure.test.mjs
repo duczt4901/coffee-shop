@@ -14,7 +14,7 @@ function mount({ nativeOpen = false, reduced = false, failStyle = false } = {}) 
     const frames = new Map();
     const timers = new Map();
     const listeners = new Map();
-    const details = { open: nativeOpen };
+    const details = Object.assign(new EventTarget(), { open: nativeOpen });
     const panel = { offsetHeight: 0, addEventListener: (name, callback) => listeners.set(name, callback), removeEventListener: (name) => listeners.delete(name) };
     let cursor = 0, dirty = true, first = true, sequence = 0, api;
     const react = {
@@ -79,6 +79,7 @@ function mount({ nativeOpen = false, reduced = false, failStyle = false } = {}) 
         },
         close() { api.setOpen(false); flush(); },
         transition(propertyName) { listeners.get("transitionend")?.({ target: panel, propertyName }); flush(); },
+        nativeToggle(value) { details.open = value; details.dispatchEvent(new Event("toggle")); flush(); },
         unmount() { slots.forEach((slot) => slot?.cleanup?.()); },
     };
 }
@@ -141,4 +142,21 @@ test("unmount cancels pending closing timers and listeners", () => {
     mounted.unmount();
     assert.equal(mounted.timers.size, 0);
     assert.equal(mounted.listeners.size, 0);
+});
+
+test("browser-driven native toggles synchronize logical state without replaying entry", () => {
+    const mounted = mount();
+    mounted.nativeToggle(true);
+    assert.equal(mounted.api.open, true);
+    assert.equal(mounted.api.nativeOpen, true);
+    mounted.nativeToggle(false);
+    assert.equal(mounted.api.open, false);
+    assert.equal(mounted.api.nativeOpen, false);
+    mounted.open();
+    mounted.close();
+    mounted.nativeToggle(false);
+    assert.equal(mounted.timers.size, 0, "native close cancels the pending animated close");
+    mounted.unmount();
+    mounted.nativeToggle(true);
+    assert.equal(mounted.api.open, false, "unmounted controls no longer observe native changes");
 });

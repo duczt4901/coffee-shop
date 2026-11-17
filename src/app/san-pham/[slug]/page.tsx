@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import { SkeletonImage as Image } from "@/components/ui/SkeletonImage";
 import { notFound } from "next/navigation";
 
 import { createMetadata } from "@/lib/metadata";

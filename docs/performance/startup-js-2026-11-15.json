@@ -1,0 +1,143 @@
+{
+  "scope": "Initial home HTML script assets; gzip estimates from local production exports, not network timing",
+  "baseline": "Existing production export before the current logo/image/startup changes; no deployment performed",
+  "before": {
+    "count": 9,
+    "bytes": 989437,
+    "gzip": 284676,
+    "files": [
+      {
+        "path": "/_next/static/chunks/1bb22pki2st78.js",
+        "bytes": 174430,
+        "gzip": 46656
+      },
+      {
+        "path": "/_next/static/chunks/35y3m2ol5gs9o.js",
+        "bytes": 228842,
+        "gzip": 71562
+      },
+      {
+        "path": "/_next/static/chunks/turbopack-033fa7yr-y8fm.js",
+        "bytes": 9619,
+        "gzip": 3818
+      },
+      {
+        "path": "/_next/static/chunks/2ds67zenit8s-.js",
+        "bytes": 37138,
+        "gzip": 11617
+      },
+      {
+        "path": "/_next/static/chunks/423th4e4zlq4e.js",
+        "bytes": 318557,
+        "gzip": 76906
+      },
+      {
+        "path": "/_next/static/chunks/0al9hwi1g9cfp.js",
+        "bytes": 64373,
+        "gzip": 20592
+      },
+      {
+        "path": "/_next/static/chunks/0ocnbhu-5vdnb.js",
+        "bytes": 20011,
+        "gzip": 6481
+      },
+      {
+        "path": "/_next/static/chunks/0cz1d0mv5g_q7.js",
+        "bytes": 112594,
+        "gzip": 39627
+      },
+      {
+        "path": "/_next/static/chunks/0o75_gbgqlcgv.js",
+        "bytes": 23873,
+        "gzip": 7417
+      }
+    ]
+  },
+  "after": {
+    "count": 10,
+    "bytes": 695808,
+    "gzip": 219673,
+    "files": [
+      {
+        "path": "/_next/static/chunks/1bb22pki2st78.js",
+        "bytes": 174430,
+        "gzip": 46656,
+        "legacy": false
+      },
+      {
+        "path": "/_next/static/chunks/35y3m2ol5gs9o.js",
+        "bytes": 228842,
+        "gzip": 71562,
+        "legacy": false
+      },
+      {
+        "path": "/_next/static/chunks/turbopack-033fa7yr-y8fm.js",
+        "bytes": 9619,
+        "gzip": 3818,
+        "legacy": false
+      },
+      {
+        "path": "/_next/static/chunks/08anl10zypgwm.js",
+        "bytes": 31875,
+        "gzip": 11565,
+        "legacy": false
+      },
+      {
+        "path": "/_next/static/chunks/22m7aem2p5of-.js",
+        "bytes": 39329,
+        "gzip": 13288,
+        "legacy": false
+      },
+      {
+        "path": "/_next/static/chunks/25k4d8zzovhy-.js",
+        "bytes": 39045,
+        "gzip": 12199,
+        "legacy": false
+      },
+      {
+        "path": "/_next/static/chunks/1ajtgqsce8jsv.js",
+        "bytes": 24776,
+        "gzip": 10645,
+        "legacy": false
+      },
+      {
+        "path": "/_next/static/chunks/0cz1d0mv5g_q7.js",
+        "bytes": 112594,
+        "gzip": 39627,
+        "legacy": true
+      },
+      {
+        "path": "/scripts/page-reveal.js",
+        "bytes": 11425,
+        "gzip": 2896,
+        "legacy": false
+      },
+      {
+        "path": "/_next/static/chunks/0o75_gbgqlcgv.js",
+        "bytes": 23873,
+        "gzip": 7417,
+        "legacy": false
+      }
+    ]
+  },
+  "modern": {
+    "beforeGzip": 245049,
+    "afterGzip": 180046,
+    "beforeBytes": 876843,
+    "afterBytes": 583214
+  },
+  "criticalBootstrap": {
+    "path": "/scripts/page-reveal.js",
+    "bytes": 11425,
+    "gzip": 2896,
+    "legacy": false
+  },
+  "verified": [
+    "Native initial reveal unlocks server HTML while all Next script requests remain held",
+    "Late hydration does not replay the initial reveal",
+    "Menu-to-route navigation releases overlapping scroll locks",
+    "Production build and static export checks pass",
+    "390x844 reload at scrollY 3765 preserves horizontal slide transforms and stage top 0"
+  ],
+  "tests": 124
+}

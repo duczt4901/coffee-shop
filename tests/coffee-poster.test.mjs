@@ -13,6 +13,7 @@ test("the scene has responsive WebP placeholders before hydration or WebGL", () 
     const exports = {};
     vm.runInNewContext(source, { exports, require(name) {
         if (name === "react/jsx-runtime") return jsxRuntime;
+        if (name === "@/components/ui/SkeletonImage") return { SkeletonImage: props => jsxRuntime.jsx("img", props) };
         if (name === "react") return { useRef: () => ({ current: null }), useEffect() {}, useImperativeHandle() {} };
         if (name.endsWith(".module.css")) return { default: new Proxy({}, { get: (_, key) => key }) };
         return {};

@@ -1,7 +1,7 @@
 "use client";
 
 import { useLayoutEffect, useRef, type ReactElement } from "react";
-import Image from "next/image";
+import { SkeletonImage as Image } from "@/components/ui/SkeletonImage";
 import { observeMotion, observeScroll } from "@/lib/native-motion";
 import { getScrollViewportHeight } from "@/lib/scroll-viewport";
 import { FeaturedProductsSection } from "@/components/sections/home-page";

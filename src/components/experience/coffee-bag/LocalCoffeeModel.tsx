@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useImperativeHandle, useRef, type Ref } from "react";
+import { SkeletonImage } from "@/components/ui/SkeletonImage";
 import type { createCoffeeModel } from "./coffee-model-runtime";
 import styles from "../CoffeeBagExperience.module.css";
 import "./coffee-framing.generated.css";
@@ -27,7 +28,7 @@ export function LocalCoffeeModel({ ref }: { ref: Ref<CoffeeModelHandle> }) {
         let started = false;
         let observer: IntersectionObserver | undefined;
         const root = document.documentElement;
-        const usePlaceholder = () => {
+        const applyPlaceholderFallback = () => {
             if (disposed) return true;
             if (root.dataset.coffeeFallback !== "true") return false;
             observer?.disconnect();
@@ -36,19 +37,19 @@ export function LocalCoffeeModel({ ref }: { ref: Ref<CoffeeModelHandle> }) {
             container.dataset.coffeeState = "fallback";
             return true;
         };
-        if (usePlaceholder()) return;
-        const fallbackObserver = new MutationObserver(usePlaceholder);
+        if (applyPlaceholderFallback()) return;
+        const fallbackObserver = new MutationObserver(applyPlaceholderFallback);
         fallbackObserver.observe(root, { attributes: true, attributeFilter: ["data-coffee-fallback"] });
         const start = () => {
-            if (disposed || started || usePlaceholder()) return;
+            if (disposed || started || applyPlaceholderFallback()) return;
             started = true;
             observer?.disconnect();
             // Keep Three.js parsing and WebGL out of the offscreen hero-loading path.
             void import("./coffee-model-runtime").then(({ createCoffeeModel }) => {
-                if (disposed || usePlaceholder()) return;
+                if (disposed || applyPlaceholderFallback()) return;
                 modelRef.current = createCoffeeModel(container, mount, progressRef.current);
             }).catch(error => {
-                if (disposed || usePlaceholder()) return;
+                if (disposed || applyPlaceholderFallback()) return;
                 container.dataset.coffeeState = "error";
                 console.error("Coffee 3D is unavailable; keeping the scene image.", error);
             });
@@ -76,7 +77,7 @@ export function LocalCoffeeModel({ ref }: { ref: Ref<CoffeeModelHandle> }) {
             <div ref={mountRef} data-coffee-frame className={styles.renderFrame}>
                 <picture>
                     <source media="(max-width: 47.999rem)" srcSet="/images/3d/robusta-scene-poster-mobile.webp" />
-                    <img data-coffee-fallback className={styles.modelFallback} src="/images/3d/robusta-scene-poster.webp" alt="" width={1280} height={1325} loading="lazy" decoding="async" />
+                    <SkeletonImage data-coffee-fallback className={styles.modelFallback} src="/images/3d/robusta-scene-poster.webp" alt="" width={1280} height={1325} loading="lazy" decoding="async" style={{ objectFit: "contain", objectPosition: "center bottom" }} />
                 </picture>
             </div>
         </div>

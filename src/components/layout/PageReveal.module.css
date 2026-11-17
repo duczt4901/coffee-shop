@@ -6,14 +6,14 @@
     touch-action: none;
     color: var(--foreground);
     /* A missing client bundle must still leave the server-rendered page accessible. */
-    animation: intro-failsafe 0s 30s forwards;
+    animation: intro-failsafe 0s 6s forwards;
 }
 
 .reveal[hidden] {
     display: none;
 }
 
-.reveal[data-reveal-hydrated="true"],
+.reveal[data-reveal-managed="true"],
 .reveal[data-reveal-state="opening"] {
     animation: none;
     visibility: visible;

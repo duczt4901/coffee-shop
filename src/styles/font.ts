@@ -1,11 +1,4 @@
-import { Cormorant_Upright, Lexend_Deca, Montserrat } from "next/font/google";
-
-export const montserrat = Montserrat({
-    weight: ['100', '200', '300', '400', '500', '700', '800', '900'],
-    subsets: ['latin'],
-    display:'swap',
-    fallback: ['Arial', 'sans-serif'],
-});
+import { Cormorant_Upright, Lexend_Deca } from "next/font/google";
 
 export const lexend = Lexend_Deca({
     weight: ['100', '200', '300', '400', '500', '700', '800', '900'],

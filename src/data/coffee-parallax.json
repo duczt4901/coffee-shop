@@ -1,0 +1,199 @@
+{
+  "sourceSHA256": "3dd572fca6fe153016e64a8a7167090b8262db88430936a07bfe1d3d6bf3c87d",
+  "desktop": {
+    "products": {
+      "src": "/images/parallax/coffee-products-desktop.webp",
+      "width": 2560,
+      "height": 2650,
+      "bytes": 260110,
+      "frameWidth": 2560,
+      "frameHeight": 2650,
+      "left": 0,
+      "top": 0,
+      "displayWidth": 100,
+      "displayHeight": 100
+    },
+    "blue": {
+      "src": "/images/parallax/coffee-blue-desktop.webp",
+      "width": 2319,
+      "height": 2071,
+      "bytes": 157374,
+      "frameWidth": 2560,
+      "frameHeight": 2650,
+      "left": 9.4140625,
+      "top": 17.132075471698112,
+      "displayWidth": 90.5859375,
+      "displayHeight": 78.15094339622641
+    },
+    "orange": {
+      "src": "/images/parallax/coffee-orange-desktop.webp",
+      "width": 812,
+      "height": 1441,
+      "bytes": 86984,
+      "frameWidth": 2560,
+      "frameHeight": 2650,
+      "left": 59.29687500000001,
+      "top": 38.264150943396224,
+      "displayWidth": 31.71875,
+      "displayHeight": 54.37735849056604
+    },
+    "cup": {
+      "src": "/images/parallax/coffee-cup-desktop.webp",
+      "width": 439,
+      "height": 591,
+      "bytes": 28152,
+      "frameWidth": 2560,
+      "frameHeight": 2650,
+      "left": 9.4140625,
+      "top": 72.67924528301887,
+      "displayWidth": 17.1484375,
+      "displayHeight": 22.30188679245283
+    },
+    "green": {
+      "src": "/images/parallax/coffee-green-desktop.webp",
+      "width": 729,
+      "height": 1201,
+      "bytes": 64594,
+      "frameWidth": 2560,
+      "frameHeight": 2650,
+      "left": 30.7421875,
+      "top": 49.924528301886795,
+      "displayWidth": 28.476562500000004,
+      "displayHeight": 45.320754716981135
+    },
+    "middle": {
+      "src": "/images/parallax/coffee-middle-desktop.webp",
+      "width": 1600,
+      "height": 1656,
+      "bytes": 11610,
+      "frameWidth": 1600,
+      "frameHeight": 1656,
+      "left": 0,
+      "top": 0,
+      "displayWidth": 100,
+      "displayHeight": 100
+    },
+    "back": {
+      "src": "/images/parallax/coffee-back-desktop.webp",
+      "width": 1600,
+      "height": 1656,
+      "bytes": 15318,
+      "frameWidth": 1600,
+      "frameHeight": 1656,
+      "left": 0,
+      "top": 0,
+      "displayWidth": 100,
+      "displayHeight": 100
+    },
+    "front": {
+      "src": "/images/parallax/coffee-front-desktop.webp",
+      "width": 1600,
+      "height": 1656,
+      "bytes": 9168,
+      "frameWidth": 1600,
+      "frameHeight": 1656,
+      "left": 0,
+      "top": 0,
+      "displayWidth": 100,
+      "displayHeight": 100
+    }
+  },
+  "mobile": {
+    "products": {
+      "src": "/images/parallax/coffee-products-mobile.webp",
+      "width": 1170,
+      "height": 2532,
+      "bytes": 99100,
+      "frameWidth": 1170,
+      "frameHeight": 2532,
+      "left": 0,
+      "top": 0,
+      "displayWidth": 100,
+      "displayHeight": 100
+    },
+    "blue": {
+      "src": "/images/parallax/coffee-blue-mobile.webp",
+      "width": 1169,
+      "height": 1167,
+      "bytes": 66462,
+      "frameWidth": 1170,
+      "frameHeight": 2532,
+      "left": 0.08547008547008547,
+      "top": 50.947867298578196,
+      "displayWidth": 99.91452991452991,
+      "displayHeight": 46.09004739336493
+    },
+    "orange": {
+      "src": "/images/parallax/coffee-orange-mobile.webp",
+      "width": 451,
+      "height": 814,
+      "bytes": 33318,
+      "frameWidth": 1170,
+      "frameHeight": 2532,
+      "left": 61.452991452991455,
+      "top": 63.507109004739334,
+      "displayWidth": 38.54700854700855,
+      "displayHeight": 32.148499210110586
+    },
+    "cup": {
+      "src": "/images/parallax/coffee-cup-mobile.webp",
+      "width": 249,
+      "height": 332,
+      "bytes": 14352,
+      "frameWidth": 1170,
+      "frameHeight": 2532,
+      "left": 0,
+      "top": 83.76777251184834,
+      "displayWidth": 21.28205128205128,
+      "displayHeight": 13.112164296998422
+    },
+    "green": {
+      "src": "/images/parallax/coffee-green-mobile.webp",
+      "width": 410,
+      "height": 675,
+      "bytes": 25362,
+      "frameWidth": 1170,
+      "frameHeight": 2532,
+      "left": 26.324786324786327,
+      "top": 70.37914691943128,
+      "displayWidth": 35.04273504273504,
+      "displayHeight": 26.658767772511847
+    },
+    "middle": {
+      "src": "/images/parallax/coffee-middle-mobile.webp",
+      "width": 780,
+      "height": 1688,
+      "bytes": 6040,
+      "frameWidth": 780,
+      "frameHeight": 1688,
+      "left": 0,
+      "top": 0,
+      "displayWidth": 100,
+      "displayHeight": 100
+    },
+    "back": {
+      "src": "/images/parallax/coffee-back-mobile.webp",
+      "width": 780,
+      "height": 1688,
+      "bytes": 8354,
+      "frameWidth": 780,
+      "frameHeight": 1688,
+      "left": 0,
+      "top": 0,
+      "displayWidth": 100,
+      "displayHeight": 100
+    },
+    "front": {
+      "src": "/images/parallax/coffee-front-mobile.webp",
+      "width": 780,
+      "height": 1688,
+      "bytes": 4622,
+      "frameWidth": 780,
+      "frameHeight": 1688,
+      "left": 0,
+      "top": 0,
+      "displayWidth": 100,
+      "displayHeight": 100
+    }
+  }
+}

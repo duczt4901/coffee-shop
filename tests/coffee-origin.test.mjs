@@ -6,9 +6,12 @@ import ts from "typescript";
 import * as jsxRuntime from "react/jsx-runtime";
 import { renderToStaticMarkup } from "react-dom/server";
 
-const compiled = ["CoffeeProcessSlideshow", "CoffeeOriginSection"].map(file => ts.transpileModule(readFileSync(`src/components/sections/home-page/${file}.tsx`, "utf8"), {
+const compiled = ["CoffeeProcessSlideshow.tsx", "coffee-process-slideshow-runtime.ts", "coffee-origin-runtime.ts", "CoffeeOriginSection.tsx"].map(file => ts.transpileModule(readFileSync(`src/components/sections/home-page/${file}`, "utf8"), {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true },
 }).outputText);
+
+const storyData = {};
+vm.runInNewContext(ts.transpileModule(readFileSync("src/data/coffee-stories.ts", "utf8"), { compilerOptions: { module: ts.ModuleKind.CommonJS } }).outputText, { exports: storyData });
 
 function element() {
     const attributes = new Map();
@@ -63,8 +66,8 @@ function mount({ initialTop = 1200, incompleteStory = false, initialFailure = fa
         constructor() { if (imageFailure) throw Error("image unavailable"); mapImage = this; }
     }
     const react = { useRef: () => ({ current: root }), useId: () => "origin-test", useLayoutEffect(setup) { effect = setup; } };
-    let storyModule;
-    const modules = compiled.map(code => {
+    let storyModule, storyRuntime, originRuntime;
+    const modules = compiled.map((code, index) => {
         const exports = {};
         vm.runInNewContext(code, {
             exports, Image: MapImage, ResizeObserver: Observer,
@@ -75,6 +78,10 @@ function mount({ initialTop = 1200, incompleteStory = false, initialFailure = fa
             },
             require(name) {
                 if (name === "react/jsx-runtime") return jsxRuntime;
+                if (name === "@/data/coffee-stories") return storyData;
+                if (name.endsWith("enhance-when-visible")) return { enhanceWhenVisible() {} };
+                if (name.endsWith("coffee-process-slideshow-runtime")) return storyRuntime;
+                if (name === "@/components/ui/SkeletonImage") return { SkeletonImage: ({ fill, sizes, ...props }) => jsxRuntime.jsx("img", props) };
                 if (name === "react") return react;
                 if (name.endsWith(".css")) return { __esModule: true, default: new Proxy({}, { get: (_, key) => key }) };
                 if (name.endsWith("CoffeeProcessSlideshow")) return storyModule;
@@ -88,13 +95,15 @@ function mount({ initialTop = 1200, incompleteStory = false, initialFailure = fa
                 throw Error(`Unexpected dependency: ${name}`);
             },
         });
-        storyModule = exports;
+        if (index === 0) storyModule = exports;
+        if (index === 1) storyRuntime = exports;
+        if (index === 2) originRuntime = exports;
         return exports;
     });
-    const markup = modules[1].CoffeeOriginSection();
+    const markup = modules[3].CoffeeOriginSection();
     return {
         root, map, shape, fill, borders, copy, title, titleTrack, slides, images, titles, slider, mask, markup, reads, metrics, observers,
-        start: () => effect(), active: () => active, mapImage: () => mapImage,
+        start: () => originRuntime.setupCoffeeOrigin(root), active: () => active, mapImage: () => mapImage,
         loadMap() { mapImage.onload?.(); }, failMap() { mapImage.onerror?.(); },
         move(value) { top = value; update?.(); },
         restore(value) { top = value; events.dispatchEvent(new Event("pageshow")); },

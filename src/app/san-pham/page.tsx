@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import { SkeletonImage as Image } from "@/components/ui/SkeletonImage";
 import Link from "next/link";
 import { ImageReveal } from "@/components/ui/ImageReveal";
 import { EditorialReveal, RevealLink } from "@/components/ui/EditorialReveal";
@@ -35,13 +35,13 @@ export default function ProductsPage() {
 
             <section id="bo-suu-tap" className={styles.collection} aria-label="Bộ sưu tập cà phê">
                 <ul className={styles.productGrid}>
-                    {products.map((product) => (
+                    {products.map((product, index) => (
                         <li key={product.slug}>
                             <EditorialReveal>
                                 <div data-reveal="block">
                                     <Link href={`/san-pham/${product.slug}/`} className={styles.productCard}>
                                         <div className={styles.productImage}>
-                                            <Image src={product.image} alt={product.name} fill sizes="(min-width: 1024px) 25vw, 50vw" priority className={styles.packshot} />
+                                            <Image src={product.image} alt={product.name} fill sizes="(min-width: 1024px) 25vw, 50vw" loading="eager" fetchPriority={index === 0 ? "high" : undefined} className={styles.packshot} style={{ objectFit: "contain" }} />
                                             <span className={styles.sizeLabel}>{product.sizeLabel}</span>
                                             {product.badge && <span className={styles.badge}>{product.badge}</span>}
                                         </div>

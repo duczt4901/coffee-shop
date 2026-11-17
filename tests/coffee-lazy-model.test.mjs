@@ -30,6 +30,7 @@ function mount({ observer = true, fallback = false } = {}) {
         } } : {}),
         require(name) {
             if (name === "react/jsx-runtime") return jsxRuntime;
+            if (name === "@/components/ui/SkeletonImage") return { SkeletonImage: props => jsxRuntime.jsx("img", props) };
             if (name === "react") return {
                 useRef(value) { const ref = { current: value }; refs.push(ref); return ref; },
                 useEffect(setup) { effect = setup; },
