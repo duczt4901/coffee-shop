@@ -42,6 +42,7 @@ const baseImports = {
     "@/components/ui/LinkMarker": { LinkMarker: () => null },
     "@/components/ui/Dropdown": { Dropdown: () => null },
     "./Quantity": { Quantity },
+    "./cart-drawer": { openCartDrawer() {} },
 };
 
 function cartStore(items = [], failWrite = false) {
@@ -146,24 +147,16 @@ test("cart removal returns focus to the next row, then the empty-cart action", (
     const second = catalog.products[1];
     const store = cartStore([{ slug: product.slug, quantity: 1 }, { slug: second.slug, quantity: 1 }]);
     const focused = [];
-    const view = mount("src/components/commerce/CartPage.tsx", "CartPage", { "./useCart": store }, {
-        document: { getElementById: id => ({ querySelector: selector => {
-            const controls = [
-                { tag: "a", focus: () => focused.push("hidden-product-image") },
-                { tag: "input", focus: () => focused.push(id) },
-            ];
-            return controls.find(control => selector.split(",").some(part => part.trim().startsWith(control.tag)));
-        } }) },
-    });
-    let tree = view.render(); view.flush();
+    const view = mount("src/components/commerce/CartItems.tsx", "CartItems", { "./useCart": store });
+    const root = { querySelector: selector => ({ focus: () => focused.push(selector === "a" ? "empty-action" : `cart-item-${second.slug}`) }) };
+    const render = () => { const tree = view.render({}); tree.props.ref.current = root; view.flush(); return tree; };
+    let tree = render();
     nodes(tree).find(node => node.props["aria-label"] === `Xóa ${product.name}`).props.onClick();
-    tree = view.render(); view.flush();
+    tree = render();
     assert.equal(focused[0], `cart-item-${second.slug}`);
     assert.match(renderToStaticMarkup(tree), /Đã xóa/);
     nodes(tree).find(node => node.props["aria-label"] === `Xóa ${second.name}`).props.onClick();
-    tree = view.render();
-    nodes(tree).find(node => node.props.className === "empty").props.ref.current = { querySelector: () => ({ focus: () => focused.push("empty-action") }) };
-    view.flush();
+    tree = render();
     assert.equal(focused[1], "empty-action");
     assert.equal(store.useCart().count, 0);
 });
@@ -186,4 +179,32 @@ test("cart count motion skips hydration/reduced motion and cancels when a later 
     reduced = true; count = 7; render();
     assert.equal(plays, 2);
     assert.equal(cancellations, 2);
+});
+
+test("cart drawer keeps first-open state during hydration and stays modal until exit finishes", async () => {
+    let finish, prevented = false, closes = 0;
+    const finished = new Promise(resolve => { finish = resolve; });
+    const view = mount("src/components/commerce/CartDrawer.tsx", "CartDrawer", {
+        "next/navigation": { usePathname: () => "/" },
+        "./useCart": cartStore(),
+        "./CartItems": { CartItems: () => null },
+    });
+    const drawer = { open: true, dataset: {}, close() { closes++; this.open = false; }, getAnimations: () => [{ finished }] };
+    const tree = view.render(); tree.props.ref.current = drawer; view.flush();
+    assert.equal(closes, 0, "hydration must not close a drawer opened just before its effect");
+    tree.props.onCancel({ preventDefault() { prevented = true; } });
+    assert(prevented); assert(drawer.open); assert.equal(drawer.dataset.closing, "true");
+    finish(); await new Promise(resolve => setImmediate(resolve));
+    assert.equal(closes, 1); assert.equal(drawer.dataset.closing, undefined);
+});
+
+test("cart links open the native modal and keep checkout as their unavailable-JS fallback", () => {
+    let prevented = false, shows = 0;
+    const event = { preventDefault() { prevented = true; } };
+    const missing = load("src/components/commerce/cart-drawer.ts", {}, { document: { querySelector: () => null } });
+    missing.openCartDrawer(event); assert.equal(prevented, false);
+    const drawer = { dataset: { closing: "true" }, showModal() { shows++; } };
+    const available = load("src/components/commerce/cart-drawer.ts", {}, { document: { querySelector: () => drawer } });
+    available.openCartDrawer(event);
+    assert(prevented); assert.equal(shows, 1); assert.equal(drawer.dataset.closing, undefined);
 });

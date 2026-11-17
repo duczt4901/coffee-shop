@@ -15,9 +15,10 @@ export function ContactForm() {
             </EditorialReveal>
 
             <EditorialReveal>
-                <div data-reveal="block" className="flex items-stretch gap-2 sm:gap-4">
+                <div className="flex items-stretch gap-2 sm:gap-4">
                     <label className="relative min-w-0 flex-1">
                         <input
+                            data-reveal="lines"
                             name="contactInfo"
                             required
                             disabled={!endpoint}
@@ -29,7 +30,7 @@ export function ContactForm() {
                         <RevealLine side="bottom" />
                     </label>
 
-                    <Button type="submit" disabled={!endpoint} aria-label="Gửi thông tin liên hệ">
+                    <Button data-reveal="lines" type="submit" disabled={!endpoint} aria-label="Gửi thông tin liên hệ">
                         gửi
                     </Button>
                 </div>

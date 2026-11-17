@@ -1,19 +1,238 @@
 .page {
-    position: relative;
-    width: 100%;
-    min-height: 100svh;
-    padding-block: var(--section-space-large);
-    background-color: var(--background);
-    color: #fff;
+    --about-gap: clamp(1.25rem, 3.34vw, 4rem);
+    --about-space: clamp(5rem, 8.9vw, 10.75rem);
+    --portrait-width: clamp(10rem, 16.7vw, 20rem);
+    color: var(--foreground);
+    background: var(--background);
+}
+.page h1,
+.page h2:not(.eyebrow) {
+    font-family: var(--font-cormorant-upright), Georgia, serif;
+    font-weight: 400;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+}
+.page h2:not(.eyebrow) {
+    font-size: clamp(2.5rem, 1.25rem + 3.4vw, 5rem);
+    line-height: 1.1;
+}
+.page p:not(.eyebrow) {
+    font-size: clamp(0.9rem, 0.8rem + 0.25vw, 1.1rem);
+    font-weight: 300;
+    line-height: 1.7;
+}
+.heroHeading {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
-    background: url("/images/coffee/coffee-drinks-assortment.webp") center / cover no-repeat;
+    gap: var(--about-gap);
+    min-block-size: calc(100svh + 10rem);
+    padding: clamp(10rem, 16vw, 20rem) var(--page-gutter) clamp(14rem, 21vw, 25rem);
+    color: var(--background);
+    text-align: center;
 }
-
-.page h1 {
-    font-size: clamp(5rem, 15vw, 20rem);
-    line-height: 1;
-    letter-spacing: -5%;
+.heroHeading h1 {
+    max-inline-size: 58rem;
+    font-size: clamp(3.25rem, 1.5rem + 5vw, 7.5rem);
+    line-height: 1.05;
+}
+.eyebrow {
+    font-family: var(--font-lexend), Arial, sans-serif;
+    font-size: clamp(0.65rem, 0.55rem + 0.2vw, 0.8rem);
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+.ornament {
+    display: grid;
+    place-items: center;
+    inline-size: 3.25rem;
+    flex-shrink: 0;
+}
+.ornament > svg {
+    inline-size: 100%;
+    margin: 0;
+}
+.photo {
+    position: relative;
+    min-inline-size: 0;
+    aspect-ratio: 3 / 4;
+    margin: 0;
+}
+.image {
+    display: block;
+    object-fit: cover;
+}
+.heroTail {
+    position: relative;
+    block-size: calc(var(--portrait-width) * 4 / 9);
+}
+.overlapPhoto {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 50%;
+    inline-size: var(--portrait-width);
+    transform: translate(-50%, -66.666%);
+}
+.homeIntro {
+    padding: var(--about-space) var(--about-gap);
+}
+.collage {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--about-gap);
+    max-inline-size: 120rem;
+    margin-inline: auto;
+}
+.leftPhotos,
+.rightPhotos {
+    display: flex;
+    flex-direction: column;
+    gap: var(--about-space);
+    min-inline-size: 0;
+}
+.smallPhoto { inline-size: 40%; }
+.largePhoto { inline-size: 80%; }
+.leftPhotos .smallPhoto {
+    align-self: flex-end;
+    margin-inline-end: var(--about-gap);
+}
+.rightPhotos .largePhoto { align-self: flex-end; }
+.rightPhotos .smallPhoto { margin-inline-start: var(--about-gap); }
+.introCopy,
+.centerCopy,
+.splitCopy,
+.meaningCopy {
+    display: flex;
+    flex-direction: column;
+    min-inline-size: 0;
+}
+.introCopy,
+.centerCopy {
+    align-items: center;
+    gap: var(--about-gap);
+    text-align: center;
+}
+.introCopy {
+    align-self: center;
+    padding-block: 2rem;
+}
+.introCopy h2 { inline-size: 100%; }
+.introAfter {
+    position: relative;
+    padding: clamp(2.5rem, 3.7vw, 4.5rem) var(--page-gutter);
+}
+.meaningCopy {
+    gap: 1rem;
+    max-inline-size: 43rem;
+    margin-inline: auto;
+    text-align: center;
+}
+.meaningCopy p { font-size: 0.9rem; }
+.centerSection,
+.valuesSection,
+.splitSection { padding-block: var(--about-space); }
+.centerCopy {
+    max-inline-size: 47rem;
+    margin-inline: auto;
+    padding-inline: var(--page-gutter);
+}
+.centerCopy > p:not(.eyebrow) { max-inline-size: 42rem; }
+.threePhotos {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+    gap: var(--about-gap);
+}
+.threePhotos > :nth-child(2) { margin-block-start: var(--about-gap); }
+.photoPair {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--about-gap);
+    margin-block-start: calc(var(--about-space) * 0.75);
+}
+.photoPair > .photo { aspect-ratio: 3 / 2; }
+.ornamentRule {
+    position: relative;
+    display: grid;
+    place-items: center;
+    margin-block-end: var(--about-space);
+    color: color-mix(in srgb, var(--foreground) 18%, transparent);
+}
+.ornamentRule .ruleLine { inset-block-start: 50%; }
+.ornamentRule .ornament {
+    position: relative;
+    z-index: 1;
+    box-sizing: content-box;
+    padding-inline: 1.25rem;
+    color: var(--foreground);
+    background: var(--background);
+}
+.splitSection { padding-block-start: 0; }
+.splitGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
+    gap: var(--about-space);
+    max-inline-size: 98rem;
+    margin-inline: auto;
+    padding-inline: var(--page-gutter);
+}
+.splitCopy {
+    align-items: flex-start;
+    gap: var(--about-gap);
+}
+.splitCopy p:not(.eyebrow) { max-inline-size: 31rem; }
+.cta {
+    max-inline-size: 100%;
+    text-align: center;
+}
+.widePhoto > .photo { aspect-ratio: 2.34 / 1; }
+.closingSection {
+    position: relative;
+    padding-block: calc(var(--portrait-width) * 4 / 9 + var(--about-gap)) var(--about-space);
+}
+@media (max-width: 64rem) {
+    .collage {
+        grid-template-columns: minmax(0, 1fr);
+        gap: calc(var(--about-gap) * 2.5);
+    }
+    .leftPhotos,
+    .rightPhotos {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--about-gap);
+    }
+    .leftPhotos .smallPhoto,
+    .rightPhotos .smallPhoto {
+        align-self: center;
+        inline-size: 35%;
+        margin-inline: 0;
+    }
+    .leftPhotos .largePhoto,
+    .rightPhotos .largePhoto { inline-size: 50%; }
+    .introCopy {
+        max-inline-size: 39rem;
+        margin-inline: auto;
+    }
+    .introCopy > .ornament { display: none; }
+    .splitGrid { gap: calc(var(--about-gap) * 2); }
+}
+@media (max-width: 45rem) {
+    .heroHeading {
+        min-block-size: calc(100svh + 4rem);
+        padding-block: 10rem 13rem;
+    }
+    .heroHeading h1 { font-size: clamp(2.5rem, 1.5rem + 7vw, 4.25rem); }
+    .heroHeading .eyebrow { max-inline-size: 18rem; }
+    .threePhotos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .threePhotos > :nth-child(3) { display: none; }
+    .splitGrid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 3rem;
+    }
+    .widePhoto > .photo { aspect-ratio: 4 / 3; }
 }

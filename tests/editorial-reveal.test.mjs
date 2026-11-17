@@ -11,7 +11,7 @@ const source = ts.transpileModule(readFileSync("src/components/ui/editorial-reve
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true },
 }).outputText;
 
-function mount({ fail = false, offscreen = false, supported = true, footer = false, footerTop = 900, targetTop = offscreen ? 900 : 100, atPageEnd = false, pageHeading = false, covered = false } = {}) {
+function mount({ fail = false, offscreen = false, supported = true, footer = false, footerTop = 900, targetTop = offscreen ? 900 : 100, atPageEnd = false, pageHeading = false, covered = false, entryOwned = false, steps, modes } = {}) {
     let effect, ref, focus, sync;
     const animations = [];
     let reverts = 0;
@@ -25,33 +25,38 @@ function mount({ fail = false, offscreen = false, supported = true, footer = fal
         addEventListener: (_name, callback) => { focus = callback; },
         removeEventListener: () => { focus = undefined; },
     };
-    const targets = [true, false].map(heading => ({
-        dataset: { reveal: heading ? "words" : "lines" },
-        pending: false,
-        setAttribute() { this.pending = true; },
-        removeAttribute() { this.pending = false; },
-        closest(selector) {
-            if (selector === "[data-editorial-reveal]") return scope;
-            if (selector === "h1") return heading && pageHeading ? {} : null;
-            if (selector.includes("summary")) return summary;
-            return heading ? {} : null;
-        },
-        querySelector: () => null,
-        contains: () => false,
-        getBoundingClientRect: () => ({ top: targetTop, height: 40 }),
-        animate(_frames, options) {
-            if (fail && !heading) throw Error("animation failed");
-            const animation = { options, cancelled: false, cancel() { this.cancelled = true; } };
-            animations.push(animation);
-            return animation;
-        },
-    }));
+    const targets = (steps ?? [undefined, undefined]).map((step, index) => {
+        const heading = index === 0 && !modes;
+        return {
+            dataset: { reveal: modes?.[index] ?? (heading ? "words" : "lines") },
+            pending: false,
+            setAttribute() { this.pending = true; },
+            removeAttribute() { this.pending = false; },
+            closest(selector) {
+                if (selector === "[data-editorial-reveal]") return scope;
+                if (selector === "[data-reveal-step]") return step === undefined ? null : { dataset: { revealStep: String(step) } };
+                if (selector === "h1") return heading && pageHeading ? {} : null;
+                if (selector.includes("summary")) return summary;
+                return heading ? {} : null;
+            },
+            querySelector: () => null,
+            contains: () => false,
+            getBoundingClientRect: () => ({ top: targetTop, height: 40 }),
+            animate(_frames, options) {
+                if (fail && !heading) throw Error("animation failed");
+                const animation = { options, cancelled: false, cancel() { this.cancelled = true; } };
+                animations.push(animation);
+                return animation;
+            },
+        };
+    });
     const exports = {};
     const events = Object.assign(new EventTarget(), { scrollY: atPageEnd ? 4200 : 0, innerHeight: 800 });
+    events.__lavuonReveal = { ownsEntry: () => entryOwned };
     const root = { scrollHeight: 5000, dataset: { revealActive: String(covered) } };
     vm.runInNewContext(source, {
         exports, Node: FakeNode, console: { error() {} },
-        window: events, document: { documentElement: root },
+        window: events, document: { documentElement: root, querySelector: () => null },
         require(name) {
             if (name === "react/jsx-runtime") return jsxRuntime;
             if (name === "react") return { useRef() { ref = { current: scope }; return ref; }, useLayoutEffect(callback) { effect = callback; } };
@@ -112,11 +117,11 @@ test("page-end fallback reveals visible footer text but never text behind its cl
     clipped.cleanup();
 });
 
-test("page headings stay visible and have only the shared page reveal as owner", () => {
+test("an unclaimed heading uses editorial reveal, including when the entry controller is unavailable", () => {
     const reveal = mount({ pageHeading: true });
     assert.equal(reveal.targets[0].pending, false);
-    assert.equal(reveal.animations.length, 1, "only body text gets an editorial animation");
-    assert.equal(reveal.reverts(), 0, "H1 never acquires word masks");
+    assert.equal(reveal.animations.length, 2);
+    assert.equal(reveal.reverts(), 0);
     reveal.cleanup();
 });
 
@@ -130,4 +135,41 @@ test("editorial motion prepares under the cover but starts only when page reveal
     reveal.cleanup();
     reveal.endReveal();
     assert.equal(reveal.animations.length, 2);
+});
+
+test("arrival-owned content has no editorial masks or second animation, even with late hydration", () => {
+    for (const covered of [true, false]) {
+        const reveal = mount({ covered, entryOwned: true });
+        assert(reveal.targets.every(target => !target.pending));
+        assert.equal(reveal.animations.length, 0);
+        reveal.endReveal();
+        assert.equal(reveal.animations.length, 0);
+        assert.equal(reveal.reverts(), 0);
+        reveal.cleanup();
+    }
+});
+
+test("explicit steps synchronize each table row and keep all five rows staggered", () => {
+    const steps = Array.from({ length: 5 }, (_, index) => [index, index, index]).flat();
+    const modes = steps.map((_, index) => index % 3 === 2 ? "border" : "lines");
+    const reveal = mount({ steps, modes });
+    assert.equal(reveal.animations.length, 15);
+    for (let row = 0; row < 5; row++) {
+        const delays = reveal.animations.slice(row * 3, row * 3 + 3).map(animation => animation.options.delay);
+        assert.deepEqual(delays, [row * 180 + 120, row * 180 + 120, row * 180]);
+    }
+    reveal.cleanup();
+});
+
+test("separate groups restart their own sequence instead of waiting for previous content", () => {
+    const reveal = mount({ steps: [0, 1, 2, 0, 1] });
+    assert.deepEqual(reveal.animations.map(animation => animation.options.delay), [0, 300, 480, 120, 300]);
+    reveal.cleanup();
+});
+
+test("keyboard focus skips an explicit sequence delay", () => {
+    const reveal = mount({ offscreen: true, steps: [4, 5] });
+    reveal.focusSummary();
+    assert(reveal.animations.every(animation => animation.options.delay === 0));
+    reveal.cleanup();
 });

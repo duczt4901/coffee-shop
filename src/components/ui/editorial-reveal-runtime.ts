@@ -29,13 +29,14 @@ export function setupEditorialReveal(scope: HTMLElement) {
         const footerBoundary = scope.closest<HTMLElement>("[data-footer-reveal]");
         const animations: Animation[] = [];
         const splits: ReturnType<typeof splitWords>[] = [];
-        // PageReveal owns H1 entry; word masks must not add a second heading animation.
-        const targets = Array.from(scope.querySelectorAll<HTMLElement>("[data-reveal]")).filter((target) => target.closest("[data-editorial-reveal]") === scope && !target.closest("h1") && (target.dataset.reveal ?? "") in REVEALS);
+        const modeFor = (target: HTMLElement) => (window.__lavuonReveal?.revealMode?.(target) ?? target.dataset.reveal) as keyof typeof REVEALS;
+        const targets = (window.__lavuonReveal?.prepareContent?.(scope) ?? Array.from(scope.querySelectorAll<HTMLElement>("[data-reveal]"))).filter((target) => target.closest("[data-editorial-reveal]") === scope && modeFor(target) in REVEALS);
         const pending = new Set(targets);
         let stop = () => {};
         const cleanup = () => {
             stop();
             window.removeEventListener("lavuon:reveal-done", sync);
+            window.removeEventListener("lavuon:entry-ready", sync);
             scope.removeEventListener("focusin", revealFocused);
             animations.forEach((animation) => animation.cancel());
             splits.forEach((split) => split.revert());
@@ -49,7 +50,9 @@ export function setupEditorialReveal(scope: HTMLElement) {
 
         const reveal = (target: HTMLElement, focused = false, sequenceDelay = 0) => {
             if (!pending.delete(target)) return;
-            const mode = target.dataset.reveal as keyof typeof REVEALS;
+            const mode = modeFor(target);
+            const step = target.closest<HTMLElement>("[data-reveal-step]")?.dataset.revealStep;
+            const delay = focused ? 0 : step === undefined ? sequenceDelay : Number(step) * REVEAL.textStagger;
             let parts = [target];
             // Keep offscreen text intact; allocate word masks and animations only when needed.
             if (mode === "words") {
@@ -61,7 +64,7 @@ export function setupEditorialReveal(scope: HTMLElement) {
             parts.forEach((part, wordIndex) => {
                 const animation = part.animate(REVEALS[mode], {
                     duration: REVEAL.duration,
-                    delay: sequenceDelay + getTextRevealDelay(target, mode, focused) + wordIndex * REVEAL.wordStagger,
+                    delay: delay + getTextRevealDelay(target, mode, focused) + wordIndex * REVEAL.wordStagger,
                     easing: REVEAL.easing,
                     fill: "both",
                 });
@@ -73,19 +76,27 @@ export function setupEditorialReveal(scope: HTMLElement) {
             });
         };
         const sync = () => {
+            pending.forEach(target => {
+                if (!window.__lavuonReveal?.ownsEntry?.(target)) return;
+                pending.delete(target);
+                target.removeAttribute("data-reveal-pending");
+            });
+            if (!pending.size) stop();
             if (document.documentElement.dataset.revealActive === "true") return;
             const viewport = getScrollViewportHeight();
             const atPageEnd = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 1;
             const clip = footerBoundary?.getBoundingClientRect();
             let textIndex = 0;
-            pending.forEach((target) => {
+            const visible = Array.from(pending).filter((target) => {
                 const bounds = target.getBoundingClientRect();
                 // The translated footer can enter the viewport while still hidden by its wrapper.
                 const top = Math.max(bounds.top, clip?.top ?? bounds.top);
                 const bottom = Math.min(bounds.top + bounds.height, clip?.bottom ?? bounds.top + bounds.height);
-                if (!isRevealVisible({ top, height: Math.max(0, bottom - top) }, viewport, atPageEnd)) return;
-                const decoration = target.dataset.reveal === "border" || target.dataset.reveal === "marker";
-                reveal(target, false, decoration ? 0 : textIndex++ * REVEAL.textStagger);
+                return isRevealVisible({ top, height: Math.max(0, bottom - top) }, viewport, atPageEnd);
+            });
+            visible.forEach(target => {
+                const decoration = modeFor(target) === "border" || modeFor(target) === "marker";
+                reveal(target, false, decoration ? 0 : Math.min(textIndex++, 5) * REVEAL.textStagger);
             });
             if (!pending.size) stop();
         };
@@ -102,6 +113,7 @@ export function setupEditorialReveal(scope: HTMLElement) {
         try {
             targets.forEach((target) => target.setAttribute("data-reveal-pending", ""));
             window.addEventListener("lavuon:reveal-done", sync);
+            window.addEventListener("lavuon:entry-ready", sync);
             stop = observeScroll(sync, fail);
             if (!pending.size) stop();
             scope.addEventListener("focusin", revealFocused);

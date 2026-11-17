@@ -15,10 +15,11 @@ import styles from "./SiteHeader.module.css";
 // The previous header and stylesheet are commented/archived in assets/archive/layout/.
 export function SiteHeader() {
     const pathname = usePathname();
+    const darkHero = pathname === "/" || /^\/ve-chung-toi\/?$/.test(pathname);
     const headerRef = useRef<HTMLElement>(null);
     const toggleRef = useRef<HTMLElement>(null);
     const { detailsRef, panelRef, enhanced, open, nativeOpen, setOpen } = useEnhancedDisclosure();
-    const [position, setPosition] = useState({ overHero: pathname === "/" || /^\/san-pham\/[^/]+\/?$/.test(pathname), scrolled: false });
+    const [position, setPosition] = useState({ overHero: darkHero || /^\/san-pham\/[^/]+\/?$/.test(pathname), scrolled: false, expanded: true });
     const links = [...database.header.headerItems, { href: "/faq/", ariaLabel: "FAQ" }];
     const close = () => {
         if (!enhanced && detailsRef.current) detailsRef.current.open = false;
@@ -26,16 +27,16 @@ export function SiteHeader() {
     };
     const menu = <SiteMenu ref={panelRef} enhanced={enhanced} open={open} pathname={pathname} links={links} onClose={close} />;
 
-    useLayoutEffect(
-        () =>
-            observeScroll(() => {
-                const hero = document.querySelector("[data-hero], [data-header-hero]");
-                const overHero = !!hero && hero.getBoundingClientRect().bottom > 0;
-                const scrolled = window.scrollY > 0;
-                setPosition((previous) => (previous.overHero === overHero && previous.scrolled === scrolled ? previous : { overHero, scrolled }));
-            }),
-        [pathname],
-    );
+    useLayoutEffect(() => {
+        const collapseAfter = parseFloat(getComputedStyle(document.documentElement).fontSize) * 4;
+        return observeScroll(() => {
+            const hero = document.querySelector("[data-hero], [data-header-hero]");
+            const overHero = !!hero && hero.getBoundingClientRect().bottom > 0;
+            const scrolled = window.scrollY > 0;
+            const expanded = window.scrollY <= collapseAfter;
+            setPosition((previous) => (previous.overHero === overHero && previous.scrolled === scrolled && previous.expanded === expanded ? previous : { overHero, scrolled, expanded }));
+        });
+    }, [pathname]);
 
     useEffect(() => {
         if (!nativeOpen) return;
@@ -47,6 +48,7 @@ export function SiteHeader() {
         let unlockScroll = () => {};
         let released = false;
         const onKey = (event: KeyboardEvent) => {
+            if (document.querySelector("#cart-drawer:modal")) return;
             if (event.key === "Escape") {
                 event.preventDefault();
                 setOpen(false);
@@ -116,8 +118,9 @@ export function SiteHeader() {
             ref={headerRef}
             data-site-header
             data-over-hero={position.overHero}
-            data-light-logo={pathname === "/" && position.overHero}
+            data-light-logo={darkHero && position.overHero}
             data-scrolled={position.scrolled}
+            data-expanded={position.expanded}
             data-menu-open={open}
             data-menu-enhanced={enhanced}
             className={styles.header}

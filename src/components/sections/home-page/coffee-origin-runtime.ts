@@ -39,7 +39,7 @@ export function setupCoffeeOrigin(root: HTMLElement) {
         const centerY = height * 0.61;
         const initialScale = compact ? Math.min((width * 0.55) / 290, (height * 0.34) / 370) : Math.min(width / 2400, height / 1200) * 0.828 * 1.12;
         const finalScale = (Math.hypot(width * 0.5, Math.max(centerY, height - centerY)) / MAP_ANCHOR.radius) * 1.02;
-        return { width, height, start, range: Math.max(1, sectionHeight - height - start), centerX, centerY, initialScale, finalScale };
+        return { width, height, start, hold: start * 0.25, range: Math.max(1, sectionHeight - height - start), centerX, centerY, initialScale, finalScale };
     }
     const disableMap = () => {
         mapReady = false;
@@ -74,9 +74,10 @@ export function setupCoffeeOrigin(root: HTMLElement) {
         const geometryChanged = !geometry;
         geometry ??= measure(bounds.height);
         if (!geometry) return;
-        const { width, height, start, range, centerX, centerY, initialScale, finalScale } = geometry;
+        const { width, height, start, hold, range, centerX, centerY, initialScale, finalScale } = geometry;
         const distance = -bounds.top - start;
-        const progress = clamp(-bounds.top / start);
+        // Keep the map still for the first quarter of its intro, including reverse scroll.
+        const progress = clamp((-bounds.top - hold) / (start - hold));
         story!.update({ progress: clamp(distance / range), width, visible: distance >= 0, reducedMotion: reducedMotion.matches });
         const pin = bounds.top > 0 ? "before" : -bounds.top < bounds.height - height ? "active" : "after";
         if (pin !== lastPin) {

@@ -201,6 +201,25 @@ test("a map rendering error leaves the horizontal timeline running", () => {
     cleanup();
 });
 
+test("map holds before zoom, restores the same frame on reload, and reverses without timers", () => {
+    const story = mount({ initialTop: 0 });
+    const cleanup = story.start();
+    story.loadMap();
+    const initial = story.shape.attributes.get("transform");
+    story.move(-story.metrics.intro * 0.25);
+    assert.equal(story.shape.attributes.get("transform"), initial);
+    story.move(-story.metrics.intro * 0.5);
+    const zoomed = story.shape.attributes.get("transform");
+    assert.notEqual(zoomed, initial);
+    story.restore(-story.metrics.intro * 0.5);
+    assert.equal(story.shape.attributes.get("transform"), zoomed);
+    story.move(-story.metrics.intro);
+    assert.equal(story.mask.hidden, true);
+    story.move(-story.metrics.intro * 0.1);
+    assert.equal(story.shape.attributes.get("transform"), initial);
+    cleanup();
+});
+
 test("completed map zoom sleeps during horizontal travel and resumes on reverse", () => {
     const story = mount();
     const cleanup = story.start();

@@ -19,10 +19,12 @@ export function ImmersivePage({ backdrop, heroContent, children, overlay = true,
     useLayoutEffect(() => {
         const hero = heroRef.current;
         if (!hero) return;
+        if (typeof CSS !== "undefined" && CSS.supports("(animation-timeline: view()) and (animation-range: entry) and (animation-range: exit-crossing 0% exit-crossing 100%)")) return;
         return observeMotion("(prefers-reduced-motion: no-preference)", () => {
             let previousDistance = -1;
             const stop = observeScroll(() => {
-                const distance = Math.max(0, Math.min(getScrollViewportHeight(), -hero.getBoundingClientRect().top));
+                const bounds = hero.getBoundingClientRect();
+                const distance = Math.max(0, Math.min(bounds.height || getScrollViewportHeight(), -bounds.top));
                 if (distance === previousDistance) return;
                 previousDistance = distance;
                 hero.style.setProperty("--hero-parallax", `${distance * 0.5}px`);
@@ -36,7 +38,7 @@ export function ImmersivePage({ backdrop, heroContent, children, overlay = true,
 
     return (
         <div className="relative isolate">
-            <section ref={heroRef} data-hero className="relative min-h-screen min-h-svh overflow-hidden">
+            <section ref={heroRef} data-hero className={`${styles.hero} relative min-h-screen min-h-svh overflow-hidden`}>
                 <div data-hero-media aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-neutral-950">
                     <div className={`${styles.backdropParallax} absolute inset-x-0 -inset-y-[16svh] ${className}`}>
                         {backdrop}

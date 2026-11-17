@@ -1,6 +1,9 @@
 export type PageRevealRuntime = {
     attach(overlay: HTMLElement, firstLoad: boolean, home: boolean, onReady: () => void): () => void;
     lockScroll(): () => void;
+    ownsEntry?(element: Element): boolean;
+    prepareContent?(scope: HTMLElement): HTMLElement[];
+    revealMode?(element: HTMLElement): string;
 };
 
 declare global {
@@ -11,6 +14,37 @@ declare global {
 }
 
 const MODEL_FALLBACK_AFTER_MS = 5000;
+const enteredContent = new WeakSet<Element>();
+const ownsEntry = (element: Element) => {
+    for (let node: Element | null = element; node; node = node.parentElement) {
+        if (enteredContent.has(node)) return true;
+    }
+    return false;
+};
+const revealMode = (element: HTMLElement) => element.dataset.reveal ?? (element.tagName === "HR" ? "border" : /^H[1-6]$/.test(element.tagName) ? "words" : "lines");
+
+// Discover static copy once, never on scroll or when a live value changes.
+function prepareContent(scope: HTMLElement) {
+    const candidates = "[data-reveal], h1, h2, h3, h4, h5, h6, p, dt, dd, label, address, figcaption, button, summary, a, li, span, hr";
+    const selected = new Set<HTMLElement>();
+    return Array.from(scope.querySelectorAll<HTMLElement>(candidates)).filter(target => {
+        const decoration = target.dataset.reveal === "border" || target.dataset.reveal === "marker" || target.tagName === "HR";
+        if (target.closest("[data-reveal-skip], [data-hero-brand], [data-display-copy], [data-coffee-origin], [data-site-header], [data-site-menu], [aria-live], [role='status'], [role='alert'], [hidden], noscript, svg *, [role='listbox'], [role='option']")) return false;
+        if (!decoration && (target.closest("[aria-hidden='true'], .sr-only") || (!target.dataset.reveal && !target.textContent?.trim()))) return false;
+        if (target.parentElement?.closest("[data-reveal]")) return false;
+        for (let parent = target.parentElement; parent && parent !== scope; parent = parent.parentElement) {
+            if (selected.has(parent)) return false;
+        }
+        const details = target.closest("details");
+        if (details && !details.open && !target.closest("summary")) return false;
+        if (!target.dataset.reveal) {
+            // Containers with their own paragraphs/headings leave those children independent.
+            if (target.querySelector("h1, h2, h3, h4, h5, h6, p, dt, dd, [data-reveal], [data-editorial-reveal], input, select, textarea")) return false;
+        }
+        selected.add(target);
+        return true;
+    });
+}
 function lockScroll() {
     const root = document.documentElement;
     const state = window.__lavuonScrollLocks ??= { count: 0 };
@@ -53,6 +87,9 @@ function startReveal(overlay: HTMLElement, firstLoad: boolean, home: boolean) {
     let loadingDeadline: ReturnType<typeof setTimeout> | undefined;
     let modelDeadline: ReturnType<typeof setTimeout> | undefined;
     const animations: Animation[] = [];
+    const entryAnimations: Animation[] = [];
+    let keepEntryAnimations = false;
+    const cancelEntries = () => entryAnimations.forEach(animation => animation.cancel());
     const root = document.documentElement;
     const content = Array.from(document.querySelectorAll<HTMLElement>("[data-site-content]"));
     const previousInert = content.map(element => element.inert);
@@ -83,6 +120,7 @@ function startReveal(overlay: HTMLElement, firstLoad: boolean, home: boolean) {
         root.dataset.revealActive = "false";
         if (firstLoad) root.dataset.initialReveal = "done";
         cancelAnimations();
+        if (!keepEntryAnimations) cancelEntries();
         releaseInput();
         unlock();
         notify();
@@ -95,6 +133,42 @@ function startReveal(overlay: HTMLElement, firstLoad: boolean, home: boolean) {
         notify();
         try {
             const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            if (!home) {
+                // Prepare visible copy and media; never transform main or a scroll owner.
+                if (!reduced) {
+                    const main = document.querySelector<HTMLElement>("main");
+                    const groups = (main ? prepareContent(main) : []).filter(element => {
+                        const bounds = element.getBoundingClientRect();
+                        return bounds.width > 0 && bounds.height > 0 && bounds.top < window.innerHeight && bounds.bottom > 0;
+                    });
+                    groups.forEach((element, index) => {
+                        enteredContent.add(element);
+                        const decoration = revealMode(element) === "border";
+                        const step = element.closest<HTMLElement>("[data-reveal-step]")?.dataset.revealStep;
+                        const delay = step === undefined ? Math.min(index, 5) * 100 : Number(step) * 180;
+                        const animation = element.animate(decoration ? [
+                            { transform: "scaleX(0)", transformOrigin: "left" },
+                            { transform: "scaleX(1)", transformOrigin: "left" },
+                        ] : [
+                            { opacity: 0, transform: "translateY(1rem) scale(0.975)" },
+                            { opacity: 1, transform: "translateY(0) scale(1)" },
+                        ], { duration: 1600, delay: 200 + delay, easing: "cubic-bezier(0.22, 1, 0.36, 1)", fill: "both" });
+                        entryAnimations.push(animation);
+                        void animation.finished.then(() => animation.cancel(), () => {});
+                    });
+                    // Release editorial masks before fading the cover, including early hydration.
+                    window.dispatchEvent(new Event("lavuon:entry-ready"));
+                    const header = document.querySelector<HTMLElement>("[data-site-header]");
+                    if (header) animations.push(header.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 500, delay: 100, easing: "ease-out", fill: "both" }));
+                }
+                const cover = overlay.animate([{ opacity: 1 }, { opacity: 0 }], {
+                    duration: reduced ? 100 : 800, easing: "cubic-bezier(0.3, 0, 0.3, 1)", fill: "both",
+                });
+                animations.push(cover);
+                // Input returns when the cover leaves; content finishes without extending the lock.
+                void cover.finished.then(() => { keepEntryAnimations = true; finish(); }, finish);
+                return;
+            }
             // Reveal the entire viewport with one surface, including restored scroll positions.
             if (home && !reduced && curtain) animations.push(curtain.animate([
                 { clipPath: "inset(0 0 0% 0)" },
@@ -111,7 +185,7 @@ function startReveal(overlay: HTMLElement, firstLoad: boolean, home: boolean) {
             const logo = heroBrand?.querySelector<SVGSVGElement>("[data-brand-mark]");
             const from = brand?.getBoundingClientRect();
             const to = logo?.getBoundingClientRect();
-            const handoff = firstLoad && home && !reduced && brand && logo && from?.width && to?.width && to.top + to.height > 0 && to.top < window.innerHeight;
+            const handoff = home && !reduced && brand && logo && from?.width && to?.width && to.top + to.height > 0 && to.top < window.innerHeight;
             if (handoff) {
                 const x = to.left + to.width / 2 - from.left - from.width / 2;
                 const y = to.top + to.height / 2 - from.top - from.height / 2;
@@ -120,7 +194,7 @@ function startReveal(overlay: HTMLElement, firstLoad: boolean, home: boolean) {
                     { transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(${to.width / from.width})` },
                 ], { duration: 900, easing: "cubic-bezier(0.76, 0, 0.24, 1)", fill: "both" }));
                 animations.push(logo.animate([{ opacity: 0 }, { opacity: 0 }], { duration: 900, fill: "both" }));
-            } else if (brand && firstLoad && !reduced) animations.push(brand.animate([
+            } else if (brand && !reduced) animations.push(brand.animate([
                 { opacity: 1 }, { opacity: 0 },
             ], { duration: 450, easing: "ease-in", fill: "both" }));
             const header = document.querySelector<HTMLElement>("[data-site-header]");
@@ -142,11 +216,6 @@ function startReveal(overlay: HTMLElement, firstLoad: boolean, home: boolean) {
                     { opacity: 1, transform: "translateY(0)" },
                 ], { duration: 700, delay: 550 + index * 80, easing: "cubic-bezier(0.16, 1, 0.3, 1)", fill: "both" })));
             }
-            const heading = document.querySelector<HTMLElement>("main h1");
-            if (!home && heading && !reduced) animations.push(heading.animate([
-                { opacity: 0, transform: "translateY(1rem)" },
-                { opacity: 1, transform: "translateY(0)" },
-            ], { duration: 800, delay: 100, easing: "cubic-bezier(0.16, 1, 0.3, 1)", fill: "both" }));
             void Promise.all(animations.map(animation => animation.finished)).then(finish, finish);
         } catch {
             finish();
@@ -210,6 +279,7 @@ function startReveal(overlay: HTMLElement, firstLoad: boolean, home: boolean) {
             return () => { callbacks.delete(callback); };
         },
         cancel() {
+            cancelEntries();
             finish();
             disposed = true;
         },
@@ -224,10 +294,21 @@ export function installPageRevealRuntime() {
     if (!initial) {
         if (overlay) overlay.hidden = true;
         document.documentElement.dataset.initialReveal = "done";
-        if (expired) document.documentElement.dataset.coffeeFallback = "true";
+        if (expired) {
+            document.documentElement.dataset.coffeeFallback = "true";
+            // The CSS escape already exposed this copy; late hydration must not hide it again.
+            const main = document.querySelector<HTMLElement>("main");
+            if (main) prepareContent(main).forEach(element => {
+                const bounds = element.getBoundingClientRect();
+                if (bounds.width > 0 && bounds.height > 0 && bounds.top < window.innerHeight && bounds.bottom > 0) enteredContent.add(element);
+            });
+        }
     }
     window.__lavuonReveal = {
         lockScroll,
+        ownsEntry,
+        prepareContent,
+        revealMode,
         attach(element, firstLoad, home, onReady) {
             if (firstLoad && element === overlay) {
                 if (!initial) { onReady(); return () => {}; }

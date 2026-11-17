@@ -2,6 +2,25 @@
     transform: translate3d(0, var(--hero-parallax, 0px), 0);
     will-change: transform;
 }
+
+@supports ((animation-timeline: view()) and (animation-range: entry) and (animation-range: exit-crossing 0% exit-crossing 100%)) {
+    @media (prefers-reduced-motion: no-preference) {
+        .hero {
+            view-timeline: --hero-parallax block;
+        }
+        .backdropParallax {
+            animation: hero-parallax linear both;
+            animation-timeline: --hero-parallax;
+            animation-range: exit-crossing 0% exit-crossing 100%;
+        }
+    }
+}
+
+@keyframes hero-parallax {
+    from { transform: translate3d(0, 0, 0); }
+    /* The media has 16svh overscan on each edge; travel is half the hero's height. */
+    to { transform: translate3d(0, calc(50% - 16svh), 0); }
+}
 @media (prefers-reduced-motion: reduce) {
     .backdropParallax {
         will-change: auto;

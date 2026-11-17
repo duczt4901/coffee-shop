@@ -14,6 +14,7 @@ function mount({ reduced = false, fail = false } = {}) {
     const refs = [], animations = [];
     let path = "/", booted = false, refIndex = 0;
     const cover = {
+        dataset: {},
         animate(frames, timing) {
             if (fail) throw Error("Animation API failed");
             let resolve, reject;
@@ -25,7 +26,7 @@ function mount({ reduced = false, fail = false } = {}) {
     };
     const exports = {};
     vm.runInNewContext(source, {
-        exports, window: { matchMedia: () => ({ matches: reduced }) },
+        exports, URL, window: { location: { href: "https://lavuon.test/faq/" }, matchMedia: () => ({ matches: reduced }) },
         require(name) {
             if (name === "react/jsx-runtime") return jsxRuntime;
             if (name === "react") return {
@@ -36,6 +37,7 @@ function mount({ reduced = false, fail = false } = {}) {
             if (name === "next-transition-router") return { TransitionRouter: () => null };
             if (name === "next/navigation") return { usePathname: () => path };
             if (name.endsWith("PageReveal")) return { PageReveal: () => null };
+            if (name.endsWith("BrandIntro")) return { BrandMark: () => null };
             if (name.endsWith(".css")) return {};
             throw Error(name);
         },
@@ -47,7 +49,7 @@ function mount({ reduced = false, fail = false } = {}) {
         refs[0].current = cover;
         return { ...router.props, reveal: router.props.children[1] };
     };
-    return { ...render(), render, animations };
+    return { ...render(), render, animations, cover };
 }
 
 test("failed route cover continues navigation", () => {
@@ -82,6 +84,8 @@ test("leave fades the cover before navigation and enter releases the route immed
     stop();
     transition.enter(() => enters++);
     assert.equal(enters, 1);
+    assert.equal(transition.animations[0].cancelled, false, "keep the loading surface until arrival is ready");
+    transition.reveal.props.onReady();
     assert.equal(transition.animations[0].cancelled, true);
 });
 
@@ -101,4 +105,38 @@ test("reduced motion keeps a brief opacity transition", () => {
     const transition = mount({ reduced: true });
     transition.leave(() => {});
     assert.equal(transition.animations[0].timing.duration, 80);
+});
+
+test("Damai departure timing applies only between ordinary routes; home boundaries retain 250ms", () => {
+    for (const [from, to, expected] of [["/faq/", "/san-pham/", 400], ["/", "/faq/", 250], ["/faq/", "/", 250], ["/faq/", "/?utm=test", 250], ["/faq/", undefined, 250]]) {
+        const transition = mount();
+        transition.leave(() => {}, from, to);
+        assert.equal(transition.animations[0].timing.duration, expected);
+    }
+    const reduced = mount({ reduced: true });
+    reduced.leave(() => {}, "/faq/", "/san-pham/");
+    assert.equal(reduced.animations[0].timing.duration, 80);
+});
+
+test("interrupted departure never advances a stale route", async () => {
+    const transition = mount(); let first = 0, second = 0;
+    transition.leave(() => first++, "/faq/", "/san-pham/");
+    transition.leave(() => second++, "/faq/", "/lien-he/");
+    await flush();
+    transition.animations[0].resolve(); transition.animations[1].resolve();
+    await flush();
+    assert.equal(first, 0);
+    assert.equal(second, 1);
+});
+
+test("returning home keeps one brown loading surface and logo until the home curtain starts", async () => {
+    const transition = mount();
+    const stop = transition.leave(() => {}, "/faq/", "/");
+    assert.equal(transition.cover.dataset.routeHome, "true");
+    transition.animations[0].resolve(); await flush(); stop();
+    assert(!transition.animations[0].cancelled);
+    transition.render("/").reveal.props.onReady();
+    assert(transition.animations[0].cancelled);
+    transition.leave(() => {}, "/", "/san-pham/");
+    assert.equal(transition.cover.dataset.routeHome, "false");
 });

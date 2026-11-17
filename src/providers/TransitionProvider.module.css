@@ -7,6 +7,19 @@
     pointer-events: none;
 }
 
+.routeCover [data-route-brand] {
+    display: none;
+}
+
+.routeCover[data-route-home="true"] {
+    background: var(--foreground);
+    color: var(--background);
+}
+
+.routeCover[data-route-home="true"] [data-route-brand] {
+    display: block;
+}
+
 /* Previous route transition styles, retained while the effect is disabled.
 .overlay {
     position: fixed;

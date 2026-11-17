@@ -40,7 +40,7 @@ export function PageReveal({ initial, home, onReady }: { initial: boolean; home:
         <>
             <div ref={overlayRef} data-page-reveal data-reveal-home={home} data-reveal-state="waiting" data-reveal-initial={firstLoad} aria-hidden="false" suppressHydrationWarning className={styles.reveal}>
                 <div data-reveal-curtain className={styles.curtain} />
-                <div data-reveal-brand hidden={!firstLoad} className={styles.brand}>
+                <div data-reveal-brand hidden={!firstLoad && !home} className={styles.brand}>
                     <BrandMark />
                     <span role="status" className="sr-only">Đang mở {siteConfig.site.name}…</span>
                 </div>

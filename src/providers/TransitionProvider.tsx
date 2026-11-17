@@ -4,6 +4,7 @@ import { TransitionRouter } from "next-transition-router";
 import { type ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { PageReveal } from "@/components/layout/PageReveal";
+import { BrandMark } from "@/components/layout/BrandIntro";
 import styles from "./TransitionProvider.module.css";
 import revealStyles from "@/components/layout/PageReveal.module.css";
 
@@ -12,11 +13,19 @@ export default function TransitionProvider({ children }: { children: ReactNode }
     const [booted, setBooted] = useState(false);
     const coverRef = useRef<HTMLDivElement>(null);
     const cancelActive = useRef<(() => void) | undefined>(undefined);
-    const ready = useCallback(() => setBooted(true), []);
+    const releaseCover = useRef<(() => void) | undefined>(undefined);
+    const ready = useCallback(() => {
+        releaseCover.current?.();
+        releaseCover.current = undefined;
+        setBooted(true);
+    }, []);
 
-    useEffect(() => () => cancelActive.current?.(), []);
+    useEffect(() => () => {
+        cancelActive.current?.();
+        releaseCover.current?.();
+    }, []);
 
-    const leave = useCallback((next: () => void) => {
+    const leave = useCallback((next: () => void, from?: string, to?: string) => {
         cancelActive.current?.();
         let animation: Animation | undefined;
         let cancelled = false;
@@ -28,7 +37,8 @@ export default function TransitionProvider({ children }: { children: ReactNode }
         };
         const cancel = () => {
             cancelled = true;
-            reset();
+            // The arriving reveal takes over before its departure cover is removed.
+            if (!advanced) reset();
         };
         cancelActive.current = cancel;
         const advance = () => {
@@ -41,8 +51,11 @@ export default function TransitionProvider({ children }: { children: ReactNode }
             advance();
         };
         try {
+            const ordinary = !!from && !!to && new URL(from, window.location.href).pathname !== "/" && new URL(to, window.location.href).pathname !== "/";
+            if (coverRef.current) coverRef.current.dataset.routeHome = String(!!to && new URL(to, window.location.href).pathname === "/");
+            releaseCover.current = reset;
             animation = coverRef.current?.animate([{ opacity: 0 }, { opacity: 1 }], {
-                duration: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 80 : 250,
+                duration: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 80 : ordinary ? 400 : 250,
                 easing: "cubic-bezier(0.3, 0, 0.3, 1)",
                 fill: "forwards",
             });
@@ -58,6 +71,7 @@ export default function TransitionProvider({ children }: { children: ReactNode }
     return (
         <TransitionRouter auto leave={leave} enter={enter}>
             <div ref={coverRef} data-route-transition className={styles.routeCover} aria-hidden="true">
+                <div className={revealStyles.brand} data-route-brand><BrandMark /></div>
                 <span className={revealStyles.spinner} />
             </div>
             <PageReveal key={pathname} initial={!booted} home={pathname === "/"} onReady={ready} />

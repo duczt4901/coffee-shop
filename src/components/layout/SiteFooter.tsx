@@ -26,17 +26,17 @@ export function SiteFooter() {
                 className={`${styles.footer} relative flex flex-col justify-between gap-12 border-t-2 border-transparent bg-[#ede8dd] px-page pt-24 pb-12 text-foreground md:gap-16 md:pt-12`}
             >
                 <RevealLine thickness={2} className="text-foreground/10" />
-                <div className="flex flex-col items-start justify-between gap-12 md:flex-row md:gap-10">
+                <div className={`${styles.contactRow} flex flex-col items-start justify-between gap-12 md:flex-row md:gap-10`}>
                     <ContactForm />
 
-                    <nav aria-label="Kết nối với Là Vườn" className="flex w-full min-w-0 flex-col gap-6 text-sm text-foreground md:w-60 md:shrink-0">
-                        <RevealLink href={ZALO_URL} variant="border">
+                    <nav aria-label="Kết nối với Là Vườn" className={`${styles.connections} flex w-full min-w-0 flex-col gap-6 text-sm text-foreground md:w-60 md:shrink-0`}>
+                        <RevealLink href={ZALO_URL} variant="border" step={0}>
                             Zalo · {ZALO_PHONE}
                         </RevealLink>
-                        <RevealLink href="#" variant="border">
+                        <RevealLink href="#" variant="border" step={1}>
                             Facebook · ABC
                         </RevealLink>
-                        <RevealLink href="#" variant="border">
+                        <RevealLink href="#" variant="border" step={2}>
                             Email · mail@email.com
                         </RevealLink>
                     </nav>
@@ -74,23 +74,23 @@ export function SiteFooter() {
                     </svg>
                 </EditorialReveal>
 
-                <div className="flex flex-col gap-8 text-sm text-foreground/60 md:flex-row md:flex-wrap md:items-end md:justify-between">
-                    <div className="flex flex-wrap items-center justify-start gap-x-6 gap-y-3 md:gap-x-10">
-                        <RevealLink href="/ve-chung-toi/" variant="border">
+                <div className={`${styles.footerBottom} flex flex-col gap-8 text-sm text-foreground/60 md:flex-row md:flex-wrap md:items-end md:justify-between`}>
+                    <div className={`${styles.footerLinks} flex flex-wrap items-center justify-start gap-x-6 gap-y-3 md:gap-x-10`}>
+                        <RevealLink href="/ve-chung-toi/" variant="border" step={0}>
                             Về chúng tôi
                         </RevealLink>
-                        <RevealLink href="/san-pham/" variant="border">
+                        <RevealLink href="/san-pham/" variant="border" step={1}>
                             Tất cả sản phẩm
                         </RevealLink>
-                        <RevealLink href="/faq/" variant="border">
+                        <RevealLink href="/faq/" variant="border" step={2}>
                             Câu hỏi thường gặp
                         </RevealLink>
-                        <RevealLink href="/lien-he/" variant="border">
+                        <RevealLink href="/lien-he/" variant="border" step={3}>
                             Liên hệ
                         </RevealLink>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-x-6 gap-y-3 md:gap-10">
+                    <div className={`${styles.legal} flex flex-wrap items-center gap-x-6 gap-y-3 md:gap-10`}>
                         <EditorialReveal>
                             <span data-reveal="words">All Rights Reserved</span>
                         </EditorialReveal>

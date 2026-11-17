@@ -5,25 +5,31 @@ import { orderSchema, priceOrder } from "../src/lib/orders";
 import worker, { handleOrder, notifyOrder, type Env } from "../worker/index";
 
 const slug = "trung-toan-coffee-robusta";
-test("disabled checkout returns a real 404 on the static host", async () => {
+test("enabled checkout reaches its static page and old cart URLs redirect there", async () => {
     const env = { ASSETS: { async fetch(request: Request) {
-        assert.equal(new URL(request.url).pathname, "/404.html");
-        return new Response("Not found page", { headers: { "Content-Type": "text/html" } });
+        assert(new URL(request.url).pathname.startsWith("/thanh-toan"));
+        return new Response("Checkout page", { headers: { "Content-Type": "text/html" } });
     } } } as Env;
     for (const path of ["/thanh-toan", "/thanh-toan/", "/thanh-toan/index.html"]) {
         const response = await worker.fetch(new Request(`https://lavuon.example${path}`), env, { waitUntil() {} });
-        assert.equal(response.status, 404);
-        assert.equal(response.headers.get("Cache-Control"), "no-store");
-        assert.equal(await response.text(), "Not found page");
+        assert.equal(response.status, 200);
+        assert.equal(await response.text(), "Checkout page");
+    }
+    for (const path of ["/gio-hang", "/gio-hang/", "/gio-hang/index.html"]) {
+        const response = await worker.fetch(new Request(`https://lavuon.example${path}`), env, { waitUntil() {} });
+        assert.equal(response.status, 301);
+        assert.equal(response.headers.get("Location"), "https://lavuon.example/thanh-toan/");
     }
 });
-test("disabled public checkout cannot reach storage or create orders through the API", async () => {
-    for (const path of ["/api/orders", "/api/orders/", "/api/checkout-config"]) {
-        for (const method of ["GET", "POST"]) {
-            const response = await worker.fetch(new Request(`https://lavuon.example${path}`, { method }), {} as Env, { waitUntil() { throw new Error("No order work allowed"); } });
-            assert.equal(response.status, 404);
-            assert.equal(response.headers.get("Cache-Control"), "no-store");
-        }
+test("enabled checkout exposes shipping config and still validates order requests", async () => {
+    const context = { waitUntil() { throw new Error("Invalid requests must not create orders"); } };
+    const config = await worker.fetch(new Request("https://lavuon.example/api/checkout-config"), {} as Env, context);
+    assert.equal(config.status, 200);
+    assert.equal((await config.json() as { shippingFee: null }).shippingFee, null);
+    assert.equal(config.headers.get("Cache-Control"), "no-store");
+    for (const path of ["/api/orders", "/api/orders/"]) {
+        assert.equal((await worker.fetch(new Request(`https://lavuon.example${path}`), {} as Env, context)).status, 405);
+        assert.equal((await worker.fetch(new Request(`https://lavuon.example${path}`, { method: "POST" }), {} as Env, context)).status, 403);
     }
 });
 test("catalog prices derive from one number while preserving both approved formats", () => {
@@ -118,6 +124,38 @@ test("order endpoint rejects cross-origin requests, oversized bodies and malform
         body: JSON.stringify(input),
     });
     assert.equal((await handleOrder(productionRequest, env, context)).status, 503, "Live orders require configured notifications");
+});
+
+test("enabled order API saves catalog prices and retries the same checkout without duplicating it", async () => {
+    let saved: Record<string, unknown> | null = null;
+    let inserts = 0;
+    const columns = ["id", "order_number", "checkout_key", "request_hash", "customer_json", "items_json", "notes", "subtotal", "shipping_fee", "total", "ip_hash", "created_at"];
+    const env = { DB: { prepare(query: string) {
+        let values: unknown[] = [];
+        return {
+            bind(...next: unknown[]) { values = next; return this; },
+            async first() { return saved; },
+            async run() {
+                assert(query.startsWith("INSERT INTO orders"));
+                inserts++;
+                saved = Object.fromEntries(columns.map((column, index) => [column, values[index]]));
+                saved.email_status = "pending";
+            },
+        };
+    } } } as unknown as Env;
+    const send = (body = input) => worker.fetch(new Request("http://localhost:8787/api/orders", {
+        method: "POST", headers: { Origin: "http://localhost:3000", "Content-Type": "application/json" }, body: JSON.stringify(body),
+    }), env, { waitUntil() {} });
+    const first = await send();
+    assert.equal(first.status, 201);
+    const receipt = await first.json() as { orderNumber: string; subtotal: number; shippingFee: null; total: null };
+    assert.equal(receipt.subtotal, 238000);
+    assert.equal(receipt.shippingFee, null);
+    const retry = await send();
+    assert.equal(retry.status, 200);
+    assert.deepEqual(await retry.json(), receipt);
+    assert.equal(inserts, 1);
+    assert.equal((await send({ ...input, items: [{ slug, quantity: 3 }] })).status, 409);
 });
 
 test("notification uses stored order prices, stable idempotency, and marks sent only after provider acceptance", async () => {

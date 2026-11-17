@@ -12,6 +12,7 @@ import { LinkMarker } from "@/components/ui/LinkMarker";
 import { Dropdown } from "@/components/ui/Dropdown";
 import { Quantity } from "./Quantity";
 import { useCart } from "./useCart";
+import { openCartDrawer } from "./cart-drawer";
 
 export function ProductPurchase({ product }: { product: Product }) {
     const [quantity, setQuantity] = useState(1);
@@ -57,7 +58,7 @@ export function ProductPurchase({ product }: { product: Product }) {
                             </div>
                         </div>
                     </div>
-                    <div data-product-media className="relative order-first mx-auto flex aspect-4/5 w-full max-w-lg items-center justify-center md:order-none">
+                    <div data-reveal="block" data-product-media className="relative order-first mx-auto flex aspect-4/5 w-full max-w-lg items-center justify-center md:order-none">
                         <Image
                             src={product.image}
                             alt={product.name}
@@ -97,7 +98,7 @@ export function ProductPurchase({ product }: { product: Product }) {
                                 {!!feedback?.added && (
                                     <>
                                         Đã thêm {feedback.added} gói.{" "}
-                                        <Link href="/gio-hang/" className="underline underline-offset-4">
+                                        <Link href="/thanh-toan/" data-transition-ignore onNavigate={openCartDrawer} aria-haspopup="dialog" aria-controls="cart-drawer" className="underline underline-offset-4">
                                             Xem giỏ hàng <LinkMarker />
                                         </Link>
                                         <span className="sr-only"> Tổng số gói trong giỏ: {feedback.total}.</span>

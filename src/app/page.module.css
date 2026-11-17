@@ -5,3 +5,9 @@
     transform: translateY(-50%);
     color: var(--background);
 }
+
+.homeSections {
+    display: grid;
+    row-gap: clamp(4rem, 8vw, 9rem);
+    padding-block-start: clamp(2rem, 4vw, 4rem);
+}

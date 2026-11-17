@@ -38,9 +38,9 @@ export default function ProductsPage() {
                     {products.map((product, index) => (
                         <li key={product.slug}>
                             <EditorialReveal>
-                                <div data-reveal="block">
+                                <div>
                                     <Link href={`/san-pham/${product.slug}/`} className={styles.productCard}>
-                                        <div className={styles.productImage}>
+                                        <div data-reveal="block" className={styles.productImage}>
                                             <Image src={product.image} alt={product.name} fill sizes="(min-width: 1024px) 25vw, 50vw" loading="eager" fetchPriority={index === 0 ? "high" : undefined} className={styles.packshot} style={{ objectFit: "contain" }} />
                                             <span className={styles.sizeLabel}>{product.sizeLabel}</span>
                                             {product.badge && <span className={styles.badge}>{product.badge}</span>}

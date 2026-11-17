@@ -3,6 +3,7 @@
 import type { CSSProperties, Ref } from "react";
 import Link from "next/link";
 import { ZALO_PHONE, ZALO_URL } from "@/data/contact";
+import { openCartDrawer } from "@/components/commerce/cart-drawer";
 import styles from "./SiteMenu.module.css";
 
 const MENU_UNDERLINES = [
@@ -54,7 +55,7 @@ export function SiteMenu({ ref, enhanced, open, pathname, links, onClose }: Site
                     <nav aria-label="Khám phá Là Vườn">
                         <p className={styles.menuLabel}>Khám phá</p>
                         <Link href="/san-pham/" onClick={onClose}>Tất cả sản phẩm</Link>
-                        <Link href="/gio-hang/" onClick={onClose}>Giỏ hàng</Link>
+                        <Link href="/thanh-toan/" data-transition-ignore onClick={onClose} onNavigate={openCartDrawer} aria-haspopup="dialog" aria-controls="cart-drawer">Giỏ hàng</Link>
                         <Link href="/faq/" onClick={onClose}>Câu hỏi thường gặp</Link>
                     </nav>
                     <nav aria-label="Liên hệ Là Vườn">

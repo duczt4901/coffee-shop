@@ -3,10 +3,11 @@
 import Link from "next/link";
 import { useEffect, useRef, useState, type SubmitEvent } from "react";
 import { Button } from "@/components/ui/Button";
-import { RevealLine } from "@/components/ui/EditorialReveal";
+import { EditorialReveal, RevealLine } from "@/components/ui/EditorialReveal";
 import { LinkMarker } from "@/components/ui/LinkMarker";
 import { formatPrice, FREE_SHIPPING_THRESHOLD } from "@/lib/commerce";
 import { useCart } from "./useCart";
+import { CartItems } from "./CartItems";
 import styles from "./Commerce.module.css";
 
 type Receipt = { orderNumber: string; subtotal: number; shippingFee: number | null; total: number | null };
@@ -73,18 +74,13 @@ export function CheckoutPage() {
     return (
         <article className={styles.page}>
             <div className={styles.container}>
-                <nav aria-label="Các bước đặt hàng" className={styles.steps}>
-                    <Link href="/gio-hang/">01 / Giỏ hàng</Link>
-                    <Link href="/thanh-toan/" aria-current="step">
-                        02 / Thanh toán
-                    </Link>
-                </nav>
                 <h1 className={styles.heading}>{receipt ? "Cảm ơn bạn." : "Thanh toán"}</h1>
                 <noscript>
                     <p className={styles.summaryNote}>
                         Thanh toán cần JavaScript để đọc giỏ hàng trên thiết bị và gửi đơn. Bạn có thể <Link href="/san-pham/" className={styles.textLink}>xem sản phẩm</Link> hoặc <Link href="/lien-he/" className={styles.textLink}>liên hệ cửa hàng để đặt hàng</Link>.
                     </p>
                 </noscript>
+                <EditorialReveal key={String(cart.ready)}>
                 {receipt ? (
                     <div ref={receiptRef} tabIndex={-1} className={styles.receipt} role="status">
                         <p className={styles.receiptId}>Đơn hàng {receipt.orderNumber}</p>
@@ -102,16 +98,15 @@ export function CheckoutPage() {
                         </p>
                         <Button href="/san-pham/">Tiếp tục mua sắm</Button>
                     </div>
-                ) : !cart.ready ? (
-                    <p role="status">Đang tải đơn hàng…</p>
-                ) : !cart.items.length ? (
-                    <div className={styles.empty}>
-                        <p>Chưa có sản phẩm để thanh toán.</p>
-                        <Button href="/san-pham/">Xem sản phẩm</Button>
-                    </div>
                 ) : (
+                    <>
+                    <section id="checkout-cart" className={styles.checkoutCart} aria-labelledby="checkout-cart-title">
+                        <h2 id="checkout-cart-title" className={styles.sectionTitle}>Giỏ hàng <span className="font-sans text-sm">({cart.count})</span></h2>
+                        <CartItems disabled={sending} />
+                    </section>
+                    {cart.ready && cart.items.length > 0 && (
                     <form onSubmit={submit} className={styles.layout}>
-                        <fieldset disabled={sending} className={styles.form}>
+                        <fieldset id="checkout-information" disabled={sending} className={styles.form}>
                             <legend className={styles.sectionTitle}>Thông tin giao hàng</legend>
                             <div className={styles.fields}>
                                 <label className={`${styles.field} ${styles.wide}`}>
@@ -162,10 +157,10 @@ export function CheckoutPage() {
                             </div>
                         </fieldset>
                         <aside className={styles.summary}>
-                            <h2>Đơn hàng của bạn</h2>
+                            <h2 data-reveal-step={0}>Đơn hàng của bạn</h2>
                             <dl>
-                                {cart.lines.map((line) => (
-                                    <div key={line.slug} className={styles.summaryRow}>
+                                {cart.lines.map((line, index) => (
+                                    <div key={line.slug} data-reveal-step={index + 1} className={styles.summaryRow}>
                                         <RevealLine side="bottom" className="text-foreground/15" />
                                         <dt>
                                             {line.product.name}
@@ -177,17 +172,17 @@ export function CheckoutPage() {
                                         <dd>{formatPrice(line.lineTotal)}</dd>
                                     </div>
                                 ))}
-                                <div className={styles.summaryRow}>
+                                <div data-reveal-step={cart.lines.length + 1} className={styles.summaryRow}>
                                     <RevealLine side="bottom" className="text-foreground/15" />
                                     <dt>Tạm tính</dt>
                                     <dd>{formatPrice(cart.subtotal)}</dd>
                                 </div>
-                                <div className={styles.summaryRow}>
+                                <div data-reveal-step={cart.lines.length + 2} className={styles.summaryRow}>
                                     <RevealLine side="bottom" className="text-foreground/15" />
                                     <dt>Giao hàng</dt>
                                     <dd>{shipping === null ? "Cửa hàng xác nhận" : shipping === 0 ? "Miễn phí" : formatPrice(shipping)}</dd>
                                 </div>
-                                <div className={`${styles.summaryRow} ${styles.total}`}>
+                                <div data-reveal-step={cart.lines.length + 3} className={`${styles.summaryRow} ${styles.total}`}>
                                     <RevealLine side="bottom" className="text-foreground/15" />
                                     <dt>{shipping === null ? "Tổng tiền hàng" : "Tổng thanh toán"}</dt>
                                     <dd>{formatPrice(cart.subtotal + (shipping ?? 0))}</dd>
@@ -208,12 +203,15 @@ export function CheckoutPage() {
                                     ? "Chưa bao gồm phí giao hàng. Cửa hàng sẽ xác nhận khoản phí này với bạn trước khi gửi hàng."
                                     : "Không cần thanh toán trước."}
                             </p>
-                            <Link href="/gio-hang/" className={`${styles.textLink} ${styles.continue}`}>
+                            <a href="#checkout-cart" className={`${styles.textLink} ${styles.continue}`}>
                                 Chỉnh sửa giỏ hàng
-                            </Link>
+                            </a>
                         </aside>
                     </form>
+                    )}
+                    </>
                 )}
+                </EditorialReveal>
             </div>
         </article>
     );

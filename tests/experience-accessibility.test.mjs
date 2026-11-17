@@ -20,11 +20,11 @@ function load(file, imports = {}, globals = {}) {
     return exports;
 }
 
-function footer(reduced) {
+function footer(reduced, { width = 1280, height = 800, nativeCSS = false } = {}) {
     const updates = new Set(), changes = new Set();
     let top = 400, measurements = 0;
     const window = { matchMedia: (query) => ({
-        get matches() { return !query.includes("no-preference") || !reduced; },
+        get matches() { return (!query.includes("no-preference") || !reduced) && (!query.includes("min-width: 64rem") || width >= 1024) && (!query.includes("min-height: 38rem") || height >= 608); },
         addEventListener: (_event, callback) => changes.add(callback),
         removeEventListener: (_event, callback) => changes.delete(callback),
     }) };
@@ -34,12 +34,12 @@ function footer(reduced) {
             observeMotion: native.observeMotion,
             observeScroll(update) { updates.add(update); update(); return () => updates.delete(update); },
         },
-        "@/lib/scroll-viewport": { getScrollViewportHeight: () => 800 },
-    });
+        "@/lib/scroll-viewport": { getScrollViewportHeight: () => height },
+    }, { CSS: { supports: () => nativeCSS } });
     const style = { removeProperty(name) { delete this[name]; } };
     const stop = setupFooterParallax({
         querySelector: () => ({ style }),
-        getBoundingClientRect: () => { measurements++; return { top }; },
+        getBoundingClientRect: () => { measurements++; return { top, height }; },
     });
     return { style, stop, subscribers: () => updates.size, measurements: () => measurements, listeners: () => changes.size,
         move(value) { top = value; updates.forEach((update) => update()); },
@@ -73,6 +73,23 @@ test("footer retains its normal range and cleans up when reduced motion changes"
     mounted.stop();
     assert.equal(mounted.style.transform, undefined);
     assert.equal(mounted.subscribers(), 0);
+    assert.equal(mounted.listeners(), 0);
+});
+
+test("mobile footer fallback has the same depth without a desktop breakpoint", () => {
+    const mounted = footer(false, { width: 390, height: 844 });
+    mounted.move(422);
+    assert.equal(mounted.style.transform, "translateY(-25%)");
+    mounted.move(0);
+    assert.equal(mounted.style.transform, "translateY(0%)");
+    mounted.stop();
+});
+
+test("native footer timeline does not register JavaScript scroll work", () => {
+    const mounted = footer(false, { width: 390, nativeCSS: true });
+    assert.equal(mounted.style.transform, undefined);
+    assert.equal(mounted.subscribers(), 0);
+    assert.equal(mounted.measurements(), 0);
     assert.equal(mounted.listeners(), 0);
 });
 

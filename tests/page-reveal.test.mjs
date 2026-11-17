@@ -14,31 +14,38 @@ const component = compile("src/components/layout/PageReveal.tsx");
 const flush = () => new Promise(resolve => setImmediate(resolve));
 function deferred() { let resolve, reject; const promise = new Promise((yes, no) => { resolve = yes; reject = no; }); return { promise, resolve, reject }; }
 
-function mount({ initial = true, home = initial, reduced = false, scrollY = 0, hash = "", age = 0, escaped = false, stopped = false, throwAt = -1, heroTop = 200 } = {}) {
+function mount({ initial = true, home = initial, reduced = false, scrollY = 0, hash = "", age = 0, escaped = false, stopped = false, throwAt = -1, heroTop = 200, entryBounds = [{ top: 100, bottom: 180, width: 500, height: 80 }] } = {}) {
     const animations = [], timers = new Map(), frames = new Map();
     const fonts = deferred(), image = deferred();
-    let id = 0, calls = 0, stops = 0, starts = 0;
+    let id = 0, calls = 0, stops = 0, starts = 0, entryQueries = 0;
     const animate = (_frames, timing) => {
         if (calls++ === throwAt) throw Error("Animation API failed");
         const result = deferred();
         const animation = { frames: _frames, finished: result.promise, resolve: result.resolve, timing, cancelled: false, hiddenAtCancel: false, cancel() { this.hiddenAtCancel = overlay.hidden; this.cancelled = true; result.reject(Error("cancelled")); } };
         animations.push(animation); return animation;
     };
-    const node = (target, bounds) => ({ getBoundingClientRect: () => bounds, animate(frames, timing) { const animation = animate(frames, timing); animation.target = target; return animation; } });
+    const node = (target, bounds) => ({ parentElement: null, closest() { return this; }, getBoundingClientRect: () => bounds, animate(frames, timing) { const animation = animate(frames, timing); animation.target = target; return animation; } });
+    const entryTargets = entryBounds.map((bounds, index) => ({ ...node(`entry-${index}`, bounds), dataset: bounds.unmarked ? {} : { reveal: bounds.mode ?? "lines" }, tagName: bounds.tagName ?? "P", textContent: "Static copy", querySelector: () => bounds.container ? {} : null,
+        closest: () => null, parentElement: null }));
+    entryTargets.forEach((target, index) => {
+        if (entryBounds[index].nested) target.parentElement = entryTargets[0];
+        target.closest = selector => selector.includes("data-reveal-skip") ? (entryBounds[index].blocked ? {} : null)
+            : selector === "[data-reveal-step]" && entryBounds[index].step !== undefined ? { dataset: { revealStep: String(entryBounds[index].step) } } : null;
+    });
     const brand = node("brand", { left: 420, top: 300, width: 160, height: 160 });
     const logo = node("heroMark", { left: 480, top: heroTop, width: 40, height: 40 });
     const curtain = node("curtain");
     const heroBrand = { querySelector: () => logo, querySelectorAll: () => [node("heroName"), node("heroSlogan")] };
-    const overlay = { hidden: false, isConnected: true, dataset: { revealState: "waiting", revealHome: String(home) }, animate, querySelector: selector => selector === "[data-reveal-curtain]" ? curtain : brand };
+    const overlay = { hidden: false, isConnected: true, dataset: { revealState: "waiting", revealHome: String(home) }, animate(frames, timing) { const animation = animate(frames, timing); animation.target = "overlay"; return animation; }, querySelector: selector => selector === "[data-reveal-curtain]" ? curtain : brand };
     const root = { style: { overflow: "scroll" }, dataset: {} }, content = [{ inert: false }, { inert: true }];
     const lenis = { isStopped: stopped, stop() { stops++; this.isStopped = true; }, start() { starts++; this.isStopped = false; } };
     const events = Object.assign(new EventTarget(), { scrollY, innerHeight: 800, location: { hash }, __lavuonLenis: lenis, matchMedia: query => ({ matches: query.includes("prefers-reduced-motion") && reduced }) });
     const exports = {};
     const context = {
         exports, window: undefined, Event, performance: { now: () => age }, getComputedStyle: () => ({ visibility: escaped ? "hidden" : "visible" }),
-        document: { documentElement: root, fonts: { ready: fonts.promise }, querySelectorAll: () => content,
+        document: { documentElement: root, fonts: { ready: fonts.promise }, querySelectorAll(selector) { if (selector.includes("data-page-entry")) { entryQueries++; return entryTargets; } return content; },
             querySelector: selector => selector.startsWith("[data-page-reveal]") ? (initial ? overlay : null)
-                : selector === "main" ? { querySelector: () => ({ poster: "/poster.webp" }) }
+                : selector === "main" ? { querySelector: () => ({ poster: "/poster.webp" }), querySelectorAll() { entryQueries++; return entryTargets; } }
                 : selector === "[data-hero-brand]" ? (home ? heroBrand : null) : node(selector),
         },
         Image: class { decode() { return image.promise; } },
@@ -57,7 +64,7 @@ function mount({ initial = true, home = initial, reduced = false, scrollY = 0, h
     } });
     const markup = client.PageReveal({ initial, home, onReady() {} });
     return {
-        markup, root, content, lenis, animations, overlay, timers, frames, events,
+        markup, root, content, lenis, animations, overlay, timers, frames, events, entryTargets, entryQueries: () => entryQueries,
         install() { context.window = events; exports.installPageRevealRuntime(); },
         start() { context.window = events; exports.installPageRevealRuntime(); const cleanup = events.__lavuonReveal.attach(overlay, initial, home, () => {}); return () => { overlay.isConnected = false; cleanup(); }; },
         phase: () => overlay.dataset.revealState, starts: () => starts, stops: () => stops,
@@ -121,6 +128,7 @@ test("a bootstrap arriving after the CSS escape never covers the visible page ag
     assert.equal(intro.root.dataset.initialReveal, "done");
     assert.equal(intro.root.style.overflow, "scroll");
     assert.equal(intro.animations.length, 0);
+    assert(intro.events.__lavuonReveal.ownsEntry(intro.entryTargets[0]), "late editorial hydration must leave already exposed copy visible");
     cleanup();
 });
 
@@ -277,23 +285,24 @@ test("even an instant route commit reveals without waiting for media or fonts", 
     await flush();
     intro.paint();
     assert.equal(intro.phase(), "opening");
-    assert.equal(intro.animations[0].timing.duration, 600);
+    assert.equal(intro.animations.find(animation => animation.target === "overlay").timing.duration, 800);
     assert.equal(intro.root.style.overflow, "hidden");
     cleanup();
 });
 
-test("ordinary arrivals reveal the entire viewport with one curtain and no blur or per-node animation", async () => {
+test("ordinary arrivals fade a stationary loading cover and reveal content groups separately", async () => {
     for (const initial of [true, false]) {
         const intro = mount({ initial, home: false, scrollY: 1500 });
         const cleanup = intro.start();
         await intro.ready();
         intro.paint();
-        const curtain = intro.animations[0];
-        assert(curtain);
-        assert.equal(curtain.timing.duration, 600);
-        assert.deepEqual(Array.from(curtain.frames, frame => frame.transform), ["translateY(0%)", "translateY(-100%)"]);
+        const cover = intro.animations.find(animation => animation.target === "overlay");
+        assert(cover);
+        assert.equal(cover.timing.duration, 800);
+        assert.deepEqual(Array.from(cover.frames, frame => frame.opacity), [1, 0]);
+        assert(cover.frames.every(frame => !("transform" in frame) && !("clipPath" in frame)));
         assert(intro.animations.every(animation => animation.frames.every(frame => !("filter" in frame))));
-        assert.equal(intro.animations.length, initial ? 4 : 3, "curtain replaces the existing fade; no animation per content node");
+        assert.equal(intro.animations.filter(animation => animation.target.startsWith("entry-")).length, 1);
         assert.equal(intro.events.scrollY, 1500);
         intro.animations.forEach(animation => animation.resolve());
         await flush();
@@ -301,6 +310,57 @@ test("ordinary arrivals reveal the entire viewport with one curtain and no blur 
         assert.equal(intro.overlay.hidden, true);
         cleanup();
     }
+});
+
+test("arrival owns only visible top-level groups, staggers them and unlocks before their animation ends", async () => {
+    const intro = mount({ initial: false, entryBounds: [
+        { top: 100, bottom: 180, width: 500, height: 80 },
+        { top: 220, bottom: 320, width: 500, height: 100 },
+        { top: 900, bottom: 980, width: 500, height: 80 },
+        { top: 120, bottom: 160, width: 200, height: 40, nested: true },
+    ] });
+    const cleanup = intro.start(); await flush(); intro.paint();
+    const entries = intro.animations.filter(animation => animation.target.startsWith("entry-"));
+    assert.equal(entries.length, 2);
+    assert.deepEqual(entries.map(animation => animation.timing.delay), [200, 300]);
+    assert(entries.every(animation => animation.timing.duration === 1600));
+    assert(intro.events.__lavuonReveal.ownsEntry(intro.entryTargets[0]));
+    assert(!intro.events.__lavuonReveal.ownsEntry(intro.entryTargets[2]));
+    intro.animations.find(animation => animation.target === "overlay").resolve(); await flush();
+    assert.equal(intro.root.style.overflow, "scroll");
+    assert.equal(intro.root.dataset.revealActive, "false");
+    assert(entries.every(animation => !animation.cancelled), "text continues after input unlocks");
+    cleanup();
+    assert(entries.every(animation => animation.cancelled), "navigation cancels unfinished content motion");
+});
+
+test("arrival respects explicit row steps and restarts independent groups", async () => {
+    const bounds = { top: 100, bottom: 180, width: 500, height: 80 };
+    const intro = mount({ initial: false, entryBounds: [
+        ...[0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 0].map(step => ({ ...bounds, step })),
+    ] });
+    const cleanup = intro.start(); await flush(); intro.paint();
+    const entries = intro.animations.filter(animation => animation.target.startsWith("entry-"));
+    assert.deepEqual(entries.map(animation => animation.timing.delay), [200, 200, 380, 380, 560, 560, 740, 740, 920, 920, 200]);
+    assert(intro.entryTargets.every(target => !target.dataset.revealStep), "sequence metadata stays on its SSR owner");
+    cleanup();
+});
+
+test("static text and rules share entry motion without changing SSR attributes or delaying long lists", async () => {
+    const bounds = { top: 100, bottom: 180, width: 500, height: 80 };
+    const intro = mount({ initial: false, entryBounds: [
+        ...Array.from({ length: 9 }, () => ({ ...bounds, unmarked: true })),
+        { ...bounds, mode: "border" },
+        { ...bounds, unmarked: true, blocked: true },
+        { ...bounds, unmarked: true, container: true },
+    ] });
+    const cleanup = intro.start(); await flush(); intro.paint();
+    const entries = intro.animations.filter(animation => animation.target.startsWith("entry-"));
+    assert.equal(entries.length, 10, "live/managed copy and containers are excluded");
+    assert(entries.every(animation => animation.timing.delay <= 700));
+    assert.deepEqual(Array.from(entries[9].frames, frame => frame.transform), ["scaleX(0)", "scaleX(1)"]);
+    assert(intro.entryTargets.slice(0, 9).every(target => Object.keys(target.dataset).length === 0), "pre-hydration discovery must not mutate markup");
+    cleanup();
 });
 
 test("reduced motion uses a short opacity reveal on every route", async () => {
@@ -317,16 +377,17 @@ test("reduced motion uses a short opacity reveal on every route", async () => {
     cleanup();
 });
 
-test("cached navigation home still reveals the whole hero with its poster, without a new loading logo", async () => {
+test("cached navigation home reveals with a continuous logo handoff instead of an empty brown screen", async () => {
     const intro = mount({ initial: false, home: true });
     const cleanup = intro.start();
     await flush();
     intro.paint();
     assert.equal(intro.animations[0].target, "curtain");
     assert.equal(intro.animations[0].timing.duration, 900);
-    assert(!intro.animations.some(animation => animation.target === "brand"));
+    assert(intro.animations.some(animation => animation.target === "brand"));
     assert(intro.animations.some(animation => animation.target === "heroName"));
     assert(intro.animations.some(animation => animation.target === "heroSlogan"));
+    assert.equal(intro.entryQueries(), 0, "homepage never enters the ordinary content controller");
     cleanup();
 });
 

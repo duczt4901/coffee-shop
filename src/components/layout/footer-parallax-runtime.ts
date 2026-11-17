@@ -4,9 +4,12 @@ import { getScrollViewportHeight } from "@/lib/scroll-viewport";
 export function setupFooterParallax(wrapper: HTMLElement) {
     const footer = wrapper.querySelector<HTMLElement>("[data-site-footer]");
     if (!footer) return;
-    return observeMotion("(min-width: 64rem) and (min-height: 38rem) and (prefers-reduced-motion: no-preference)", () => {
+    if (typeof CSS !== "undefined" && CSS.supports("(animation-timeline: view()) and (animation-range: entry)")) return;
+    return observeMotion("(prefers-reduced-motion: no-preference)", () => {
         const stop = observeScroll(() => {
-            const progress = Math.max(0, Math.min(1, 1 - wrapper.getBoundingClientRect().top / getScrollViewportHeight()));
+            const bounds = wrapper.getBoundingClientRect();
+            const viewport = getScrollViewportHeight();
+            const progress = Math.max(0, Math.min(1, (viewport - bounds.top) / Math.max(1, Math.min(viewport, bounds.height || viewport))));
             footer.style.transform = `translateY(${(progress - 1) * 50}%)`;
         });
         return () => {

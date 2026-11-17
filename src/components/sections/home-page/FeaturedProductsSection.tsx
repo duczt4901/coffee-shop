@@ -28,9 +28,10 @@ export function FeaturedProductsSection() {
                 <EditorialReveal>
                     <div className="grid grid-cols-1 gap-x-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
                         {products.map((product) => (
-                            <article data-reveal="block" key={product.slug} className="group">
+                            <article key={product.slug} className="group">
                                 {/* Product image */}
                                 <Link
+                                    data-reveal="block"
                                     href={`/san-pham/${product.slug}/`}
                                     className="relative flex aspect-4/5 items-center justify-center overflow-hidden bg-[#ede8dd]"
                                     aria-label={`Xem ${product.name}`}

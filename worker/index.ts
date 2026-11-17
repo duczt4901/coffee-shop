@@ -181,6 +181,7 @@ export async function handleOrder(request: Request, env: Env, context: { waitUnt
 const worker = {
     async fetch(request: Request, env: Env, context: { waitUntil(promise: Promise<unknown>): void }) {
         const path = new URL(request.url).pathname.replace(/\/$/, "");
+        if (path === "/gio-hang" || path === "/gio-hang/index.html") return Response.redirect(new URL("/thanh-toan/", request.url), 301);
         if (!CHECKOUT_ENABLED && (path === "/thanh-toan" || path.startsWith("/thanh-toan/"))) {
             const page = await env.ASSETS.fetch(new Request(new URL("/404.html", request.url)));
             const headers = new Headers(page.headers);

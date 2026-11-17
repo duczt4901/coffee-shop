@@ -10,7 +10,7 @@ import styles from "./EditorialReveal.module.css";
 import { Button } from "./Button";
 import { LinkMarker } from "./LinkMarker";
 
-export function EditorialReveal({ children }: { children: ReactNode }) {
+export function EditorialReveal({ children, step }: { children: ReactNode; step?: number }) {
     const scopeRef = useRef<HTMLDivElement>(null);
     const pathname = usePathname();
 
@@ -18,13 +18,13 @@ export function EditorialReveal({ children }: { children: ReactNode }) {
         const scope = scopeRef.current;
         if (!scope) return;
         // display:contents has no intersection box; observe its first rendered child.
-        const anchor = scope.firstElementChild;
+        const anchor = scope.parentElement?.matches("main") ? scope.parentElement : scope.firstElementChild;
         if (!anchor) return;
         return enhanceWhenVisible(anchor, () => import("./editorial-reveal-runtime").then(module => () => module.setupEditorialReveal(scope)));
     }, [pathname]);
 
     return (
-        <div ref={scopeRef} className={styles.scope} data-editorial-reveal>
+        <div ref={scopeRef} className={styles.scope} data-editorial-reveal data-reveal-step={step}>
             {children}
         </div>
     );
@@ -43,11 +43,13 @@ export function RevealLink({
     children,
     variant = "button",
     className = "",
+    step,
 }: {
     href: string;
     children: ReactNode;
     variant?: "button" | "border";
     className?: string;
+    step?: number;
 }) {
     const router = useRouter();
     const navigateAnchor = (event: { preventDefault: () => void }) => {
@@ -64,7 +66,7 @@ export function RevealLink({
     const bordered = variant === "border";
     if (!bordered)
         return (
-            <EditorialReveal>
+            <EditorialReveal step={step}>
                 <Button href={href} className={className} onNavigate={navigateAnchor}>
                     <span data-reveal="words" className={styles.label}>
                         {children}
@@ -73,7 +75,7 @@ export function RevealLink({
             </EditorialReveal>
         );
     return (
-        <EditorialReveal>
+        <EditorialReveal step={step}>
             <Link href={href} className={`${styles.borderLink} ${className}`} onNavigate={navigateAnchor}>
                 {bordered && <span aria-hidden="true" data-reveal="border" data-reveal-border className={styles.border} />}
                 <span data-reveal="words" className={styles.label}>

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { useCart } from "./useCart";
+import { openCartDrawer } from "./cart-drawer";
 import styles from "./Commerce.module.css";
 
 export function CartLink({ onClick }: { onClick?: () => void }) {
@@ -21,7 +22,7 @@ export function CartLink({ onClick }: { onClick?: () => void }) {
         return () => animation?.cancel();
     }, [count, ready]);
     return (
-        <Link href="/gio-hang/" onClick={onClick} aria-label={`Giỏ hàng, ${count} sản phẩm`} className={styles.cartLink}>
+        <Link href="/thanh-toan/" data-transition-ignore onNavigate={openCartDrawer} onClick={onClick} aria-haspopup="dialog" aria-controls="cart-drawer" aria-label={`Giỏ hàng, ${count} sản phẩm`} className={styles.cartLink}>
             <span className={styles.cartIcon}>
                 <svg width="23" height="25" viewBox="0 0 24 26" fill="none" aria-hidden="true">
                     <path d="M4 8h16l1 15H3L4 8Z" stroke="currentColor" strokeWidth="1.3" />

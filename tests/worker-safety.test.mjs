@@ -14,14 +14,15 @@ const { default: worker } = await importTypeScript(new URL("../worker/index.ts",
     "../src/lib/commerce": commerce,
 });
 
-test("disabled checkout cron never reads stored customer orders or sends notifications", async () => {
+test("enabled checkout cron reads pending orders and tolerates an unconfigured database", async () => {
     let databaseAccessed = false;
     await worker.scheduled({}, {
-        get DB() {
+        DB: { prepare(query) {
+            assert.match(query, /email_status = 'pending'/);
             databaseAccessed = true;
-            throw new Error("Disabled checkout must not access orders");
-        },
+            return { async all() { return { results: [] }; } };
+        } },
     });
-    assert.equal(databaseAccessed, false);
+    assert.equal(databaseAccessed, true);
     await worker.scheduled({}, {});
 });

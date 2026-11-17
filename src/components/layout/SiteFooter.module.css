@@ -42,3 +42,60 @@
 .revealBoundary:has(:focus-visible) > footer {
     transform: none !important;
 }
+
+@supports ((animation-timeline: view()) and (animation-range: entry)) {
+    @media (prefers-reduced-motion: no-preference) {
+        .revealBoundary {
+            view-timeline: --footer-parallax block;
+        }
+        .footer {
+            animation: footer-parallax linear both;
+            animation-timeline: --footer-parallax;
+            animation-range: entry 0% entry 100%;
+        }
+    }
+}
+
+@keyframes footer-parallax {
+    from { transform: translateY(-50%); }
+    to { transform: translateY(0); }
+}
+
+@media (max-width: 47.999rem) {
+    .footer {
+        min-block-size: 0;
+        justify-content: flex-start;
+        gap: 2.5rem;
+        padding: 3rem 1.25rem max(1.5rem, env(safe-area-inset-bottom));
+    }
+    .contactRow {
+        gap: 2rem;
+    }
+    .contactRow form {
+        gap: 0.75rem;
+    }
+    .connections {
+        gap: 0;
+    }
+    .pressedMark {
+        color: color-mix(in oklab, #ede8dd, var(--foreground) 25%);
+    }
+    .footerBottom {
+        gap: 1.5rem;
+    }
+    .footerLinks {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0 1.25rem;
+        inline-size: 100%;
+    }
+    .footerLinks a {
+        gap: 0.5rem;
+        font-size: 0.8125rem;
+    }
+    .legal {
+        justify-content: space-between;
+        gap: 1rem;
+        font-size: 0.75rem;
+    }
+}

@@ -11,6 +11,8 @@ import { cormorantUpright, lexend } from "@/styles/font";
 import { PageScrollbar } from "@/components/layout/PageScrollbar";
 import SmoothScroll from "@/providers/SmoothScroll";
 import "lenis/dist/lenis.css";
+import { EditorialReveal } from "@/components/ui/EditorialReveal";
+import { CartDrawer } from "@/components/commerce/CartDrawer";
 
 export const metadata: Metadata = {
     metadataBase: new URL(database.site.url),
@@ -51,10 +53,11 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
                     <TransitionProvider>
                         <div data-site-content suppressHydrationWarning>
                             <SiteHeader />
-                            <main id="main-content">{children}</main>
+                            <main id="main-content"><EditorialReveal>{children}</EditorialReveal></main>
                             <SiteFooter />
                             <PageScrollbar />
                         </div>
+                        <CartDrawer />
                     </TransitionProvider>
                 </SmoothScroll>
                 <script src="/scripts/page-reveal.js" defer fetchPriority="high" />

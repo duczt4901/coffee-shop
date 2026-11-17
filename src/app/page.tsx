@@ -20,12 +20,14 @@ export default function HomePage(): ReactElement {
         <>
             <ImmersivePage backdrop={<HeroVideo />} heroContent={<div data-hero-brand className={styles.heroBrand}><BrandIntro heading /></div>}>
                 {/* <BenefitsSection /> */}
-                <CoffeeBagExperience />
-                <CoffeeOriginSection />
-                <ProcessGallerySection />
-                <section className="bg-background text-foreground">
-                    <FeaturedProductsSection />
-                </section>
+                <div className={styles.homeSections}>
+                    <CoffeeBagExperience />
+                    <CoffeeOriginSection />
+                    <ProcessGallerySection />
+                    <section className="bg-background text-foreground">
+                        <FeaturedProductsSection />
+                    </section>
+                </div>
             </ImmersivePage>
         </>
     );

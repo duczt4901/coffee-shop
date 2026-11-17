@@ -28,7 +28,9 @@ const modules = {
     "@/lib/scroll-viewport": { getScrollViewportHeight: () => 800 },
     "@/data/contact": { ZALO_PHONE: "0356597539", ZALO_URL: "https://zalo.me/0356597539" },
     "@/components/ui/ScribbleText": { ScribbleText: { Root: Pass, Item: ({ href, text }) => React.createElement("a", { href }, text) } },
-    "@/components/commerce/CartLink": { CartLink: () => React.createElement("a", { href: "/gio-hang/" }, "Giỏ hàng") },
+    "@/components/commerce/CartLink": { CartLink: () => React.createElement("a", { href: "/thanh-toan/" }, "Giỏ hàng") },
+    "@/components/commerce/cart-drawer": { openCartDrawer() {} },
+    "./cart-drawer": { openCartDrawer() {} },
     "@/components/ui/EditorialReveal": { EditorialReveal: Pass, RevealLink: Link, RevealLine: () => null },
     "./Chevron": { ChevronDownIcon: () => React.createElement("svg") },
 };
@@ -119,6 +121,15 @@ test("benefits use a plain heading, empty icon slots and a native dismissible po
     assert(html.includes("700000 ₫"), "free shipping follows the real commerce threshold");
 });
 
+test("about hero starts with a readable light logo while product heroes keep their dark logo", () => {
+    for (const [pathname, light] of [["/ve-chung-toi/", true], ["/san-pham/robusta/", false]]) {
+        const { SiteHeader } = load("src/components/layout/SiteHeader.tsx", { "next/navigation": { usePathname: () => pathname } });
+        const html = renderToStaticMarkup(React.createElement(SiteHeader));
+        assert(html.includes(`data-light-logo="${light}"`));
+        assert(html.includes('data-over-hero="true"'));
+    }
+});
+
 test("footer mark, legal text and contact controls have reveals without hiding server HTML", () => {
     const { Button } = load("src/components/ui/Button.tsx");
     const { ContactForm } = load("src/components/ui/ContactForm.tsx", {
@@ -134,26 +145,35 @@ test("footer mark, legal text and contact controls have reveals without hiding s
     assert(html.includes('href="https://zalo.me/0356597539"'));
     assert.match(html, /data-reveal="words">All Rights Reserved<\/span>/);
     assert.match(html, /data-reveal="words">Credits<\/span>/);
-    assert.match(html, /<div data-reveal="block"[^>]*>[\s\S]*name="contactInfo"/);
+    assert.match(html, /<input data-reveal="lines"[^>]*name="contactInfo"/);
+    assert.match(html, /<button[^>]*data-reveal="lines"[^>]*>gửi<\/button>/);
     assert.match(html, /<p data-reveal="lines"[^>]*>Kênh gửi tư vấn/);
     assert(!html.includes("data-reveal-pending"));
 });
 
-test("cart keeps its items and replaces checkout links with the Zalo contact", () => {
+test("shared cart items preserve quantity and removal controls inside checkout and the drawer", () => {
     const { Button } = load("src/components/ui/Button.tsx");
-    const { CartPage } = load("src/components/commerce/CartPage.tsx", {
+    const { CartItems } = load("src/components/commerce/CartItems.tsx", {
         "@/components/ui/Button": { Button },
         "@/components/ui/LinkMarker": { LinkMarker: () => null },
         "@/lib/commerce": { formatPrice: value => `${value} ₫`, FREE_SHIPPING_THRESHOLD: 500000 },
         "./Quantity": { Quantity: () => null },
         "./useCart": { useCart: () => ({ ready: true, count: 1, items: [{ slug: "coffee", quantity: 1 }], subtotal: 119000, lines: [{ slug: "coffee", quantity: 1, lineTotal: 119000, product: { slug: "coffee", name: "Là Vườn Coffee Robusta", image: "/coffee.webp", priceVnd: 119000, sizeLabel: "200 g" } }] }) },
     });
-    const html = renderToStaticMarkup(React.createElement(CartPage));
+    const html = renderToStaticMarkup(React.createElement(CartItems));
     assert(html.includes("Là Vườn Coffee Robusta"));
-    assert(html.includes("0356597539"));
-    assert.equal((html.match(/href="https:\/\/zalo.me\/0356597539"/g) ?? []).length, 2);
-    assert(!html.includes('href="/thanh-toan/"'));
-    assert(!html.includes("Tiến hành thanh toán"));
+    assert(html.includes('data-cart-item="coffee"'));
+    assert(html.includes('aria-label="Xóa Là Vườn Coffee Robusta"'));
+    assert(!html.includes('href="/gio-hang/"'));
+});
+
+test("enabled checkout route mounts its form", () => {
+    const { default: Page } = load("src/app/thanh-toan/page.tsx", {
+        "@/lib/commerce": { CHECKOUT_ENABLED: true },
+        "next/navigation": { notFound() { throw new Error("NOT_FOUND"); } },
+        "@/components/commerce/CheckoutPage": { CheckoutPage: () => React.createElement("form", { "data-checkout": true }) },
+    });
+    assert.match(renderToStaticMarkup(React.createElement(Page)), /data-checkout/);
 });
 
 test("disabled checkout route returns not found before mounting its form", () => {
@@ -174,15 +194,22 @@ test("header tracks hero boundaries on home and product pages without moving the
             "@/components/ui/useEnhancedDisclosure": { useEnhancedDisclosure: () => ({ detailsRef: {}, panelRef: {}, enhanced: false, open: false, nativeOpen: false, setOpen() {} }) },
             "@/lib/native-motion": { observeScroll(update) { sync = update; update(); return () => { stopped = true; }; } },
             "next/navigation": { usePathname: () => pathname },
-        }, { document: { querySelector: () => ({ getBoundingClientRect: () => ({ bottom }) }) }, window: events });
+        }, { document: { documentElement: {}, querySelector: () => ({ getBoundingClientRect: () => ({ bottom }) }) }, window: events, getComputedStyle: () => ({ fontSize: "16px" }) });
         const tree = SiteHeader();
         tree.props.ref.current = { offsetHeight: 100 };
         const cleanup = effect();
         assert.equal(state.overHero, true);
         assert.equal(state.scrolled, false);
+        assert.equal(state.expanded, true);
         events.scrollY = 1;
         sync();
         assert.equal(state.scrolled, true);
+        assert.equal(state.expanded, true);
+        for (const scrollY of [63, 64, 65, 64, 0]) {
+            events.scrollY = scrollY;
+            sync();
+            assert.equal(state.expanded, scrollY <= 64);
+        }
         bottom = 1;
         sync();
         assert.equal(state.overHero, true);
@@ -295,7 +322,7 @@ function menuLock({ alreadyStopped = false, failStop = false } = {}) {
     let effect, starts = 0, closed;
     const root = { style: { overflow: "scroll" } };
     const background = [{ inert: false }, { inert: true }];
-    const doc = Object.assign(new EventTarget(), { documentElement: root, querySelectorAll: () => background, activeElement: null });
+    const doc = Object.assign(new EventTarget(), { documentElement: root, querySelector: () => null, querySelectorAll: () => background, activeElement: null });
     const controls = Array.from({ length: 2 }, () => ({ getClientRects: () => [{}], hasAttribute: () => false, focus() { doc.activeElement = this; } }));
     const backdrop = { ...controls[0], tabIndex: -1, focus() { throw new Error("Backdrop must stay out of the Tab sequence"); } };
     const panel = { querySelector: () => controls[0], querySelectorAll: () => [...controls, backdrop], contains: element => controls.includes(element) };

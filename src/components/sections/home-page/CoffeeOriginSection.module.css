@@ -1,7 +1,7 @@
 .section {
     --origin-viewport: 100vh;
     --origin-stage: 100vh;
-    --intro-scroll-length: calc(var(--origin-viewport) * 0.7);
+    --intro-scroll-length: var(--origin-viewport);
     --story-scroll-length: calc(var(--origin-viewport) * 3.5);
 
     position: relative;
@@ -109,7 +109,7 @@
 
 @media (max-width: 63.999rem) {
     .section {
-        --intro-scroll-length: calc(var(--origin-viewport) * 0.8);
+        --intro-scroll-length: calc(var(--origin-viewport) * 1.1);
         --story-scroll-length: calc(var(--origin-viewport) * 3);
     }
 

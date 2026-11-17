@@ -98,7 +98,7 @@ const capture = async (page, name) => {
     await page.waitForLoadState('networkidle');
     await page.evaluate(async () => {
         for (let pass = 0; pass < 3; pass++) {
-            const running = document.getAnimations().filter(animation => animation.playState === 'running' && Number.isFinite(animation.effect.getTiming().iterations));
+            const running = document.getAnimations().filter(animation => animation.timeline === document.timeline && animation.playState === 'running' && Number.isFinite(animation.effect.getTiming().iterations));
             if (!running.length) break;
             await Promise.allSettled(running.map(animation => animation.finished));
         }
@@ -112,7 +112,128 @@ const capture = async (page, name) => {
 const mainProduct = '/san-pham/trung-toan-coffee-robusta/';
 
 try {
-    if (phase.endsWith('curtain-probe')) {
+    if (phase.endsWith('cart-drawer')) {
+        for (const [label, viewport] of [['desktop', { width: 1280, height: 800 }], ['mobile', { width: 390, height: 844 }], ['compact', { width: 320, height: 700 }]]) {
+            await record(`${label}: cart drawer, shared checkout and COD retry`, async () => {
+                const context = await makeContext({ viewport, isMobile: label !== 'desktop', hasTouch: label !== 'desktop' });
+                await context.addInitScript(() => localStorage.setItem('coffee-shop-cart-v1', JSON.stringify([{ slug: 'trung-toan-coffee-robusta', quantity: 1 }, { slug: 'trung-toan-coffee-arabica', quantity: 1 }])));
+                const attempts = [], errors = [];
+                await context.route('**/api/checkout-config', route => route.fulfill({ json: { shippingFee: 30000, freeShippingThreshold: 500000 } }));
+                await context.route('**/api/orders', route => {
+                    attempts.push(route.request().postDataJSON());
+                    return attempts.length === 1 ? route.fulfill({ status: 503, json: { error: 'QA: thử gửi lại đơn' } })
+                        : route.fulfill({ status: 201, json: { orderNumber: 'CF-QA-ONLY', subtotal: 119000, shippingFee: 30000, total: 149000 } });
+                });
+                const page = await context.newPage(); page.on('pageerror', error => errors.push(error.message));
+                await page.goto(base + mainProduct); await ready(page);
+                const trigger = page.locator('[data-site-header] a[aria-controls="cart-drawer"][aria-label]');
+                const drawer = page.locator('#cart-drawer');
+                const closed = () => page.waitForFunction(() => !document.querySelector('#cart-drawer').open);
+                await trigger.click();
+                const entry = await drawer.evaluate(element => ({ open: element.open, animations: element.getAnimations().map(a => ({ frames: a.effect.getKeyframes(), timing: a.effect.getTiming() })) }));
+                assert(entry.open); assert(entry.animations.some(a => a.frames.some(frame => frame.transform && frame.transform !== 'none')), 'First open must slide');
+                await capture(page, `${label}-cart-drawer`);
+                const bounds = await drawer.boundingBox(); assert(Math.abs(bounds.x + bounds.width - viewport.width) < 1);
+                const y = await page.evaluate(() => scrollY); await page.mouse.move(5, viewport.height / 2); await page.mouse.wheel(0, 500); await page.waitForTimeout(100);
+                assert.equal(await page.evaluate(() => scrollY), y, 'Drawer must contain page scroll');
+                for (let i = 0; i < 10; i++) { await page.keyboard.press('Tab'); assert(await drawer.evaluate(e => e.contains(document.activeElement))); }
+                await drawer.locator('button[aria-label^="Tăng số lượng"]').first().click();
+                assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('coffee-shop-cart-v1'))[0].quantity), 2);
+                await drawer.getByRole('button', { name: 'Đóng giỏ hàng' }).click();
+                assert(await drawer.evaluate(e => e.open && e.dataset.closing === 'true'), 'Close must keep the modal while sliding out');
+                await closed(); assert(await trigger.evaluate(e => document.activeElement === e));
+                await page.getByLabel('Mở menu', { exact: true }).click();
+                await page.locator('#site-navigation').getByRole('link', { name: 'Giỏ hàng', exact: true }).click();
+                await page.waitForFunction(() => document.querySelector('#cart-drawer').open);
+                await page.waitForTimeout(450);
+                await page.keyboard.press('Escape'); await closed();
+                await trigger.click();
+                if (label === 'desktop') { await page.mouse.click(5, viewport.height / 2); await closed(); await trigger.click(); }
+                await drawer.getByRole('button', { name: /^Xóa / }).first().click();
+                assert(await drawer.evaluate(e => document.activeElement?.closest('[data-cart-item]')?.dataset.cartItem === 'trung-toan-coffee-arabica'));
+                await drawer.getByRole('button', { name: /^Xóa / }).first().click();
+                assert(await drawer.evaluate(e => document.activeElement?.textContent.includes('Xem sản phẩm')));
+                await drawer.getByRole('button', { name: 'Đóng giỏ hàng' }).click(); await closed();
+                await page.getByRole('button', { name: /Thêm vào giỏ hàng/ }).first().click();
+                await page.getByRole('link', { name: /Xem giỏ hàng/ }).click();
+                await drawer.getByRole('link', { name: 'Tiến hành thanh toán' }).click();
+                await page.waitForURL('**/thanh-toan/'); await ready(page); await closed();
+                await page.locator('main [data-cart-items]').waitFor();
+                assert.equal(await page.locator('main [data-cart-item]').count(), 1);
+                const form = page.locator('main form');
+                for (const [name, value] of Object.entries({ name: 'Khách thử nghiệm', phone: '0912345678', city: 'Hồ Chí Minh', ward: 'Phường thử nghiệm', address: '123 Đường thử nghiệm' })) await form.locator(`[name="${name}"]`).fill(value);
+                await capture(page, `${label}-checkout`);
+                const submit = form.getByRole('button', { name: /Đặt hàng COD/ });
+                await submit.click(); await page.getByRole('alert').filter({ hasText: 'QA: thử gửi lại đơn' }).waitFor();
+                await submit.click(); await page.getByText('Đơn hàng CF-QA-ONLY', { exact: true }).waitFor();
+                assert.equal(attempts.length, 2); assert.equal(attempts[0].checkoutId, attempts[1].checkoutId);
+                assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem('coffee-shop-cart-v1'))), []);
+                assert.equal(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth), 0);
+                assert.deepEqual(errors, []);
+                await context.close(); return { entry, bounds, attempts, errors, actualOrderCreated: false };
+            });
+        }
+        await record('reduced motion: cart has no horizontal slide', async () => {
+            const context = await makeContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
+            const page = await context.newPage(); await page.goto(base + '/'); await ready(page);
+            await page.locator('[data-site-header] a[aria-controls="cart-drawer"][aria-label]').click();
+            await page.waitForFunction(() => document.querySelector('#cart-drawer').open);
+            assert.equal(await page.locator('#cart-drawer').evaluate(e => getComputedStyle(e).transform), 'none');
+            await page.keyboard.press('Escape'); await page.waitForFunction(() => !document.querySelector('#cart-drawer').open);
+            await context.close(); return { reducedMotion: true };
+        });
+    } else if (phase.endsWith('mobile-polish')) {
+        for (const [label, viewport] of [['mobile', { width: 390, height: 844 }], ['compact', { width: 320, height: 700 }], ['desktop', { width: 1280, height: 800 }]]) {
+            await record(`${label}: hero/footer parallax, spacing and map hold`, async () => {
+                const context = await makeContext({ viewport, isMobile: label !== 'desktop', hasTouch: label !== 'desktop' });
+                const page = await context.newPage();
+                page.on('pageerror', error => report.errors.push(error.message));
+                await page.goto(base + '/'); await ready(page);
+                const at = async top => { await page.evaluate(top => scrollTo({ top, behavior: 'instant' }), top); await settle(page); };
+                const heroOffset = () => page.locator('[data-hero-media] > div:first-child').evaluate(el => new DOMMatrixReadOnly(getComputedStyle(el).transform).m42);
+                await at(0); assert.equal(await heroOffset(), 0);
+                await at(300); const heroTravel = await heroOffset(); assert(Math.abs(heroTravel - 150) < 1, `${heroTravel}`);
+
+                const origin = await page.locator('[data-coffee-origin]').evaluate(el => ({ top: el.getBoundingClientRect().top + scrollY, start: el.querySelector('[data-coffee-story-start]').offsetTop, gap: parseFloat(getComputedStyle(el.parentElement).rowGap) }));
+                assert(origin.gap >= 64);
+                await at(origin.top);
+                await page.waitForSelector('[data-coffee-origin][data-origin-map-ready]'); await settle(page);
+                const mapMatrix = () => page.locator('[data-origin-shape]').getAttribute('transform');
+                const initial = await mapMatrix();
+                assert(initial?.startsWith('matrix('));
+                await at(origin.top + origin.start * .2); assert.equal(await mapMatrix(), initial);
+                await capture(page, `${label}-map-hold`);
+                await at(origin.top + origin.start * .6); const zoom = await mapMatrix(); assert.notEqual(zoom, initial);
+                await page.reload(); await ready(page); await page.waitForSelector('[data-coffee-origin][data-origin-map-ready]'); await settle(page);
+                const restored = await mapMatrix();
+                assert(Math.abs(parseFloat(zoom.slice(7)) - parseFloat(restored.slice(7))) < .05);
+                await at(origin.top + origin.start * .2); assert.equal(await mapMatrix(), initial);
+
+                const footerTop = await page.locator('[data-footer-reveal]').evaluate(el => el.getBoundingClientRect().top + scrollY);
+                await at(footerTop - viewport.height * .6);
+                await page.waitForFunction(() => getComputedStyle(document.querySelector('[data-site-footer]')).transform !== 'none');
+                const middle = await page.locator('[data-site-footer]').evaluate(el => ({ travel: new DOMMatrixReadOnly(getComputedStyle(el).transform).m42, height: el.getBoundingClientRect().height }));
+                assert(middle.travel < -1 && middle.travel > -middle.height * .5);
+                await at(Number.MAX_SAFE_INTEGER);
+                await capture(page, `${label}-footer`);
+                const footer = await page.locator('[data-site-footer]').evaluate(el => ({ travel: new DOMMatrixReadOnly(getComputedStyle(el).transform).m42, height: el.getBoundingClientRect().height, width: el.getBoundingClientRect().width }));
+                assert(Math.abs(footer.travel) < 1, 'short mobile footer must fully settle at the document end');
+                assert.equal((await measure(page)).overflow, 0);
+                if (label !== 'desktop') {
+                    if (label === 'mobile') assert(footer.height < viewport.height);
+                    await page.locator('[data-site-footer]').screenshot({ path: path.join(evidence, `${label}-footer-detail.png`) });
+                }
+                await page.locator('[data-site-footer] a').first().focus();
+                assert.equal(await page.locator('[data-site-footer]').evaluate(el => getComputedStyle(el).transform), 'none');
+                await page.evaluate(() => document.activeElement.blur());
+                await page.emulateMedia({ reducedMotion: 'reduce' }); await settle(page);
+                assert.equal(await page.locator('[data-site-footer]').evaluate(el => getComputedStyle(el).transform), 'none');
+                await at(300); assert.equal(await heroOffset(), 0);
+                await context.close();
+                return { viewport, heroTravel, mapHold: origin.start * .25, gap: origin.gap, footer, middle };
+            });
+        }
+    } else if (phase.endsWith('curtain-probe')) {
         await record('Home protected: curtain controlled progress', async () => {
             const context = await makeContext({ viewport: { width: 1280, height: 800 } }); const page = await context.newPage();
             await page.goto(base + '/', { waitUntil: 'domcontentloaded' });
@@ -199,7 +320,22 @@ try {
             return { repetitions: 3, animations };
         });
         await record(`${label}: menu entry/exit và bàn phím`, async () => {
+            // Capture at transitionrun; remote round trips can outlast a 400ms transition.
+            await page.evaluate(() => {
+                const panel = document.querySelector('#site-navigation');
+                const drawer = panel.querySelector('[class*="drawer"]');
+                window.__qaMenuEntry = false;
+                const captureStart = event => {
+                    if (event.target !== drawer || event.propertyName !== 'transform') return;
+                    const duration = drawer.getAnimations().find(a => a.transitionProperty === 'transform').effect.getTiming().duration;
+                    for (const animation of panel.getAnimations({ subtree: true })) { animation.pause(); animation.currentTime = duration / 2; }
+                    window.__qaMenuEntry = true;
+                    drawer.removeEventListener('transitionrun', captureStart);
+                };
+                drawer.addEventListener('transitionrun', captureStart);
+            });
             await page.getByLabel('Mở menu', { exact: true }).click();
+            await page.waitForFunction(() => window.__qaMenuEntry);
             await page.waitForFunction(() => document.querySelector('#site-navigation')?.getAttribute('aria-hidden') === 'false');
             await settle(page);
             const transition = await page.evaluate(() => {
@@ -259,23 +395,23 @@ try {
             const feedbackGeometry = () => page.evaluate(() => ({ sectionHeight: document.querySelector('[data-header-hero]').getBoundingClientRect().height, statusHeight: document.querySelector('[data-header-hero] [role=status]')?.getBoundingClientRect().height, documentHeight: document.documentElement.scrollHeight }));
             const beforeFeedback = await feedbackGeometry();
             await add.click();
-            await page.waitForFunction(() => document.querySelector('[data-site-header] a[href="/gio-hang/"]')?.getAttribute('aria-label') === 'Giỏ hàng, 1 sản phẩm');
+            await page.waitForFunction(() => document.querySelector('[data-site-header] a[aria-controls="cart-drawer"][aria-label]')?.getAttribute('aria-label') === 'Giỏ hàng, 1 sản phẩm');
             const first = await page.getByRole('status').allTextContents();
             const afterFeedback = await feedbackGeometry();
             if (phase !== 'baseline') assert(first.some(text => /Đã thêm 1\b/.test(text)), 'Status must confirm actual added quantity');
             if (phase !== 'baseline') assert.equal(afterFeedback.sectionHeight, beforeFeedback.sectionHeight, 'Add feedback must not resize product hero');
             await page.getByLabel('Tăng số lượng', { exact: true }).click(); await add.click();
-            await page.waitForFunction(() => document.querySelector('[data-site-header] a[href="/gio-hang/"]')?.getAttribute('aria-label') === 'Giỏ hàng, 3 sản phẩm');
+            await page.waitForFunction(() => document.querySelector('[data-site-header] a[aria-controls="cart-drawer"][aria-label]')?.getAttribute('aria-label') === 'Giỏ hàng, 3 sản phẩm');
             const cart = await page.evaluate(() => JSON.parse(localStorage.getItem('coffee-shop-cart-v1')));
             assert.equal(cart[0].quantity, 3);
             const badgeAnimations = await page.evaluate(() => window.__qa.animations.filter(a => a.options?.duration === 240 && JSON.stringify(a.frames).includes('scale(1.2)')));
             if (phase !== 'baseline') assert.equal(badgeAnimations.length, 2, 'Two actual count changes must produce two badge pulses');
             const responsiveImage = await page.locator('[data-product-media] img').evaluate(e => ({ currentSrc: e.currentSrc, naturalWidth: e.naturalWidth, renderedWidth: e.getBoundingClientRect().width, complete: e.complete }));
-            await page.goto(base + '/gio-hang/'); await ready(page);
-            await page.waitForFunction(() => document.querySelector('main h1')?.textContent.includes('(3)'));
+            await page.goto(base + '/thanh-toan/'); await ready(page);
+            await page.waitForFunction(() => document.querySelector('#checkout-cart-title')?.textContent.includes('(3)'));
             await capture(page, `${label}-cart`);
             await page.getByRole('button', { name: /^Xóa / }).first().click();
-            await page.waitForFunction(() => document.querySelector('main h1')?.textContent.includes('(0)'));
+            await page.waitForFunction(() => document.querySelector('#checkout-cart-title')?.textContent.includes('(0)'));
             const activeAfterRemoval = await page.evaluate(() => document.activeElement?.textContent);
             if (phase !== 'baseline') assert(activeAfterRemoval?.includes('Xem sản phẩm'), 'Last-item removal must focus empty-cart CTA');
             return { firstStatus: first, beforeFeedback, afterFeedback, cart, activeAfterRemoval, badgeAnimations, responsiveImage, afterRemoval: await page.locator('main').innerText() };
@@ -348,18 +484,18 @@ try {
         await context.addInitScript(() => { Storage.prototype.getItem = () => { throw new DOMException('QA blocked', 'SecurityError'); }; Storage.prototype.setItem = () => { throw new DOMException('QA blocked', 'SecurityError'); }; });
         const page = await context.newPage(); await page.goto(base + mainProduct); await ready(page);
         await page.getByRole('button', { name: /Thêm vào giỏ hàng/ }).first().click();
-        await page.waitForFunction(() => document.querySelector('[data-site-header] a[href="/gio-hang/"]')?.getAttribute('aria-label') === 'Giỏ hàng, 1 sản phẩm');
+        await page.waitForFunction(() => document.querySelector('[data-site-header] a[aria-controls="cart-drawer"][aria-label]')?.getAttribute('aria-label') === 'Giỏ hàng, 1 sản phẩm');
         const status = await page.getByRole('status').allTextContents();
         await context.close(); return { status, sessionMemoryCart: true };
     });
     if (phase !== 'baseline') await record('cart: xóa dòng đầu chuyển focus vào control dùng được của dòng còn lại', async () => {
         const context = await makeContext({ viewport: { width: 390, height: 844 } });
         await context.addInitScript(() => localStorage.setItem('coffee-shop-cart-v1', JSON.stringify([{ slug: 'trung-toan-coffee-robusta', quantity: 1 }, { slug: 'trung-toan-coffee-arabica', quantity: 1 }])));
-        const page = await context.newPage(); await page.goto(base + '/gio-hang/'); await ready(page);
+        const page = await context.newPage(); await page.goto(base + '/thanh-toan/'); await ready(page);
         await page.getByRole('button', { name: /^Xóa / }).first().click();
-        await page.waitForFunction(() => document.querySelectorAll('li[id^="cart-item-"]').length === 1);
-        const focus = await page.evaluate(() => ({ tag: document.activeElement?.tagName, name: document.activeElement?.getAttribute('aria-label') || document.activeElement?.textContent, hidden: !!document.activeElement?.closest('[aria-hidden=true],[inert]'), tabIndex: document.activeElement?.tabIndex, row: document.activeElement?.closest('li')?.id }));
-        assert.equal(focus.row, 'cart-item-trung-toan-coffee-arabica'); assert.equal(focus.hidden, false); assert(focus.tabIndex >= 0);
+        await page.waitForFunction(() => document.querySelectorAll('main li[data-cart-item]').length === 1);
+        const focus = await page.evaluate(() => ({ tag: document.activeElement?.tagName, name: document.activeElement?.getAttribute('aria-label') || document.activeElement?.textContent, hidden: !!document.activeElement?.closest('[aria-hidden=true],[inert]'), tabIndex: document.activeElement?.tabIndex, row: document.activeElement?.closest('li')?.dataset.cartItem }));
+        assert.equal(focus.row, 'trung-toan-coffee-arabica'); assert.equal(focus.hidden, false); assert(focus.tabIndex >= 0);
         await context.close(); return focus;
     });
     await record('CPU ×6: reveal hoàn tất và menu còn tương tác', async () => {
@@ -419,7 +555,7 @@ try {
     });
     await record('smoke 320px: route tĩnh và metadata', async () => {
         const context = await makeContext({ viewport: { width: 320, height: 700 }, reducedMotion: 'reduce' }); const page = await context.newPage(); const routes = [];
-        for (const route of ['/san-pham/', '/lien-he/', '/ve-chung-toi/', '/cau-chuyen/', '/faq/', '/gio-hang/', '/bai-viet/']) {
+        for (const route of ['/san-pham/', '/lien-he/', '/ve-chung-toi/', '/cau-chuyen/', '/faq/', '/thanh-toan/', '/bai-viet/']) {
             const response = await page.goto(base + route); await ready(page);
             const state = await page.evaluate(() => ({ route: location.pathname, title: document.title, canonical: document.querySelector('link[rel=canonical]')?.href, overflow: document.documentElement.scrollWidth - innerWidth, heading: document.querySelector('main h1')?.textContent, locked: document.documentElement.style.overflow === 'hidden' }));
             routes.push({ ...state, status: response.status() }); assert.equal(state.overflow, 0, route); assert(!state.locked, route);

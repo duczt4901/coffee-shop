@@ -60,7 +60,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                         <EditorialReveal>
                             <dl className="border-t border-transparent">
                                 {details.map(([label, value], index) => (
-                                    <div key={label} className="relative grid grid-cols-[7rem_1fr] gap-6 border-b border-transparent py-4 text-sm">
+                                    <div key={label} data-reveal-step={index} className="relative grid grid-cols-[7rem_1fr] gap-6 border-b border-transparent py-4 text-sm">
                                         {index === 0 && <RevealLine className="text-foreground/35" />}
                                         <RevealLine side="bottom" className="text-foreground/25" />
                                         <dt data-reveal="lines" className="uppercase text-foreground/50">
