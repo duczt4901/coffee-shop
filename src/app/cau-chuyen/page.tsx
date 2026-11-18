@@ -1,4 +1,7 @@
 "use client";
+import { storyImages as images } from "@/data/page-images";
+
+import { storyContent as content } from "@/data/page-content";
 
 import { useLayoutEffect, useRef, type ReactElement } from "react";
 import { SkeletonImage as Image } from "@/components/ui/SkeletonImage";
@@ -45,25 +48,25 @@ export default function StoryPage(): ReactElement {
                 <section data-story-card className={`${styles.card} ${styles.introCard}`}>
                     <CardIndex>00</CardIndex>
                     <div className={`${styles.container} px-page`}>
-                        <p className={styles.eyebrow}>Một hành trình của đất, người và thời gian</p>
+                        <p className={styles.eyebrow}>{content.story_eyebrow_1}</p>
                         <EditorialReveal>
                             <div data-story-intro className={styles.introTitle}>
                                 <p data-reveal="block" className={styles.chapter}>
-                                    Câu chuyện cà phê · Lâm Đồng
+                                    {content.story_chapter_1}
                                 </p>
                                 <h1 data-reveal="words">
-                                    Từ <em>Cây</em>
-                                    <br /> Đến Tách
+                                    {content.story_h1_1} <em>{content.story_em_1}</em>
+                                    <br /> {content.story_h1_2}
                                 </h1>
                                 <p data-reveal="lines" className={styles.lede}>
-                                    Không có tách cà phê nào bắt đầu ở quầy pha chế. Nó bắt đầu từ một mùa mưa, một hạt giống và những bàn tay biết chờ đợi.
+                                    {content.story_lede_1}
                                 </p>
                             </div>
                         </EditorialReveal>
                         <div className={`${styles.visual} ${styles.introVisual}`}>
-                            <StoryImage src="/images/coffee/lam-dong-coffee-farm.webp" alt="Vùng trồng cà phê trên cao nguyên" />
+                            <StoryImage src={images.story_image_lam_dong_coffee_farm} alt="Vùng trồng cà phê trên cao nguyên" />
                         </div>
-                        <p className={styles.coordinates}>11.9404° N · 108.4583° E</p>
+                        <p className={styles.coordinates}>{content.story_coordinates_1}</p>
                     </div>
                 </section>
 
@@ -71,28 +74,25 @@ export default function StoryPage(): ReactElement {
                     <CardIndex>01</CardIndex>
                     <div className={`${styles.container} ${styles.originLayout} px-page`}>
                         <div className={`${styles.visual} ${styles.portraitVisual}`}>
-                            <StoryImage src="/images/coffee/lam-dong-coffee-farm-panorama.webp" alt="Vườn cà phê Lâm Đồng" />
+                            <StoryImage src={images.story_image_lam_dong_coffee_farm_panorama} alt="Vườn cà phê Lâm Đồng" />
                         </div>
                         <EditorialReveal>
                             <div className={styles.copy}>
                                 <p data-reveal="block" className={styles.eyebrow}>
-                                    Chương I · Vùng trồng
+                                    {content.story_eyebrow_2}
                                 </p>
                                 <h2 data-reveal="words">
-                                    Gieo <em>Trồng</em>
+                                    {content.story_h2_1} <em>{content.story_em_2}</em>
                                 </h2>
                                 <p data-reveal="lines" className={styles.lede}>
-                                    Hương vị bắt đầu từ nơi cây bén rễ.
+                                    {content.story_lede_2}
                                 </p>
-                                <p data-reveal="lines">
-                                    Câu chuyện bắt đầu từ một hạt nằm trong quả cà phê chín. Cây non được ươm dưới bóng râm, giữ ẩm rồi bén rễ vào đất khi mùa mưa đến. Phải đợi khoảng ba đến bốn năm
-                                    cây mới cho lứa quả đầu tiên; trong quãng chờ ấy, thổ nhưỡng, độ cao, mưa và nắng đã âm thầm viết nên hương vị của vùng trồng.
-                                </p>
+                                <p data-reveal="lines">{content.story_p_1}</p>
                             </div>
                         </EditorialReveal>
                         <p className={styles.fact}>
-                            <strong>3–4</strong>
-                            <span>năm cho lứa quả đầu tiên</span>
+                            <strong>{content.story_strong_1}</strong>
+                            <span>{content.story_span_1}</span>
                         </p>
                     </div>
                 </section>
@@ -103,29 +103,26 @@ export default function StoryPage(): ReactElement {
                         <EditorialReveal>
                             <div className={styles.copy}>
                                 <p data-reveal="block" className={styles.eyebrow}>
-                                    Chương II · Mùa chín
+                                    {content.story_eyebrow_3}
                                 </p>
                                 <h2 data-reveal="words">
-                                    Thu <em>Hái</em>
+                                    {content.story_h2_2} <em>{content.story_em_3}</em>
                                 </h2>
                                 <p data-reveal="lines" className={styles.lede}>
-                                    Chỉ những quả vừa chín mới rời cành.
+                                    {content.story_lede_3}
                                 </p>
-                                <p data-reveal="lines">
-                                    Khi quả chuyển sang đỏ thẫm, người hái trở lại từng hàng cây để chỉ chọn những quả vừa chín. Cách hái chọn lọc có thể lặp lại sau mỗi tám đến mười ngày: chậm hơn,
-                                    tốn công hơn, nhưng giúp mẻ cà phê đồng đều và giữ trọn phẩm chất mà cây đã tích lũy suốt một mùa.
-                                </p>
+                                <p data-reveal="lines">{content.story_p_2}</p>
                             </div>
                         </EditorialReveal>
                         <div className={`${styles.visual} ${styles.harvestVisual}`}>
-                            <StoryImage src="/images/coffee/coffee-harvest-bucket.webp" alt="Người thu hái những quả cà phê chín" />
+                            <StoryImage src={images.story_image_coffee_harvest_bucket} alt="Người thu hái những quả cà phê chín" />
                         </div>
                         <div className={`${styles.visual} ${styles.harvestInset}`}>
-                            <StoryImage src="/images/coffee/ripe-coffee-cherries.webp" alt="Quả cà phê chín đỏ trên cành" />
+                            <StoryImage src={images.story_image_ripe_coffee_cherries} alt="Quả cà phê chín đỏ trên cành" />
                         </div>
                         <p className={styles.fact}>
-                            <strong>8–10</strong>
-                            <span>ngày giữa mỗi lượt hái chọn</span>
+                            <strong>{content.story_strong_2}</strong>
+                            <span>{content.story_span_2}</span>
                         </p>
                     </div>
                 </section>
@@ -136,32 +133,26 @@ export default function StoryPage(): ReactElement {
                         <EditorialReveal>
                             <div className={styles.processingHeading}>
                                 <p data-reveal="block" className={styles.eyebrow}>
-                                    Chương III · Chuyển hóa
+                                    {content.story_eyebrow_4}
                                 </p>
                                 <h2 data-reveal="words">
-                                    Sơ <em>Chế</em>
+                                    {content.story_h2_3} <em>{content.story_em_4}</em>
                                 </h2>
                             </div>
                         </EditorialReveal>
                         <div className={`${styles.visual} ${styles.processingVisual}`}>
-                            <StoryImage src="/images/coffee/coffee-drying-beds-aerial.webp" alt="Những mẻ cà phê được phơi thành từng luống" />
+                            <StoryImage src={images.story_image_coffee_drying_beds_aerial} alt="Những mẻ cà phê được phơi thành từng luống" />
                         </div>
                         <div className={`${styles.visual} ${styles.processingInset}`}>
-                            <StoryImage src="/images/coffee/coffee-drying-raking.webp" alt="Cà phê đang được đảo đều khi phơi" />
+                            <StoryImage src={images.story_image_coffee_drying_raking} alt="Cà phê đang được đảo đều khi phơi" />
                         </div>
                         <EditorialReveal>
                             <div className={styles.processingCopy}>
-                                <p data-reveal="lines">
-                                    Quả vừa hái phải được sơ chế sớm để không hư hỏng. Với phương pháp tự nhiên, quả được phơi nguyên vẹn; với phương pháp ướt, lớp vỏ và thịt quả được tách trước khi
-                                    lên men; còn phương pháp honey giữ lại một phần lớp nhầy ngọt quanh hạt.
-                                </p>
-                                <p data-reveal="lines">
-                                    Trên giàn phơi, hạt được đảo đều để khô chậm và ổn định. Chính lựa chọn sơ chế này quyết định cà phê sẽ trong trẻo, đậm vị trái cây hay ngọt dày trước cả khi hạt
-                                    bước vào máy rang.
-                                </p>
+                                <p data-reveal="lines">{content.story_p_3}</p>
+                                <p data-reveal="lines">{content.story_p_4}</p>
                             </div>
                         </EditorialReveal>
-                        <p className={styles.processList}>Tự nhiên · Ướt · Honey</p>
+                        <p className={styles.processList}>{content.story_processlist_1}</p>
                     </div>
                 </section>
 
@@ -171,28 +162,25 @@ export default function StoryPage(): ReactElement {
                         <EditorialReveal>
                             <div className={styles.roastHeading}>
                                 <p data-reveal="block" className={styles.eyebrow}>
-                                    Chương IV · Đánh thức
+                                    {content.story_eyebrow_5}
                                 </p>
                                 <h2 data-reveal="words">
-                                    Rang <em>&amp;</em> Pha
+                                    {content.story_h2_4} <em>{content.story_em_5}</em> {content.story_h2_5}
                                 </h2>
                             </div>
                         </EditorialReveal>
                         <div className={`${styles.visual} ${styles.roastVisual}`}>
-                            <StoryImage src="/images/coffee/coffee-roast-levels.webp" alt="Các cấp độ rang của hạt cà phê" />
+                            <StoryImage src={images.story_image_coffee_roast_levels} alt="Các cấp độ rang của hạt cà phê" />
                         </div>
                         <EditorialReveal>
                             <div className={styles.roastCopy}>
                                 <p data-reveal="lines" className={styles.lede}>
-                                    Nhiệt độ mở khóa điều đất đai đã cất giữ.
+                                    {content.story_lede_4}
                                 </p>
-                                <p data-reveal="lines">
-                                    Hạt xanh mang theo toàn bộ tiềm năng hương vị của nơi nó lớn lên. Người rang điều chỉnh thời gian và nhiệt độ cho từng mẻ để mở ra hương thơm, độ chua, thể chất và
-                                    hậu vị riêng thay vì ép mọi hạt vào cùng một công thức. Khi pha, độ xay, tỷ lệ nước và thời gian được cân chỉnh để câu chuyện từ nông trại hiện rõ trong từng ngụm.
-                                </p>
+                                <p data-reveal="lines">{content.story_p_5}</p>
                             </div>
                         </EditorialReveal>
-                        <p className={styles.roastNote}>Nhiệt độ × thời gian × cảm quan</p>
+                        <p className={styles.roastNote}>{content.story_roastnote_1}</p>
                     </div>
                 </section>
 
@@ -202,20 +190,20 @@ export default function StoryPage(): ReactElement {
                         <EditorialReveal>
                             <div className={styles.brewingCopy}>
                                 <p data-reveal="block" className={styles.eyebrow}>
-                                    Điểm đến · Cũng là khởi đầu
+                                    {content.story_eyebrow_6}
                                 </p>
                                 <h2 data-reveal="words">
-                                    Trong <em>Tách</em>
+                                    {content.story_h2_6} <em>{content.story_em_6}</em>
                                 </h2>
                                 <p data-reveal="lines" className={styles.lede}>
-                                    Một ngụm nhỏ mang theo đất đỏ, mùa mưa và cả quãng đường dài của những bàn tay không xuất hiện trong khung hình.
+                                    {content.story_lede_5}
                                 </p>
                             </div>
                         </EditorialReveal>
                         <div className={`${styles.visual} ${styles.brewingVisual}`}>
-                            <StoryImage src="/images/coffee/coffee-drinks-assortment.webp" alt="Những tách cà phê đã hoàn thiện" />
+                            <StoryImage src={images.story_image_coffee_drinks_assortment} alt="Những tách cà phê đã hoàn thiện" />
                         </div>
-                        <p className={styles.brewingNote}>Chậm lại · Ngửi hương · Nhấp một ngụm</p>
+                        <p className={styles.brewingNote}>{content.story_brewingnote_1}</p>
                     </div>
                 </section>
             </div>

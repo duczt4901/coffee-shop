@@ -10,3 +10,9 @@ output/
 *.log
 
 *.tsbuildinfo
+public/images/products/wp-*
+public/images/responsive/wp-*
+src/data/products.ts.tmp
+src/data/page-content.ts.tmp
+src/data/page-images.ts.tmp
+public/images/pages/wp-*

@@ -1,4 +1,5 @@
 "use client";
+import { homeContent as content } from "@/data/page-content";
 
 import React, { useId, useLayoutEffect, useRef } from "react";
 import { enhanceWhenVisible } from "@/lib/enhance-when-visible";
@@ -15,12 +16,14 @@ export function CoffeeOriginSection(): React.ReactElement {
     useLayoutEffect(() => {
         const root = sectionRef.current;
         if (!root) return;
-        return enhanceWhenVisible(root, () => import("./coffee-origin-runtime").then(module => module.setupCoffeeOrigin));
+        return enhanceWhenVisible(root, () => import("./coffee-origin-runtime").then((module) => module.setupCoffeeOrigin));
     }, []);
 
     return (
         <section ref={sectionRef} data-coffee-origin className={`${styles.section} font-cormorant`}>
-            <noscript><style>{"[data-coffee-origin]{height:var(--origin-stage)}"}</style></noscript>
+            <noscript>
+                <style>{"[data-coffee-origin]{height:var(--origin-stage)}"}</style>
+            </noscript>
             <div data-coffee-story-start className={styles.storyStart} aria-hidden="true" />
 
             <div className={styles.stickyViewport}>
@@ -49,15 +52,15 @@ export function CoffeeOriginSection(): React.ReactElement {
 
                 <div className={styles.introCopy} style={{ "--origin-text-mask": `url(#${maskId})` } as React.CSSProperties}>
                     <p className="text-xs uppercase tracking-[0.08em] sm:text-sm">
-                        <em className="normal-case">trong </em> đầm <em className="normal-case">gì đẹp bằng</em> <b>sen</b>
+                        <em className="normal-case">{content.origin_em_1} </em> {content.origin_p_1} <em className="normal-case">{content.origin_em_2}</em> <b>{content.origin_b_1}</b>
                     </p>
                     <h2 className="mt-10 max-w-6xl text-center text-[clamp(2.25rem,11.5vw,3rem)] font-semibold uppercase leading-[0.86] tracking-[-0.055em] sm:mt-12 sm:text-[clamp(3.25rem,6.4vw,7.5rem)]">
                         <span className="block">
-                            <em className="block normal-case sm:mr-[0.12em] font-normal sm:inline">lá xanh</em> bông trắng
+                            <em className="block normal-case sm:mr-[0.12em] font-normal sm:inline">{content.origin_em_3}</em> {content.origin_span_1}
                         </span>
                         <span className="block">
-                            lại chen
-                            <em className="block normal-case sm:mr-[0.12em] font-normal sm:inline">nhị vàng</em>
+                            {content.origin_span_2}
+                            <em className="block normal-case sm:mr-[0.12em] font-normal sm:inline">{content.origin_em_4}</em>
                         </span>
                     </h2>
                 </div>

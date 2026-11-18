@@ -1,3 +1,4 @@
+import { productsImages as images } from "@/data/page-images";
 import type { Metadata } from "next";
 import { SkeletonImage as Image } from "@/components/ui/SkeletonImage";
 import { notFound } from "next/navigation";
@@ -106,11 +107,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
                     <div className="mt-20 grid gap-6 md:grid-cols-2">
                         <figure>
-                            <Image src="/images/coffee/sun-dried-coffee-cherries.webp" alt="Cà phê được phơi sau thu hoạch" width={1600} height={900} className="aspect-[4/3] w-full object-cover" />
+                            <Image src={images.products_image_sun_dried_coffee_cherries} alt="Cà phê được phơi sau thu hoạch" width={1600} height={900} className="aspect-[4/3] w-full object-cover" />
                             <figcaption className="mt-2 text-xs">Mùa thu hoạch tại cao nguyên Việt Nam</figcaption>
                         </figure>
                         <figure className="md:mt-24">
-                            <Image src="/images/coffee/coffee-cherry-harvest.webp" alt="Thu hái cà phê chín" width={1600} height={900} className="aspect-[4/3] w-full object-cover" />
+                            <Image src={images.products_image_coffee_cherry_harvest} alt="Thu hái cà phê chín" width={1600} height={900} className="aspect-[4/3] w-full object-cover" />
                             <figcaption className="mt-2 text-xs">Những trái cà phê được hái chọn lọc</figcaption>
                         </figure>
                     </div>

@@ -1,0 +1,192 @@
+{
+  "home": {
+    "home_image_coffee_parchment_drying": {
+      "label": "Phơi cà phê thóc",
+      "default": "/images/coffee/coffee-parchment-drying.webp"
+    },
+    "home_image_coffee_harvest_bucket": {
+      "label": "Giỏ thu hoạch",
+      "default": "/images/coffee/coffee-harvest-bucket.webp"
+    },
+    "home_image_raised_coffee_drying_beds": {
+      "label": "Giàn phơi cà phê",
+      "default": "/images/coffee/raised-coffee-drying-beds.webp"
+    },
+    "home_image_coffee_processing_stages": {
+      "label": "Các bước sơ chế",
+      "default": "/images/coffee/coffee-processing-stages.webp"
+    },
+    "home_image_coffee_beans_winnowing": {
+      "label": "Sàng cà phê",
+      "default": "/images/coffee/coffee-beans-winnowing.webp"
+    },
+    "home_image_coffee_drying_raking": {
+      "label": "Đảo cà phê trên sân phơi",
+      "default": "/images/coffee/coffee-drying-raking.webp"
+    },
+    "home_image_coffee_cherry_sorting_hero_poster": {
+      "label": "Ảnh chờ video đầu trang",
+      "default": "/images/coffee/coffee-cherry-sorting-hero-poster.webp"
+    },
+    "home_image_lam_dong_coffee_farm_panorama": {
+      "label": "Toàn cảnh vườn cà phê",
+      "default": "/images/coffee/lam-dong-coffee-farm-panorama.webp"
+    },
+    "home_image_coffee_cherry_harvest": {
+      "label": "Thu hái cà phê",
+      "default": "/images/coffee/coffee-cherry-harvest.webp"
+    },
+    "home_image_sun_dried_coffee_cherries": {
+      "label": "Phơi quả cà phê",
+      "default": "/images/coffee/sun-dried-coffee-cherries.webp"
+    },
+    "home_image_scene_products": {
+      "label": "Cảnh ba túi cà phê và phin",
+      "default": "/images/pages/coffee-products-photo.webp"
+    },
+    "home_image_beans_back_desktop": {
+      "label": "Hạt phía sau · desktop",
+      "default": "/images/parallax/coffee-back-desktop.webp",
+      "transparent": true
+    },
+    "home_image_beans_back_mobile": {
+      "label": "Hạt phía sau · mobile",
+      "default": "/images/parallax/coffee-back-mobile.webp",
+      "transparent": true
+    },
+    "home_image_beans_middle_desktop": {
+      "label": "Hạt ở giữa · desktop",
+      "default": "/images/parallax/coffee-middle-desktop.webp",
+      "transparent": true
+    },
+    "home_image_beans_middle_mobile": {
+      "label": "Hạt ở giữa · mobile",
+      "default": "/images/parallax/coffee-middle-mobile.webp",
+      "transparent": true
+    },
+    "home_image_beans_front_desktop": {
+      "label": "Hạt phía trước · desktop",
+      "default": "/images/parallax/coffee-front-desktop.webp",
+      "transparent": true
+    },
+    "home_image_beans_front_mobile": {
+      "label": "Hạt phía trước · mobile",
+      "default": "/images/parallax/coffee-front-mobile.webp",
+      "transparent": true
+    }
+  },
+  "about": {
+    "about_image_coffee_drinks_assortment": {
+      "label": "Những tách cà phê",
+      "default": "/images/coffee/coffee-drinks-assortment.webp"
+    },
+    "about_image_coffee_harvest_bucket": {
+      "label": "Giỏ thu hoạch",
+      "default": "/images/coffee/coffee-harvest-bucket.webp"
+    },
+    "about_image_ripe_coffee_cherries": {
+      "label": "Quả cà phê chín",
+      "default": "/images/coffee/ripe-coffee-cherries.webp"
+    },
+    "about_image_coffee_cherry_harvest": {
+      "label": "Thu hái cà phê",
+      "default": "/images/coffee/coffee-cherry-harvest.webp"
+    },
+    "about_image_lam_dong_coffee_farm": {
+      "label": "Vườn cà phê",
+      "default": "/images/coffee/lam-dong-coffee-farm.webp"
+    },
+    "about_image_coffee_parchment_drying": {
+      "label": "Phơi cà phê thóc",
+      "default": "/images/coffee/coffee-parchment-drying.webp"
+    },
+    "about_image_coffee_beans_winnowing": {
+      "label": "Sàng cà phê",
+      "default": "/images/coffee/coffee-beans-winnowing.webp"
+    },
+    "about_image_coffee_drying_raking": {
+      "label": "Đảo cà phê trên sân phơi",
+      "default": "/images/coffee/coffee-drying-raking.webp"
+    },
+    "about_image_raised_coffee_drying_beds": {
+      "label": "Giàn phơi cà phê",
+      "default": "/images/coffee/raised-coffee-drying-beds.webp"
+    },
+    "about_image_coffee_roast_levels": {
+      "label": "Mức rang cà phê",
+      "default": "/images/coffee/coffee-roast-levels.webp"
+    },
+    "about_image_lam_dong_coffee_farm_panorama": {
+      "label": "Toàn cảnh vườn cà phê",
+      "default": "/images/coffee/lam-dong-coffee-farm-panorama.webp"
+    }
+  },
+  "story": {
+    "story_image_lam_dong_coffee_farm": {
+      "label": "Vườn cà phê",
+      "default": "/images/coffee/lam-dong-coffee-farm.webp"
+    },
+    "story_image_lam_dong_coffee_farm_panorama": {
+      "label": "Toàn cảnh vườn cà phê",
+      "default": "/images/coffee/lam-dong-coffee-farm-panorama.webp"
+    },
+    "story_image_coffee_harvest_bucket": {
+      "label": "Giỏ thu hoạch",
+      "default": "/images/coffee/coffee-harvest-bucket.webp"
+    },
+    "story_image_ripe_coffee_cherries": {
+      "label": "Quả cà phê chín",
+      "default": "/images/coffee/ripe-coffee-cherries.webp"
+    },
+    "story_image_coffee_drying_beds_aerial": {
+      "label": "Sân phơi nhìn từ trên cao",
+      "default": "/images/coffee/coffee-drying-beds-aerial.webp"
+    },
+    "story_image_coffee_drying_raking": {
+      "label": "Đảo cà phê trên sân phơi",
+      "default": "/images/coffee/coffee-drying-raking.webp"
+    },
+    "story_image_coffee_roast_levels": {
+      "label": "Mức rang cà phê",
+      "default": "/images/coffee/coffee-roast-levels.webp"
+    },
+    "story_image_coffee_drinks_assortment": {
+      "label": "Những tách cà phê",
+      "default": "/images/coffee/coffee-drinks-assortment.webp"
+    }
+  },
+  "products": {
+    "products_image_coffee_cherry_harvest": {
+      "label": "Thu hái cà phê",
+      "default": "/images/coffee/coffee-cherry-harvest.webp"
+    },
+    "products_image_sun_dried_coffee_cherries": {
+      "label": "Phơi quả cà phê",
+      "default": "/images/coffee/sun-dried-coffee-cherries.webp"
+    },
+    "products_image_coffee_drinks_assortment": {
+      "label": "Những tách cà phê",
+      "default": "/images/coffee/coffee-drinks-assortment.webp"
+    },
+    "products_image_lam_dong_coffee_farm_panorama": {
+      "label": "Toàn cảnh vườn cà phê",
+      "default": "/images/coffee/lam-dong-coffee-farm-panorama.webp"
+    },
+    "products_image_coffee_parchment_drying": {
+      "label": "Phơi cà phê thóc",
+      "default": "/images/coffee/coffee-parchment-drying.webp"
+    }
+  },
+  "contact": {
+    "contact_image_intro": {
+      "label": "Ảnh đầu trang (tuỳ chọn)",
+      "default": ""
+    }
+  },
+  "faq": {
+    "faq_image_intro": {
+      "label": "Ảnh đầu trang (tuỳ chọn)",
+      "default": ""
+    }
+  }
+}

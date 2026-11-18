@@ -1,0 +1,24 @@
+{
+    "id": 17,
+    "slug": "ca-phe-build",
+    "type": "simple",
+    "name": "Cà phê build",
+    "short_description": "<p>Đậm &amp; thơm.</p>",
+    "description": "<p>Câu chuyện sản phẩm.</p><script>UNSAFE_CATALOG_SCRIPT()</script>",
+    "prices": { "price": "123000", "currency_code": "VND", "currency_minor_unit": 0 },
+    "images": [{ "src": "https://cms.example/coffee.webp" }],
+    "categories": [{ "name": "Robusta" }],
+    "attributes": [
+        { "name": "Khối lượng", "terms": [{ "name": "200 g" }] },
+        { "name": "Xuất xứ", "terms": [{ "name": "Lâm Đồng, Việt Nam" }] },
+        { "name": "Sơ chế", "terms": [{ "name": "Natural" }] },
+        { "name": "Giống", "terms": [{ "name": "Catimor, Typica" }] },
+        { "name": "Độ cao", "terms": [{ "name": "900–1.100 m" }] },
+        { "name": "Mức rang", "terms": [{ "name": "Rang vừa" }] },
+        { "name": "Màu nền", "terms": [{ "name": "#c85b3c" }] },
+        { "name": "Nhãn", "terms": [{ "name": "BEST SELLER" }] }
+    ],
+    "is_in_stock": true,
+    "is_purchasable": true,
+    "is_password_protected": false
+}

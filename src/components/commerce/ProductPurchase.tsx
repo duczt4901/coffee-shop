@@ -21,7 +21,7 @@ export function ProductPurchase({ product }: { product: Product }) {
     const router = useRouter();
     const options = products.filter((item) => item.category === product.category).map((item) => ({ value: item.slug, label: `${item.sizeLabel} · ${formatPrice(item.priceVnd)}`, href: `/san-pham/${item.slug}/` }));
     const add = () => {
-        if (!cart.ready) return;
+        if (!cart.ready || !product.available) return;
         try {
             const result = cart.add(product.slug, quantity);
             setFeedback(result.added > 0
@@ -83,8 +83,8 @@ export function ProductPurchase({ product }: { product: Product }) {
                                     }}
                                 />
                             </div>
-                            <Button fullWidth onClick={add} disabled={!cart.ready}>
-                                <span>Thêm vào giỏ hàng</span>
+                            <Button fullWidth onClick={add} disabled={!cart.ready || !product.available}>
+                                <span>{product.available ? "Thêm vào giỏ hàng" : "Tạm hết hàng"}</span>
                                 <span>{formatPrice(product.priceVnd * quantity)}</span>
                             </Button>
                             <p className="mt-3 text-sm">Miễn phí giao hàng cho đơn từ 500.000đ</p>
@@ -117,7 +117,7 @@ export function ProductPurchase({ product }: { product: Product }) {
                         {product.name} · {product.sizeLabel}
                     </span>
                 </div>
-                <Button onClick={add} disabled={!cart.ready}>Thêm vào giỏ hàng</Button>
+                <Button onClick={add} disabled={!cart.ready || !product.available}>{product.available ? "Thêm vào giỏ hàng" : "Tạm hết hàng"}</Button>
             </div>
         </>
     );

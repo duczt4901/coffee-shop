@@ -19,7 +19,7 @@ export function BrandMark() {
     );
 }
 
-export function BrandIntro({ heading = false }: { heading?: boolean }) {
+export function BrandIntro({ heading = false, slogan = "Chậm một chút, đậm một ngày." }: { heading?: boolean; slogan?: string }) {
     const Slogan = heading ? "h1" : "p";
     return (
         <div className={styles.intro}>
@@ -28,7 +28,7 @@ export function BrandIntro({ heading = false }: { heading?: boolean }) {
                 {database.site.name}
             </p>
             <Slogan data-brand-line data-brand-text className={styles.slogan}>
-                Chậm một chút, đậm một ngày.
+                {slogan}
             </Slogan>
         </div>
     );

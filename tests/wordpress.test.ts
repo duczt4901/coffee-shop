@@ -18,7 +18,8 @@ test("both WordPress base URL formats preserve public pagination and cache repea
                 assert.equal(url.searchParams.get("page"), "2");
                 assert.equal(url.searchParams.get("per_page"), "10");
                 assert.equal(init?.redirect, "error");
-                assert.equal(init?.cache, "no-store");
+                assert.equal(init?.cache, "force-cache");
+                assert.ok(url.searchParams.get("_coffee_build"), "static fetch cache is scoped to this build process");
                 return page();
             },
         });

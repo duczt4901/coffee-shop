@@ -10,7 +10,7 @@ const responsive = {};
 const responsiveFolder = new URL("../public/images/responsive/", import.meta.url);
 await mkdir(responsiveFolder, { recursive: true });
 
-for (const directory of ["coffee", "products", "3d"]) {
+for (const directory of ["coffee", "products", "3d", "pages"]) {
     const folder = new URL(`../public/images/${directory}/`, import.meta.url);
     for (const name of (await readdir(folder)).sort()) {
         if (!/\.(webp|png|jpe?g)$/i.test(name) || (directory === "3d" && !name.includes("poster"))) continue;
@@ -21,7 +21,7 @@ for (const directory of ["coffee", "products", "3d"]) {
             .toBuffer({ resolveWithObject: true });
         assert(info.width <= 24 && info.height <= 24 && data.length < 2048);
         placeholders[`/images/${directory}/${name}`] = `data:image/webp;base64,${data.toString("base64")}`;
-        if (directory === "products" && /\.webp$/i.test(name)) {
+        if (["products", "pages"].includes(directory) && /\.webp$/i.test(name)) {
             const input = fileURLToPath(new URL(name, folder));
             const metadata = await sharp(input).metadata();
             const candidates = [];
@@ -32,8 +32,8 @@ for (const directory of ["coffee", "products", "3d"]) {
                 assert(Math.abs(output.height / output.width - metadata.height / metadata.width) < 1 / width);
                 candidates.push(`/images/responsive/${variant} ${width}w`);
             }
-            candidates.push(`/images/products/${name} ${metadata.width}w`);
-            responsive[`/images/products/${name}`] = candidates.join(", ");
+            candidates.push(`/images/${directory}/${name} ${metadata.width}w`);
+            responsive[`/images/${directory}/${name}`] = candidates.join(", ");
         }
     }
 }

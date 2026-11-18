@@ -35,6 +35,8 @@ const modules = {
     "./Chevron": { ChevronDownIcon: () => React.createElement("svg") },
 };
 modules["@/lib/site-config"] = { siteConfig: modules["@/lib/database"].database };
+modules["@/data/page-content"] = load("src/data/page-content.ts");
+modules["@/data/page-images"] = load("src/data/page-images.ts");
 
 function load(file, overrides = {}, globals = {}) {
     const compiled = ts.transpileModule(readFileSync(file, "utf8"), {
@@ -102,6 +104,31 @@ test("home keeps its poster/video and owns the three-line brand outside the head
     assert(!html.includes("data-hero-video-control"));
     assert.equal((html.match(/data-brand-line="true"/g) ?? []).length, 3);
     assert.match(html, /<h1[^>]*>Chậm một chút, đậm một ngày\.<\/h1>/);
+});
+
+test("catalog and featured products assign a distinct reveal step to each complete card", () => {
+    const catalog = load("src/data/products.ts");
+    const imports = {
+        "@/data/products": catalog,
+        "@/lib/commerce": { formatListingPrice: value => `${value} vnđ` },
+        "@/lib/metadata": { createMetadata: () => ({}) },
+        "@/components/ui/ImageReveal": { ImageReveal: Pass },
+        "@/components/ui/SkeletonImage": { SkeletonImage: ({ src, alt }) => React.createElement("img", { src, alt }) },
+    };
+    for (const [file, name, tag, firstStep] of [
+        ["src/app/san-pham/page.tsx", "default", "li", 1],
+        ["src/components/sections/home-page/FeaturedProductsSection.tsx", "FeaturedProductsSection", "article", 0],
+    ]) {
+        const Component = load(file, imports)[name];
+        const html = renderToStaticMarkup(React.createElement(Component));
+        const cards = [...html.matchAll(new RegExp(`<${tag}\\b[^>]*data-reveal-step="(\\d+)"[^>]*>([\\s\\S]*?)</${tag}>`, "g"))];
+        assert.equal(cards.length, catalog.products.length, file);
+        cards.forEach(([, step, card], index) => {
+            assert.equal(Number(step), firstStep + index);
+            assert(card.includes(`href="/san-pham/${catalog.products[index].slug}/"`));
+            assert(card.includes("data-product-details"), "image, name and price share the card's step");
+        });
+    }
 });
 
 test("benefits use a plain heading, empty icon slots and a native dismissible popover", () => {
@@ -294,11 +321,11 @@ test("dropdown enhancement preserves native focus and the active option without 
     }
 });
 
-test("purchase controls stay disabled until the local cart is ready and explain the no-JS alternative", () => {
+test("purchase controls require a ready cart and an available build-time product", () => {
     const product = { slug: "coffee-250", name: "Cà phê", category: "Robusta", tagline: "Đậm vị", sizeLabel: "250g", priceVnd: 100000, image: "/coffee.webp", accent: "#fff" };
     const { Button } = load("src/components/ui/Button.tsx");
     const { Dropdown } = load("src/components/ui/Dropdown.tsx");
-    for (const ready of [false, true]) {
+    for (const [ready, available] of [[false, true], [true, true], [true, false]]) {
         const { ProductPurchase } = load("src/components/commerce/ProductPurchase.tsx", {
             "next/navigation": { useRouter: () => ({ push() {} }) },
             "@/data/products": { products: [product] },
@@ -309,10 +336,11 @@ test("purchase controls stay disabled until the local cart is ready and explain 
             "./Quantity": { Quantity: () => null },
             "./useCart": { useCart: () => ({ ready, add() {} }) },
         });
-        const html = renderToStaticMarkup(React.createElement(ProductPurchase, { product }));
+        const html = renderToStaticMarkup(React.createElement(ProductPurchase, { product: { ...product, available } }));
         const controls = html.match(/<button[^>]*>/g);
         assert.equal(controls.length, 2);
-        controls.forEach((control) => assert.equal(control.includes('disabled=""'), !ready));
+        controls.forEach((control) => assert.equal(control.includes('disabled=""'), !ready || !available));
+        assert.equal(html.includes("Tạm hết hàng"), !available);
         assert.match(html, /Giỏ hàng cần JavaScript để thêm sản phẩm/);
         assert.match(html, /href="\/lien-he\/"/);
     }

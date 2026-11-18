@@ -14,6 +14,9 @@ function load(file, imports = {}, globals = {}) {
     });
     vm.runInNewContext(outputText, { exports, ...globals, require(name) {
         if (name in imports) return imports[name];
+        if (name === "@/data/page-content") return load("src/data/page-content.ts");
+        if (name === "@/data/page-images") return load("src/data/page-images.ts");
+        if (name === "@/components/ui/SkeletonImage") return { SkeletonImage: () => null };
         if (name.endsWith(".css")) return { default: new Proxy({}, { get: (_, name) => name }), __esModule: true };
         throw new Error(`Unexpected dependency: ${name}`);
     } });

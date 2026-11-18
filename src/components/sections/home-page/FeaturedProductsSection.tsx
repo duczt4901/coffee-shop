@@ -1,3 +1,4 @@
+import { homeContent as content } from "@/data/page-content";
 import React from "react";
 import { SkeletonImage as Image } from "@/components/ui/SkeletonImage";
 import Link from "next/link";
@@ -11,15 +12,15 @@ export function FeaturedProductsSection() {
             <EditorialReveal>
                 <header className="flex flex-col items-center justify-center px-3 py-section-large text-center md:px-6">
                     <p data-reveal="block" className="mb-8 text-[clamp(0.8rem,1vw,1rem)] italic">
-                        Bầu ơi thương lấy bí cùng
+                        {content.featured_p_1}
                     </p>
                     <h2
                         data-reveal="words"
                         id="product-title"
                         className="text-[clamp(2.75rem,14vw,3.75rem)] font-medium uppercase leading-none tracking-[-0.06em] md:text-[clamp(3.75rem,8.5vw,10rem)]"
                     >
-                        <em className="font-normal lowercase">tuy rằng</em> khác giống
-                        <br /> <em className="font-normal lowercase">nhưng</em> chung một giàn
+                        <em className="font-normal lowercase">{content.featured_em_1}</em> {content.featured_h2_1}
+                        <br /> <em className="font-normal lowercase">{content.featured_em_2}</em> {content.featured_h2_2}
                     </h2>
                 </header>
             </EditorialReveal>
@@ -27,8 +28,8 @@ export function FeaturedProductsSection() {
             <div className="flex flex-col items-center gap-20">
                 <EditorialReveal>
                     <div className="grid grid-cols-1 gap-x-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-                        {products.map((product) => (
-                            <article key={product.slug} className="group">
+                        {products.map((product, index) => (
+                            <article key={product.slug} data-reveal-step={index} className="group">
                                 {/* Product image */}
                                 <Link
                                     data-reveal="block"
@@ -65,7 +66,7 @@ export function FeaturedProductsSection() {
                 </EditorialReveal>
 
                 <RevealLink href="/san-pham/">
-                    Khám phá <em>cà phê của chúng tôi</em>
+                    {content.featured_reveallink_1} <em>{content.featured_em_3}</em>
                 </RevealLink>
             </div>
         </section>

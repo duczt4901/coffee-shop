@@ -1,0 +1,91 @@
+import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
+import { mkdir, rename, writeFile } from "node:fs/promises";
+import { createRequire } from "node:module";
+import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import { importTypeScript } from "./lib/import-typescript.mjs";
+
+const require = createRequire(import.meta.url);
+const nextRequire = createRequire(require.resolve("next/package.json"));
+const sharp = nextRequire("sharp");
+const { createWordPressClient } = await importTypeScript(new URL("../src/lib/wordpress.ts", import.meta.url), { zod: import.meta.resolve("zod") });
+const { productSchema } = await importTypeScript(new URL("../src/schemas/product.ts", import.meta.url), { zod: import.meta.resolve("zod") });
+const { wordPressText } = await importTypeScript(new URL("../src/lib/wordpress-content.ts", import.meta.url), { "sanitize-html": import.meta.resolve("sanitize-html") });
+const defaultBase = "https://lavuon.cu.ma/index.php/wp-json/";
+
+export async function generateProducts({ baseUrl = process.env.WOOCOMMERCE_API_BASE_URL || defaultBase, fetch: send = fetch, root = new URL("../", import.meta.url) } = {}) {
+    const client = createWordPressClient({ baseUrl, fetch: send });
+    const first = await client.getProducts({ perPage: 100 });
+    assert(first.total > 0 && first.totalPages > 0, "WooCommerce returned an empty catalog; keeping the previous snapshot");
+    const items = [...first.items];
+    for (let page = 2; page <= first.totalPages; page++) {
+        const next = await client.getProducts({ perPage: 100, page });
+        assert(next.total === first.total && next.totalPages === first.totalPages, "Catalog changed during pagination; retry the build");
+        items.push(...next.items);
+    }
+    assert.equal(items.length, first.total, "WooCommerce product count differs from pagination headers");
+    assert.equal(new Set(items.map(item => item.id)).size, items.length, "Duplicate WooCommerce product ID");
+    assert.equal(new Set(items.map(item => item.slug)).size, items.length, "Duplicate WooCommerce product slug");
+
+    const assets = new Map();
+    const products = [];
+    for (const item of items) {
+        const attribute = name => wordPressText(item.attributes.find(attr => attr.name === name)?.terms.map(term => term.name).join(", ") ?? "");
+        const imageUrl = new URL(item.images[0].src);
+        assert(imageUrl.origin === new URL(baseUrl).origin && !imageUrl.username && !imageUrl.password && !imageUrl.hash, `Untrusted image origin for ${item.slug}`);
+        const response = await send(imageUrl, { headers: { Accept: "image/webp,image/png,image/jpeg", Connection: "close" }, redirect: "error", signal: AbortSignal.timeout(15000) });
+        assert(response.ok, `Image for ${item.slug} returned HTTP ${response.status}`);
+        assert(/^image\/(webp|png|jpeg)(?:;|$)/i.test(response.headers.get("Content-Type") ?? ""), `Invalid image content type for ${item.slug}`);
+        const chunks = [];
+        let size = 0;
+        for await (const chunk of response.body) {
+            size += chunk.length;
+            assert(size <= 10 * 1024 * 1024, `Image for ${item.slug} exceeds 10 MB`);
+            chunks.push(chunk);
+        }
+        const bytes = Buffer.concat(chunks);
+        const { format, width, height } = await sharp(bytes, { limitInputPixels: 40000000 }).metadata();
+        const extension = { webp: "webp", png: "png", jpeg: "jpg" }[format];
+        assert(extension && width > 0 && height > 0, `Unsupported image for ${item.slug}`);
+        const digest = createHash("sha256").update(bytes).digest("hex").slice(0, 16);
+        const image = `/images/products/wp-${item.id}-${digest}.${extension}`;
+        assets.set(image, bytes);
+        const product = productSchema.parse({
+            slug: item.slug,
+            name: wordPressText(item.name),
+            category: wordPressText(item.categories[0].name),
+            tagline: wordPressText(item.short_description),
+            sizeLabel: attribute("Khối lượng"),
+            priceVnd: Number(item.prices.price),
+            image,
+            accent: attribute("Màu nền"),
+            origin: attribute("Xuất xứ"),
+            process: attribute("Sơ chế"),
+            varieties: attribute("Giống"),
+            altitude: attribute("Độ cao"),
+            roast: attribute("Mức rang"),
+            story: wordPressText(item.description),
+            available: item.is_in_stock && item.is_purchasable,
+            ...(attribute("Nhãn") ? { badge: attribute("Nhãn") } : {}),
+        });
+        products.push(product);
+    }
+
+    // Commit only a complete validated snapshot; a failed build must never publish a partial catalog.
+    await mkdir(new URL("public/images/products/", root), { recursive: true });
+    for (const [path, bytes] of assets) await writeFile(new URL(`public${path}`, root), bytes);
+    const target = new URL("src/data/products.ts", root);
+    const source = `// Generated by scripts/generate-products.mjs. Edit products in WooCommerce.\nimport type { Product } from "../schemas/product";\nexport type { Product } from "../schemas/product";\n\nexport const products: Product[] = ${JSON.stringify(products, null, 4)};\n\nexport function getProduct(slug: string): Product | undefined {\n    return products.find((product) => product.slug === slug);\n}\n`;
+    await mkdir(new URL("src/data/", root), { recursive: true });
+    await writeFile(new URL(`${target.href}.tmp`), source);
+    await rename(new URL(`${target.href}.tmp`), target);
+    console.log(`Built ${products.length} WooCommerce products and ${assets.size} local images; no runtime CMS requests.`);
+    return products;
+}
+
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+    const { loadEnvConfig } = nextRequire("@next/env");
+    loadEnvConfig(process.cwd());
+    await generateProducts();
+}

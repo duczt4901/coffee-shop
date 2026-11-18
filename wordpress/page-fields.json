@@ -1,0 +1,760 @@
+{
+  "home": {
+    "id": 24,
+    "path": "/",
+    "title": "Trang chủ",
+    "fields": {
+      "bag_span_1": {
+        "label": "span: Người buồn",
+        "default": "Người buồn"
+      },
+      "bag_span_2": {
+        "label": "span: cảnh có",
+        "default": "cảnh có"
+      },
+      "bag_span_3": {
+        "label": "span: Vui đâu bao giờ.",
+        "default": "Vui đâu bao giờ."
+      },
+      "bag_h2_1": {
+        "label": "h2: Thân em vừa trắng lại vừa tròn, bảy nổi ba chìm với nước non.",
+        "default": "Thân em vừa trắng lại vừa tròn, bảy nổi ba chìm với nước non."
+      },
+      "bag_p_1": {
+        "label": "p: Lom khom dưới núi, tiều vài chú, lác đác bên sông, chợ mấy nhà. N",
+        "default": "Lom khom dưới núi, tiều vài chú, lác đác bên sông, chợ mấy nhà. Nhớ nước đau lòng con quốc quốc, thương nhà mỏi miệng cái gia gia. Dừng chân đứng lại trời, non, nước, một mảnh tình riêng ta với ta."
+      },
+      "bag_reveallink_1": {
+        "label": "RevealLink: Xem sản phẩm",
+        "default": "Xem sản phẩm"
+      },
+      "origin_em_1": {
+        "label": "em: trong",
+        "default": "trong"
+      },
+      "origin_p_1": {
+        "label": "p: đầm",
+        "default": "đầm"
+      },
+      "origin_em_2": {
+        "label": "em: gì đẹp bằng",
+        "default": "gì đẹp bằng"
+      },
+      "origin_b_1": {
+        "label": "b: sen",
+        "default": "sen"
+      },
+      "origin_em_3": {
+        "label": "em: lá xanh",
+        "default": "lá xanh"
+      },
+      "origin_span_1": {
+        "label": "span: bông trắng",
+        "default": "bông trắng"
+      },
+      "origin_span_2": {
+        "label": "span: lại chen",
+        "default": "lại chen"
+      },
+      "origin_em_4": {
+        "label": "em: nhị vàng",
+        "default": "nhị vàng"
+      },
+      "process_p_1": {
+        "label": "p: Chi chi chành chành",
+        "default": "Chi chi chành chành"
+      },
+      "process_h2_1": {
+        "label": "h2: cái đanh",
+        "default": "cái đanh"
+      },
+      "process_em_1": {
+        "label": "em: thổi lửa",
+        "default": "thổi lửa"
+      },
+      "process_em_2": {
+        "label": "em: con ngựa chết trương",
+        "default": "con ngựa chết trương"
+      },
+      "process_p_2": {
+        "label": "p: Rồng rắn lên mây",
+        "default": "Rồng rắn lên mây"
+      },
+      "process_h3_1": {
+        "label": "h3: Có cây lúc lắc,",
+        "default": "Có cây lúc lắc,"
+      },
+      "process_h3_2": {
+        "label": "h3: có nhà hiển binh.",
+        "default": "có nhà hiển binh."
+      },
+      "process_p_3": {
+        "label": "p: Chú voi con ở Bản Đôn chưa có ngà nên còn trẻ con từ rừng già chú",
+        "default": "Chú voi con ở Bản Đôn chưa có ngà nên còn trẻ con từ rừng già chú đến với người vẫn ham ăn với lại ham chơi. Voi con ơi voi con ơi mau lớn nhanh có đôi ngà to có sức đi khắp miền rừng xa kéo gỗ cho buôn làng của ta chú voi con thật là khôn quen thiếu nhi khắp vùng Bản Đôn. Đầu gật gù đưa vẫy cái vòi khéo đung đưa theo nhịp chiêng vui"
+      },
+      "process_reveallink_1": {
+        "label": "RevealLink: Xem thêm",
+        "default": "Xem thêm"
+      },
+      "process_em_3": {
+        "label": "em: quy trình chế biến",
+        "default": "quy trình chế biến"
+      },
+      "process_blockquote_1": {
+        "label": "blockquote: “Một con vịt xoè ra hai cái cánh, nó kêu rằng cáp cáp cáp cạp cạp",
+        "default": "“Một con vịt xoè ra hai cái cánh, nó kêu rằng cáp cáp cáp cạp cạp cạp. Gặp hồ nước nó bì bà bì bõm, lúc lên bờ vẫy cái cánh cho khô”"
+      },
+      "process_figcaption_1": {
+        "label": "figcaption: LÀ VƯỜN",
+        "default": "LÀ VƯỜN"
+      },
+      "process_span_1": {
+        "label": "span: Đội ngũ Là Vườn Coffee",
+        "default": "Đội ngũ Là Vườn Coffee"
+      },
+      "featured_p_1": {
+        "label": "p: Bầu ơi thương lấy bí cùng",
+        "default": "Bầu ơi thương lấy bí cùng"
+      },
+      "featured_em_1": {
+        "label": "em: tuy rằng",
+        "default": "tuy rằng"
+      },
+      "featured_h2_1": {
+        "label": "h2: khác giống",
+        "default": "khác giống"
+      },
+      "featured_em_2": {
+        "label": "em: nhưng",
+        "default": "nhưng"
+      },
+      "featured_h2_2": {
+        "label": "h2: chung một giàn",
+        "default": "chung một giàn"
+      },
+      "featured_reveallink_1": {
+        "label": "RevealLink: Khám phá",
+        "default": "Khám phá"
+      },
+      "featured_em_3": {
+        "label": "em: cà phê của chúng tôi",
+        "default": "cà phê của chúng tôi"
+      },
+      "slides_title_1": {
+        "label": "title: Từ VƯỜN",
+        "default": "Từ VƯỜN"
+      },
+      "slides_title_2": {
+        "label": "title: và THU HÁI",
+        "default": "và THU HÁI"
+      },
+      "slides_title_3": {
+        "label": "title: đến PHƠI SẤY",
+        "default": "đến PHƠI SẤY"
+      },
+      "hero_slogan": {
+        "label": "Hero: khẩu hiệu",
+        "default": "Chậm một chút, đậm một ngày."
+      }
+    }
+  },
+  "about": {
+    "id": 28,
+    "path": "/ve-chung-toi/",
+    "title": "Về chúng tôi",
+    "fields": {
+      "about_eyebrow_1": {
+        "label": "eyebrow: Là Vườn Coffee · Lâm Hà, Lâm Đồng",
+        "default": "Là Vườn Coffee · Lâm Hà, Lâm Đồng"
+      },
+      "about_h1_1": {
+        "label": "h1: Về với Vườn,",
+        "default": "Về với Vườn,"
+      },
+      "about_h1_2": {
+        "label": "h1: chạm vị cà phê.",
+        "default": "chạm vị cà phê."
+      },
+      "about_h2_1": {
+        "label": "h2: Chậm một chút,",
+        "default": "Chậm một chút,"
+      },
+      "about_h2_2": {
+        "label": "h2: đậm một ngày.",
+        "default": "đậm một ngày."
+      },
+      "about_p_1": {
+        "label": "p: Giữa những ngày vội vã, Vườn dành một khoảng lặng cho hương cà ph",
+        "default": "Giữa những ngày vội vã, Vườn dành một khoảng lặng cho hương cà phê. Cho câu chuyện bên tách nhỏ, cho niềm vui thật giản dị. Một chút bình yên từ vườn, gửi đến nhịp sống mỗi ngày."
+      },
+      "about_cta_1": {
+        "label": "cta: Câu chuyện của Vườn",
+        "default": "Câu chuyện của Vườn"
+      },
+      "about_eyebrow_2": {
+        "label": "eyebrow: Là Vườn — một lời nhắc sống chậm",
+        "default": "Là Vườn — một lời nhắc sống chậm"
+      },
+      "about_p_2": {
+        "label": "p: Một khu vườn cần nắng, cần mưa và cần thời gian. Một tách cà phê ",
+        "default": "Một khu vườn cần nắng, cần mưa và cần thời gian. Một tách cà phê ngon cũng vậy. Với Là Vườn, điều đáng quý nằm trong những việc nhỏ: hiểu hạt cà phê mình chọn, chăm chút cách pha và dành cho nhau một cuộc trò chuyện trọn vẹn."
+      },
+      "about_eyebrow_3": {
+        "label": "eyebrow: Từ vùng đất, đến từng tách nhỏ",
+        "default": "Từ vùng đất, đến từng tách nhỏ"
+      },
+      "about_h2_3": {
+        "label": "h2: Vị của đất lành,",
+        "default": "Vị của đất lành,"
+      },
+      "about_h2_4": {
+        "label": "h2: tình của người làm.",
+        "default": "tình của người làm."
+      },
+      "about_p_3": {
+        "label": "p: Cà phê mang theo dấu ấn của nơi nó lớn lên. Là màu đất, những mùa",
+        "default": "Cà phê mang theo dấu ấn của nơi nó lớn lên. Là màu đất, những mùa nắng mưa, đôi tay thu hái và sự kiên nhẫn sau mỗi công đoạn. Chúng tôi muốn kể câu chuyện ấy bằng một hương vị gần gũi, để mỗi lần pha là một lần thấy mình gần Vườn hơn."
+      },
+      "about_h2_5": {
+        "label": "h2: Mộc mạc từ hạt,",
+        "default": "Mộc mạc từ hạt,"
+      },
+      "about_h2_6": {
+        "label": "h2: chân thành từ tâm.",
+        "default": "chân thành từ tâm."
+      },
+      "about_p_4": {
+        "label": "p: Chúng tôi yêu những điều có thể cảm nhận thật rõ: mùi hương khi m",
+        "default": "Chúng tôi yêu những điều có thể cảm nhận thật rõ: mùi hương khi mở gói, tiếng nước chạm vào cà phê và vị đậm còn ở lại sau cùng. Không cần một nghi thức cầu kỳ. Chỉ cần hương vị hợp với bạn, vào đúng khoảnh khắc bạn muốn chậm lại."
+      },
+      "about_eyebrow_4": {
+        "label": "eyebrow: Mang một chút Vườn về nhà",
+        "default": "Mang một chút Vườn về nhà"
+      },
+      "about_h2_7": {
+        "label": "h2: Một tách quen,",
+        "default": "Một tách quen,"
+      },
+      "about_h2_8": {
+        "label": "h2: một ngày mới.",
+        "default": "một ngày mới."
+      },
+      "about_p_5": {
+        "label": "p: Có người thích một ly đen đậm vào buổi sáng. Có người chọn thêm c",
+        "default": "Có người thích một ly đen đậm vào buổi sáng. Có người chọn thêm chút sữa, thêm vài viên đá. Mỗi cách uống đều có một niềm vui riêng. Là Vườn muốn là hương vị bạn có thể tìm về, theo đúng cách của mình."
+      },
+      "about_p_6": {
+        "label": "p: Từ chiếc phin quen thuộc đến những cách pha mới, hãy bắt đầu bằng",
+        "default": "Từ chiếc phin quen thuộc đến những cách pha mới, hãy bắt đầu bằng một gói cà phê bạn thích. Phần còn lại là thời gian dành cho chính bạn."
+      },
+      "about_cta_2": {
+        "label": "cta: Khám phá cà phê",
+        "default": "Khám phá cà phê"
+      },
+      "about_h2_9": {
+        "label": "h2: Hẹn nhau một tách.",
+        "default": "Hẹn nhau một tách."
+      },
+      "about_p_7": {
+        "label": "p: Để Vườn cùng bạn chọn một hương vị phù hợp. Một câu hỏi về cà phê",
+        "default": "Để Vườn cùng bạn chọn một hương vị phù hợp. Một câu hỏi về cà phê, một cách pha mới, hay đơn giản là một lời chào — chúng tôi luôn sẵn lòng lắng nghe."
+      },
+      "about_cta_3": {
+        "label": "cta: Trò chuyện cùng Là Vườn",
+        "default": "Trò chuyện cùng Là Vườn"
+      }
+    }
+  },
+  "story": {
+    "id": 31,
+    "path": "/cau-chuyen/",
+    "title": "Câu chuyện",
+    "fields": {
+      "story_eyebrow_1": {
+        "label": "eyebrow: Một hành trình của đất, người và thời gian",
+        "default": "Một hành trình của đất, người và thời gian"
+      },
+      "story_chapter_1": {
+        "label": "chapter: Câu chuyện cà phê · Lâm Đồng",
+        "default": "Câu chuyện cà phê · Lâm Đồng"
+      },
+      "story_h1_1": {
+        "label": "h1: Từ",
+        "default": "Từ"
+      },
+      "story_em_1": {
+        "label": "em: Cây",
+        "default": "Cây"
+      },
+      "story_h1_2": {
+        "label": "h1: Đến Tách",
+        "default": "Đến Tách"
+      },
+      "story_lede_1": {
+        "label": "lede: Không có tách cà phê nào bắt đầu ở quầy pha chế. Nó bắt đầu từ mộ",
+        "default": "Không có tách cà phê nào bắt đầu ở quầy pha chế. Nó bắt đầu từ một mùa mưa, một hạt giống và những bàn tay biết chờ đợi."
+      },
+      "story_coordinates_1": {
+        "label": "coordinates: 11.9404° N · 108.4583° E",
+        "default": "11.9404° N · 108.4583° E"
+      },
+      "story_eyebrow_2": {
+        "label": "eyebrow: Chương I · Vùng trồng",
+        "default": "Chương I · Vùng trồng"
+      },
+      "story_h2_1": {
+        "label": "h2: Gieo",
+        "default": "Gieo"
+      },
+      "story_em_2": {
+        "label": "em: Trồng",
+        "default": "Trồng"
+      },
+      "story_lede_2": {
+        "label": "lede: Hương vị bắt đầu từ nơi cây bén rễ.",
+        "default": "Hương vị bắt đầu từ nơi cây bén rễ."
+      },
+      "story_p_1": {
+        "label": "p: Câu chuyện bắt đầu từ một hạt nằm trong quả cà phê chín. Cây non ",
+        "default": "Câu chuyện bắt đầu từ một hạt nằm trong quả cà phê chín. Cây non được ươm dưới bóng râm, giữ ẩm rồi bén rễ vào đất khi mùa mưa đến. Phải đợi khoảng ba đến bốn năm cây mới cho lứa quả đầu tiên; trong quãng chờ ấy, thổ nhưỡng, độ cao, mưa và nắng đã âm thầm viết nên hương vị của vùng trồng."
+      },
+      "story_strong_1": {
+        "label": "strong: 3–4",
+        "default": "3–4"
+      },
+      "story_span_1": {
+        "label": "span: năm cho lứa quả đầu tiên",
+        "default": "năm cho lứa quả đầu tiên"
+      },
+      "story_eyebrow_3": {
+        "label": "eyebrow: Chương II · Mùa chín",
+        "default": "Chương II · Mùa chín"
+      },
+      "story_h2_2": {
+        "label": "h2: Thu",
+        "default": "Thu"
+      },
+      "story_em_3": {
+        "label": "em: Hái",
+        "default": "Hái"
+      },
+      "story_lede_3": {
+        "label": "lede: Chỉ những quả vừa chín mới rời cành.",
+        "default": "Chỉ những quả vừa chín mới rời cành."
+      },
+      "story_p_2": {
+        "label": "p: Khi quả chuyển sang đỏ thẫm, người hái trở lại từng hàng cây để c",
+        "default": "Khi quả chuyển sang đỏ thẫm, người hái trở lại từng hàng cây để chỉ chọn những quả vừa chín. Cách hái chọn lọc có thể lặp lại sau mỗi tám đến mười ngày: chậm hơn, tốn công hơn, nhưng giúp mẻ cà phê đồng đều và giữ trọn phẩm chất mà cây đã tích lũy suốt một mùa."
+      },
+      "story_strong_2": {
+        "label": "strong: 8–10",
+        "default": "8–10"
+      },
+      "story_span_2": {
+        "label": "span: ngày giữa mỗi lượt hái chọn",
+        "default": "ngày giữa mỗi lượt hái chọn"
+      },
+      "story_eyebrow_4": {
+        "label": "eyebrow: Chương III · Chuyển hóa",
+        "default": "Chương III · Chuyển hóa"
+      },
+      "story_h2_3": {
+        "label": "h2: Sơ",
+        "default": "Sơ"
+      },
+      "story_em_4": {
+        "label": "em: Chế",
+        "default": "Chế"
+      },
+      "story_p_3": {
+        "label": "p: Quả vừa hái phải được sơ chế sớm để không hư hỏng. Với phương phá",
+        "default": "Quả vừa hái phải được sơ chế sớm để không hư hỏng. Với phương pháp tự nhiên, quả được phơi nguyên vẹn; với phương pháp ướt, lớp vỏ và thịt quả được tách trước khi lên men; còn phương pháp honey giữ lại một phần lớp nhầy ngọt quanh hạt."
+      },
+      "story_p_4": {
+        "label": "p: Trên giàn phơi, hạt được đảo đều để khô chậm và ổn định. Chính lự",
+        "default": "Trên giàn phơi, hạt được đảo đều để khô chậm và ổn định. Chính lựa chọn sơ chế này quyết định cà phê sẽ trong trẻo, đậm vị trái cây hay ngọt dày trước cả khi hạt bước vào máy rang."
+      },
+      "story_processlist_1": {
+        "label": "processList: Tự nhiên · Ướt · Honey",
+        "default": "Tự nhiên · Ướt · Honey"
+      },
+      "story_eyebrow_5": {
+        "label": "eyebrow: Chương IV · Đánh thức",
+        "default": "Chương IV · Đánh thức"
+      },
+      "story_h2_4": {
+        "label": "h2: Rang",
+        "default": "Rang"
+      },
+      "story_em_5": {
+        "label": "em: &amp;",
+        "default": "&"
+      },
+      "story_h2_5": {
+        "label": "h2: Pha",
+        "default": "Pha"
+      },
+      "story_lede_4": {
+        "label": "lede: Nhiệt độ mở khóa điều đất đai đã cất giữ.",
+        "default": "Nhiệt độ mở khóa điều đất đai đã cất giữ."
+      },
+      "story_p_5": {
+        "label": "p: Hạt xanh mang theo toàn bộ tiềm năng hương vị của nơi nó lớn lên.",
+        "default": "Hạt xanh mang theo toàn bộ tiềm năng hương vị của nơi nó lớn lên. Người rang điều chỉnh thời gian và nhiệt độ cho từng mẻ để mở ra hương thơm, độ chua, thể chất và hậu vị riêng thay vì ép mọi hạt vào cùng một công thức. Khi pha, độ xay, tỷ lệ nước và thời gian được cân chỉnh để câu chuyện từ nông trại hiện rõ trong từng ngụm."
+      },
+      "story_roastnote_1": {
+        "label": "roastNote: Nhiệt độ × thời gian × cảm quan",
+        "default": "Nhiệt độ × thời gian × cảm quan"
+      },
+      "story_eyebrow_6": {
+        "label": "eyebrow: Điểm đến · Cũng là khởi đầu",
+        "default": "Điểm đến · Cũng là khởi đầu"
+      },
+      "story_h2_6": {
+        "label": "h2: Trong",
+        "default": "Trong"
+      },
+      "story_em_6": {
+        "label": "em: Tách",
+        "default": "Tách"
+      },
+      "story_lede_5": {
+        "label": "lede: Một ngụm nhỏ mang theo đất đỏ, mùa mưa và cả quãng đường dài của ",
+        "default": "Một ngụm nhỏ mang theo đất đỏ, mùa mưa và cả quãng đường dài của những bàn tay không xuất hiện trong khung hình."
+      },
+      "story_brewingnote_1": {
+        "label": "brewingNote: Chậm lại · Ngửi hương · Nhấp một ngụm",
+        "default": "Chậm lại · Ngửi hương · Nhấp một ngụm"
+      }
+    }
+  },
+  "products": {
+    "id": 34,
+    "path": "/san-pham/",
+    "title": "Sản phẩm",
+    "fields": {
+      "products_title_1": {
+        "label": "title: Vùng trồng",
+        "default": "Vùng trồng"
+      },
+      "products_title_2": {
+        "label": "title: Thu hái",
+        "default": "Thu hái"
+      },
+      "products_title_3": {
+        "label": "title: Sơ chế",
+        "default": "Sơ chế"
+      },
+      "products_title_4": {
+        "label": "title: Phơi sấy",
+        "default": "Phơi sấy"
+      },
+      "products_h1_1": {
+        "label": "h1: Sản phẩm",
+        "default": "Sản phẩm"
+      },
+      "products_p_1": {
+        "label": "p: Cà phê từ cao nguyên, cho mỗi ngày.",
+        "default": "Cà phê từ cao nguyên, cho mỗi ngày."
+      },
+      "products_h2_1": {
+        "label": "h2: Hành trình của hạt cà phê",
+        "default": "Hành trình của hạt cà phê"
+      },
+      "products_textlink_1": {
+        "label": "textLink: Khám phá toàn bộ hành trình",
+        "default": "Khám phá toàn bộ hành trình"
+      },
+      "products_h2_2": {
+        "label": "h2: Tìm hương vị",
+        "default": "Tìm hương vị"
+      },
+      "products_h2_3": {
+        "label": "h2: của riêng bạn",
+        "default": "của riêng bạn"
+      },
+      "products_li_1": {
+        "label": "li: Robusta đậm vị, Arabica thanh ngọt",
+        "default": "Robusta đậm vị, Arabica thanh ngọt"
+      },
+      "products_li_2": {
+        "label": "li: Nhiều khối lượng cho nhịp pha mỗi ngày",
+        "default": "Nhiều khối lượng cho nhịp pha mỗi ngày"
+      },
+      "products_li_3": {
+        "label": "li: Thông tin nguồn gốc và sơ chế rõ ràng",
+        "default": "Thông tin nguồn gốc và sơ chế rõ ràng"
+      },
+      "products_reveallink_1": {
+        "label": "RevealLink: Chọn cà phê của bạn",
+        "default": "Chọn cà phê của bạn"
+      }
+    }
+  },
+  "contact": {
+    "id": 37,
+    "path": "/lien-he/",
+    "title": "Liên hệ",
+    "fields": {
+      "contact_label_1": {
+        "label": "label: Đơn hàng & sản phẩm",
+        "default": "Đơn hàng & sản phẩm"
+      },
+      "contact_email_1": {
+        "label": "email: lorem@example.com",
+        "default": "lorem@example.com"
+      },
+      "contact_label_2": {
+        "label": "label: Hợp tác bán sỉ",
+        "default": "Hợp tác bán sỉ"
+      },
+      "contact_email_2": {
+        "label": "email: ipsum@example.com",
+        "default": "ipsum@example.com"
+      },
+      "contact_label_3": {
+        "label": "label: Tuyển dụng",
+        "default": "Tuyển dụng"
+      },
+      "contact_email_3": {
+        "label": "email: dolor@example.com",
+        "default": "dolor@example.com"
+      },
+      "contact_label_4": {
+        "label": "label: Các yêu cầu khác",
+        "default": "Các yêu cầu khác"
+      },
+      "contact_email_4": {
+        "label": "email: amet@example.com",
+        "default": "amet@example.com"
+      },
+      "contact_h1_1": {
+        "label": "h1: Thông tin liên hệ",
+        "default": "Thông tin liên hệ"
+      },
+      "contact_intro_1": {
+        "label": "intro: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do e",
+        "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      },
+      "contact_h2_1": {
+        "label": "h2: Địa chỉ",
+        "default": "Địa chỉ"
+      },
+      "contact_address_1": {
+        "label": "address: Lorem Ipsum — Dolor Sit Amet",
+        "default": "Lorem Ipsum — Dolor Sit Amet"
+      },
+      "contact_address_2": {
+        "label": "address: 123 Lorem Ipsum",
+        "default": "123 Lorem Ipsum"
+      },
+      "contact_address_3": {
+        "label": "address: Consectetur Adipiscing Elit",
+        "default": "Consectetur Adipiscing Elit"
+      },
+      "contact_h2_2": {
+        "label": "h2: Điện thoại",
+        "default": "Điện thoại"
+      },
+      "contact_reveallink_1": {
+        "label": "RevealLink: Liên hệ Zalo",
+        "default": "Liên hệ Zalo"
+      },
+      "contact_h2_3": {
+        "label": "h2: Email liên hệ",
+        "default": "Email liên hệ"
+      },
+      "contact_reveallink_2": {
+        "label": "RevealLink: :",
+        "default": ":"
+      }
+    }
+  },
+  "faq": {
+    "id": 40,
+    "path": "/faq/",
+    "title": "Câu hỏi thường gặp",
+    "fields": {
+      "faq_title_1": {
+        "label": "title: Cà phê của chúng tôi",
+        "default": "Cà phê của chúng tôi"
+      },
+      "faq_question_answer_1": {
+        "label": "question_answer: Là Vườn Coffee có những dòng cà phê nào?",
+        "default": "Là Vườn Coffee có những dòng cà phê nào?"
+      },
+      "faq_question_answer_2": {
+        "label": "question_answer: Bộ sưu tập hiện có cà phê Robusta và Arabica, với nhiều lựa chọn ",
+        "default": "Bộ sưu tập hiện có cà phê Robusta và Arabica, với nhiều lựa chọn khối lượng. Bạn có thể xem hương vị, giống và mức rang trên từng trang sản phẩm."
+      },
+      "faq_question_answer_3": {
+        "label": "question_answer: Robusta và Arabica khác nhau thế nào?",
+        "default": "Robusta và Arabica khác nhau thế nào?"
+      },
+      "faq_question_answer_4": {
+        "label": "question_answer: Robusta thường có vị đậm, thể chất dày và hậu vị rõ. Arabica thườ",
+        "default": "Robusta thường có vị đậm, thể chất dày và hậu vị rõ. Arabica thường thiên về hương thơm, độ chua và vị ngọt. Hương vị cuối cùng còn phụ thuộc vào vùng trồng, sơ chế, mức rang và cách pha."
+      },
+      "faq_question_answer_5": {
+        "label": "question_answer: Cà phê có nguồn gốc từ đâu?",
+        "default": "Cà phê có nguồn gốc từ đâu?"
+      },
+      "faq_question_answer_6": {
+        "label": "question_answer: Chúng tôi giới thiệu cà phê từ cao nguyên Việt Nam. Vùng trồng và",
+        "default": "Chúng tôi giới thiệu cà phê từ cao nguyên Việt Nam. Vùng trồng và thông tin nguồn gốc cụ thể được ghi trong phần “Về sản phẩm” của từng loại cà phê."
+      },
+      "faq_question_answer_7": {
+        "label": "question_answer: Tôi nên bắt đầu với loại cà phê nào?",
+        "default": "Tôi nên bắt đầu với loại cà phê nào?"
+      },
+      "faq_question_answer_8": {
+        "label": "question_answer: Nếu thích một tách đậm vị, bạn có thể bắt đầu với Robusta. Nếu th",
+        "default": "Nếu thích một tách đậm vị, bạn có thể bắt đầu với Robusta. Nếu thích hương thơm và vị thanh hơn, hãy thử Arabica. Gửi cho chúng tôi cách pha và gu vị của bạn để được tư vấn thêm."
+      },
+      "faq_title_2": {
+        "label": "title: Cách pha",
+        "default": "Cách pha"
+      },
+      "faq_question_answer_9": {
+        "label": "question_answer: Cà phê nào phù hợp để pha phin?",
+        "default": "Cà phê nào phù hợp để pha phin?"
+      },
+      "faq_question_answer_10": {
+        "label": "question_answer: Robusta là một lựa chọn quen thuộc cho phin và cà phê sữa. Arabic",
+        "default": "Robusta là một lựa chọn quen thuộc cho phin và cà phê sữa. Arabica cũng có thể pha phin nếu bạn thích vị thanh hơn. Độ xay và thời gian chiết xuất có ảnh hưởng lớn đến tách cà phê."
+      },
+      "faq_question_answer_11": {
+        "label": "question_answer: Tôi có thể dùng cà phê này cho máy espresso không?",
+        "default": "Tôi có thể dùng cà phê này cho máy espresso không?"
+      },
+      "faq_question_answer_12": {
+        "label": "question_answer: Bạn có thể chọn hạt cà phê dựa trên gu vị và mức rang, rồi điều c",
+        "default": "Bạn có thể chọn hạt cà phê dựa trên gu vị và mức rang, rồi điều chỉnh độ xay cho máy espresso. Hãy cho chúng tôi biết thiết bị đang dùng khi cần tư vấn."
+      },
+      "faq_question_answer_13": {
+        "label": "question_answer: Nên chọn cà phê hạt hay cà phê xay?",
+        "default": "Nên chọn cà phê hạt hay cà phê xay?"
+      },
+      "faq_question_answer_14": {
+        "label": "question_answer: Nếu có máy xay, hãy chọn cà phê hạt và xay ngay trước khi pha. Nế",
+        "default": "Nếu có máy xay, hãy chọn cà phê hạt và xay ngay trước khi pha. Nếu dùng cà phê xay, bạn nên chọn độ xay phù hợp với phin, máy hoặc dụng cụ lọc của mình."
+      },
+      "faq_question_answer_15": {
+        "label": "question_answer: Vì sao cà phê của tôi quá đắng hoặc quá nhạt?",
+        "default": "Vì sao cà phê của tôi quá đắng hoặc quá nhạt?"
+      },
+      "faq_question_answer_16": {
+        "label": "question_answer: Hãy thử thay đổi từng yếu tố: lượng cà phê, lượng nước, độ xay ho",
+        "default": "Hãy thử thay đổi từng yếu tố: lượng cà phê, lượng nước, độ xay hoặc thời gian pha. Xay mịn hơn và pha lâu hơn thường làm tăng chiết xuất; xay thô hơn và pha nhanh hơn thường làm giảm chiết xuất."
+      },
+      "faq_title_3": {
+        "label": "title: Bảo quản",
+        "default": "Bảo quản"
+      },
+      "faq_question_answer_17": {
+        "label": "question_answer: Nên bảo quản cà phê như thế nào?",
+        "default": "Nên bảo quản cà phê như thế nào?"
+      },
+      "faq_question_answer_18": {
+        "label": "question_answer: Đóng kín túi sau mỗi lần sử dụng, để ở nơi khô ráo, thoáng mát và",
+        "default": "Đóng kín túi sau mỗi lần sử dụng, để ở nơi khô ráo, thoáng mát và tránh ánh nắng. Hạn chế để cà phê tiếp xúc với không khí, hơi ẩm và các thực phẩm có mùi mạnh."
+      },
+      "faq_question_answer_19": {
+        "label": "question_answer: Có nên để cà phê trong tủ lạnh không?",
+        "default": "Có nên để cà phê trong tủ lạnh không?"
+      },
+      "faq_question_answer_20": {
+        "label": "question_answer: Với túi cà phê dùng hằng ngày, một nơi khô mát và bao bì kín thườ",
+        "default": "Với túi cà phê dùng hằng ngày, một nơi khô mát và bao bì kín thường thuận tiện hơn. Việc lấy túi ra vào tủ lạnh có thể khiến hơi ẩm ngưng tụ và ảnh hưởng đến hương vị."
+      },
+      "faq_question_answer_21": {
+        "label": "question_answer: Cà phê dùng được trong bao lâu?",
+        "default": "Cà phê dùng được trong bao lâu?"
+      },
+      "faq_question_answer_22": {
+        "label": "question_answer: Hãy kiểm tra ngày rang, hạn sử dụng và hướng dẫn trên bao bì của ",
+        "default": "Hãy kiểm tra ngày rang, hạn sử dụng và hướng dẫn trên bao bì của sản phẩm bạn mua. Sau khi mở túi, nên dùng sớm để cảm nhận hương thơm rõ hơn."
+      },
+      "faq_title_4": {
+        "label": "title: Đặt hàng & giao nhận",
+        "default": "Đặt hàng & giao nhận"
+      },
+      "faq_question_answer_23": {
+        "label": "question_answer: Tôi có thể đặt cà phê bằng cách nào?",
+        "default": "Tôi có thể đặt cà phê bằng cách nào?"
+      },
+      "faq_question_answer_24": {
+        "label": "question_answer: Chọn cà phê, khối lượng và số lượng trên trang Sản phẩm, rồi dùng",
+        "default": "Chọn cà phê, khối lượng và số lượng trên trang Sản phẩm, rồi dùng nút Liên hệ Zalo trong giỏ hàng để trao đổi với Là Vườn Coffee qua số 0356597539. Website hiện không nhận thanh toán trực tiếp."
+      },
+      "faq_question_answer_25": {
+        "label": "question_answer: Phí giao hàng được tính như thế nào?",
+        "default": "Phí giao hàng được tính như thế nào?"
+      },
+      "faq_question_answer_26": {
+        "label": "question_answer: Đơn từ 500.000đ được miễn phí giao hàng. Với đơn dưới mức này, vu",
+        "default": "Đơn từ 500.000đ được miễn phí giao hàng. Với đơn dưới mức này, vui lòng liên hệ Zalo để được xác nhận phí trước khi gửi hàng."
+      },
+      "faq_question_answer_27": {
+        "label": "question_answer: Tôi có thể thay đổi thông tin đơn hàng không?",
+        "default": "Tôi có thể thay đổi thông tin đơn hàng không?"
+      },
+      "faq_question_answer_28": {
+        "label": "question_answer: Hãy liên hệ sớm và cung cấp thông tin đơn hàng cùng nội dung cần ",
+        "default": "Hãy liên hệ sớm và cung cấp thông tin đơn hàng cùng nội dung cần thay đổi. Chúng tôi sẽ kiểm tra tình trạng xử lý và phản hồi phương án phù hợp."
+      },
+      "faq_question_answer_29": {
+        "label": "question_answer: Tôi cần làm gì nếu sản phẩm nhận được có vấn đề?",
+        "default": "Tôi cần làm gì nếu sản phẩm nhận được có vấn đề?"
+      },
+      "faq_question_answer_30": {
+        "label": "question_answer: Giữ lại bao bì, thông tin đơn hàng và ảnh chụp tình trạng sản phẩ",
+        "default": "Giữ lại bao bì, thông tin đơn hàng và ảnh chụp tình trạng sản phẩm, sau đó gửi cho chúng tôi qua trang Liên hệ để được kiểm tra và hỗ trợ."
+      },
+      "faq_title_5": {
+        "label": "title: Hợp tác",
+        "default": "Hợp tác"
+      },
+      "faq_question_answer_31": {
+        "label": "question_answer: Tôi muốn tìm cà phê cho quán, có thể liên hệ ở đâu?",
+        "default": "Tôi muốn tìm cà phê cho quán, có thể liên hệ ở đâu?"
+      },
+      "faq_question_answer_32": {
+        "label": "question_answer: Bạn có thể gửi yêu cầu qua trang Liên hệ. Hãy chia sẻ mô hình quá",
+        "default": "Bạn có thể gửi yêu cầu qua trang Liên hệ. Hãy chia sẻ mô hình quán, cách pha, gu hương vị và lượng cà phê dự kiến sử dụng để chúng tôi hiểu rõ nhu cầu."
+      },
+      "faq_question_answer_33": {
+        "label": "question_answer: Tôi cần tư vấn thêm về sản phẩm thì sao?",
+        "default": "Tôi cần tư vấn thêm về sản phẩm thì sao?"
+      },
+      "faq_question_answer_34": {
+        "label": "question_answer: Hãy cho chúng tôi biết loại cà phê bạn đang dùng, dụng cụ pha và ",
+        "default": "Hãy cho chúng tôi biết loại cà phê bạn đang dùng, dụng cụ pha và điều bạn muốn thay đổi trong tách cà phê. Những thông tin này sẽ giúp việc tư vấn cụ thể hơn."
+      },
+      "faq_label_1": {
+        "label": "label: Chủ đề:",
+        "default": "Chủ đề:"
+      },
+      "faq_p_1": {
+        "label": "p: FAQs",
+        "default": "FAQs"
+      },
+      "faq_h1_1": {
+        "label": "h1: Câu hỏi thường gặp",
+        "default": "Câu hỏi thường gặp"
+      },
+      "faq_p_2": {
+        "label": "p: Một tách cà phê, nhiều điều để khám phá.",
+        "default": "Một tách cà phê, nhiều điều để khám phá."
+      },
+      "faq_h2_1": {
+        "label": "h2: Bạn vẫn còn câu hỏi?",
+        "default": "Bạn vẫn còn câu hỏi?"
+      },
+      "faq_reveallink_1": {
+        "label": "RevealLink: Trò chuyện với chúng tôi",
+        "default": "Trò chuyện với chúng tôi"
+      }
+    }
+  }
+}

@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+// A fresh key per build process avoids stale Next fetch-cache entries across static builds.
+const buildRequestKey = Date.now().toString(36);
 const rendered = z.object({ rendered: z.string(), protected: z.boolean().optional() });
 const id = z.number().int().positive();
 const slug = z
@@ -20,6 +22,19 @@ const postSchema = z.object({
     featured_media: z.number().int().nonnegative().default(0),
 });
 const termSchema = z.object({ id, slug, name: z.string(), description: z.string(), count: z.number().int().nonnegative().optional() });
+const contentPageSchema = z.object({
+    id,
+    status: z.literal("publish"),
+    acf: z.record(z.string(), z.unknown()),
+    yoast_head_json: z.object({
+        title: z.string(),
+        description: z.string().optional(),
+        og_title: z.string().optional(),
+        og_description: z.string().optional(),
+        twitter_title: z.string().optional(),
+        twitter_description: z.string().optional(),
+    }),
+});
 const mediaSchema = z.object({
     id,
     slug,
@@ -29,6 +44,25 @@ const mediaSchema = z.object({
     caption: rendered.optional(),
     description: rendered.optional(),
     media_details: z.object({ width: z.number().optional(), height: z.number().optional() }).optional(),
+});
+const wooProductSchema = z.object({
+    id,
+    slug,
+    type: z.literal("simple"),
+    name: z.string(),
+    short_description: z.string(),
+    description: z.string(),
+    prices: z.object({
+        price: z.string().regex(/^\d+$/),
+        currency_code: z.literal("VND"),
+        currency_minor_unit: z.literal(0),
+    }),
+    images: z.array(z.object({ src: z.url() })).min(1),
+    categories: z.array(z.object({ name: z.string() })).min(1),
+    attributes: z.array(z.object({ name: z.string(), terms: z.array(z.object({ name: z.string() })) })),
+    is_in_stock: z.boolean(),
+    is_purchasable: z.boolean(),
+    is_password_protected: z.literal(false),
 });
 
 export type WordPressPost = z.infer<typeof postSchema>;
@@ -80,6 +114,7 @@ export function createWordPressClient(options: { baseUrl?: string; timeoutMs?: n
             url.pathname = `${url.pathname.replace(/\/$/, "")}/${path}`;
         }
         for (const [key, value] of Object.entries(query)) url.searchParams.set(key, String(value));
+        url.searchParams.set("_coffee_build", buildRequestKey);
         return url;
     }
 
@@ -87,7 +122,7 @@ export function createWordPressClient(options: { baseUrl?: string; timeoutMs?: n
         const url = urlFor(path, query).toString();
         let pending = requests.get(url);
         if (!pending) {
-            pending = send(url, { headers: { Accept: "application/json" }, signal: AbortSignal.timeout(timeoutMs), redirect: "error", cache: "no-store" })
+            pending = send(url, { headers: { Accept: "application/json", Connection: "close" }, signal: AbortSignal.timeout(timeoutMs), redirect: "error", cache: "force-cache" })
                 .then(async (response) => {
                     if (!response.ok) throw new WordPressApiError(`WordPress API returned HTTP ${response.status}`, response.status, response.headers.get("Retry-After"));
                     let body: unknown;
@@ -101,7 +136,9 @@ export function createWordPressClient(options: { baseUrl?: string; timeoutMs?: n
                 .catch((error: unknown) => {
                     requests.delete(url);
                     if (error instanceof WordPressApiError) throw error;
-                    throw new WordPressApiError("WordPress API network request failed or timed out");
+                    const failure = new WordPressApiError("WordPress API network request failed or timed out");
+                    failure.cause = error;
+                    throw failure;
                 });
             requests.set(url, pending);
         }
@@ -136,6 +173,12 @@ export function createWordPressClient(options: { baseUrl?: string; timeoutMs?: n
     }
 
     return {
+        getPage(pageId: number) {
+            return request(`wp/v2/pages/${positiveId(pageId)}`, contentPageSchema).then(({ data }) => data);
+        },
+        getProducts(input: Pagination = {}) {
+            return list("wc/store/v1/products", wooProductSchema, { ...pagination(input), orderby: "menu_order", order: "asc", catalog_visibility: "visible" });
+        },
         getPosts(input: PostQuery = {}) {
             const query: Record<string, string | number> = { ...pagination(input), status: "publish" };
             if (input.slug !== undefined) query.slug = slug.parse(input.slug);

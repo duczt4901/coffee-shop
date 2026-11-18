@@ -1,14 +1,16 @@
+import { homeImages as images } from "@/data/page-images";
+import { homeContent as content } from "@/data/page-content";
 export const coffeeStories = [
     {
-        title: "Từ VƯỜN",
-        image: "/images/coffee/lam-dong-coffee-farm-panorama.webp",
+        title: content.slides_title_1,
+        image: images.home_image_lam_dong_coffee_farm_panorama,
     },
     {
-        title: "và THU HÁI",
-        image: "/images/coffee/coffee-cherry-harvest.webp",
+        title: content.slides_title_2,
+        image: images.home_image_coffee_cherry_harvest,
     },
     {
-        title: "đến PHƠI SẤY",
-        image: "/images/coffee/sun-dried-coffee-cherries.webp",
+        title: content.slides_title_3,
+        image: images.home_image_sun_dried_coffee_cherries,
     },
 ];

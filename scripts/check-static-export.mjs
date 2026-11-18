@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join, resolve } from "node:path";
+import { importTypeScript } from "./lib/import-typescript.mjs";
 
 const root = resolve("out");
 const origin = "https://lavuon.cafe";
@@ -21,7 +22,20 @@ for (const url of locations) {
         `Missing static page for ${url.pathname}`,
     );
 }
-assert.ok(readFileSync(join(root, "robots.txt"), "utf8").includes(`Sitemap: ${origin}/sitemap.xml`), "robots.txt sitemap domain differs");
+const robots = readFileSync(join(root, "robots.txt"), "utf8");
+assert.ok(robots.includes("Allow: /") && !robots.includes("Sitemap:"), "Crawlers must read noindex; sitemap promotion stays disabled");
+assert.ok(readFileSync(join(root, "_headers"), "utf8").includes("X-Robots-Tag: noindex, nofollow"), "Missing noindex response header");
+const { products } = await importTypeScript(new URL("../src/data/products.ts", import.meta.url));
+const { pageSeo } = await importTypeScript(new URL("../src/data/page-content.ts", import.meta.url));
+for (const path of Object.keys(pageSeo)) {
+    const html = readFileSync(join(root, path, "index.html"), "utf8");
+    assert.ok(html.includes('name="description"') && html.includes(`href="${origin}${path}"`), `Missing page SEO: ${path}`);
+    assert.match(html, /name="robots" content="noindex, nofollow"/, `Missing noindex: ${path}`);
+}
+for (const product of products) {
+    assert.ok(existsSync(join(root, "san-pham", product.slug, "index.html")), `Missing static product page: ${product.slug}`);
+    assert.ok(product.image.startsWith("/images/products/wp-") && existsSync(join(root, product.image)), `Missing mirrored product image: ${product.slug}`);
+}
 
 let pages = 0;
 function inspect(directory) {
@@ -31,6 +45,7 @@ function inspect(directory) {
         else if (/\.(html|js|json|txt)$/.test(entry.name)) {
             const contents = readFileSync(path, "utf8");
             assert.ok(!/\b(?:ck|cs)_[a-f0-9]{40}\b/i.test(contents), "WooCommerce credential-shaped value in public export");
+            if (entry.name.endsWith(".js")) assert.ok(!/wc\/store\/v1|WOOCOMMERCE_API_BASE_URL|wp\/v2\/pages/.test(contents), "Build-only CMS API code leaked into a browser bundle");
             if (entry.name.endsWith(".html")) {
                 pages++;
                 for (const canonical of contents.matchAll(/<link\b[^>]*rel="canonical"[^>]*href="([^"]+)"/g)) {

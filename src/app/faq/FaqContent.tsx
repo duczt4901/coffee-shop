@@ -1,4 +1,7 @@
 "use client";
+import { faqContent as content } from "@/data/page-content";
+import { faqImages } from "@/data/page-images";
+import { SkeletonImage } from "@/components/ui/SkeletonImage";
 
 import { useEffect, useRef, useState } from "react";
 import { EditorialReveal, RevealLink } from "@/components/ui/EditorialReveal";
@@ -9,94 +12,49 @@ import styles from "./page.module.css";
 const categories = [
     {
         id: "ca-phe",
-        title: "Cà phê của chúng tôi",
+        title: content.faq_title_1,
         questions: [
-            [
-                "Là Vườn Coffee có những dòng cà phê nào?",
-                "Bộ sưu tập hiện có cà phê Robusta và Arabica, với nhiều lựa chọn khối lượng. Bạn có thể xem hương vị, giống và mức rang trên từng trang sản phẩm.",
-            ],
-            [
-                "Robusta và Arabica khác nhau thế nào?",
-                "Robusta thường có vị đậm, thể chất dày và hậu vị rõ. Arabica thường thiên về hương thơm, độ chua và vị ngọt. Hương vị cuối cùng còn phụ thuộc vào vùng trồng, sơ chế, mức rang và cách pha.",
-            ],
-            ["Cà phê có nguồn gốc từ đâu?", "Chúng tôi giới thiệu cà phê từ cao nguyên Việt Nam. Vùng trồng và thông tin nguồn gốc cụ thể được ghi trong phần “Về sản phẩm” của từng loại cà phê."],
-            [
-                "Tôi nên bắt đầu với loại cà phê nào?",
-                "Nếu thích một tách đậm vị, bạn có thể bắt đầu với Robusta. Nếu thích hương thơm và vị thanh hơn, hãy thử Arabica. Gửi cho chúng tôi cách pha và gu vị của bạn để được tư vấn thêm.",
-            ],
+            [content.faq_question_answer_1, content.faq_question_answer_2],
+            [content.faq_question_answer_3, content.faq_question_answer_4],
+            [content.faq_question_answer_5, content.faq_question_answer_6],
+            [content.faq_question_answer_7, content.faq_question_answer_8],
         ],
     },
     {
         id: "cach-pha",
-        title: "Cách pha",
+        title: content.faq_title_2,
         questions: [
-            [
-                "Cà phê nào phù hợp để pha phin?",
-                "Robusta là một lựa chọn quen thuộc cho phin và cà phê sữa. Arabica cũng có thể pha phin nếu bạn thích vị thanh hơn. Độ xay và thời gian chiết xuất có ảnh hưởng lớn đến tách cà phê.",
-            ],
-            [
-                "Tôi có thể dùng cà phê này cho máy espresso không?",
-                "Bạn có thể chọn hạt cà phê dựa trên gu vị và mức rang, rồi điều chỉnh độ xay cho máy espresso. Hãy cho chúng tôi biết thiết bị đang dùng khi cần tư vấn.",
-            ],
-            [
-                "Nên chọn cà phê hạt hay cà phê xay?",
-                "Nếu có máy xay, hãy chọn cà phê hạt và xay ngay trước khi pha. Nếu dùng cà phê xay, bạn nên chọn độ xay phù hợp với phin, máy hoặc dụng cụ lọc của mình.",
-            ],
-            [
-                "Vì sao cà phê của tôi quá đắng hoặc quá nhạt?",
-                "Hãy thử thay đổi từng yếu tố: lượng cà phê, lượng nước, độ xay hoặc thời gian pha. Xay mịn hơn và pha lâu hơn thường làm tăng chiết xuất; xay thô hơn và pha nhanh hơn thường làm giảm chiết xuất.",
-            ],
+            [content.faq_question_answer_9, content.faq_question_answer_10],
+            [content.faq_question_answer_11, content.faq_question_answer_12],
+            [content.faq_question_answer_13, content.faq_question_answer_14],
+            [content.faq_question_answer_15, content.faq_question_answer_16],
         ],
     },
     {
         id: "bao-quan",
-        title: "Bảo quản",
+        title: content.faq_title_3,
         questions: [
-            [
-                "Nên bảo quản cà phê như thế nào?",
-                "Đóng kín túi sau mỗi lần sử dụng, để ở nơi khô ráo, thoáng mát và tránh ánh nắng. Hạn chế để cà phê tiếp xúc với không khí, hơi ẩm và các thực phẩm có mùi mạnh.",
-            ],
-            [
-                "Có nên để cà phê trong tủ lạnh không?",
-                "Với túi cà phê dùng hằng ngày, một nơi khô mát và bao bì kín thường thuận tiện hơn. Việc lấy túi ra vào tủ lạnh có thể khiến hơi ẩm ngưng tụ và ảnh hưởng đến hương vị.",
-            ],
-            ["Cà phê dùng được trong bao lâu?", "Hãy kiểm tra ngày rang, hạn sử dụng và hướng dẫn trên bao bì của sản phẩm bạn mua. Sau khi mở túi, nên dùng sớm để cảm nhận hương thơm rõ hơn."],
+            [content.faq_question_answer_17, content.faq_question_answer_18],
+            [content.faq_question_answer_19, content.faq_question_answer_20],
+            [content.faq_question_answer_21, content.faq_question_answer_22],
         ],
     },
     {
         id: "dat-hang",
-        title: "Đặt hàng & giao nhận",
+        title: content.faq_title_4,
         questions: [
-            [
-                "Tôi có thể đặt cà phê bằng cách nào?",
-                "Chọn cà phê, khối lượng và số lượng trên trang Sản phẩm, rồi dùng nút Liên hệ Zalo trong giỏ hàng để trao đổi với Là Vườn Coffee qua số 0356597539. Website hiện không nhận thanh toán trực tiếp.",
-            ],
-            [
-                "Phí giao hàng được tính như thế nào?",
-                "Đơn từ 500.000đ được miễn phí giao hàng. Với đơn dưới mức này, vui lòng liên hệ Zalo để được xác nhận phí trước khi gửi hàng.",
-            ],
-            [
-                "Tôi có thể thay đổi thông tin đơn hàng không?",
-                "Hãy liên hệ sớm và cung cấp thông tin đơn hàng cùng nội dung cần thay đổi. Chúng tôi sẽ kiểm tra tình trạng xử lý và phản hồi phương án phù hợp.",
-            ],
-            [
-                "Tôi cần làm gì nếu sản phẩm nhận được có vấn đề?",
-                "Giữ lại bao bì, thông tin đơn hàng và ảnh chụp tình trạng sản phẩm, sau đó gửi cho chúng tôi qua trang Liên hệ để được kiểm tra và hỗ trợ.",
-            ],
+            [content.faq_question_answer_23, content.faq_question_answer_24],
+            [content.faq_question_answer_25, content.faq_question_answer_26],
+            [content.faq_question_answer_27, content.faq_question_answer_28],
+            [content.faq_question_answer_29, content.faq_question_answer_30],
         ],
     },
     {
         id: "hop-tac",
-        title: "Hợp tác",
+        title: content.faq_title_5,
         questions: [
-            [
-                "Tôi muốn tìm cà phê cho quán, có thể liên hệ ở đâu?",
-                "Bạn có thể gửi yêu cầu qua trang Liên hệ. Hãy chia sẻ mô hình quán, cách pha, gu hương vị và lượng cà phê dự kiến sử dụng để chúng tôi hiểu rõ nhu cầu.",
-            ],
-            [
-                "Tôi cần tư vấn thêm về sản phẩm thì sao?",
-                "Hãy cho chúng tôi biết loại cà phê bạn đang dùng, dụng cụ pha và điều bạn muốn thay đổi trong tách cà phê. Những thông tin này sẽ giúp việc tư vấn cụ thể hơn.",
-            ],
+            [content.faq_question_answer_31, content.faq_question_answer_32],
+            [content.faq_question_answer_33, content.faq_question_answer_34],
         ],
     },
 ];
@@ -184,25 +142,29 @@ export function FaqContent() {
     return (
         <article ref={rootRef} className={styles.page}>
             <div className={styles.mobileNav}>
-                <label htmlFor="faq-category">Chủ đề:</label>
+                <label htmlFor="faq-category">{content.faq_label_1}</label>
                 <Dropdown id="faq-category" label="Chủ đề câu hỏi" value={active} onChange={goTo} options={categories.map(({ id, title }) => ({ value: id, label: title, href: `#${id}` }))} />
             </div>
             <div className={styles.container}>
                 <EditorialReveal>
                     <header className={styles.hero}>
-                        <p data-reveal="lines">FAQs</p>
-                        <h1 data-reveal="words">
-                            Câu hỏi thường gặp
-                        </h1>
+                        <p data-reveal="lines">{content.faq_p_1}</p>
+                        <h1 data-reveal="words">{content.faq_h1_1}</h1>
+                        {faqImages.faq_image_intro && <SkeletonImage src={faqImages.faq_image_intro} alt="" width={1600} height={900} sizes="(min-width: 1000px) 50vw, 100vw" className="my-8 aspect-video w-full object-cover" />}
                     </header>
                 </EditorialReveal>
                 <div className={styles.layout}>
                     <nav aria-label="Chủ đề câu hỏi" className={styles.categoryNav}>
                         {categories.map(({ id, title }) => (
-                            <a key={id} href={`#${id}`} aria-current={active === id ? "location" : undefined} onClick={(event) => {
-                                event.preventDefault();
-                                goTo(id);
-                            }}>
+                            <a
+                                key={id}
+                                href={`#${id}`}
+                                aria-current={active === id ? "location" : undefined}
+                                onClick={(event) => {
+                                    event.preventDefault();
+                                    goTo(id);
+                                }}
+                            >
                                 {title}
                             </a>
                         ))}
@@ -224,11 +186,11 @@ export function FaqContent() {
                 </div>
                 <EditorialReveal>
                     <section className={styles.contact} aria-labelledby="faq-contact-title">
-                        <p data-reveal="lines">Một tách cà phê, nhiều điều để khám phá.</p>
+                        <p data-reveal="lines">{content.faq_p_2}</p>
                         <h2 data-reveal="words" id="faq-contact-title">
-                            Bạn vẫn còn câu hỏi?
+                            {content.faq_h2_1}
                         </h2>
-                        <RevealLink href="/lien-he/">Trò chuyện với chúng tôi</RevealLink>
+                        <RevealLink href="/lien-he/">{content.faq_reveallink_1}</RevealLink>
                     </section>
                 </EditorialReveal>
             </div>

@@ -32,7 +32,12 @@
     display: block;
     inline-size: 100%;
     block-size: 100%;
+    object-fit: contain;
     pointer-events: none;
+}
+
+.layer:has([data-coffee-layer="products"]) {
+    mask-image: linear-gradient(to bottom, transparent, #000 8%, #000 96%, transparent);
 }
 
 .decoration {

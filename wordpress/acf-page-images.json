@@ -1,0 +1,675 @@
+[
+  {
+    "key": "group_coffee_home_images",
+    "title": "Coffee-shop · Ảnh · Trang chủ",
+    "fields": [
+      {
+        "key": "field_coffee_home_image_coffee_parchment_drying",
+        "name": "home_image_coffee_parchment_drying",
+        "label": "Phơi cà phê thóc",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_home_image_coffee_harvest_bucket",
+        "name": "home_image_coffee_harvest_bucket",
+        "label": "Giỏ thu hoạch",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_home_image_raised_coffee_drying_beds",
+        "name": "home_image_raised_coffee_drying_beds",
+        "label": "Giàn phơi cà phê",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_home_image_coffee_processing_stages",
+        "name": "home_image_coffee_processing_stages",
+        "label": "Các bước sơ chế",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_home_image_coffee_beans_winnowing",
+        "name": "home_image_coffee_beans_winnowing",
+        "label": "Sàng cà phê",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_home_image_coffee_drying_raking",
+        "name": "home_image_coffee_drying_raking",
+        "label": "Đảo cà phê trên sân phơi",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_home_image_coffee_cherry_sorting_hero_poster",
+        "name": "home_image_coffee_cherry_sorting_hero_poster",
+        "label": "Ảnh chờ video đầu trang",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_home_image_lam_dong_coffee_farm_panorama",
+        "name": "home_image_lam_dong_coffee_farm_panorama",
+        "label": "Toàn cảnh vườn cà phê",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_home_image_coffee_cherry_harvest",
+        "name": "home_image_coffee_cherry_harvest",
+        "label": "Thu hái cà phê",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_home_image_sun_dried_coffee_cherries",
+        "name": "home_image_sun_dried_coffee_cherries",
+        "label": "Phơi quả cà phê",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_home_image_scene_products",
+        "name": "home_image_scene_products",
+        "label": "Cảnh ba túi cà phê và phin",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_home_image_beans_back_desktop",
+        "name": "home_image_beans_back_desktop",
+        "label": "Hạt phía sau · desktop",
+        "type": "image",
+        "instructions": "Dùng PNG/WebP nền trong suốt, giữ bố cục và khoảng trống của ảnh mẫu. Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "png,webp"
+      },
+      {
+        "key": "field_coffee_home_image_beans_back_mobile",
+        "name": "home_image_beans_back_mobile",
+        "label": "Hạt phía sau · mobile",
+        "type": "image",
+        "instructions": "Dùng PNG/WebP nền trong suốt, giữ bố cục và khoảng trống của ảnh mẫu. Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "png,webp"
+      },
+      {
+        "key": "field_coffee_home_image_beans_middle_desktop",
+        "name": "home_image_beans_middle_desktop",
+        "label": "Hạt ở giữa · desktop",
+        "type": "image",
+        "instructions": "Dùng PNG/WebP nền trong suốt, giữ bố cục và khoảng trống của ảnh mẫu. Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "png,webp"
+      },
+      {
+        "key": "field_coffee_home_image_beans_middle_mobile",
+        "name": "home_image_beans_middle_mobile",
+        "label": "Hạt ở giữa · mobile",
+        "type": "image",
+        "instructions": "Dùng PNG/WebP nền trong suốt, giữ bố cục và khoảng trống của ảnh mẫu. Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "png,webp"
+      },
+      {
+        "key": "field_coffee_home_image_beans_front_desktop",
+        "name": "home_image_beans_front_desktop",
+        "label": "Hạt phía trước · desktop",
+        "type": "image",
+        "instructions": "Dùng PNG/WebP nền trong suốt, giữ bố cục và khoảng trống của ảnh mẫu. Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "png,webp"
+      },
+      {
+        "key": "field_coffee_home_image_beans_front_mobile",
+        "name": "home_image_beans_front_mobile",
+        "label": "Hạt phía trước · mobile",
+        "type": "image",
+        "instructions": "Dùng PNG/WebP nền trong suốt, giữ bố cục và khoảng trống của ảnh mẫu. Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "png,webp"
+      }
+    ],
+    "location": [
+      [
+        {
+          "param": "page",
+          "operator": "==",
+          "value": "24"
+        }
+      ]
+    ],
+    "position": "normal",
+    "style": "default",
+    "active": true,
+    "show_in_rest": 1
+  },
+  {
+    "key": "group_coffee_about_images",
+    "title": "Coffee-shop · Ảnh · Về chúng tôi",
+    "fields": [
+      {
+        "key": "field_coffee_about_image_coffee_drinks_assortment",
+        "name": "about_image_coffee_drinks_assortment",
+        "label": "Những tách cà phê",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_about_image_coffee_harvest_bucket",
+        "name": "about_image_coffee_harvest_bucket",
+        "label": "Giỏ thu hoạch",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_about_image_ripe_coffee_cherries",
+        "name": "about_image_ripe_coffee_cherries",
+        "label": "Quả cà phê chín",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_about_image_coffee_cherry_harvest",
+        "name": "about_image_coffee_cherry_harvest",
+        "label": "Thu hái cà phê",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_about_image_lam_dong_coffee_farm",
+        "name": "about_image_lam_dong_coffee_farm",
+        "label": "Vườn cà phê",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_about_image_coffee_parchment_drying",
+        "name": "about_image_coffee_parchment_drying",
+        "label": "Phơi cà phê thóc",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_about_image_coffee_beans_winnowing",
+        "name": "about_image_coffee_beans_winnowing",
+        "label": "Sàng cà phê",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_about_image_coffee_drying_raking",
+        "name": "about_image_coffee_drying_raking",
+        "label": "Đảo cà phê trên sân phơi",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_about_image_raised_coffee_drying_beds",
+        "name": "about_image_raised_coffee_drying_beds",
+        "label": "Giàn phơi cà phê",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_about_image_coffee_roast_levels",
+        "name": "about_image_coffee_roast_levels",
+        "label": "Mức rang cà phê",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_about_image_lam_dong_coffee_farm_panorama",
+        "name": "about_image_lam_dong_coffee_farm_panorama",
+        "label": "Toàn cảnh vườn cà phê",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      }
+    ],
+    "location": [
+      [
+        {
+          "param": "page",
+          "operator": "==",
+          "value": "28"
+        }
+      ]
+    ],
+    "position": "normal",
+    "style": "default",
+    "active": true,
+    "show_in_rest": 1
+  },
+  {
+    "key": "group_coffee_story_images",
+    "title": "Coffee-shop · Ảnh · Câu chuyện",
+    "fields": [
+      {
+        "key": "field_coffee_story_image_lam_dong_coffee_farm",
+        "name": "story_image_lam_dong_coffee_farm",
+        "label": "Vườn cà phê",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_story_image_lam_dong_coffee_farm_panorama",
+        "name": "story_image_lam_dong_coffee_farm_panorama",
+        "label": "Toàn cảnh vườn cà phê",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_story_image_coffee_harvest_bucket",
+        "name": "story_image_coffee_harvest_bucket",
+        "label": "Giỏ thu hoạch",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_story_image_ripe_coffee_cherries",
+        "name": "story_image_ripe_coffee_cherries",
+        "label": "Quả cà phê chín",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_story_image_coffee_drying_beds_aerial",
+        "name": "story_image_coffee_drying_beds_aerial",
+        "label": "Sân phơi nhìn từ trên cao",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_story_image_coffee_drying_raking",
+        "name": "story_image_coffee_drying_raking",
+        "label": "Đảo cà phê trên sân phơi",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_story_image_coffee_roast_levels",
+        "name": "story_image_coffee_roast_levels",
+        "label": "Mức rang cà phê",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_story_image_coffee_drinks_assortment",
+        "name": "story_image_coffee_drinks_assortment",
+        "label": "Những tách cà phê",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      }
+    ],
+    "location": [
+      [
+        {
+          "param": "page",
+          "operator": "==",
+          "value": "31"
+        }
+      ]
+    ],
+    "position": "normal",
+    "style": "default",
+    "active": true,
+    "show_in_rest": 1
+  },
+  {
+    "key": "group_coffee_products_images",
+    "title": "Coffee-shop · Ảnh · Sản phẩm",
+    "fields": [
+      {
+        "key": "field_coffee_products_image_coffee_cherry_harvest",
+        "name": "products_image_coffee_cherry_harvest",
+        "label": "Thu hái cà phê",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_products_image_sun_dried_coffee_cherries",
+        "name": "products_image_sun_dried_coffee_cherries",
+        "label": "Phơi quả cà phê",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_products_image_coffee_drinks_assortment",
+        "name": "products_image_coffee_drinks_assortment",
+        "label": "Những tách cà phê",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_products_image_lam_dong_coffee_farm_panorama",
+        "name": "products_image_lam_dong_coffee_farm_panorama",
+        "label": "Toàn cảnh vườn cà phê",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_coffee_products_image_coffee_parchment_drying",
+        "name": "products_image_coffee_parchment_drying",
+        "label": "Phơi cà phê thóc",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      }
+    ],
+    "location": [
+      [
+        {
+          "param": "page",
+          "operator": "==",
+          "value": "34"
+        }
+      ]
+    ],
+    "position": "normal",
+    "style": "default",
+    "active": true,
+    "show_in_rest": 1
+  },
+  {
+    "key": "group_coffee_contact_images",
+    "title": "Coffee-shop · Ảnh · Liên hệ",
+    "fields": [
+      {
+        "key": "field_coffee_contact_image_intro",
+        "name": "contact_image_intro",
+        "label": "Ảnh đầu trang (tuỳ chọn)",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      }
+    ],
+    "location": [
+      [
+        {
+          "param": "page",
+          "operator": "==",
+          "value": "37"
+        }
+      ]
+    ],
+    "position": "normal",
+    "style": "default",
+    "active": true,
+    "show_in_rest": 1
+  },
+  {
+    "key": "group_coffee_faq_images",
+    "title": "Coffee-shop · Ảnh · Câu hỏi thường gặp",
+    "fields": [
+      {
+        "key": "field_coffee_faq_image_intro",
+        "name": "faq_image_intro",
+        "label": "Ảnh đầu trang (tuỳ chọn)",
+        "type": "image",
+        "instructions": "Để trống dùng ảnh mặc định. Cập nhật rồi build/deploy để website nhận ảnh mới.",
+        "return_format": "id",
+        "preview_size": "medium",
+        "library": "all",
+        "required": 0,
+        "max_size": 10,
+        "mime_types": "jpg,jpeg,png,webp"
+      }
+    ],
+    "location": [
+      [
+        {
+          "param": "page",
+          "operator": "==",
+          "value": "40"
+        }
+      ]
+    ],
+    "position": "normal",
+    "style": "default",
+    "active": true,
+    "show_in_rest": 1
+  }
+]

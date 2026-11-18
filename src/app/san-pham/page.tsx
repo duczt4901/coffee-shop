@@ -1,3 +1,5 @@
+import { productsImages as images } from "@/data/page-images";
+import { productsContent as content } from "@/data/page-content";
 import type { Metadata } from "next";
 import { SkeletonImage as Image } from "@/components/ui/SkeletonImage";
 import Link from "next/link";
@@ -15,10 +17,10 @@ export const metadata: Metadata = createMetadata({
 });
 
 const journey = [
-    { title: "Vùng trồng", image: "/images/coffee/lam-dong-coffee-farm-panorama.webp", alt: "Vườn cà phê trên cao nguyên Lâm Đồng" },
-    { title: "Thu hái", image: "/images/coffee/coffee-cherry-harvest.webp", alt: "Những quả cà phê chín được thu hái vào giỏ" },
-    { title: "Sơ chế", image: "/images/coffee/coffee-parchment-drying.webp", alt: "Hạt cà phê sau khi được tách vỏ" },
-    { title: "Phơi sấy", image: "/images/coffee/sun-dried-coffee-cherries.webp", alt: "Cà phê được phơi trên giàn sau thu hoạch" },
+    { title: content.products_title_1, image: images.products_image_lam_dong_coffee_farm_panorama, alt: "Vườn cà phê trên cao nguyên Lâm Đồng" },
+    { title: content.products_title_2, image: images.products_image_coffee_cherry_harvest, alt: "Những quả cà phê chín được thu hái vào giỏ" },
+    { title: content.products_title_3, image: images.products_image_coffee_parchment_drying, alt: "Hạt cà phê sau khi được tách vỏ" },
+    { title: content.products_title_4, image: images.products_image_sun_dried_coffee_cherries, alt: "Cà phê được phơi trên giàn sau thu hoạch" },
 ];
 
 export default function ProductsPage() {
@@ -26,22 +28,29 @@ export default function ProductsPage() {
         <div className={styles.page}>
             <EditorialReveal>
                 <header className={styles.intro}>
-                    <h1 data-reveal="words">Sản phẩm</h1>
-                    <p data-reveal="lines">
-                        Cà phê từ cao nguyên, cho mỗi ngày.
-                    </p>
+                    <h1 data-reveal="words">{content.products_h1_1}</h1>
+                    <p data-reveal="lines">{content.products_p_1}</p>
                 </header>
             </EditorialReveal>
 
             <section id="bo-suu-tap" className={styles.collection} aria-label="Bộ sưu tập cà phê">
                 <ul className={styles.productGrid}>
                     {products.map((product, index) => (
-                        <li key={product.slug}>
+                        <li key={product.slug} data-reveal-step={index + 1}>
                             <EditorialReveal>
                                 <div>
                                     <Link href={`/san-pham/${product.slug}/`} className={styles.productCard}>
                                         <div data-reveal="block" className={styles.productImage}>
-                                            <Image src={product.image} alt={product.name} fill sizes="(min-width: 1024px) 25vw, 50vw" loading="eager" fetchPriority={index === 0 ? "high" : undefined} className={styles.packshot} style={{ objectFit: "contain" }} />
+                                            <Image
+                                                src={product.image}
+                                                alt={product.name}
+                                                fill
+                                                sizes="(min-width: 1024px) 25vw, 50vw"
+                                                loading="eager"
+                                                fetchPriority={index === 0 ? "high" : undefined}
+                                                className={styles.packshot}
+                                                style={{ objectFit: "contain" }}
+                                            />
                                             <span className={styles.sizeLabel}>{product.sizeLabel}</span>
                                             {product.badge && <span className={styles.badge}>{product.badge}</span>}
                                         </div>
@@ -60,12 +69,12 @@ export default function ProductsPage() {
             <section className={styles.diptych} aria-label="Từ mùa thu hoạch đến hạt cà phê">
                 <div className={styles.largePhoto}>
                     <ImageReveal parallax={60}>
-                        <Image src="/images/coffee/coffee-cherry-harvest.webp" alt="Thu hái cà phê chín trên cao nguyên" fill sizes="(min-width: 768px) 48vw, 72vw" className={styles.photo} />
+                        <Image src={images.products_image_coffee_cherry_harvest} alt="Thu hái cà phê chín trên cao nguyên" fill sizes="(min-width: 768px) 48vw, 72vw" className={styles.photo} />
                     </ImageReveal>
                 </div>
                 <div className={styles.smallPhoto}>
                     <ImageReveal parallax={40}>
-                        <Image src="/images/coffee/sun-dried-coffee-cherries.webp" alt="Những giàn phơi cà phê sau thu hoạch" fill sizes="(min-width: 768px) 32vw, 56vw" className={styles.photo} />
+                        <Image src={images.products_image_sun_dried_coffee_cherries} alt="Những giàn phơi cà phê sau thu hoạch" fill sizes="(min-width: 768px) 32vw, 56vw" className={styles.photo} />
                     </ImageReveal>
                 </div>
             </section>
@@ -73,7 +82,7 @@ export default function ProductsPage() {
             <section className={styles.journey} aria-labelledby="journey-title">
                 <EditorialReveal>
                     <h2 data-reveal="words" id="journey-title">
-                        Hành trình của hạt cà phê
+                        {content.products_h2_1}
                     </h2>
                 </EditorialReveal>
                 <ul className={styles.journeyRail} aria-label="Các bước trong hành trình cà phê" tabIndex={0}>
@@ -89,14 +98,14 @@ export default function ProductsPage() {
                     ))}
                 </ul>
                 <RevealLink href="/cau-chuyen/" variant="border" className={styles.textLink}>
-                    Khám phá toàn bộ hành trình
+                    {content.products_textlink_1}
                 </RevealLink>
             </section>
 
             <section className={styles.feature} aria-labelledby="coffee-ritual-title">
                 <div className={styles.featureImage}>
                     <Image
-                        src="/images/coffee/coffee-drinks-assortment.webp"
+                        src={images.products_image_coffee_drinks_assortment}
                         alt="Espresso, cappuccino và những tách cà phê cho mỗi ngày"
                         fill
                         sizes="(min-width: 768px) 50vw, 100vw"
@@ -106,16 +115,16 @@ export default function ProductsPage() {
                 <EditorialReveal>
                     <div className={styles.featureCopy}>
                         <h2 data-reveal="words" id="coffee-ritual-title">
-                            Tìm hương vị
+                            {content.products_h2_2}
                             <br />
-                            của riêng bạn
+                            {content.products_h2_3}
                         </h2>
                         <ul>
-                            <li data-reveal="lines">Robusta đậm vị, Arabica thanh ngọt</li>
-                            <li data-reveal="lines">Nhiều khối lượng cho nhịp pha mỗi ngày</li>
-                            <li data-reveal="lines">Thông tin nguồn gốc và sơ chế rõ ràng</li>
+                            <li data-reveal="lines">{content.products_li_1}</li>
+                            <li data-reveal="lines">{content.products_li_2}</li>
+                            <li data-reveal="lines">{content.products_li_3}</li>
                         </ul>
-                        <RevealLink href="#bo-suu-tap">Chọn cà phê của bạn</RevealLink>
+                        <RevealLink href="#bo-suu-tap">{content.products_reveallink_1}</RevealLink>
                     </div>
                 </EditorialReveal>
             </section>

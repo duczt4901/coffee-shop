@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { homeContent } from "@/data/page-content";
 import type { ReactElement } from "react";
 
 import { ImmersivePage } from "@/components/layout/ImmersivePage";
@@ -18,7 +19,7 @@ export const metadata: Metadata = createMetadata({
 export default function HomePage(): ReactElement {
     return (
         <>
-            <ImmersivePage backdrop={<HeroVideo />} heroContent={<div data-hero-brand className={styles.heroBrand}><BrandIntro heading /></div>}>
+            <ImmersivePage backdrop={<HeroVideo />} heroContent={<div data-hero-brand className={styles.heroBrand}><BrandIntro heading slogan={homeContent.hero_slogan} /></div>}>
                 {/* <BenefitsSection /> */}
                 <div className={styles.homeSections}>
                     <CoffeeBagExperience />

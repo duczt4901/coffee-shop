@@ -113,7 +113,10 @@ test("CMS plain text decodes entities once, separates paragraphs and removes scr
 test("blog metadata and sitemap use the public canonical domain and escaped paths", async () => {
     const database = JSON.parse(readFileSync(new URL("../src/data/db.json", import.meta.url), "utf8"));
     const databaseURL = moduleURL(`export const database = ${JSON.stringify(database)};`);
-    const { createMetadata } = await importTypeScript(new URL("../src/lib/metadata.ts", import.meta.url), { "@/lib/database": databaseURL });
+    const { createMetadata } = await importTypeScript(new URL("../src/lib/metadata.ts", import.meta.url), {
+        "@/lib/database": databaseURL,
+        "@/data/page-content": typeScriptModuleURL(new URL("../src/data/page-content.ts", import.meta.url)),
+    });
     const blog = await loadBlog();
     const path = blog.blogPostPath("cà-phê");
     const metadata = createMetadata({ title: "Cà phê", path });

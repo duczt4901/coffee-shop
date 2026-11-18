@@ -11,7 +11,11 @@ const compiled = ["CoffeeProcessSlideshow.tsx", "coffee-process-slideshow-runtim
 }).outputText);
 
 const storyData = {};
-vm.runInNewContext(ts.transpileModule(readFileSync("src/data/coffee-stories.ts", "utf8"), { compilerOptions: { module: ts.ModuleKind.CommonJS } }).outputText, { exports: storyData });
+const pageContent = {};
+const pageImages = {};
+vm.runInNewContext(ts.transpileModule(readFileSync("src/data/page-content.ts", "utf8"), { compilerOptions: { module: ts.ModuleKind.CommonJS } }).outputText, { exports: pageContent });
+vm.runInNewContext(ts.transpileModule(readFileSync("src/data/page-images.ts", "utf8"), { compilerOptions: { module: ts.ModuleKind.CommonJS } }).outputText, { exports: pageImages });
+vm.runInNewContext(ts.transpileModule(readFileSync("src/data/coffee-stories.ts", "utf8"), { compilerOptions: { module: ts.ModuleKind.CommonJS } }).outputText, { exports: storyData, require: name => name === "@/data/page-images" ? pageImages : pageContent });
 
 function element() {
     const attributes = new Map();
@@ -77,6 +81,7 @@ function mount({ initialTop = 1200, incompleteStory = false, initialFailure = fa
                 addEventListener: events.addEventListener.bind(events), removeEventListener: events.removeEventListener.bind(events),
             },
             require(name) {
+                if (name === "@/data/page-content") return pageContent;
                 if (name === "react/jsx-runtime") return jsxRuntime;
                 if (name === "@/data/coffee-stories") return storyData;
                 if (name.endsWith("enhance-when-visible")) return { enhanceWhenVisible() {} };

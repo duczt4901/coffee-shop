@@ -2,6 +2,7 @@
 
 import { useEffect, useImperativeHandle, useRef, useState, type CSSProperties, type Ref } from "react";
 import layers from "@/data/coffee-parallax.json";
+import { homeImages } from "@/data/page-images";
 import framing from "./CoffeeBagExperience.module.css";
 import styles from "./CoffeeParallaxScene.module.css";
 import "./coffee-bag/coffee-framing.generated.css";
@@ -10,10 +11,8 @@ export type CoffeeParallaxHandle = { setProgress(progress: number): void };
 // One scroll progress drives the whole flock; only these offsets differ.
 const sceneLayers = [
     { id: "back", x: -40, y: 24, rotate: -5, photo: false },
-    { id: "blue", x: -8, y: -5, rotate: -0.4, photo: true },
-    { id: "orange", x: 10, y: 4, rotate: 0.35, photo: true },
-    { id: "cup", x: -6, y: -7, rotate: 0.4, photo: true },
-    { id: "green", x: 14, y: -3, rotate: -0.2, photo: true },
+    // Keep the photographed bags and their shared tabletop shadows together.
+    { id: "products", x: 0, y: 0, rotate: 0, photo: true },
     { id: "middle", x: -28, y: 18, rotate: -3.5, photo: false },
     { id: "front", x: 100, y: -80, rotate: 16, photo: false },
 ] as const;
@@ -25,7 +24,7 @@ export function CoffeeParallaxScene({ ref }: { ref: Ref<CoffeeParallaxHandle> })
     const [status, setStatus] = useState<"loading" | "ready" | "fallback">("loading");
     const loaded = (id: string) => {
         loadedPhotos.current.add(id);
-        if (loadedPhotos.current.size === 4) setStatus(current => current === "fallback" ? current : "ready");
+        if (loadedPhotos.current.size === 1) setStatus(current => current === "fallback" ? current : "ready");
     };
 
     useEffect(() => {
@@ -62,17 +61,19 @@ export function CoffeeParallaxScene({ ref }: { ref: Ref<CoffeeParallaxHandle> })
                 <div className={styles.artboard} style={aspect}>
                 {visibleLayers.map(item => {
                     const desktop = layers.desktop[item.id], mobile = layers.mobile[item.id];
+                    const desktopSrc = item.id === "products" ? homeImages.home_image_scene_products : homeImages[`home_image_beans_${item.id}_desktop`];
+                    const mobileSrc = item.id === "products" ? homeImages.home_image_scene_products : homeImages[`home_image_beans_${item.id}_mobile`];
                     const placement = {
                         "--left": `${desktop.left}%`, "--top": `${desktop.top}%`, "--width": `${desktop.displayWidth}%`, "--height": `${desktop.displayHeight}%`,
                         "--mobile-left": `${mobile.left}%`, "--mobile-top": `${mobile.top}%`, "--mobile-width": `${mobile.displayWidth}%`, "--mobile-height": `${mobile.displayHeight}%`,
                         "--drift-x": item.x, "--drift-y": item.y, "--drift-rotate": item.rotate,
                     } as CSSProperties;
                     return <picture key={item.id} style={placement} className={`${styles.layer} ${item.photo ? "" : styles.decoration}`}>
-                        <source media="(max-width: 47.999rem)" srcSet={mobile.src} />
+                        <source media="(max-width: 47.999rem)" srcSet={fallback ? "/images/pages/coffee-products-photo.webp" : mobileSrc} />
                         <img
                             data-coffee-layer={item.id}
                             data-coffee-photo={item.photo || undefined}
-                            src={desktop.src}
+                            src={fallback ? "/images/pages/coffee-products-photo.webp" : desktopSrc}
                             width={desktop.width}
                             height={desktop.height}
                             className={styles.image}

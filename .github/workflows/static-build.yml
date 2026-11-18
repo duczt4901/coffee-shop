@@ -13,6 +13,7 @@ jobs:
         timeout-minutes: 20
         env:
             WORDPRESS_API_BASE_URL: ${{ vars.WORDPRESS_API_BASE_URL }}
+            WOOCOMMERCE_API_BASE_URL: ${{ vars.WOOCOMMERCE_API_BASE_URL }}
         steps:
             - uses: actions/checkout@v7
               with:
@@ -24,9 +25,11 @@ jobs:
             - run: corepack enable
             - run: pnpm install --frozen-lockfile
             - run: pnpm typecheck
-            - run: pnpm exec eslint src worker scripts/check-static-export.mjs scripts/finalize-static-export.mjs scripts/test-cms-export.mjs scripts/test-wordpress.mjs tests/wordpress.test.ts tests/wordpress*.test.mjs tests/worker-safety.test.mjs
+            - run: pnpm exec eslint src worker scripts/check-static-export.mjs scripts/finalize-static-export.mjs scripts/test-cms-export.mjs scripts/test-wordpress.mjs scripts/generate-products.mjs scripts/generate-pages.mjs scripts/export-wordpress-fields.mjs tests/wordpress.test.ts tests/wordpress*.test.mjs tests/worker-safety.test.mjs tests/woocommerce-catalog.test.mjs
             - run: pnpm test:cms
             - run: pnpm test:commerce
+            - run: pnpm test:products
+            - run: pnpm test:pages
             - run: pnpm test:cms-export
             - run: pnpm build
             - run: pnpm check:static

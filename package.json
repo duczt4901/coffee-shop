@@ -7,11 +7,16 @@
         "node": ">=22.12.0"
     },
     "scripts": {
-        "dev": "node scripts/generate-page-reveal.mjs && next dev",
+        "dev": "node scripts/generate-products.mjs && node scripts/generate-pages.mjs && node scripts/generate-page-reveal.mjs && node scripts/generate-image-placeholders.mjs && next dev",
         "dev:api": "wrangler dev --port 8787 --compatibility-date 2026-08-06 --assets public",
         "db:migrate:local": "wrangler d1 migrations apply coffee-shop-orders --local",
         "db:migrate:remote": "wrangler d1 migrations apply coffee-shop-orders --remote",
-        "build": "node scripts/generate-page-reveal.mjs && node scripts/generate-image-placeholders.mjs && node scripts/check-coffee-bean-atlas.mjs && node scripts/check-coffee-framing-css.mjs && next build && node scripts/finalize-static-export.mjs",
+        "build": "node scripts/generate-products.mjs && node scripts/generate-pages.mjs && node scripts/generate-page-reveal.mjs && node scripts/generate-image-placeholders.mjs && node scripts/check-coffee-bean-atlas.mjs && node scripts/check-coffee-framing-css.mjs && next build && node scripts/finalize-static-export.mjs",
+        "sync:pages": "node scripts/generate-pages.mjs",
+        "export:fields": "node scripts/export-wordpress-fields.mjs",
+        "test:pages": "node --test tests/wordpress-pages.test.mjs",
+        "sync:products": "node scripts/generate-products.mjs",
+        "test:products": "node --test tests/woocommerce-catalog.test.mjs",
         "generate:coffee-framing": "node scripts/generate-coffee-framing-css.mjs",
         "check:coffee-framing": "node scripts/check-coffee-framing-css.mjs",
         "bake:coffee-atlas": "node scripts/coffee-scene-update/generate-bean-atlas.mjs",

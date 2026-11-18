@@ -14,7 +14,7 @@ export function readCart(raw: string): CartItem[] {
         if (!Array.isArray(value)) return [];
         const items = new Map<string, number>();
         for (const item of value) {
-            if (!item || typeof item.slug !== "string" || !getProduct(item.slug) || !Number.isInteger(item.quantity) || item.quantity < 1) continue;
+            if (!item || typeof item.slug !== "string" || !getProduct(item.slug)?.available || !Number.isInteger(item.quantity) || item.quantity < 1) continue;
             items.set(item.slug, Math.min(MAX_QUANTITY, (items.get(item.slug) ?? 0) + item.quantity));
         }
         return [...items].map(([slug, quantity]) => ({ slug, quantity }));
@@ -26,7 +26,7 @@ export function readCart(raw: string): CartItem[] {
 export function getCartLines(items: CartItem[]) {
     return items.flatMap((item) => {
         const product = getProduct(item.slug);
-        return product ? [{ ...item, product, lineTotal: product.priceVnd * item.quantity }] : [];
+        return product?.available ? [{ ...item, product, lineTotal: product.priceVnd * item.quantity }] : [];
     });
 }
 

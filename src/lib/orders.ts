@@ -30,11 +30,15 @@ export function priceOrder(items: OrderInput["items"], shippingFee?: string) {
     const seen = new Set<string>();
     const lines = items.map(({ slug, quantity }) => {
         const product = getProduct(slug);
-        if (!product || seen.has(slug)) throw new Error("Sản phẩm không hợp lệ. Vui lòng cập nhật giỏ hàng.");
+        if (!product?.available || seen.has(slug)) throw new Error("Sản phẩm không hợp lệ hoặc đã hết hàng. Vui lòng cập nhật giỏ hàng.");
         seen.add(slug);
-        return { slug, quantity, name: product.name, sizeLabel: product.sizeLabel, unitPrice: product.priceVnd, lineTotal: product.priceVnd * quantity };
+        const lineTotal = product.priceVnd * quantity;
+        if (!Number.isSafeInteger(lineTotal)) throw new Error("Giá trị đơn hàng vượt giới hạn cho phép.");
+        return { slug, quantity, name: product.name, sizeLabel: product.sizeLabel, unitPrice: product.priceVnd, lineTotal };
     });
     const subtotal = lines.reduce((sum, line) => sum + line.lineTotal, 0);
     const shipping = getShipping(subtotal, shippingFee);
-    return { lines, subtotal, shippingFee: shipping, total: shipping === null ? null : subtotal + shipping };
+    const total = shipping === null ? null : subtotal + shipping;
+    if (!Number.isSafeInteger(subtotal) || (total !== null && !Number.isSafeInteger(total))) throw new Error("Giá trị đơn hàng vượt giới hạn cho phép.");
+    return { lines, subtotal, shippingFee: shipping, total };
 }

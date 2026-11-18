@@ -1,4 +1,5 @@
 "use client";
+import { homeContent as content } from "@/data/page-content";
 
 import { useLayoutEffect, useRef, type ReactElement } from "react";
 import { EditorialReveal, RevealLink } from "@/components/ui/EditorialReveal";
@@ -13,7 +14,7 @@ export function CoffeeBagExperience(): ReactElement {
     useLayoutEffect(() => {
         const section = sectionRef.current;
         if (!section) return;
-        return enhanceWhenVisible(section, () => import("./coffee-experience-runtime").then(module => element => module.setupCoffeeExperience(element, modelRef)));
+        return enhanceWhenVisible(section, () => import("./coffee-experience-runtime").then((module) => (element) => module.setupCoffeeExperience(element, modelRef)));
     }, []);
 
     return (
@@ -22,13 +23,13 @@ export function CoffeeBagExperience(): ReactElement {
                 <div data-coffee-stage className={styles.stage}>
                     <div className={styles.openingTrack}>
                         <p data-display-copy className={`${styles.displayReveal} ${styles.openingCopy}`}>
-                            <span className="block">Người buồn</span> <span className="block">cảnh có</span>
+                            <span className="block">{content.bag_span_1}</span> <span className="block">{content.bag_span_2}</span>
                         </p>
                     </div>
                     <CoffeeParallaxScene ref={modelRef} />
                     <div className={styles.closingTrack}>
                         <p data-display-copy className={`${styles.displayReveal} ${styles.closingCopy}`}>
-                            <span className="block">Vui đâu bao giờ.</span>
+                            <span className="block">{content.bag_span_3}</span>
                         </p>
                     </div>
                 </div>
@@ -39,16 +40,15 @@ export function CoffeeBagExperience(): ReactElement {
                     <EditorialReveal>
                         <div>
                             <h2 data-reveal="words" className="text-xl font-semibold leading-tight sm:text-2xl">
-                                Thân em vừa trắng lại vừa tròn, bảy nổi ba chìm với nước non.
+                                {content.bag_h2_1}
                             </h2>
                             <p data-reveal="lines" className="mt-6 text-base leading-7 text-foreground/70">
-                                Lom khom dưới núi, tiều vài chú, lác đác bên sông, chợ mấy nhà. Nhớ nước đau lòng con quốc quốc, thương nhà mỏi miệng cái gia gia. Dừng chân đứng lại trời, non, nước,
-                                một mảnh tình riêng ta với ta.
+                                {content.bag_p_1}
                             </p>
                         </div>
                     </EditorialReveal>
                     <RevealLink href="/san-pham/" className="mt-8">
-                        Xem sản phẩm
+                        {content.bag_reveallink_1}
                     </RevealLink>
                 </div>
             </div>
